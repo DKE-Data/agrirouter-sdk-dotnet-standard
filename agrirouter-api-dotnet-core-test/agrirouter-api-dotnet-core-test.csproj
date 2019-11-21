@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <RootNamespace>com.dke.data.agrirouter.api.test</RootNamespace>
+        <OutputType>Library</OutputType>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\agrirouter-api-dotnet-core-api\agrirouter-api-dotnet-core-api.csproj" />
+      <ProjectReference Include="..\agrirouter-api-dotnet-core-impl\agrirouter-api-dotnet-core-impl.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+      <PackageReference Include="xunit" Version="2.4.1" />
+      <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    </ItemGroup>
+
+</Project>

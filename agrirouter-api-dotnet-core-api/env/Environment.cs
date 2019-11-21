@@ -1,0 +1,31 @@
+using System;
+
+namespace com.dke.data.agrirouter.api.env
+{
+    public abstract class Environment
+    {
+        /**
+         * Returning the API prefix for several AR URLs, like the onboarding URL for example.
+         *
+         * @return -
+         */
+        public abstract String ApiPrefix();
+
+        /**
+         * URL for the registration service.
+         *
+         * @return -
+         */
+        public abstract String RegistrationServiceUrl();
+
+        /**
+         * URL for the onboarding request.
+         *
+         * @return -
+         */
+        public String OnboardUrl()
+        {
+            return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard";
+        }
+    }
+}
