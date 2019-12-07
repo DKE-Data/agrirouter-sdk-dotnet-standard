@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.logging;
@@ -57,7 +59,7 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             }
             else
             {
-                throw new OnboardingException();
+                throw new OnboardingException(httpResponseMessage.StatusCode, httpResponseMessage.Content.ReadAsStringAsync().Result);
             }
         }
     }
