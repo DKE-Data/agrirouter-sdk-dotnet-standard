@@ -1,4 +1,5 @@
 using System;
+using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.enums;
 
 namespace com.dke.data.agrirouter.api.service.parameters
@@ -8,18 +9,18 @@ namespace com.dke.data.agrirouter.api.service.parameters
      */
     public class OnboardingParameters
     {
-        public String ApplicationId { get; set; }
+        public string ApplicationId { get; set; }
 
-        public String Uuid { get; set; }
+        public string Uuid { get; set; }
 
-        public String CertificationVersionId { get; set; }
+        public string CertificationVersionId { get; set; }
 
-        public String GatewayId { get; set; }
+        public string GatewayId { get; set; }
 
-        public CertificationType CertificationType { get; set; }
+        public string CertificationType { get; set; }
 
-        public ApplicationType ApplicationType { get; set; }
+        public string ApplicationType { get; set; }
 
-        public String RegistrationCode { get; set; }
+        public string RegistrationCode { get; set; }
     }
 }

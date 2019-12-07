@@ -1,3 +1,4 @@
+using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.enums;
 using com.dke.data.agrirouter.api.env;
@@ -20,8 +21,8 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             {
                 Uuid = GetType().FullName,
                 ApplicationId = ApplicationId,
-                ApplicationType = ApplicationType.APPLICATION,
-                CertificationType = CertificationType.P12,
+                ApplicationType = ApplicationTypeDefinitions.Application,
+                CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
                 RegistrationCode = "6dae10384d",
                 CertificationVersionId = CertificationVersionId
@@ -51,8 +52,8 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             {
                 Uuid = GetType().FullName,
                 ApplicationId = ApplicationId,
-                ApplicationType = ApplicationType.APPLICATION,
-                CertificationType = CertificationType.P12,
+                ApplicationType = ApplicationTypeDefinitions.Application,
+                CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
                 RegistrationCode = "XXXXXXXX",
                 CertificationVersionId = CertificationVersionId
