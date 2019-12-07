@@ -5,6 +5,6 @@ namespace com.dke.data.agrirouter.api.definitions
      */
     public static class ApplicationTypeDefinitions
     {
-        public static string Application => Application;
+        public static string Application => "Application";
     }
 }
