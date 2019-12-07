@@ -1,3 +1,4 @@
+using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.enums;
 using com.dke.data.agrirouter.api.env;
 using com.dke.data.agrirouter.api.service.onboard;
@@ -9,22 +10,35 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
 {
     public class OnboardingServiceTest : AbstractOnboardingTest
     {
-        [Fact]
+        [Fact(Skip = "Will only be successful if there is a valid registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             IOnboardingService onboardingService = new OnboardingService(Environment);
 
-            OnboardingParameters parameters = new OnboardingParameters();
-            parameters.Uuid = GetType().FullName;
-            parameters.ApplicationId = ApplicationId;
-            parameters.ApplicationType = ApplicationType.APPLICATION;
-            parameters.CertificationType = CertificationType.P12;
-            parameters.GatewayId = "2";
-            parameters.RegistrationCode = "1f11ce2dc9";
-            parameters.CertificationVersionId = CertificationVersionId;
-            
+            OnboardingParameters parameters = new OnboardingParameters
+            {
+                Uuid = GetType().FullName,
+                ApplicationId = ApplicationId,
+                ApplicationType = ApplicationType.APPLICATION,
+                CertificationType = CertificationType.P12,
+                GatewayId = "3",
+                RegistrationCode = "6dae10384d",
+                CertificationVersionId = CertificationVersionId
+            };
 
-            onboardingService.Onboard(parameters);
+
+            OnboardingResponse onboardingResponse = onboardingService.Onboard(parameters);
+
+            Assert.NotEmpty(onboardingResponse.DeviceAlternateId);
+            Assert.NotEmpty(onboardingResponse.SensorAlternateId);
+            Assert.NotEmpty(onboardingResponse.CapabilityAlternateId);
+
+            Assert.NotEmpty(onboardingResponse.Authentication.Certificate);
+            Assert.NotEmpty(onboardingResponse.Authentication.Secret);
+            Assert.NotEmpty(onboardingResponse.Authentication.Type);
+
+            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Commands);
+            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Measures);
         }
 
         private Environment Environment => new QA();

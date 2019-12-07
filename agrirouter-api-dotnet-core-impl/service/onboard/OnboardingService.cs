@@ -23,14 +23,17 @@ namespace com.dke.data.agrirouter.impl.service.onboard
 
         public OnboardingResponse Onboard(OnboardingParameters parameters)
         {
-            OnboardingRequest onboardingRequest = new OnboardingRequest();
-            onboardingRequest.Id = parameters.Uuid;
-            onboardingRequest.ApplicationId = parameters.ApplicationId;
-            onboardingRequest.CertificationVersionId = parameters.CertificationVersionId;
-            onboardingRequest.GatewayId = parameters.GatewayId;
-            onboardingRequest.CertificateType = parameters.CertificationType.ToString();
-            string timeZone = (TimeZoneInfo.Local.BaseUtcOffset < TimeSpan.Zero ? "-" : "+") +
-                              TimeZoneInfo.Local.BaseUtcOffset.ToString("hh") + ":00";
+            OnboardingRequest onboardingRequest = new OnboardingRequest
+            {
+                Id = parameters.Uuid,
+                ApplicationId = parameters.ApplicationId,
+                CertificationVersionId = parameters.CertificationVersionId,
+                GatewayId = parameters.GatewayId,
+                CertificateType = parameters.CertificationType.ToString()
+            };
+
+            var timeZone = (TimeZoneInfo.Local.BaseUtcOffset < TimeSpan.Zero ? "-" : "+") +
+                           TimeZoneInfo.Local.BaseUtcOffset.ToString("hh") + ":00";
             onboardingRequest.TimeZone = timeZone;
             onboardingRequest.UTCTimestamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
 
@@ -46,15 +49,13 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                object onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardingResponse));
-                return null;
+                var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardingResponse));
+                return onboardingResponse as OnboardingResponse;
             }
             else
             {
                 throw new OnboardingException();
             }
-
-            return null;
         }
     }
 }
