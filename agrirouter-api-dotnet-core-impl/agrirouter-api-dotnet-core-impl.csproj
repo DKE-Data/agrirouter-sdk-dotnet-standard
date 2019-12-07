@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>com.dke.data.agrirouter.impl</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\agrirouter-api-dotnet-core-api\agrirouter-api-dotnet-core-api.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="agrirouter-api-protobuf-definitions" Version="1.0.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
+
+</Project>
