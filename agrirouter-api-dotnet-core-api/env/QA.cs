@@ -2,6 +2,9 @@ using System;
 
 namespace com.dke.data.agrirouter.api.env
 {
+    /**
+     * Specific QA environment.
+     */
     public class QA : Environment
     {
         private static String API_PREFIX = "/api/v1.0";

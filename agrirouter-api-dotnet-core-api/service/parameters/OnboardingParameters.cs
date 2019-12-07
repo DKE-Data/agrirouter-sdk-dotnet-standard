@@ -3,6 +3,9 @@ using com.dke.data.agrirouter.api.enums;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
+    /**
+     * Necessary parameters for the onboarding process.
+     */
     public class OnboardingParameters
     {
         public String ApplicationId { get; set; }

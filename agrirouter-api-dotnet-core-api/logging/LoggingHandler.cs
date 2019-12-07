@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace com.dke.data.agrirouter.api.logging
 {
+    /**
+     * Internal logging handler to log request and response.
+     */
     public class LoggingHandler : DelegatingHandler
     {
         public LoggingHandler(HttpMessageHandler innerHandler)

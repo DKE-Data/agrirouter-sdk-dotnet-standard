@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace com.dke.data.agrirouter.api.dto.onboard
 {
+    /**
+     * The response after sending an onboarding request.
+     */
     public class OnboardingResponse
     {
         public String DeviceAlternateId { get; set; }

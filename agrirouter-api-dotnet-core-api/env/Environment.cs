@@ -2,6 +2,9 @@ using System;
 
 namespace com.dke.data.agrirouter.api.env
 {
+    /**
+     * Abstract environment holding environment data.
+     */
     public abstract class Environment
     {
         /**

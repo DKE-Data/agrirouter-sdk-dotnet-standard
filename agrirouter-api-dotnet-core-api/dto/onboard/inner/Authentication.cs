@@ -2,6 +2,9 @@ using System;
 
 namespace com.dke.data.agrirouter.api.dto.onboard.inner
 {
+    /**
+     * Encapsulated authentication object for endpoint communication.
+     */
     public class Authentication
     {
         
