@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace com.dke.data.agrirouter.api.logging
 {
@@ -15,25 +16,24 @@ namespace com.dke.data.agrirouter.api.logging
         {
         }
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
-            Console.WriteLine("Request:");
-            Console.WriteLine(request.ToString());
+            Log.Debug("Request:");
+            Log.Debug(request.ToString());
             if (request.Content != null)
             {
-                Console.WriteLine(await request.Content.ReadAsStringAsync());
+                Log.Debug(await request.Content.ReadAsStringAsync());
             }
-            Console.WriteLine();
 
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 
-            Console.WriteLine("Response:");
-            Console.WriteLine(response.ToString());
+            Log.Debug("Response:");
+            Log.Debug(response.ToString());
             if (response.Content != null)
             {
-                Console.WriteLine(await response.Content.ReadAsStringAsync());
+                Log.Debug(await response.Content.ReadAsStringAsync());
             }
-            Console.WriteLine();
 
             return response;
         }

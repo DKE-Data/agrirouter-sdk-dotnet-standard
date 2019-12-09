@@ -5,6 +5,6 @@ namespace com.dke.data.agrirouter.api.service
      */
     public interface IMessagingService<T>
     {
-        string send(T parameters);
+        string send(T capabilitiesParameters);
     }
 }

@@ -7,7 +7,7 @@ namespace com.dke.data.agrirouter.api.service.parameters
     /**
      * Necessary parameters for the onboarding process.
      */
-    public class OnboardingParameters
+    public class OnboardingParameters : Parameters
     {
         public string ApplicationId { get; set; }
 

@@ -1,4 +1,5 @@
 using com.dke.data.agrirouter.api.env;
+using Serilog;
 
 namespace com.dke.data.agrirouter.api.test.service
 {
@@ -8,6 +9,15 @@ namespace com.dke.data.agrirouter.api.test.service
         protected static string CertificationVersionId => "719afec8-d2ff-4cf8-8194-e688ae56b3b5";
         
         protected Environment Environment => new QA();
+
+        protected AbstractIntegrationTest()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.Debug()
+                .CreateLogger();
+        }
 
     }
 }

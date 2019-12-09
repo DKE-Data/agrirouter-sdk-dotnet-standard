@@ -3,7 +3,7 @@ using com.dke.data.agrirouter.api.dto.onboard;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
-    public class MessagingParameters
+    public class MessagingParameters : Parameters
     {
         public OnboardingResponse OnboardingResponse { get; set; }
 

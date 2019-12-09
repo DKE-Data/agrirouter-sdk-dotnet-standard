@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
@@ -8,6 +9,7 @@ using com.dke.data.agrirouter.api.logging;
 using com.dke.data.agrirouter.api.service;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
+using Newtonsoft.Json;
 
 namespace com.dke.data.agrirouter.impl.service
 {
@@ -20,29 +22,30 @@ namespace com.dke.data.agrirouter.impl.service
             _utcDataService = new UtcDataService();
         }
 
-        public string send(MessagingParameters parameters)
+        public string send(MessagingParameters capabilitiesParameters)
         {
             var messageRequest = new MessageRequest
             {
-                SensorAlternateId = parameters.OnboardingResponse.SensorAlternateId,
-                CapabilityAlternateId = parameters.OnboardingResponse.CapabilityAlternateId,
+                SensorAlternateId = capabilitiesParameters.OnboardingResponse.SensorAlternateId,
+                CapabilityAlternateId = capabilitiesParameters.OnboardingResponse.CapabilityAlternateId,
                 Messages = new List<Message>()
             };
-            foreach (var encodedMessage in parameters.EncodedMessages)
+            foreach (var encodedMessage in capabilitiesParameters.EncodedMessages)
             {
                 var message = new Message {Content = encodedMessage, Timestamp = _utcDataService.Now};
+                messageRequest.Messages.Add(message);
             }
 
-            // https://github.com/dotnet/corefx/issues/2910
-            
             var httpClientHandler = new HttpClientHandler();
             httpClientHandler.ClientCertificates.Add(new X509Certificate2(
-                Encoding.UTF8.GetBytes(parameters.OnboardingResponse.Authentication.Certificate),
-                parameters.OnboardingResponse.Authentication.Secret));
+                Convert.FromBase64String(capabilitiesParameters.OnboardingResponse.Authentication.Certificate),
+                capabilitiesParameters.OnboardingResponse.Authentication.Secret));
             var httpClient = new HttpClient(new LoggingHandler(httpClientHandler));
-            HttpContent requestBody = new StringContent("Tofuwurst");
-            var httpResponseMessage = httpClient.PostAsync(parameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
-            
+            HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
+                "application/json");
+            var httpResponseMessage = httpClient
+                .PostAsync(capabilitiesParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
+
             return string.Empty;
         }
     }
