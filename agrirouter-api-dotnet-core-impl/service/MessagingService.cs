@@ -5,11 +5,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.dto.messaging.inner;
+using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.logging;
 using com.dke.data.agrirouter.api.service;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service
 {
@@ -46,6 +48,14 @@ namespace com.dke.data.agrirouter.impl.service
             var httpResponseMessage = httpClient
                 .PostAsync(messagingParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
 
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                Log.Error("Sending the message was not successful. HTTP response was " +
+                          httpResponseMessage.StatusCode + ". Please check exception for more details.");
+                throw new CouldNotSendMessageException(httpResponseMessage.StatusCode,
+                    httpResponseMessage.Content.ReadAsStringAsync().Result);
+            }
+            
             return messagingParameters.ApplicationMessageId;
         }
     }
