@@ -22,15 +22,15 @@ namespace com.dke.data.agrirouter.impl.service
             _utcDataService = new UtcDataService();
         }
 
-        public string send(MessagingParameters capabilitiesParameters)
+        public string send(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
             {
-                SensorAlternateId = capabilitiesParameters.OnboardingResponse.SensorAlternateId,
-                CapabilityAlternateId = capabilitiesParameters.OnboardingResponse.CapabilityAlternateId,
+                SensorAlternateId = messagingParameters.OnboardingResponse.SensorAlternateId,
+                CapabilityAlternateId = messagingParameters.OnboardingResponse.CapabilityAlternateId,
                 Messages = new List<Message>()
             };
-            foreach (var encodedMessage in capabilitiesParameters.EncodedMessages)
+            foreach (var encodedMessage in messagingParameters.EncodedMessages)
             {
                 var message = new Message {Content = encodedMessage, Timestamp = _utcDataService.Now};
                 messageRequest.Messages.Add(message);
@@ -38,15 +38,15 @@ namespace com.dke.data.agrirouter.impl.service
 
             var httpClientHandler = new HttpClientHandler();
             httpClientHandler.ClientCertificates.Add(new X509Certificate2(
-                Convert.FromBase64String(capabilitiesParameters.OnboardingResponse.Authentication.Certificate),
-                capabilitiesParameters.OnboardingResponse.Authentication.Secret));
+                Convert.FromBase64String(messagingParameters.OnboardingResponse.Authentication.Certificate),
+                messagingParameters.OnboardingResponse.Authentication.Secret));
             var httpClient = new HttpClient(new LoggingHandler(httpClientHandler));
             HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
                 "application/json");
             var httpResponseMessage = httpClient
-                .PostAsync(capabilitiesParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
+                .PostAsync(messagingParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
 
-            return string.Empty;
+            return messagingParameters.ApplicationMessageId;
         }
     }
 }

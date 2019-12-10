@@ -1,6 +1,12 @@
+using System.Collections.Generic;
+using Agrirouter.Request.Payload.Endpoint;
+using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.service.parameters.inner;
+using com.dke.data.agrirouter.impl.service;
+using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
 using Xunit;
@@ -12,15 +18,20 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
-            ICapabilitiesServices capabilitiesServices = new CapabilitiesService();
-            var parameters = new CapabilitiesParameters
+            ICapabilitiesServices capabilitiesServices = new CapabilitiesService(new MessageIdService(), new MessagingService());
+            var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardingResponse = OnboardingResponse,
                 ApplicationId = ApplicationId,
                 CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = false
+                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled
             };
-            capabilitiesServices.send(parameters);
+            capabilitiesParameters.CapabilityParameters = new List<CapabilityParameter>();
+            var capabilitiesParameter = new CapabilityParameter();
+            capabilitiesParameter.Direction = CapabilitySpecification.Types.Direction.SendReceive;
+            capabilitiesParameter.TechnicalMessageType = TechnicalMessageTypes.Iso11783Taskdata;
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+            capabilitiesServices.send(capabilitiesParameters);
         }
 
         private OnboardingResponse OnboardingResponse

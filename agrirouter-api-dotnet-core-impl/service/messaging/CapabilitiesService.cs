@@ -1,8 +1,8 @@
 using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
+using Agrirouter.Commons;
 using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
@@ -10,24 +10,36 @@ using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.service;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.impl.service.common;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service.messaging
 {
-    public class CapabilitiesService : MessagingService, ICapabilitiesServices
+    public class CapabilitiesService : ICapabilitiesServices
     {
+        private MessageIdService _messageIdService;
+        private MessagingService _messagingService;
+
+        public CapabilitiesService(MessageIdService messageIdService, MessagingService messagingService)
+        {
+            _messageIdService = messageIdService;
+            _messagingService = messagingService;
+        }
+
         public string send(CapabilitiesParameters capabilitiesParameters)
         {
-            List<string> encodedMessages = new List<string>();
-            EncodedMessage(capabilitiesParameters);
-            var messageParameters = new MessagingParameters
+            var encodedMessages = new List<string> {EncodedMessage(capabilitiesParameters).Content};
+            var messagingParameters = new MessagingParameters
             {
+                ApplicationMessageId = capabilitiesParameters.ApplicationMessageId,
+                ApplicationMessageSeqNo = capabilitiesParameters.ApplicationMessageSeqNo,
+                TeamsetContextId = capabilitiesParameters.TeamsetContextId,
                 OnboardingResponse = capabilitiesParameters.OnboardingResponse, EncodedMessages = encodedMessages
             };
 
-            return send(messageParameters);
+            return _messagingService.send(messagingParameters);
         }
 
         public EncodedMessage EncodedMessage(CapabilitiesParameters capabilitiesParameters)
@@ -50,8 +62,10 @@ namespace com.dke.data.agrirouter.impl.service.messaging
 
             foreach (var capabilityParameter in capabilitiesParameters.CapabilityParameters)
             {
-                var capability = new CapabilitySpecification.Types.Capability();
-                capability.TechnicalMessageType = capabilityParameter.TechnicalMessageType
+                var capability = new CapabilitySpecification.Types.Capability
+                {
+                    TechnicalMessageType = capabilityParameter.TechnicalMessageType
+                };
                 capability.Direction = capability.Direction;
                 capabilitySpecification.Capabilities.Add(capability);
             }
@@ -66,6 +80,8 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             {
                 Id = Guid.NewGuid().ToString(), Content = Encode(messageHeaderParameters, messagePayloadParameters)
             };
+
+            return encodedMessage;
         }
 
         public string Encode(MessageHeaderParameters messageHeaderParameters,
@@ -95,7 +111,8 @@ namespace com.dke.data.agrirouter.impl.service.messaging
 
             var requestEnvelope = new RequestEnvelope
             {
-                ApplicationMessageId = messageHeaderParameters.ApplicationMessageId,
+                ApplicationMessageId = messageHeaderParameters.ApplicationMessageId ??
+                                       _messageIdService.ApplicationMessageId(),
                 ApplicationMessageSeqNo = messageHeaderParameters.ApplicationMessageSeqNo,
                 TechnicalMessageType = messageHeaderParameters.TechnicalMessageType,
                 Mode = messageHeaderParameters.Mode,
