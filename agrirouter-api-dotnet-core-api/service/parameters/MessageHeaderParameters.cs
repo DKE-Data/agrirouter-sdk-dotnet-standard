@@ -6,7 +6,6 @@ namespace com.dke.data.agrirouter.api.service.parameters
 {
     public class MessageHeaderParameters : Parameters
     {
-        public long ApplicationMessageSeqNo { get; set; }
         public string TechnicalMessageType { get; set; }
         public RequestEnvelope.Types.Mode Mode { get; set; }
         public string TeamSetContextId { get; set; }

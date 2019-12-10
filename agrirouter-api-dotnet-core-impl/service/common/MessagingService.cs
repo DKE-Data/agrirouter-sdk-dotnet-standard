@@ -6,22 +6,22 @@ using System.Text;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.dto.messaging.inner;
 using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.logging;
 using com.dke.data.agrirouter.api.service;
 using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace com.dke.data.agrirouter.impl.service
+namespace com.dke.data.agrirouter.impl.service.common
 {
     public class MessagingService : IMessagingService<MessagingParameters>
     {
         private readonly UtcDataService _utcDataService;
+        private readonly HttpClientService _httpClientService;
 
         public MessagingService()
         {
             _utcDataService = new UtcDataService();
+            _httpClientService = new HttpClientService();
         }
 
         public string send(MessagingParameters messagingParameters)
@@ -32,17 +32,14 @@ namespace com.dke.data.agrirouter.impl.service
                 CapabilityAlternateId = messagingParameters.OnboardingResponse.CapabilityAlternateId,
                 Messages = new List<Message>()
             };
+            
             foreach (var encodedMessage in messagingParameters.EncodedMessages)
             {
-                var message = new Message {Content = encodedMessage, Timestamp = _utcDataService.Now};
+                var message = new Message {Content = encodedMessage, Timestamp = _utcDataService.NowAsUnixTimestamp()};
                 messageRequest.Messages.Add(message);
             }
 
-            var httpClientHandler = new HttpClientHandler();
-            httpClientHandler.ClientCertificates.Add(new X509Certificate2(
-                Convert.FromBase64String(messagingParameters.OnboardingResponse.Authentication.Certificate),
-                messagingParameters.OnboardingResponse.Authentication.Secret));
-            var httpClient = new HttpClient(new LoggingHandler(httpClientHandler));
+            var httpClient = _httpClientService.AuthenticatedHttpClient(messagingParameters.OnboardingResponse);
             HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
                 "application/json");
             var httpResponseMessage = httpClient
@@ -55,7 +52,7 @@ namespace com.dke.data.agrirouter.impl.service
                 throw new CouldNotSendMessageException(httpResponseMessage.StatusCode,
                     httpResponseMessage.Content.ReadAsStringAsync().Result);
             }
-            
+
             return messagingParameters.ApplicationMessageId;
         }
     }

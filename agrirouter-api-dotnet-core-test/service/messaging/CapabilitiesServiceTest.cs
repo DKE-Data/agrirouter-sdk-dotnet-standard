@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.api.service.parameters.inner;
-using com.dke.data.agrirouter.impl.service;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -18,28 +19,37 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
-            ICapabilitiesServices capabilitiesServices = new CapabilitiesService(new MessageIdService(), new MessagingService());
+            ICapabilitiesServices capabilitiesServices = new CapabilitiesService(new MessagingService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardingResponse = OnboardingResponse,
                 ApplicationId = ApplicationId,
                 CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled
+                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
+                CapabilityParameters = new List<CapabilityParameter>()
             };
-            capabilitiesParameters.CapabilityParameters = new List<CapabilityParameter>();
-            var capabilitiesParameter = new CapabilityParameter();
-            capabilitiesParameter.Direction = CapabilitySpecification.Types.Direction.SendReceive;
-            capabilitiesParameter.TechnicalMessageType = TechnicalMessageTypes.Iso11783Taskdata;
+
+            var capabilitiesParameter = new CapabilityParameter
+            {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783Taskdata
+            };
+
             capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
             capabilitiesServices.send(capabilitiesParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            FetchMessageService fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
         }
 
         private OnboardingResponse OnboardingResponse
         {
             get
             {
-                string onboardingResponseAsJson =
-                    "{\"deviceAlternateId\":\"79c36c10-65c9-40eb-9045-c581a3a1596b\",\"capabilityAlternateId\":\"c2467f6d-0a7e-48ca-9b57-1862186aef12\",\"sensorAlternateId\":\"d9536a56-1f36-4159-9d1b-c37ec5216c88\",\"connectionCriteria\":{\"gatewayId\":\"3\",\"measures\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/measures/79c36c10-65c9-40eb-9045-c581a3a1596b\",\"commands\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/commands/79c36c10-65c9-40eb-9045-c581a3a1596b\"},\"authentication\":{\"type\":\"P12\",\"secret\":\"L3t75USovZnj2zFFnLstootMwI0g0sI3DjJ3\",\"certificate\":\"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\"}}";
+                string onboardingResponseAsJson ="{\"deviceAlternateId\":\"44d7003e-2743-492b-86aa-4fed91fcf20a\",\"capabilityAlternateId\":\"c2467f6d-0a7e-48ca-9b57-1862186aef12\",\"sensorAlternateId\":\"bfbfa1a5-bf09-4423-9ad3-3678368ffe53\",\"connectionCriteria\":{\"gatewayId\":\"3\",\"measures\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/measures/44d7003e-2743-492b-86aa-4fed91fcf20a\",\"commands\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/commands/44d7003e-2743-492b-86aa-4fed91fcf20a\"},\"authentication\":{\"type\":\"P12\",\"secret\":\"8A71w6kCuckYiTK4R1k4bCVxsnB6flcK9crZ\",\"certificate\":\"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\"}}";
                 var onboardingResponse =
                     JsonConvert.DeserializeObject(onboardingResponseAsJson, typeof(OnboardingResponse));
                 return onboardingResponse as OnboardingResponse;

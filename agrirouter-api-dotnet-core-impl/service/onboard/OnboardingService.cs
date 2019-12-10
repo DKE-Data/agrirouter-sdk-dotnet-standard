@@ -34,7 +34,7 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                 ApplicationId = parameters.ApplicationId,
                 CertificationVersionId = parameters.CertificationVersionId,
                 GatewayId = parameters.GatewayId,
-                CertificateType = parameters.CertificationType.ToString(),
+                CertificateType = parameters.CertificationType,
                 TimeZone = _utcDataService.TimeZone,
                 UTCTimestamp = _utcDataService.Now
             };
@@ -55,11 +55,9 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                 var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardingResponse));
                 return onboardingResponse as OnboardingResponse;
             }
-            else
-            {
-                throw new OnboardingException(httpResponseMessage.StatusCode,
-                    httpResponseMessage.Content.ReadAsStringAsync().Result);
-            }
+
+            throw new OnboardingException(httpResponseMessage.StatusCode,
+                httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
     }
 }
