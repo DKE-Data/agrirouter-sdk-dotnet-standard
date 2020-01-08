@@ -3,7 +3,7 @@ using System;
 namespace com.dke.data.agrirouter.api.dto.onboard.inner
 {
     /**
-     * Connection criteria containing measures, commands and other connection information.
+     * Data transfer object for the communication.
      */
     public class ConnectionCriteria
     {

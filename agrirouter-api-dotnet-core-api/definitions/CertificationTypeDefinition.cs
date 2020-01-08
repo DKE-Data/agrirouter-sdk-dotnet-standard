@@ -3,9 +3,9 @@ namespace com.dke.data.agrirouter.api.enums
     /**
      * Several types of certificates used during the onboarding process.
      */
-    public enum CertificationType
+    public static class CertificationTypeDefinition
     {
-        PEM,
-        P12
+        public static string PEM => "PEM";
+        public static string P12 => "P12";
     }
 }

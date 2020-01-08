@@ -1,53 +1,54 @@
-using System;
-using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using com.dke.data.agrirouter.api.dto.onboard;
+using com.dke.data.agrirouter.api.env;
 using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.logging;
 using com.dke.data.agrirouter.api.service.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
-using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
     /**
-     * Implementation.
+     * Service for the onboarding.
      */
     public class OnboardingService : IOnboardingService
     {
         private readonly Environment _environment;
+        private readonly UtcDataService _utcDataService;
 
         public OnboardingService(Environment environment)
         {
             _environment = environment;
+            _utcDataService = new UtcDataService();
         }
 
-        public OnboardingResponse Onboard(OnboardingParameters parameters)
+        /**
+         * Onboard an endpoint using the simple onboarding procedure and the given parameters.
+         */
+        public OnboardingResponse Onboard(OnboardingParameters onboardingParameters)
         {
-            OnboardingRequest onboardingRequest = new OnboardingRequest
+            var onboardingRequest = new OnboardingRequest
             {
-                Id = parameters.Uuid,
-                ApplicationId = parameters.ApplicationId,
-                CertificationVersionId = parameters.CertificationVersionId,
-                GatewayId = parameters.GatewayId,
-                CertificateType = parameters.CertificationType.ToString()
+                Id = onboardingParameters.Uuid,
+                ApplicationId = onboardingParameters.ApplicationId,
+                CertificationVersionId = onboardingParameters.CertificationVersionId,
+                GatewayId = onboardingParameters.GatewayId,
+                CertificateType = onboardingParameters.CertificationType,
+                TimeZone = _utcDataService.TimeZone,
+                UTCTimestamp = _utcDataService.Now
             };
 
-            var timeZone = (TimeZoneInfo.Local.BaseUtcOffset < TimeSpan.Zero ? "-" : "+") +
-                           TimeZoneInfo.Local.BaseUtcOffset.ToString("hh") + ":00";
-            onboardingRequest.TimeZone = timeZone;
-            onboardingRequest.UTCTimestamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
 
             var jsonContent = JsonConvert.SerializeObject(onboardingRequest);
             var requestBody = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            HttpClient httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
+            var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
             httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", parameters.RegistrationCode);
+                new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);
 
             var httpResponseMessage = httpClient.PostAsync(_environment.OnboardUrl(), requestBody).Result;
 
@@ -57,10 +58,9 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                 var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardingResponse));
                 return onboardingResponse as OnboardingResponse;
             }
-            else
-            {
-                throw new OnboardingException(httpResponseMessage.StatusCode, httpResponseMessage.Content.ReadAsStringAsync().Result);
-            }
+
+            throw new OnboardingException(httpResponseMessage.StatusCode,
+                httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
     }
 }

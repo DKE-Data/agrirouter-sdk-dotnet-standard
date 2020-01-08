@@ -4,15 +4,15 @@ using System.Net;
 namespace com.dke.data.agrirouter.api.exception
 {
     /**
-     * Will be thrown if the onboarding process was not successful.
+     * Will be thrown if the messages can not be fetched from the AR.
      */
     [Serializable]
-    public class OnboardingException : Exception
+    public class CouldNotFetchMessagesException : Exception
     {
         private HttpStatusCode StatusCode { get; }
         private string ErrorMessage { get; }
 
-        public OnboardingException(HttpStatusCode statusCode, string errorMessage)
+        public CouldNotFetchMessagesException(HttpStatusCode statusCode, string errorMessage)
         {
             StatusCode = statusCode;
             ErrorMessage = errorMessage;

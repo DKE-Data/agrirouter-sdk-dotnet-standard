@@ -1,6 +1,6 @@
+using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.enums;
-using com.dke.data.agrirouter.api.env;
 using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.service.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
@@ -9,9 +9,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.onboard
 {
-    public class OnboardingServiceTest : AbstractOnboardingTest
+    public class OnboardingServiceTest : AbstractIntegrationTest
     {
-        [Fact(Skip = "Will only be successful if there is a valid registration code.")]
+        [Fact]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             IOnboardingService onboardingService = new OnboardingService(Environment);
@@ -20,10 +20,10 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             {
                 Uuid = GetType().FullName,
                 ApplicationId = ApplicationId,
-                ApplicationType = ApplicationType.APPLICATION,
-                CertificationType = CertificationType.P12,
+                ApplicationType = ApplicationTypeDefinitions.Application,
+                CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "6dae10384d",
+                RegistrationCode = "ba4ede8aff",
                 CertificationVersionId = CertificationVersionId
             };
 
@@ -51,8 +51,8 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             {
                 Uuid = GetType().FullName,
                 ApplicationId = ApplicationId,
-                ApplicationType = ApplicationType.APPLICATION,
-                CertificationType = CertificationType.P12,
+                ApplicationType = ApplicationTypeDefinitions.Application,
+                CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
                 RegistrationCode = "XXXXXXXX",
                 CertificationVersionId = CertificationVersionId
@@ -61,7 +61,5 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
 
             Assert.Throws<OnboardingException>(() => onboardingService.Onboard(parameters));
         }
-
-        private Environment Environment => new QA();
     }
 }
