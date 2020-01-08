@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
@@ -40,9 +41,13 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            FetchMessageService fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService();
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
         private OnboardingResponse OnboardingResponse

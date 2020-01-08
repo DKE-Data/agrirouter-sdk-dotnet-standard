@@ -45,7 +45,7 @@ namespace com.dke.data.agrirouter.impl.service.common
             {
                 ApplicationMessageId = messageHeaderParameters.ApplicationMessageId ??
                                        MessageIdService.ApplicationMessageId(),
-                ApplicationMessageSeqNo = MessageHeaderParameters.ApplicationMessageSeqNo,
+                ApplicationMessageSeqNo = Parameters.ApplicationMessageSeqNo,
                 TechnicalMessageType = messageHeaderParameters.TechnicalMessageType,
                 Mode = messageHeaderParameters.Mode,
                 Timestamp = _utcDataService.NowAsTimestamp()

@@ -9,8 +9,8 @@ namespace com.dke.data.agrirouter.api.exception
      */
     public class OnboardingException : Exception
     {
-        public HttpStatusCode StatusCode { get; }
-        public string ErrorMessage { get; }
+        private HttpStatusCode StatusCode { get; }
+        private string ErrorMessage { get; }
 
         public OnboardingException(HttpStatusCode statusCode, string errorMessage)
         {

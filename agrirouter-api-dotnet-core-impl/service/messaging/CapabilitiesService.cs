@@ -45,28 +45,26 @@ namespace com.dke.data.agrirouter.impl.service.messaging
                 Mode = RequestEnvelope.Types.Mode.Direct
             };
 
+            var messagePayloadParameters = new MessagePayloadParameters
+            {
+                TypeUrl = CapabilitySpecification.Descriptor.FullName
+            };
+
             var capabilitySpecification = new CapabilitySpecification
             {
                 AppCertificationId = capabilitiesParameters.ApplicationId,
-                AppCertificationVersionId = capabilitiesParameters.CertificationVersionId,
-                EnablePushNotifications = capabilitiesParameters.EnablePushNotifications
+                AppCertificationVersionId = capabilitiesParameters.CertificationVersionId
             };
-
-            foreach (var capabilityParameter in capabilitiesParameters.CapabilityParameters)
+            capabilitiesParameters.CapabilityParameters.ForEach(capabilityParameter =>
             {
                 var capability = new CapabilitySpecification.Types.Capability
                 {
-                    TechnicalMessageType = capabilityParameter.TechnicalMessageType
+                    TechnicalMessageType = capabilityParameter.TechnicalMessageType,
+                    Direction = capabilityParameter.Direction
                 };
-                capability.Direction = capability.Direction;
                 capabilitySpecification.Capabilities.Add(capability);
-            }
-
-            var messagePayloadParameters = new MessagePayloadParameters
-            {
-                TypeUrl = CapabilitySpecification.Descriptor.FullName,
-                Value = capabilitySpecification.ToByteString()
-            };
+            } );
+            messagePayloadParameters.Value = capabilitySpecification.ToByteString();
 
             var encodedMessage = new EncodedMessage
             {
