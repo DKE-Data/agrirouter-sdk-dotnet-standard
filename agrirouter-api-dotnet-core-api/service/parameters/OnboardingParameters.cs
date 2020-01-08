@@ -1,11 +1,7 @@
-using System;
-using com.dke.data.agrirouter.api.definitions;
-using com.dke.data.agrirouter.api.enums;
-
 namespace com.dke.data.agrirouter.api.service.parameters
 {
     /**
-     * Necessary parameters for the onboarding process.
+     * Parameter container definition.
      */
     public class OnboardingParameters : Parameters
     {

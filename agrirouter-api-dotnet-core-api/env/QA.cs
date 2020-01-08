@@ -13,12 +13,12 @@ namespace com.dke.data.agrirouter.api.env
             "https://agrirouter-registration-service-hubqa-eu10.cfapps.eu10.hana.ondemand.com";
 
 
-        public override string ApiPrefix()
+        protected override string ApiPrefix()
         {
             return API_PREFIX;
         }
 
-        public override string RegistrationServiceUrl()
+        protected override string RegistrationServiceUrl()
         {
             return REGISTRATION_SERVICE_URL;
         }

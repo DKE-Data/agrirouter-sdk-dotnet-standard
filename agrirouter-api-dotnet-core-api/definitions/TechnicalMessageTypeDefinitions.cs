@@ -1,5 +1,8 @@
 namespace com.dke.data.agrirouter.api.definitions
 {
+    /**
+     * Technical messages types for the messages.
+     */
     public static class TechnicalMessageTypes
     {
         public static string Empty => "";

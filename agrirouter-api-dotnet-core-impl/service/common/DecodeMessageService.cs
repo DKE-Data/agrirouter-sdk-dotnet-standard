@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using Agrirouter.Commons;
 using Agrirouter.Response;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.exception;
@@ -8,15 +7,14 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
+    /**
+     * Service for message decoding.
+     */
     public class DecodeMessageService
     {
-        private readonly StreamService _streamService;
-
-        public DecodeMessageService()
-        {
-            _streamService = new StreamService();
-        }
-
+        /**
+         * Decoding a Base64-encoded message which is containing a response envelope and a response payload wrapper. 
+         */
         public DecodedMessage Decode(string rawMessage)
         {
             if (string.IsNullOrWhiteSpace(rawMessage))

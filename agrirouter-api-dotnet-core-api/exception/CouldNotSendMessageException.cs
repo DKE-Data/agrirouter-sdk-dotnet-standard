@@ -3,6 +3,10 @@ using System.Net;
 
 namespace com.dke.data.agrirouter.api.exception
 {
+    /**
+     * Will be thrown if the message could not be sent to the AR.
+     */
+    [Serializable]
     public class CouldNotSendMessageException : Exception
     {
         private HttpStatusCode StatusCode { get; }

@@ -1,10 +1,13 @@
-namespace com.dke.data.agrirouter.api.service
+namespace com.dke.data.agrirouter.api.service.messaging
 {
     /**
      * Interface for all services sending messages.
      */
-    public interface IMessagingService<T>
+    public interface IMessagingService<in T>
     {
-        string send(T messagingParameters);
+        /**
+         * Sending a message using the given message parameters.
+         */
+        string Send(T capabilitiesParameters);
     }
 }

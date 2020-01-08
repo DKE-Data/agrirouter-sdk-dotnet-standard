@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using Agrirouter.Request.Payload.Endpoint;
-using com.dke.data.agrirouter.api.service.parameters.inner;
-
 using com.dke.data.agrirouter.api.dto.onboard;
+using com.dke.data.agrirouter.api.service.parameters.inner;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
+    /**
+     * Parameter container definition.
+     */
     public class CapabilitiesParameters : Parameters
     {
     public OnboardingResponse OnboardingResponse { get; set; }

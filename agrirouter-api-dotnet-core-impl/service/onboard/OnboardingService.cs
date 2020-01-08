@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
     /**
-     * Implementation.
+     * Service for the onboarding.
      */
     public class OnboardingService : IOnboardingService
     {
@@ -26,15 +26,18 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             _utcDataService = new UtcDataService();
         }
 
-        public OnboardingResponse Onboard(OnboardingParameters parameters)
+        /**
+         * Onboard an endpoint using the simple onboarding procedure and the given parameters.
+         */
+        public OnboardingResponse Onboard(OnboardingParameters onboardingParameters)
         {
             var onboardingRequest = new OnboardingRequest
             {
-                Id = parameters.Uuid,
-                ApplicationId = parameters.ApplicationId,
-                CertificationVersionId = parameters.CertificationVersionId,
-                GatewayId = parameters.GatewayId,
-                CertificateType = parameters.CertificationType,
+                Id = onboardingParameters.Uuid,
+                ApplicationId = onboardingParameters.ApplicationId,
+                CertificationVersionId = onboardingParameters.CertificationVersionId,
+                GatewayId = onboardingParameters.GatewayId,
+                CertificateType = onboardingParameters.CertificationType,
                 TimeZone = _utcDataService.TimeZone,
                 UTCTimestamp = _utcDataService.Now
             };
@@ -45,7 +48,7 @@ namespace com.dke.data.agrirouter.impl.service.onboard
 
             var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
             httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", parameters.RegistrationCode);
+                new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);
 
             var httpResponseMessage = httpClient.PostAsync(_environment.OnboardUrl(), requestBody).Result;
 

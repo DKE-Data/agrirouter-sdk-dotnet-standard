@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace com.dke.data.agrirouter.api.dto.onboard
 {
     /**
-     * Request which is used to onbooard an endpoint while not using the secured onboarding process.
+     * Data transfer object for the communication.
      */
     public class OnboardingRequest
     {

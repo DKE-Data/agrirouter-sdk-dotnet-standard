@@ -1,8 +1,10 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace com.dke.data.agrirouter.api.exception
 {
+    /**
+     * Will be thrown if a given message can not be decoded.
+     */
     [Serializable]
     public class CouldNotDecodeMessageException : Exception
     {

@@ -1,12 +1,12 @@
 using System;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace com.dke.data.agrirouter.api.exception
 {
     /**
      * Will be thrown if the onboarding process was not successful.
      */
+    [Serializable]
     public class OnboardingException : Exception
     {
         private HttpStatusCode StatusCode { get; }

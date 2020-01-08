@@ -6,8 +6,14 @@ using com.dke.data.agrirouter.api.logging;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
+    /**
+     * Service to create HTTP clients for the communication process.
+     */
     public class HttpClientService
     {
+        /**
+         * Create an authenticated HTTP client for the given onboarding response.
+         */
         public HttpClient AuthenticatedHttpClient(OnboardingResponse onboardingResponse)
         {
             var httpClientHandler = new HttpClientHandler();

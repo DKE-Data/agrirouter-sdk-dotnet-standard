@@ -10,6 +10,9 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service.messaging
 {
+    /**
+     * Service to fetch messages from the AR inbox.
+     */
     public class FetchMessageService
     {
         private readonly HttpClientService _httpClientService;
@@ -19,6 +22,9 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             _httpClientService = new HttpClientService();
         }
 
+        /**
+         * Fetch messages from the inbox using the given onboarding response.
+         */
         public List<MessageResponse> Fetch(OnboardingResponse onboardingResponse)
         {
             Log.Debug("Begin fetching messages.");

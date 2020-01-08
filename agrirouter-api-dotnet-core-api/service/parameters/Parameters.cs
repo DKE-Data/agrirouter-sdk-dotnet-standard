@@ -1,5 +1,8 @@
 namespace com.dke.data.agrirouter.api.service.parameters
 {
+    /**
+     * Abstract parameter container definition.
+     */
     public abstract class Parameters
     {
         private static int _applicationMessageSeqNo = 1;

@@ -12,14 +12,14 @@ namespace com.dke.data.agrirouter.api.env
          *
          * @return -
          */
-        public abstract String ApiPrefix();
+        protected abstract String ApiPrefix();
 
         /**
          * URL for the registration service.
          *
          * @return -
          */
-        public abstract String RegistrationServiceUrl();
+        protected abstract String RegistrationServiceUrl();
 
         /**
          * URL for the onboarding request.

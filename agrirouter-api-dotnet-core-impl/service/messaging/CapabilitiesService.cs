@@ -5,12 +5,16 @@ using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.service;
+using com.dke.data.agrirouter.api.service.messaging;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
 using Google.Protobuf;
 
 namespace com.dke.data.agrirouter.impl.service.messaging
 {
+    /**
+     * Service to send capabilites messages.
+     */
     public class CapabilitiesService : ICapabilitiesServices
     {
         private readonly MessagingService _messagingService;
@@ -22,7 +26,10 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             _encodeMessageService = new EncodeMessageService();
         }
 
-        public string send(CapabilitiesParameters capabilitiesParameters)
+        /**
+         * Send capabilities message using the given parameters.
+         */
+        public string Send(CapabilitiesParameters capabilitiesParameters)
         {
             var encodedMessages = new List<string> {Encode(capabilitiesParameters).Content};
             var messagingParameters = new MessagingParameters
@@ -32,7 +39,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
                 OnboardingResponse = capabilitiesParameters.OnboardingResponse, EncodedMessages = encodedMessages
             };
 
-            return _messagingService.send(messagingParameters);
+            return _messagingService.Send(messagingParameters);
         }
 
         private EncodedMessage Encode(CapabilitiesParameters capabilitiesParameters)

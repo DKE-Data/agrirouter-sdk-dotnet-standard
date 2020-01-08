@@ -1,8 +1,10 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace com.dke.data.agrirouter.api.dto.messaging.inner
 {
+    /**
+     * Data transfer object for the communication.
+     */
     public class Message
     {
         [JsonProperty("message")]
