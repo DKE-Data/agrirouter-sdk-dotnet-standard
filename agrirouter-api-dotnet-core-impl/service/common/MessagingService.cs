@@ -36,7 +36,7 @@ namespace com.dke.data.agrirouter.impl.service.common
                 CapabilityAlternateId = capabilitiesParameters.OnboardingResponse.CapabilityAlternateId,
                 Messages = new List<Message>()
             };
-            
+
             foreach (var encodedMessage in capabilitiesParameters.EncodedMessages)
             {
                 var message = new Message {Content = encodedMessage, Timestamp = _utcDataService.NowAsUnixTimestamp()};

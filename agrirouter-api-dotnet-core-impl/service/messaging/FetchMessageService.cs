@@ -29,7 +29,8 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         {
             Log.Debug("Begin fetching messages.");
             var httpClient = _httpClientService.AuthenticatedHttpClient(onboardingResponse);
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
             var httpResponseMessage = httpClient
                 .GetAsync(onboardingResponse.ConnectionCriteria.Commands).Result;
             if (httpResponseMessage.IsSuccessStatusCode)
@@ -41,7 +42,8 @@ namespace com.dke.data.agrirouter.impl.service.messaging
                 return messageResponses;
             }
 
-            throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode, httpResponseMessage.Content.ReadAsStringAsync().Result);
+            throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode,
+                httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
     }
 }

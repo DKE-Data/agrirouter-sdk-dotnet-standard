@@ -8,8 +8,7 @@ namespace com.dke.data.agrirouter.api.dto.onboard
      */
     public class OnboardingRequest
     {
-        [JsonProperty(PropertyName = "id")]
-        public String Id { get; set; }
+        [JsonProperty(PropertyName = "id")] public String Id { get; set; }
 
         [JsonProperty(PropertyName = "applicationId")]
         public String ApplicationId { get; set; }

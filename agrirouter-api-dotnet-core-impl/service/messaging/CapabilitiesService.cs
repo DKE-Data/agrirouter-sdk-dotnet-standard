@@ -4,7 +4,6 @@ using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.messaging;
-using com.dke.data.agrirouter.api.service;
 using com.dke.data.agrirouter.api.service.messaging;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
@@ -70,7 +69,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
                     Direction = capabilityParameter.Direction
                 };
                 capabilitySpecification.Capabilities.Add(capability);
-            } );
+            });
             messagePayloadParameters.Value = capabilitySpecification.ToByteString();
 
             var encodedMessage = new EncodedMessage

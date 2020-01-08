@@ -28,12 +28,13 @@ namespace com.dke.data.agrirouter.impl.service.common
             var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
             return new Timestamp {Seconds = (long) timeSpan.TotalSeconds, Nanos = 1000000};
         }
+
         /**
          * Delivering the current date using a unix timestamp format.
          */
         public string NowAsUnixTimestamp()
         {
-            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            Int32 unixTimestamp = (Int32) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             return unixTimestamp.ToString();
         }
     }

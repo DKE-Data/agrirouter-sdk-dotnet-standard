@@ -9,13 +9,11 @@ namespace com.dke.data.agrirouter.api.dto.messaging
      */
     public class MessageRequest
     {
-        [JsonProperty("sensorAlternateId")]
-        public string SensorAlternateId { get; set; }
+        [JsonProperty("sensorAlternateId")] public string SensorAlternateId { get; set; }
 
         [JsonProperty("capabilityAlternateId")]
         public string CapabilityAlternateId { get; set; }
 
-        [JsonProperty("measures")]
-        public List<Message> Messages { get; set; }
+        [JsonProperty("measures")] public List<Message> Messages { get; set; }
     }
 }

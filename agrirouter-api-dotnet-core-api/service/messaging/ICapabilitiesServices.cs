@@ -7,6 +7,5 @@ namespace com.dke.data.agrirouter.api.service.messaging
      */
     public interface ICapabilitiesServices : IMessagingService<CapabilitiesParameters>
     {
-        
     }
 }

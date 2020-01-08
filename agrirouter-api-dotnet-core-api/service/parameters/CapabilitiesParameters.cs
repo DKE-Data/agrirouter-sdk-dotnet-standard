@@ -10,15 +10,14 @@ namespace com.dke.data.agrirouter.api.service.parameters
      */
     public class CapabilitiesParameters : Parameters
     {
-    public OnboardingResponse OnboardingResponse { get; set; }
+        public OnboardingResponse OnboardingResponse { get; set; }
 
-    public string ApplicationId { get; set; }
+        public string ApplicationId { get; set; }
 
-    public string CertificationVersionId { get; set; }
+        public string CertificationVersionId { get; set; }
 
-    public CapabilitySpecification.Types.PushNotification EnablePushNotifications { get; set; }
-    
-    public List<CapabilityParameter> CapabilityParameters{get;set;}
+        public CapabilitySpecification.Types.PushNotification EnablePushNotifications { get; set; }
 
+        public List<CapabilityParameter> CapabilityParameters { get; set; }
     }
 }

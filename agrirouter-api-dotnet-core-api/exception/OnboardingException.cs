@@ -21,7 +21,6 @@ namespace com.dke.data.agrirouter.api.exception
         public override string ToString()
         {
             return $"Could not send message. HTTP status was '{StatusCode}', message content was '{ErrorMessage}'.";
-
         }
     }
 }
