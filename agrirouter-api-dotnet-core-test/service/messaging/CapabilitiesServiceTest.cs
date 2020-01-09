@@ -19,7 +19,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
-            ICapabilitiesServices capabilitiesServices = new CapabilitiesService(new MessagingService());
+            var capabilitiesServices = new CapabilitiesService(new MessagingService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardingResponse = OnboardingResponse,

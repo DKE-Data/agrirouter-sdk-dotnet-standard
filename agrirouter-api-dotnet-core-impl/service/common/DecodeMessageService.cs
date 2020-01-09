@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using Agrirouter.Commons;
 using Agrirouter.Response;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.exception;
+using Google.Protobuf.WellKnownTypes;
 using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service.common
@@ -44,6 +46,21 @@ namespace com.dke.data.agrirouter.impl.service.common
             catch (Exception e)
             {
                 throw new CouldNotDecodeMessageException("There was an error during decoding of the message.", e);
+            }
+        }
+
+        /**
+         * Parsing the inner message of the payload wrapper using the any object containing the content.
+         */
+        public Messages Decode(Any any)
+        {
+            try
+            {
+                return Messages.Parser.ParseFrom(any.Value);
+            }
+            catch (Exception e)
+            {
+                throw new CouldNotDecodeMessageException("There was an error during decoding of the ANY value.",e);
             }
         }
     }
