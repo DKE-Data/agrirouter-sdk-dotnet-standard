@@ -7,9 +7,8 @@ namespace com.dke.data.agrirouter.api.service.parameters
      */
     public class ListEndpointsParameters : SendMessageParameters
     {
-        
         public ListEndpointsQuery.Types.Direction Direction { get; set; }
-        
+
         public string TechnicalMessageType { get; set; }
     }
 }

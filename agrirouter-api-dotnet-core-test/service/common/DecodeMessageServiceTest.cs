@@ -52,8 +52,8 @@ namespace com.dke.data.agrirouter.api.test.service.common
             Assert.NotNull(messages);
             Assert.NotEmpty(messages.Messages_);
             Assert.Single(messages.Messages_);
-            Assert.Equal("VAL_000300",messages.Messages_[0].MessageCode);
-            Assert.Equal("Error occured while decoding the message.",messages.Messages_[0].Message_);
+            Assert.Equal("VAL_000300", messages.Messages_[0].MessageCode);
+            Assert.Equal("Error occured while decoding the message.", messages.Messages_[0].Message_);
         }
     }
 }
