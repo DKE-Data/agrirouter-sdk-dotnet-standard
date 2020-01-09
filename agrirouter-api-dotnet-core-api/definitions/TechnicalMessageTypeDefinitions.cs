@@ -9,6 +9,8 @@ namespace com.dke.data.agrirouter.api.definitions
 
         public static string DkeCapabilities => "dke:capabilities";
 
+        public static string DkeListEndpoints => "dke:list_endpoints";
+
         public static string Iso11783Taskdata => "iso:11783:-10:taskdata:zip";
     }
 }

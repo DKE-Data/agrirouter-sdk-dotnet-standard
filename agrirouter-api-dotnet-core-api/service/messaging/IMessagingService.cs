@@ -8,6 +8,6 @@ namespace com.dke.data.agrirouter.api.service.messaging
         /**
          * Sending a message using the given message parameters.
          */
-        string Send(T capabilitiesParameters);
+        string Send(T parameters);
     }
 }
