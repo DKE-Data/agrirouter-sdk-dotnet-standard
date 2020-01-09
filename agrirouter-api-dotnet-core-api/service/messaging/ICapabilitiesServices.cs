@@ -5,7 +5,8 @@ namespace com.dke.data.agrirouter.api.service.messaging
     /**
      * Setting capabilities using the special message type.
      */
-    public interface ICapabilitiesServices : IMessagingService<CapabilitiesParameters>
+    public interface ICapabilitiesServices : IMessagingService<CapabilitiesParameters>,
+        IEncodeMessageService<CapabilitiesParameters>
     {
     }
 }

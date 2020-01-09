@@ -25,23 +25,14 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             _encodeMessageService = new EncodeMessageService();
         }
 
-        /**
-         * Send capabilities message using the given parameters.
-         */
         public string Send(CapabilitiesParameters capabilitiesParameters)
         {
             var encodedMessages = new List<string> {Encode(capabilitiesParameters).Content};
-            var messagingParameters = new MessagingParameters
-            {
-                ApplicationMessageId = capabilitiesParameters.ApplicationMessageId,
-                TeamsetContextId = capabilitiesParameters.TeamsetContextId,
-                OnboardingResponse = capabilitiesParameters.OnboardingResponse, EncodedMessages = encodedMessages
-            };
-
+            var messagingParameters = capabilitiesParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
         }
 
-        private EncodedMessage Encode(CapabilitiesParameters capabilitiesParameters)
+        public EncodedMessage Encode(CapabilitiesParameters capabilitiesParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters
             {

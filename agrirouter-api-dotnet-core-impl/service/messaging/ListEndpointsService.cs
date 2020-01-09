@@ -30,7 +30,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             return _messagingService.Send(messagingParameters);
         }
 
-        private EncodedMessage Encode(ListEndpointsParameters listEndpointsParameters)
+        public EncodedMessage Encode(ListEndpointsParameters listEndpointsParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters
             {
@@ -42,7 +42,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
 
             var messagePayloadParameters = new MessagePayloadParameters
             {
-                TypeUrl = CapabilitySpecification.Descriptor.FullName
+                TypeUrl = ListEndpointsQuery.Descriptor.FullName
             };
 
             var listEndpointsQuery = new ListEndpointsQuery {Direction = listEndpointsParameters.Direction};
