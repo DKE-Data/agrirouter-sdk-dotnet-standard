@@ -5,14 +5,17 @@ using Agrirouter.Feed.Response;
 using Agrirouter.Request;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.messaging;
+using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.service.messaging;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 namespace com.dke.data.agrirouter.impl.service.messaging
 {
-    public class QueryMessageHeadersService : IQueryMessagesService
+    public class QueryMessageHeadersService : IQueryMessagesService,
+        IDecodeMessageResponseService<MessageQueryResponse.Types.FeedMessage>
     {
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
@@ -53,6 +56,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
                     messageQuery.Senders.Add(sender);
                 }
             }
+
             if (null != queryMessagesParameters.MessageIds)
             {
                 foreach (var messageId in queryMessagesParameters.MessageIds)
@@ -60,6 +64,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
                     messageQuery.MessageIds.Add(messageId);
                 }
             }
+
             messageQuery.ValidityPeriod = queryMessagesParameters.ValidityPeriod;
             messagePayloadParameters.Value = messageQuery.ToByteString();
 
@@ -70,6 +75,18 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             };
 
             return encodedMessage;
+        }
+
+        public MessageQueryResponse.Types.FeedMessage Decode(Any messageResponse)
+        {
+            try
+            {
+                return MessageQueryResponse.Types.FeedMessage.Parser.ParseFrom(messageResponse.ToByteString());
+            }
+            catch (Exception e)
+            {
+                throw new CouldNotDecodeMessageException("Could not decode query message header response.", e);
+            }
         }
     }
 }
