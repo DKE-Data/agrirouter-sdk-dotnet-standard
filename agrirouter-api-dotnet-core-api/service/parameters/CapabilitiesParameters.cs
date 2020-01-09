@@ -9,7 +9,6 @@ namespace com.dke.data.agrirouter.api.service.parameters
      */
     public class CapabilitiesParameters : SendMessageParameters
     {
-
         public string ApplicationId { get; set; }
 
         public string CertificationVersionId { get; set; }
