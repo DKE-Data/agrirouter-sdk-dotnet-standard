@@ -40,7 +40,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
         [Fact]
         public void
-            GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectioSendnAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
+            GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService = new ListEndpointsService(new MessagingService());
             var listEndpointsParameters = new ListEndpointsParameters
@@ -114,7 +114,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         }
 
         [Fact]
-        public void GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndTaskdataAsTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
+        public void GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndEmptyAsTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService = new ListEndpointsService(new MessagingService());
             var listEndpointsParameters = new ListEndpointsParameters
