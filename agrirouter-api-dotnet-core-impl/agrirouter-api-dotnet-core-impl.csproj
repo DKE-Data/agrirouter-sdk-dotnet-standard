@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <RootNamespace>com.dke.data.agrirouter.impl</RootNamespace>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
