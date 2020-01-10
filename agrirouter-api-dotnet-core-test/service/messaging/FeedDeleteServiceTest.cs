@@ -21,15 +21,15 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithValidityPeriodThenTheResultShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var queryMessagesService = new FeedDeleteService(new MessagingService());
-            var queryMessagesParameters = new FeedDeleteParameters
+            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
                 ValidityPeriod = new ValidityPeriod()
             };
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.None);
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.FourWeeks);
-            queryMessagesService.Send(queryMessagesParameters);
+            feedDeleteParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.None);
+            feedDeleteParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.FourWeeks);
+            feedDeleteService.Send(feedDeleteParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -56,13 +56,13 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenExistingEndpointsWhenFeedDeleteWithUnknownMessageIdsMessageIdsThenTheResultShouldBeOk()
         {
-            var queryMessagesService = new FeedDeleteService(new MessagingService());
-            var queryMessagesParameters = new FeedDeleteParameters
+            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
                 MessageIds = new List<string> {Guid.NewGuid().ToString()}
             };
-            queryMessagesService.Send(queryMessagesParameters);
+            feedDeleteService.Send(feedDeleteParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -90,13 +90,13 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithUnknownMessageIdsSenderIdsThenTheResultShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var queryMessagesService = new FeedDeleteService(new MessagingService());
-            var queryMessagesParameters = new FeedDeleteParameters
+            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
                 Senders = new List<string> {Guid.NewGuid().ToString()}
             };
-            queryMessagesService.Send(queryMessagesParameters);
+            feedDeleteService.Send(feedDeleteParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -124,12 +124,12 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var queryMessagesService = new FeedDeleteService(new MessagingService());
-            var queryMessagesParameters = new FeedDeleteParameters()
+            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteParameters = new FeedDeleteParameters()
             {
                 OnboardingResponse = OnboardingResponse,
             };
-            queryMessagesService.Send(queryMessagesParameters);
+            feedDeleteService.Send(feedDeleteParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
