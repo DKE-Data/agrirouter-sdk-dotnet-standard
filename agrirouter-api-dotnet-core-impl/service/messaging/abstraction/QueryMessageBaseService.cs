@@ -48,23 +48,10 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
             };
 
             var messageQuery = new MessageQuery();
-            if (null != queryMessagesParameters.Senders)
-            {
-                foreach (var sender in queryMessagesParameters.Senders)
-                {
-                    messageQuery.Senders.Add(sender);
-                }
-            }
-
-            if (null != queryMessagesParameters.MessageIds)
-            {
-                foreach (var messageId in queryMessagesParameters.MessageIds)
-                {
-                    messageQuery.MessageIds.Add(messageId);
-                }
-            }
-
+            queryMessagesParameters.Senders?.ForEach(sender => messageQuery.Senders.Add(sender));
+            queryMessagesParameters.MessageIds?.ForEach(messageId => messageQuery.MessageIds.Add(messageId));
             messageQuery.ValidityPeriod = queryMessagesParameters.ValidityPeriod;
+
             messagePayloadParameters.Value = messageQuery.ToByteString();
 
             var encodedMessage = new EncodedMessage
