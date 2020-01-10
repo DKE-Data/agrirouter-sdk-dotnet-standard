@@ -42,7 +42,6 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                 UTCTimestamp = _utcDataService.Now
             };
 
-
             var jsonContent = JsonConvert.SerializeObject(onboardingRequest);
             var requestBody = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
