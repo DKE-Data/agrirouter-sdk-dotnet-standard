@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Agrirouter.Feed.Request;
+using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
@@ -13,23 +13,18 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
-    public class QueryMessageHeadersServiceTest
+    public class SubscriptionServiceTest : AbstractIntegrationTest
     {
-        private readonly UtcDataService _utcDataService = new UtcDataService();
-
         [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
+        public void GivenEmptySubscriptionWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters
+            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
-                ValidityPeriod = new ValidityPeriod()
             };
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.None);
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.FourWeeks);
-            queryMessageHeadersService.Send(queryMessagesParameters);
+
+            subscriptionService.Send(subscriptionParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -39,22 +34,26 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.Ack,
                 decodedMessage.ResponseEnvelope.Type);
         }
 
         [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
+        public void GivenSingleSubscriptionEntryWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters
+            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
-                MessageIds = new List<string> {Guid.NewGuid().ToString()}
+                TechnicalMessageTypes = new List<Subscription.Types.MessageTypeSubscriptionItem>()
             };
-            queryMessageHeadersService.Send(queryMessagesParameters);
+            var technicalMessageType = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageType);
+            subscriptionService.Send(subscriptionParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -64,46 +63,33 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.Ack,
                 decodedMessage.ResponseEnvelope.Type);
         }
 
         [Fact]
         public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
+            GivenMultipleSubscriptionEntriesWithOneInvalidTechnicalMessageTypeWhenSendingSubscriptionMessageThenTheMessageShouldBeNotBeAccepted()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters
+            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
-                Senders = new List<string> {Guid.NewGuid().ToString()}
+                TechnicalMessageTypes = new List<Subscription.Types.MessageTypeSubscriptionItem>()
             };
-            queryMessageHeadersService.Send(queryMessagesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService();
-            var fetch = fetchMessageService.Fetch(OnboardingResponse);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
-        {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters()
+            var technicalMessageTypeForTaskdata = new Subscription.Types.MessageTypeSubscriptionItem
             {
-                OnboardingResponse = OnboardingResponse,
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
             };
-            queryMessageHeadersService.Send(queryMessagesParameters);
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForTaskdata);
+
+            var technicalMessageTypeForProtobuf = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783DeviceDescriptionProtobuf
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForProtobuf);
+            subscriptionService.Send(subscriptionParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -114,14 +100,16 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckWithFailure,
+                decodedMessage.ResponseEnvelope.Type);
 
             var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
             Assert.NotNull(messages);
             Assert.NotEmpty(messages.Messages_);
             Assert.Single(messages.Messages_);
-            Assert.Equal("VAL_000017", messages.Messages_[0].MessageCode);
+            Assert.Equal("VAL_000006", messages.Messages_[0].MessageCode);
             Assert.Equal(
-                "Query does not contain any filtering criteria: messageIds, senders or validityPeriod. Information required to process message is missing or malformed.",
+                "Subscription to \"iso:11783:-10:device_description:protobuf\" is not valid per reported capabilities.",
                 messages.Messages_[0].Message_);
         }
 
