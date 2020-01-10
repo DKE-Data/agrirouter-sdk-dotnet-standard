@@ -124,7 +124,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
                 "Query does not contain any filtering criteria: messageIds, senders or validityPeriod. Information required to process message is missing or malformed.",
                 messages.Messages_[0].Message_);
         }
-        
+
         private OnboardingResponse OnboardingResponse
         {
             get

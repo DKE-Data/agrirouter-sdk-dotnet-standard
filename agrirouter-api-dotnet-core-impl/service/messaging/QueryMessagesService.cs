@@ -10,6 +10,6 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         {
         }
 
-        protected override string TechnicalMessageType => TechnicalMessageTypes.DkeFeedHeaderQuery;
+        protected override string TechnicalMessageType => TechnicalMessageTypes.DkeFeedMessageQuery;
     }
 }

@@ -35,7 +35,7 @@ namespace com.dke.data.agrirouter.impl.service.common
         public Timestamp Timestamp(long offset)
         {
             var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
-            return new Timestamp {Seconds = (long) timeSpan.TotalSeconds-offset, Nanos = 1000000};
+            return new Timestamp {Seconds = (long) timeSpan.TotalSeconds - offset, Nanos = 1000000};
         }
 
         /**

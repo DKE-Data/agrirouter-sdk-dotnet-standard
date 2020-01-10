@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Agrirouter.Feed.Request;
-using Agrirouter.Response;
-using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
@@ -13,97 +10,17 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
-    public class QueryMessageHeadersServiceTest
+    public class FeedConfirmServiceTest : AbstractIntegrationTest
     {
-        private readonly UtcDataService _utcDataService = new UtcDataService();
-
         [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
+        public void GivenEmptyMessageIdsWhenConfirmingMessagesThenTheMessageShouldNotBeAccepted()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters
+            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmParameters = new FeedConfirmParameters
             {
-                OnboardingResponse = OnboardingResponse,
-                ValidityPeriod = new ValidityPeriod()
+                OnboardingResponse = OnboardingResponse
             };
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.None);
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.FourWeeks);
-            queryMessageHeadersService.Send(queryMessagesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService();
-            var fetch = fetchMessageService.Fetch(OnboardingResponse);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
-        {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters
-            {
-                OnboardingResponse = OnboardingResponse,
-                MessageIds = new List<string> {Guid.NewGuid().ToString()}
-            };
-            queryMessageHeadersService.Send(queryMessagesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService();
-            var fetch = fetchMessageService.Fetch(OnboardingResponse);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
-        {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters
-            {
-                OnboardingResponse = OnboardingResponse,
-                Senders = new List<string> {Guid.NewGuid().ToString()}
-            };
-            queryMessageHeadersService.Send(queryMessagesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService();
-            var fetch = fetchMessageService.Fetch(OnboardingResponse);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessageHeadersWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
-        {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
-            var queryMessagesParameters = new QueryMessagesParameters()
-            {
-                OnboardingResponse = OnboardingResponse,
-            };
-            queryMessageHeadersService.Send(queryMessagesParameters);
+            feedConfirmService.Send(feedConfirmParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -121,9 +38,77 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
             Assert.Single(messages.Messages_);
             Assert.Equal("VAL_000017", messages.Messages_[0].MessageCode);
             Assert.Equal(
-                "Query does not contain any filtering criteria: messageIds, senders or validityPeriod. Information required to process message is missing or malformed.",
+                "messageIds information required to process message is missing or malformed.",
                 messages.Messages_[0].Message_);
         }
+
+        [Fact]
+        public void GivenNonExistingMessageIdWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
+        {
+            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmParameters = new FeedConfirmParameters
+            {
+                OnboardingResponse = OnboardingResponse,
+                MessageIds = new List<string> {MessageIdService.ApplicationMessageId()}
+            };
+            feedConfirmService.Send(feedConfirmParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000205", messages.Messages_[0].MessageCode);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[0].Message_);
+        }
+
+        [Fact]
+        public void GivenNonExistingMessageIdsWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
+        {
+            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmParameters = new FeedConfirmParameters
+            {
+                OnboardingResponse = OnboardingResponse,
+                MessageIds = new List<string>
+                    {MessageIdService.ApplicationMessageId(), MessageIdService.ApplicationMessageId()}
+            };
+            feedConfirmService.Send(feedConfirmParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Equal(2, messages.Messages_.Count);
+            Assert.Equal("VAL_000205", messages.Messages_[0].MessageCode);
+            Assert.Equal("VAL_000205", messages.Messages_[1].MessageCode);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[0].Message_);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[1].Message_);
+        }
+
 
         private OnboardingResponse OnboardingResponse
         {
