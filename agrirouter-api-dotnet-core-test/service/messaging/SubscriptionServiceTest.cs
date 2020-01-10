@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Agrirouter.Request.Payload.Endpoint;
+using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.service.parameters.inner;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -13,29 +13,18 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
-    public class CapabilitiesServiceTest : AbstractIntegrationTest
+    public class SubscriptionServiceTest : AbstractIntegrationTest
     {
         [Fact]
-        public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
+        public void GivenEmptySubscriptionWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var capabilitiesServices = new CapabilitiesService(new MessagingService());
-            var capabilitiesParameters = new CapabilitiesParameters
+            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
             };
 
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
-            };
-
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
+            subscriptionService.Send(subscriptionParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -46,6 +35,82 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.Ack,
+                decodedMessage.ResponseEnvelope.Type);
+        }
+
+        [Fact]
+        public void GivenSingleSubscriptionEntryWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
+        {
+            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionParameters = new SubscriptionParameters()
+            {
+                OnboardingResponse = OnboardingResponse,
+                TechnicalMessageTypes = new List<Subscription.Types.MessageTypeSubscriptionItem>()
+            };
+            var technicalMessageType = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageType);
+            subscriptionService.Send(subscriptionParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.Ack,
+                decodedMessage.ResponseEnvelope.Type);
+        }
+
+        [Fact]
+        public void
+            GivenMultipleSubscriptionEntriesWithOneInvalidTechnicalMessageTypeWhenSendingSubscriptionMessageThenTheMessageShouldBeNotBeAccepted()
+        {
+            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionParameters = new SubscriptionParameters()
+            {
+                OnboardingResponse = OnboardingResponse,
+                TechnicalMessageTypes = new List<Subscription.Types.MessageTypeSubscriptionItem>()
+            };
+            var technicalMessageTypeForTaskdata = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForTaskdata);
+
+            var technicalMessageTypeForProtobuf = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783DeviceDescriptionProtobuf
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForProtobuf);
+            subscriptionService.Send(subscriptionParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckWithFailure,
+                decodedMessage.ResponseEnvelope.Type);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000006", messages.Messages_[0].MessageCode);
+            Assert.Equal(
+                "Subscription to \"iso:11783:-10:device_description:protobuf\" is not valid per reported capabilities.",
+                messages.Messages_[0].Message_);
         }
 
         private OnboardingResponse OnboardingResponse

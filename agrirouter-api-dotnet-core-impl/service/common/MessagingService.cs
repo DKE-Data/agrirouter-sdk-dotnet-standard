@@ -28,26 +28,26 @@ namespace com.dke.data.agrirouter.impl.service.common
         /**
          * Send message to the AR using the given message parameters.
          */
-        public string Send(MessagingParameters capabilitiesParameters)
+        public string Send(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
             {
-                SensorAlternateId = capabilitiesParameters.OnboardingResponse.SensorAlternateId,
-                CapabilityAlternateId = capabilitiesParameters.OnboardingResponse.CapabilityAlternateId,
+                SensorAlternateId = messagingParameters.OnboardingResponse.SensorAlternateId,
+                CapabilityAlternateId = messagingParameters.OnboardingResponse.CapabilityAlternateId,
                 Messages = new List<Message>()
             };
 
-            foreach (var encodedMessage in capabilitiesParameters.EncodedMessages)
+            foreach (var encodedMessage in messagingParameters.EncodedMessages)
             {
                 var message = new Message {Content = encodedMessage, Timestamp = _utcDataService.NowAsUnixTimestamp()};
                 messageRequest.Messages.Add(message);
             }
 
-            var httpClient = _httpClientService.AuthenticatedHttpClient(capabilitiesParameters.OnboardingResponse);
+            var httpClient = _httpClientService.AuthenticatedHttpClient(messagingParameters.OnboardingResponse);
             HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
                 "application/json");
             var httpResponseMessage = httpClient
-                .PostAsync(capabilitiesParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
+                .PostAsync(messagingParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
 
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
@@ -57,7 +57,7 @@ namespace com.dke.data.agrirouter.impl.service.common
                     httpResponseMessage.Content.ReadAsStringAsync().Result);
             }
 
-            return capabilitiesParameters.ApplicationMessageId;
+            return messagingParameters.ApplicationMessageId;
         }
     }
 }

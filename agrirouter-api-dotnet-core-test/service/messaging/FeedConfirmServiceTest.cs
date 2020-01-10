@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
-using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.service.parameters.inner;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -13,29 +10,17 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
-    public class CapabilitiesServiceTest : AbstractIntegrationTest
+    public class FeedConfirmServiceTest : AbstractIntegrationTest
     {
         [Fact]
-        public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
+        public void GivenEmptyMessageIdsWhenConfirmingMessagesThenTheMessageShouldNotBeAccepted()
         {
-            var capabilitiesServices = new CapabilitiesService(new MessagingService());
-            var capabilitiesParameters = new CapabilitiesParameters
+            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmParameters = new FeedConfirmParameters
             {
-                OnboardingResponse = OnboardingResponse,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
+                OnboardingResponse = OnboardingResponse
             };
-
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
-            };
-
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
+            feedConfirmService.Send(feedConfirmParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -45,8 +30,85 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000017", messages.Messages_[0].MessageCode);
+            Assert.Equal(
+                "messageIds information required to process message is missing or malformed.",
+                messages.Messages_[0].Message_);
         }
+
+        [Fact]
+        public void GivenNonExistingMessageIdWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
+        {
+            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmParameters = new FeedConfirmParameters
+            {
+                OnboardingResponse = OnboardingResponse,
+                MessageIds = new List<string> {MessageIdService.ApplicationMessageId()}
+            };
+            feedConfirmService.Send(feedConfirmParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000205", messages.Messages_[0].MessageCode);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[0].Message_);
+        }
+
+        [Fact]
+        public void GivenNonExistingMessageIdsWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
+        {
+            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmParameters = new FeedConfirmParameters
+            {
+                OnboardingResponse = OnboardingResponse,
+                MessageIds = new List<string>
+                    {MessageIdService.ApplicationMessageId(), MessageIdService.ApplicationMessageId()}
+            };
+            feedConfirmService.Send(feedConfirmParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Equal(2, messages.Messages_.Count);
+            Assert.Equal("VAL_000205", messages.Messages_[0].MessageCode);
+            Assert.Equal("VAL_000205", messages.Messages_[1].MessageCode);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[0].Message_);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[1].Message_);
+        }
+
 
         private OnboardingResponse OnboardingResponse
         {

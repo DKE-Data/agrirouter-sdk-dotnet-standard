@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
+using Agrirouter.Feed.Request;
+using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.service.parameters.inner;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -13,29 +13,23 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
-    public class CapabilitiesServiceTest : AbstractIntegrationTest
+    public class QueryMessagesServiceTest
     {
+        private readonly UtcDataService _utcDataService = new UtcDataService();
+
         [Fact]
-        public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
+        public void
+            GivenExistingEndpointsWhenQueryMessagesWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var capabilitiesServices = new CapabilitiesService(new MessagingService());
-            var capabilitiesParameters = new CapabilitiesParameters
+            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
+                ValidityPeriod = new ValidityPeriod()
             };
-
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
-            };
-
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
+            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.None);
+            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.FourWeeks);
+            queryMessagesService.Send(queryMessagesParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -45,7 +39,90 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
+                decodedMessage.ResponseEnvelope.Type);
+        }
+
+        [Fact]
+        public void
+            GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
+        {
+            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesParameters = new QueryMessagesParameters
+            {
+                OnboardingResponse = OnboardingResponse,
+                MessageIds = new List<string> {Guid.NewGuid().ToString()}
+            };
+            queryMessagesService.Send(queryMessagesParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
+                decodedMessage.ResponseEnvelope.Type);
+        }
+
+        [Fact]
+        public void
+            GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
+        {
+            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesParameters = new QueryMessagesParameters
+            {
+                OnboardingResponse = OnboardingResponse,
+                Senders = new List<string> {Guid.NewGuid().ToString()}
+            };
+            queryMessagesService.Send(queryMessagesParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
+                decodedMessage.ResponseEnvelope.Type);
+        }
+
+        [Fact]
+        public void
+            GivenExistingEndpointsWhenQueryMessagesWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
+        {
+            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesParameters = new QueryMessagesParameters()
+            {
+                OnboardingResponse = OnboardingResponse,
+            };
+            queryMessagesService.Send(queryMessagesParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService();
+            var fetch = fetchMessageService.Fetch(OnboardingResponse);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000017", messages.Messages_[0].MessageCode);
+            Assert.Equal(
+                "Query does not contain any filtering criteria: messageIds, senders or validityPeriod. Information required to process message is missing or malformed.",
+                messages.Messages_[0].Message_);
         }
 
         private OnboardingResponse OnboardingResponse
