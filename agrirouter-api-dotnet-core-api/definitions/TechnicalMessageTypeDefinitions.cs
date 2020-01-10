@@ -10,6 +10,8 @@ namespace com.dke.data.agrirouter.api.definitions
         public static string DkeCapabilities => "dke:capabilities";
 
         public static string DkeListEndpoints => "dke:list_endpoints";
+        
+        public static string DkeListEndpointsUnfiltered => "dke:list_endpoints_unfiltered";
 
         public static string DkeFeedHeaderQuery => "dke:feed_header_query";
         
