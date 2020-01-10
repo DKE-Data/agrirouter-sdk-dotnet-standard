@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Agrirouter.Feed.Request;
-using Google.Protobuf.Collections;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {

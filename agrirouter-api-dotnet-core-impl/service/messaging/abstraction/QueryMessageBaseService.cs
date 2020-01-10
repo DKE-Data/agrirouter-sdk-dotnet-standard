@@ -16,7 +16,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
     public abstract class QueryMessageBaseService : IQueryMessagesService,
         IDecodeMessageResponseService<MessageQueryResponse.Types.FeedMessage>
     {
-         private readonly MessagingService _messagingService;
+        private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
         protected QueryMessageBaseService(MessagingService messagingService)

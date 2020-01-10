@@ -6,7 +6,7 @@ namespace com.dke.data.agrirouter.api.definitions
     public class TimestampOffset
     {
         public static long None => 0;
-        
+
         public static long OneMinute => 60;
 
         public static long OneHour => OneMinute * 60;
