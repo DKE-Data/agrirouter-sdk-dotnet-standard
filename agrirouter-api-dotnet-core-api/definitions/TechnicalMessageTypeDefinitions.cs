@@ -18,11 +18,11 @@ namespace com.dke.data.agrirouter.api.definitions
         public static string DkeFeedMessageQuery => "dke:feed_message_query";
 
         public static string DkeFeedConfirm => "dke:feed_confirm";
-        
+
         public static string DkeSubscription => "dke:subscription";
 
         public static string Iso11783TaskdataZip => "iso:11783:-10:taskdata:zip";
-        
+
         public static string Iso11783DeviceDescriptionProtobuf => "iso:11783:-10:device_description:protobuf";
     }
 }

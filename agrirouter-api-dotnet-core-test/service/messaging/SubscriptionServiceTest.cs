@@ -6,7 +6,6 @@ using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.service.parameters.inner;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;

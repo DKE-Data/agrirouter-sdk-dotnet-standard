@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Agrirouter.Feed.Request;
 using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
@@ -22,7 +21,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             _messagingService = messagingService;
             _encodeMessageService = new EncodeMessageService();
         }
-        
+
         public string Send(SubscriptionParameters subscriptionParameters)
         {
             var encodedMessages = new List<string> {Encode(subscriptionParameters).Content};
@@ -46,7 +45,8 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             };
 
             var subscription = new Subscription();
-            subscriptionParameters.TechnicalMessageTypes?.ForEach(technicalMessageType => subscription.TechnicalMessageTypes.Add(technicalMessageType));
+            subscriptionParameters.TechnicalMessageTypes?.ForEach(technicalMessageType =>
+                subscription.TechnicalMessageTypes.Add(technicalMessageType));
 
             messagePayloadParameters.Value = subscription.ToByteString();
 
