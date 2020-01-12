@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Agrirouter.Request;
+using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.service.messaging;
 using com.dke.data.agrirouter.api.service.parameters;
@@ -41,7 +42,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
 
             var messagePayloadParameters = new MessagePayloadParameters
             {
-                TypeUrl = sendMessageParameters.TypeUrl,
+                TypeUrl = sendMessageParameters.TypeUrl ?? TechnicalMessageTypes.Empty,
                 Value = ByteString.FromBase64(sendMessageParameters.Base64MessageContent)
             };
 
