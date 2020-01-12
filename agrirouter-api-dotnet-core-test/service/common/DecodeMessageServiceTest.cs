@@ -8,12 +8,6 @@ namespace com.dke.data.agrirouter.api.test.service.common
     public class DecodeMessageServiceTest
     {
         [Fact]
-        public void GivenNullAsMessageWhenDecodingTheMessageThenThereShouldBeAnException()
-        {
-            Assert.Throws<ArgumentException>(() => new DecodeMessageService().Decode(null));
-        }
-
-        [Fact]
         public void GivenWhitespacesAsMessageWhenDecodingTheMessageThenThereShouldBeAnException()
         {
             Assert.Throws<ArgumentException>(() => new DecodeMessageService().Decode("   "));
@@ -34,11 +28,32 @@ namespace com.dke.data.agrirouter.api.test.service.common
                 "g3YjdmNioLCMHy1/AFEICvvnGEAQqBAQowdHlwZXMuYWdyaXJvdXRlci5jb20vYWdyaXJvdXRlci5jb21tb25zLk1lc3NhZ2VzEk0K" +
                 "Swo9U2tpcHBpbmcgY2FwYWJpbGl0aWVzIHVwZGF0ZSBiZWNhdXNlIHRoZXJlIGFyZSBubyBkaWZmZXJlbmNlcxIKVkFMXzAwMDAyMg==";
 
-            DecodeMessageService decodeMessageService = new DecodeMessageService();
+            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(responseMessage);
             Assert.NotNull(decodedMessage.ResponseEnvelope);
             Assert.NotNull(decodedMessage.ResponsePayloadWrapper);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+        }
+
+        [Fact]
+        public void GivenValidMessageWhenDecodingTheMessageThenTheMessageShouldBeParsedCorrectly()
+        {
+            var responseMessage =
+                "EwiQAxADKgwIpITc8AUQgP/1sQNvCm0KMHR5cGVzLmFncmlyb3V0ZXIuY29tL2Fncmlyb3V0ZXIuY29tbW9ucy5NZXNzYWdlcxI5" +
+                "CjcKKUVycm9yIG9jY3VyZWQgd2hpbGUgZGVjb2RpbmcgdGhlIG1lc3NhZ2UuEgpWQUxfMDAwMzAw";
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(responseMessage);
+            Assert.NotNull(decodedMessage.ResponseEnvelope);
+            Assert.NotNull(decodedMessage.ResponsePayloadWrapper);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000300", messages.Messages_[0].MessageCode);
+            Assert.Equal("Error occured while decoding the message.", messages.Messages_[0].Message_);
         }
     }
 }
