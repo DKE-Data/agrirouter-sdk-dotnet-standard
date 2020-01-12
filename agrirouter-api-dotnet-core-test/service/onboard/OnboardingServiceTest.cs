@@ -11,7 +11,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
 {
     public class OnboardingServiceTest : AbstractIntegrationTest
     {
-        [Fact]
+        [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             IOnboardingService onboardingService = new OnboardingService(Environment);
@@ -23,7 +23,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "ba4ede8aff",
+                RegistrationCode = "0e570167f4",
                 CertificationVersionId = CertificationVersionId
             };
 
