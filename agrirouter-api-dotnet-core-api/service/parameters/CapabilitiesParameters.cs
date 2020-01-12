@@ -7,7 +7,7 @@ namespace com.dke.data.agrirouter.api.service.parameters
     /**
      * Parameter container definition.
      */
-    public class CapabilitiesParameters : SendMessageParameters
+    public class CapabilitiesParameters : MessageParameters
     {
         public string ApplicationId { get; set; }
 
