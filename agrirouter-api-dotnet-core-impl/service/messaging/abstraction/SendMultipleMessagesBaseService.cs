@@ -5,45 +5,53 @@ using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.service.messaging;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.service.parameters.inner;
 using com.dke.data.agrirouter.impl.service.common;
 using Google.Protobuf;
 
 namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
 {
-    public abstract class SendMultipleMessagesBaseService : ISendMessageService
+    public abstract class SendMultipleMessagesBaseService : ISendMultipleMessagesService
     {
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
-        protected SendMultipleMessagesBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        protected SendMultipleMessagesBaseService(MessagingService messagingService,
+            EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
             _encodeMessageService = encodeMessageService;
         }
 
-        public MessagingResult Send(SendMessageParameters sendMessageParameters)
+        public MessagingResult Send(SendMultipleMessagesParameters sendMultipleMessagesParameters)
         {
-            var encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
-            var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
+            List<string> encodedMessages = new List<string>();
+            foreach (var sendMessageParameters in sendMultipleMessagesParameters.MultipleMessageEntries)
+            {
+                var encodedMessage = Encode(sendMessageParameters).Content;
+                encodedMessages.Add(encodedMessage);
+            }
+
+            var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
-        }        
-        
-        public EncodedMessage Encode(SendMessageParameters sendMessageParameters)
+        }
+
+        public EncodedMessage Encode(MultipleMessageEntry multipleMessageEntry)
         {
             var messageHeaderParameters = new MessageHeaderParameters
             {
-                ApplicationMessageId = sendMessageParameters.ApplicationMessageId,
-                TeamSetContextId = sendMessageParameters.TeamsetContextId ?? "",
-                TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
+                ApplicationMessageId = multipleMessageEntry.ApplicationMessageId,
+                TeamSetContextId = multipleMessageEntry.TeamsetContextId ?? "",
+                TechnicalMessageType = multipleMessageEntry.TechnicalMessageType,
                 Mode = Mode,
-                Recipients = sendMessageParameters.Recipients,
-                ChunkInfo = sendMessageParameters.ChunkInfo
+                Recipients = multipleMessageEntry.Recipients,
+                ChunkInfo = multipleMessageEntry.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
             {
-                TypeUrl = sendMessageParameters.TypeUrl ?? TechnicalMessageTypes.Empty,
-                Value = ByteString.FromBase64(sendMessageParameters.Base64MessageContent)
+                TypeUrl = multipleMessageEntry.TypeUrl ?? TechnicalMessageTypes.Empty,
+                Value = ByteString.FromBase64(multipleMessageEntry.Base64MessageContent)
             };
 
             var encodedMessage = new EncodedMessage
