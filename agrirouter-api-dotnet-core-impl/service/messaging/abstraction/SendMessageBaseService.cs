@@ -21,13 +21,13 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
             _encodeMessageService = new EncodeMessageService();
         }
 
-        public string Send(SendMessageParameters sendMessageParameters)
+        public MessagingResult Send(SendMessageParameters sendMessageParameters)
         {
             var encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
             var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
-        }
-
+        }        
+        
         public EncodedMessage Encode(SendMessageParameters sendMessageParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters
@@ -55,6 +55,6 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
             return encodedMessage;
         }
 
-        public abstract RequestEnvelope.Types.Mode Mode { get; }
+        protected abstract RequestEnvelope.Types.Mode Mode { get; }
     }
 }

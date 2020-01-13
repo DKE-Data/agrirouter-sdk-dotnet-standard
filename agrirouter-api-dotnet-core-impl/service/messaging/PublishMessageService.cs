@@ -10,6 +10,6 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         {
         }
 
-        public override RequestEnvelope.Types.Mode Mode => RequestEnvelope.Types.Mode.Publish;
+        protected override RequestEnvelope.Types.Mode Mode => RequestEnvelope.Types.Mode.Publish;
     }
 }
