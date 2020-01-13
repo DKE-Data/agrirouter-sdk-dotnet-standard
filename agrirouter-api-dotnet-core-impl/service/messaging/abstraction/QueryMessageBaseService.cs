@@ -25,7 +25,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
             _encodeMessageService = new EncodeMessageService();
         }
 
-        public string Send(QueryMessagesParameters queryMessagesParameters)
+        public MessagingResult Send(QueryMessagesParameters queryMessagesParameters)
         {
             var encodedMessages = new List<string> {Encode(queryMessagesParameters).Content};
             var messagingParameters = queryMessagesParameters.BuildMessagingParameter(encodedMessages);

@@ -1,21 +1,18 @@
 using System.Collections.Generic;
-using com.dke.data.agrirouter.api.dto.onboard;
+using Agrirouter.Commons;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
-    public abstract class SendMessageParameters : Parameters
+    public class SendMessageParameters : MessageParameters
     {
-        public OnboardingResponse OnboardingResponse { get; set; }
-
-        public MessagingParameters BuildMessagingParameter(List<string> encodedMessages)
-        {
-            return new MessagingParameters
-            {
-                ApplicationMessageId = ApplicationMessageId,
-                TeamsetContextId = TeamsetContextId,
-                OnboardingResponse = OnboardingResponse,
-                EncodedMessages = encodedMessages
-            };
-        }
+        public string TechnicalMessageType { get; set; }
+        
+        public List<string> Recipients { get; set; }
+        
+        public ChunkComponent ChunkInfo { get; set; }
+        
+        public string Base64MessageContent { get; set; }
+        
+        public string TypeUrl { get; set; }
     }
 }

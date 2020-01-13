@@ -25,7 +25,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             _encodeMessageService = new EncodeMessageService();
         }
 
-        public string Send(CapabilitiesParameters capabilitiesParameters)
+        public MessagingResult Send(CapabilitiesParameters capabilitiesParameters)
         {
             var encodedMessages = new List<string> {Encode(capabilitiesParameters).Content};
             var messagingParameters = capabilitiesParameters.BuildMessagingParameter(encodedMessages);

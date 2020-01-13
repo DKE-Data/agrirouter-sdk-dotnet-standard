@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using com.dke.data.agrirouter.api.builder;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.dto.messaging.inner;
 using com.dke.data.agrirouter.api.exception;
@@ -28,7 +29,7 @@ namespace com.dke.data.agrirouter.impl.service.common
         /**
          * Send message to the AR using the given message parameters.
          */
-        public string Send(MessagingParameters messagingParameters)
+        public MessagingResult Send(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
             {
@@ -57,7 +58,8 @@ namespace com.dke.data.agrirouter.impl.service.common
                     httpResponseMessage.Content.ReadAsStringAsync().Result);
             }
 
-            return messagingParameters.ApplicationMessageId;
+            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
+                .Build();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             _encodeMessageService = new EncodeMessageService();
         }
 
-        public string Send(FeedDeleteParameters feedDeleteParameters)
+        public MessagingResult Send(FeedDeleteParameters feedDeleteParameters)
         {
             var encodedMessages = new List<string> {Encode(feedDeleteParameters).Content};
             var messagingParameters = feedDeleteParameters.BuildMessagingParameter(encodedMessages);
