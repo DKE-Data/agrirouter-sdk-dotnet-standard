@@ -21,7 +21,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessagesWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesService = new QueryMessagesService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -48,7 +48,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesService = new QueryMessagesService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -73,7 +73,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesService = new QueryMessagesService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -98,7 +98,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessagesWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
         {
-            var queryMessagesService = new QueryMessagesService(new MessagingService());
+            var queryMessagesService = new QueryMessagesService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters()
             {
                 OnboardingResponse = OnboardingResponse,

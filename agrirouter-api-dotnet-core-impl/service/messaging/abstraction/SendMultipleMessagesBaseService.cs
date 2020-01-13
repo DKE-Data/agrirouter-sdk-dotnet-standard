@@ -10,12 +10,12 @@ using Google.Protobuf;
 
 namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
 {
-    public abstract class SendMessageBaseService : ISendMessageService
+    public abstract class SendMultipleMessagesBaseService : ISendMessageService
     {
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
-        protected SendMessageBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        protected SendMultipleMessagesBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
             _encodeMessageService = encodeMessageService;

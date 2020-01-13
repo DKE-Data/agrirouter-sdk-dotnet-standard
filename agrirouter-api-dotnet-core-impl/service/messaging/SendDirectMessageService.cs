@@ -6,7 +6,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
 {
     public class SendDirectMessageService : SendMessageBaseService
     {
-        public SendDirectMessageService(MessagingService messagingService) : base(messagingService)
+        public SendDirectMessageService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
         {
         }
 

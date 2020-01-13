@@ -19,10 +19,10 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
-        protected QueryMessageBaseService(MessagingService messagingService)
+        protected QueryMessageBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = new EncodeMessageService();
+            _encodeMessageService = encodeMessageService;
         }
 
         public MessagingResult Send(QueryMessagesParameters queryMessagesParameters)

@@ -18,7 +18,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenEmptySubscriptionWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionService = new SubscriptionService(new MessagingService(), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
@@ -42,7 +42,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenSingleSubscriptionEntryWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionService = new SubscriptionService(new MessagingService(), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
@@ -72,7 +72,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenMultipleSubscriptionEntriesWithOneInvalidTechnicalMessageTypeWhenSendingSubscriptionMessageThenTheMessageShouldBeNotBeAccepted()
         {
-            var subscriptionService = new SubscriptionService(new MessagingService());
+            var subscriptionService = new SubscriptionService(new MessagingService(), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,

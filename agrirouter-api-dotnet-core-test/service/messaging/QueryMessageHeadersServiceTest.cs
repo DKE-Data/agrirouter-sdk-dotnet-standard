@@ -21,7 +21,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
+            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -48,7 +48,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
+            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -73,7 +73,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
+            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -98,7 +98,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService());
+            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters()
             {
                 OnboardingResponse = OnboardingResponse,

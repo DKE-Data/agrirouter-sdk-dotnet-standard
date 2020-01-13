@@ -6,7 +6,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
 {
     public class PublishAndSendMessageService : SendMessageBaseService
     {
-        public PublishAndSendMessageService(MessagingService messagingService) : base(messagingService)
+        public PublishAndSendMessageService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
         {
         }
 
