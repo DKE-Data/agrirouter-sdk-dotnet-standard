@@ -21,7 +21,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithValidityPeriodThenTheResultShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -56,7 +56,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenExistingEndpointsWhenFeedDeleteWithUnknownMessageIdsMessageIdsThenTheResultShouldBeOk()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -90,7 +90,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithUnknownMessageIdsSenderIdsThenTheResultShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -124,7 +124,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters()
             {
                 OnboardingResponse = OnboardingResponse,

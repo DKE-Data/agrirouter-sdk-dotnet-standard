@@ -15,7 +15,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenEmptyMessageIdsWhenConfirmingMessagesThenTheMessageShouldNotBeAccepted()
         {
-            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmService = new FeedConfirmService(new MessagingService(), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardingResponse = OnboardingResponse
@@ -45,7 +45,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenNonExistingMessageIdWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
-            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmService = new FeedConfirmService(new MessagingService(), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -76,7 +76,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenNonExistingMessageIdsWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
-            var feedConfirmService = new FeedConfirmService(new MessagingService());
+            var feedConfirmService = new FeedConfirmService(new MessagingService(), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardingResponse = OnboardingResponse,

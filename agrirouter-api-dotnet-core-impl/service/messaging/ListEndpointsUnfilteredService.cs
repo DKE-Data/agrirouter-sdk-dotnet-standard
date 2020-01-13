@@ -6,7 +6,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
 {
     public class ListEndpointsUnfilteredService : ListEndpointsBaseService
     {
-        public ListEndpointsUnfilteredService(MessagingService messagingService) : base(messagingService)
+        public ListEndpointsUnfilteredService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
         {
         }
 

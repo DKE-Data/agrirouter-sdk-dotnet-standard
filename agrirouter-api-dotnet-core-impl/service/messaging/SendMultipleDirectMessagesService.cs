@@ -4,9 +4,9 @@ using com.dke.data.agrirouter.impl.service.messaging.abstraction;
 
 namespace com.dke.data.agrirouter.impl.service.messaging
 {
-    public class SendDirectMessageService : SendMessageBaseService
+    public class SendMultipleDirectMessagesService : SendMultipleMessagesBaseService
     {
-        public SendDirectMessageService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
+        public SendMultipleDirectMessagesService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
         {
         }
 

@@ -18,7 +18,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService());
+            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -42,7 +42,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService());
+            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -67,7 +67,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService());
+            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -92,7 +92,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService());
+            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -117,7 +117,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndEmptyAsTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService());
+            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -143,7 +143,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService());
+            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,

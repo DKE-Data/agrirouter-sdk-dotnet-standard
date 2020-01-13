@@ -15,10 +15,10 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
-        protected ListEndpointsBaseService(MessagingService messagingService)
+        protected ListEndpointsBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = new EncodeMessageService();
+            _encodeMessageService = encodeMessageService;
         }
 
         public MessagingResult Send(ListEndpointsParameters listEndpointsParameters)
