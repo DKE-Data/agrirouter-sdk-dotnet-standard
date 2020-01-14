@@ -1,3 +1,5 @@
+using com.dke.data.agrirouter.api.dto.messaging;
+
 namespace com.dke.data.agrirouter.api.service.messaging
 {
     /**
@@ -8,6 +10,6 @@ namespace com.dke.data.agrirouter.api.service.messaging
         /**
          * Sending a message using the given message parameters.
          */
-        string Send(T parameters);
+        MessagingResult Send(T parameters);
     }
 }

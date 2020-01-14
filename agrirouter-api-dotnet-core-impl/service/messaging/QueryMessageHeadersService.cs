@@ -6,7 +6,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
 {
     public class QueryMessageHeadersService : QueryMessageBaseService
     {
-        public QueryMessageHeadersService(MessagingService messagingService) : base(messagingService)
+        public QueryMessageHeadersService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
         {
         }
 
