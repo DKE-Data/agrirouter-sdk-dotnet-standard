@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Web;
 using com.dke.data.agrirouter.api.dto.onboard;
+using Newtonsoft.Json;
 using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
@@ -62,7 +65,7 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                         throw new ArgumentException($"Parameter '{parameter}' could not be parsed.");
                     }
 
-                    parameters.Add(parameterSplit[0], parameterSplit[1]);
+                    parameters.Add(parameterSplit[0], HttpUtility.UrlDecode(parameterSplit[1]));
                 }
 
                 return new AuthorizationResult
@@ -79,7 +82,10 @@ namespace com.dke.data.agrirouter.impl.service.onboard
 
         public AuthorizationToken Parse(AuthorizationResult authorizationResult)
         {
-            
+            return
+                (AuthorizationToken) JsonConvert.DeserializeObject(
+                    Encoding.UTF8.GetString(Convert.FromBase64String(authorizationResult.Token)),
+                    typeof(AuthorizationToken));
         }
     }
 }
