@@ -12,29 +12,53 @@ namespace com.dke.data.agrirouter.api.env
          *
          * @return -
          */
-        protected abstract String ApiPrefix();
+        protected abstract string ApiPrefix();
 
         /**
          * URL for the registration service.
          *
          * @return -
          */
-        protected abstract String RegistrationServiceUrl();
+        protected abstract string RegistrationServiceUrl();
 
         /**
          * URL for the onboarding request.
          *
          * @return -
          */
-        public String OnboardUrl()
+        public string OnboardUrl()
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard";
+        }
+        
+        /**
+         * URL for the onboarding request.
+         */
+        public string VerificationUrl()
+        {
+            return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/verify";
+        }
+
+        /**
+         * Public key for secured communication.
+         */
+        public string PublicKey()
+        {
+            throw new NotImplementedException("Public key is only necessary if the application does support secured communication.");
+        }
+        
+        /**
+         * Public key for secured communication.
+         */
+        public string PrivateKey()
+        {
+            throw new NotImplementedException("Private key is only necessary if the application does support secured communication.");
         }
 
         /**
          * URL for the authorization process.
          */
-        public String AuthorizationUrl(string applicationId)
+        public string AuthorizationUrl(string applicationId)
         {
          return AuthorizationServiceUrl() + "/application/" + applicationId + "/authorize";
         }
