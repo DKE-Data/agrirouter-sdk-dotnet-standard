@@ -1,35 +1,39 @@
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using com.dke.data.agrirouter.api.dto.onboard;
-using com.dke.data.agrirouter.api.env;
 using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.logging;
-using com.dke.data.agrirouter.api.service.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
+using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
     /**
      * Service for the onboarding.
      */
-    public class SecuredOnboardingService : IOnboardingService
+    public class SecuredOnboardingService 
     {
         private readonly Environment _environment;
+        private readonly HttpClient _httpClient;
         private readonly UtcDataService _utcDataService;
+        private readonly SignatureService _signatureService;
 
-        public SecuredOnboardingService(Environment environment)
+        public SecuredOnboardingService(Environment environment, UtcDataService utcDataService,
+            SignatureService signatureService, HttpClient httpClient)
         {
             _environment = environment;
-            _utcDataService = new UtcDataService();
+            _httpClient = httpClient;
+            _utcDataService = utcDataService;
+            _signatureService = signatureService;
         }
 
         /**
          * Onboard an endpoint using the simple onboarding procedure and the given parameters.
          */
-        public OnboardingResponse Onboard(OnboardingParameters onboardingParameters)
+        public OnboardingResponse Onboard(OnboardingParameters onboardingParameters, string privateKey)
         {
             var onboardingRequest = new OnboardingRequest
             {
@@ -42,14 +46,21 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                 UTCTimestamp = _utcDataService.Now
             };
 
-            var jsonContent = JsonConvert.SerializeObject(onboardingRequest);
-            var requestBody = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            
-            var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);
+            var requestBody = JsonConvert.SerializeObject(onboardingRequest);
 
-            var httpResponseMessage = httpClient.PostAsync(_environment.OnboardUrl(), requestBody).Result;
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(_environment.OnboardUrl()),
+                Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
+            };
+            httpRequestMessage.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);
+            httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", onboardingParameters.ApplicationId);
+            httpRequestMessage.Headers.Add("X-Agrirouter-Signature",
+                _signatureService.XAgrirouterSignature(requestBody, privateKey));
+
+            var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {

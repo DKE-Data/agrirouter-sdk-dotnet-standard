@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.service.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
@@ -15,7 +14,7 @@ namespace com.dke.data.agrirouter.impl.service.onboard
     /**
      * Service for the onboarding.
      */
-    public class OnboardingService : IOnboardingService
+    public class OnboardingService 
     {
         private readonly Environment _environment;
         private readonly HttpClient _httpClient;
@@ -44,13 +43,13 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                 UTCTimestamp = _utcDataService.Now
             };
 
-            var jsonContent = JsonConvert.SerializeObject(onboardingRequest);
+            var requestBody = JsonConvert.SerializeObject(onboardingRequest);
 
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(_environment.OnboardUrl()),
-                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+                Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
             };
             httpRequestMessage.Headers.Authorization =
                 new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);

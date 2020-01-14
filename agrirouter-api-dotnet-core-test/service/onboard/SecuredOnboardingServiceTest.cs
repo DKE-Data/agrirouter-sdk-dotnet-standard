@@ -1,6 +1,5 @@
 using System.Net.Http;
 using com.dke.data.agrirouter.api.definitions;
-using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.enums;
 using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.service.parameters;
@@ -11,17 +10,19 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.onboard
 {
-    public class OnboardingServiceTest : AbstractIntegrationTest
+    public class SecuredOnboardingServiceTest : AbstractSecuredIntegrationTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
+        private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
-            var onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
+            var onboardingService =
+                new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
 
-            OnboardingParameters parameters = new OnboardingParameters
+            var parameters = new OnboardingParameters
             {
                 Uuid = GetType().FullName,
                 ApplicationId = ApplicationId,
@@ -33,7 +34,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             };
 
 
-            OnboardingResponse onboardingResponse = onboardingService.Onboard(parameters);
+            var onboardingResponse = onboardingService.Onboard(parameters, PrivateKey);
 
             Assert.NotEmpty(onboardingResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardingResponse.SensorAlternateId);
@@ -50,9 +51,10 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
         [Fact]
         public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
-            var onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
+            var onboardingService =
+                new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
 
-            OnboardingParameters parameters = new OnboardingParameters
+            var parameters = new OnboardingParameters
             {
                 Uuid = GetType().FullName,
                 ApplicationId = ApplicationId,
@@ -64,7 +66,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             };
 
 
-            Assert.Throws<OnboardingException>(() => onboardingService.Onboard(parameters));
+            Assert.Throws<OnboardingException>(() => onboardingService.Onboard(parameters, PrivateKey));
         }
     }
 }

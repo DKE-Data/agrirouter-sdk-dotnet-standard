@@ -30,7 +30,7 @@ namespace com.dke.data.agrirouter.api.env
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard";
         }
-        
+
         /**
          * URL for the onboarding request.
          */
@@ -40,27 +40,11 @@ namespace com.dke.data.agrirouter.api.env
         }
 
         /**
-         * Public key for secured communication.
-         */
-        public string PublicKey()
-        {
-            throw new NotImplementedException("Public key is only necessary if the application does support secured communication.");
-        }
-        
-        /**
-         * Public key for secured communication.
-         */
-        public string PrivateKey()
-        {
-            throw new NotImplementedException("Private key is only necessary if the application does support secured communication.");
-        }
-
-        /**
          * URL for the authorization process.
          */
         public string AuthorizationUrl(string applicationId)
         {
-         return AuthorizationServiceUrl() + "/application/" + applicationId + "/authorize";
+            return AuthorizationServiceUrl() + "/application/" + applicationId + "/authorize";
         }
 
         /**
