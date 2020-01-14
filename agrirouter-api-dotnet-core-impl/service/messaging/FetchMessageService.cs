@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -28,10 +29,14 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         public List<MessageResponse> Fetch(OnboardingResponse onboardingResponse)
         {
             Log.Debug("Begin fetching messages.");
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                RequestUri = new Uri(onboardingResponse.ConnectionCriteria.Commands)
+            };
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            
             var httpResponseMessage = _httpClient
-                .GetAsync(onboardingResponse.ConnectionCriteria.Commands).Result;
+                .SendAsync(httpRequestMessage).Result;
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var messageResponses =
