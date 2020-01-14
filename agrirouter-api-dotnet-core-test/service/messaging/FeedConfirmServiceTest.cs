@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.test.helper;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -12,10 +14,13 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 {
     public class FeedConfirmServiceTest : AbstractIntegrationTest
     {
+        private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
+
         [Fact]
         public void GivenEmptyMessageIdsWhenConfirmingMessagesThenTheMessageShouldNotBeAccepted()
         {
-            var feedConfirmService = new FeedConfirmService(new MessagingService(), new EncodeMessageService());
+            var feedConfirmService =
+                new FeedConfirmService(new MessagingService(HttpClient), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardingResponse = OnboardingResponse
@@ -24,7 +29,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -45,7 +50,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenNonExistingMessageIdWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
-            var feedConfirmService = new FeedConfirmService(new MessagingService(), new EncodeMessageService());
+            var feedConfirmService =
+                new FeedConfirmService(new MessagingService(HttpClient), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -55,7 +61,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -76,7 +82,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenNonExistingMessageIdsWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
-            var feedConfirmService = new FeedConfirmService(new MessagingService(), new EncodeMessageService());
+            var feedConfirmService =
+                new FeedConfirmService(new MessagingService(HttpClient), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -87,7 +94,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -110,7 +117,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         }
 
 
-        private OnboardingResponse OnboardingResponse
+        private static OnboardingResponse OnboardingResponse
         {
             get
             {

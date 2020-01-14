@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.api.service.parameters.inner;
+using com.dke.data.agrirouter.api.test.helper;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -15,10 +17,12 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 {
     public class CapabilitiesServiceTest : AbstractIntegrationTest
     {
+        private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
+        
         [Fact]
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
-            var capabilitiesServices = new CapabilitiesService(new MessagingService(), new EncodeMessageService());
+            var capabilitiesServices = new CapabilitiesService(new MessagingService(HttpClient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -39,7 +43,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -48,7 +52,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
-        private OnboardingResponse OnboardingResponse
+        private static OnboardingResponse OnboardingResponse
         {
             get
             {

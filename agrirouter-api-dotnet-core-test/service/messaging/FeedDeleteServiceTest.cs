@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using Agrirouter.Feed.Request;
 using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.test.helper;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -15,25 +17,26 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 {
     public class FeedDeleteServiceTest
     {
-        private readonly UtcDataService _utcDataService = new UtcDataService();
+        private static readonly UtcDataService UtcDataService = new UtcDataService();
+        private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
 
         [Fact]
         public void
             GivenExistingEndpointsWhenFeedDeleteWithValidityPeriodThenTheResultShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(HttpClient), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
                 ValidityPeriod = new ValidityPeriod()
             };
-            feedDeleteParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.None);
-            feedDeleteParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.FourWeeks);
+            feedDeleteParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.None);
+            feedDeleteParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.FourWeeks);
             feedDeleteService.Send(feedDeleteParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -56,7 +59,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenExistingEndpointsWhenFeedDeleteWithUnknownMessageIdsMessageIdsThenTheResultShouldBeOk()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(HttpClient), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -66,7 +69,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -90,7 +93,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithUnknownMessageIdsSenderIdsThenTheResultShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(HttpClient), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -100,7 +103,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -124,7 +127,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenFeedDeleteWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeOkBecauseTheMessageIdsAreMissing()
         {
-            var feedDeleteService = new FeedDeleteService(new MessagingService(), new EncodeMessageService());
+            var feedDeleteService = new FeedDeleteService(new MessagingService(HttpClient), new EncodeMessageService());
             var feedDeleteParameters = new FeedDeleteParameters()
             {
                 OnboardingResponse = OnboardingResponse,
@@ -133,7 +136,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -151,7 +154,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
                 messages.Messages_[0].Message_);
         }
 
-        private OnboardingResponse OnboardingResponse
+        private static OnboardingResponse OnboardingResponse
         {
             get
             {

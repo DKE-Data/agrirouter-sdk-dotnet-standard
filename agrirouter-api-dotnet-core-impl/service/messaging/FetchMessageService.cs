@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
 using com.dke.data.agrirouter.api.dto.messaging;
@@ -15,11 +16,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging
      */
     public class FetchMessageService
     {
-        private readonly HttpClientService _httpClientService;
+        private readonly HttpClient _httpClient;
 
-        public FetchMessageService()
+        public FetchMessageService(HttpClient httpClient)
         {
-            _httpClientService = new HttpClientService();
+            _httpClient = httpClient;
         }
 
         /**
@@ -28,10 +29,9 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         public List<MessageResponse> Fetch(OnboardingResponse onboardingResponse)
         {
             Log.Debug("Begin fetching messages.");
-            var httpClient = _httpClientService.AuthenticatedHttpClient(onboardingResponse);
-            httpClient.DefaultRequestHeaders.Accept.Add(
+            _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-            var httpResponseMessage = httpClient
+            var httpResponseMessage = _httpClient
                 .GetAsync(onboardingResponse.ConnectionCriteria.Commands).Result;
             if (httpResponseMessage.IsSuccessStatusCode)
             {
