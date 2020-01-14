@@ -4,6 +4,9 @@ using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
+    /**
+     * Service for the authorization process.
+     */
     public class AuthorizationService
     {
         private readonly Environment _environment;
@@ -13,6 +16,9 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             _environment = environment;
         }
 
+        /**
+         * Generates the authorization URL for the application used within the onboarding process..
+         */
         public AuthorizationUrlResult AuthorizationUrl(string applicationId)
         {
             var state = Guid.NewGuid().ToString();
@@ -24,6 +30,9 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             };
         }
 
+        /**
+         * Generates the authorization URL for the application used within the onboarding process and adds the redirect URI parameter.
+         */
         public AuthorizationUrlResult AuthorizationUrl(string applicationId, String redirectUri)
         {
             var state = Guid.NewGuid().ToString();
