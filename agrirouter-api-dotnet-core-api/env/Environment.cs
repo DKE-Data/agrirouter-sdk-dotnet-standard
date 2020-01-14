@@ -30,5 +30,18 @@ namespace com.dke.data.agrirouter.api.env
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard";
         }
+
+        /**
+         * URL for the authorization process.
+         */
+        public String AuthorizationUrl(string applicationId)
+        {
+         return AuthorizationServiceUrl() + "/application/" + applicationId + "/authorize";
+        }
+
+        /**
+         * URL for the authorization process.
+         */
+        protected abstract string AuthorizationServiceUrl();
     }
 }
