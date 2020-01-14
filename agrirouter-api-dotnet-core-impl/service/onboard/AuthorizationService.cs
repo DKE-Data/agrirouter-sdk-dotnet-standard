@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
 using com.dke.data.agrirouter.api.dto.onboard;
+using Newtonsoft.Json;
 using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
@@ -42,6 +46,46 @@ namespace com.dke.data.agrirouter.impl.service.onboard
                     $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}&redirect_uri={redirectUri}",
                 State = state
             };
+        }
+
+        /**
+         * Parsing the result which was attached as parameters to the URL.
+         */
+        public AuthorizationResult Parse(string authorizationResult)
+        {
+            var split = authorizationResult.Split('&');
+            var parameters = new Dictionary<string, string>();
+            if (split.Length == 3 || split.Length == 4)
+            {
+                foreach (var parameter in split)
+                {
+                    var parameterSplit = parameter.Split("=");
+                    if (parameterSplit.Length != 2)
+                    {
+                        throw new ArgumentException($"Parameter '{parameter}' could not be parsed.");
+                    }
+
+                    parameters.Add(parameterSplit[0], HttpUtility.UrlDecode(parameterSplit[1]));
+                }
+
+                return new AuthorizationResult
+                {
+                    State = parameters.GetValueOrDefault("state"),
+                    Signature = parameters.GetValueOrDefault("signature"),
+                    Token = parameters.GetValueOrDefault("token"),
+                    Error = parameters.GetValueOrDefault("error")
+                };
+            }
+
+            throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
+        }
+
+        public AuthorizationToken Parse(AuthorizationResult authorizationResult)
+        {
+            return
+                (AuthorizationToken) JsonConvert.DeserializeObject(
+                    Encoding.UTF8.GetString(Convert.FromBase64String(authorizationResult.Token)),
+                    typeof(AuthorizationToken));
         }
     }
 }
