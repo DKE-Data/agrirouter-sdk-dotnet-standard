@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using com.dke.data.agrirouter.api.dto.onboard;
+using com.dke.data.agrirouter.api.env;
 using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.logging;
 using com.dke.data.agrirouter.api.service.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
-using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {

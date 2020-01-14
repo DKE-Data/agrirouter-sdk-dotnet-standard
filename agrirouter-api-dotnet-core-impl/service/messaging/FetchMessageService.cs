@@ -5,7 +5,6 @@ using System.Net.Mime;
 using com.dke.data.agrirouter.api.dto.messaging;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
 using Serilog;
 

@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.service.parameters.inner;
 using com.dke.data.agrirouter.api.test.helper;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
