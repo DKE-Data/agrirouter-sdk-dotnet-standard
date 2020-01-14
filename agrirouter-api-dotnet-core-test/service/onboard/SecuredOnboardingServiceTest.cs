@@ -16,7 +16,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
         private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
-        [Fact(Skip = "Will not run successfully without changing the registration code.")]
+        [Fact()]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
@@ -29,7 +29,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "f70470a755",
+                RegistrationCode = "47a726bf20",
                 CertificationVersionId = CertificationVersionId
             };
 

@@ -26,7 +26,17 @@ namespace com.dke.data.agrirouter.api.env
          *
          * @return -
          */
-        public string OnboardUrl()
+        public string SecuredOnboardingUrl()
+        {
+            return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/request";
+        }
+
+        /**
+         * URL for the onboarding request.
+         *
+         * @return -
+         */
+        public string OnboardingUrl()
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard";
         }

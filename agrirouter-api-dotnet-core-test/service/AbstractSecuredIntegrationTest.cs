@@ -44,9 +44,9 @@ namespace com.dke.data.agrirouter.api.test.service
                                       "mQIDAQAB\n" +
                                       "-----END PUBLIC KEY-----\n";
 
-        protected static string ApplicationId => "39d18ae2-04e3-42de-8a42-935565a6b261";
+        protected static string ApplicationId => "16b1c3ab-55ef-412c-952b-f280424272e1";
 
-        protected static string CertificationVersionId => "719afec8-d2ff-4cf8-8194-e688ae56b3b5";
+        protected static string CertificationVersionId => "2141fce0-dbf7-405f-a9b9-58a72f5d3e5d";
 
         protected Environment Environment => new QualityAssuranceEnvironment();
 

@@ -48,7 +48,7 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(_environment.OnboardUrl()),
+                RequestUri = new Uri(_environment.OnboardingUrl()),
                 Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
             };
             httpRequestMessage.Headers.Authorization =
