@@ -1,9 +1,12 @@
+using System.Net.Http;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.enums;
 using com.dke.data.agrirouter.api.exception;
 using com.dke.data.agrirouter.api.service.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.test.helper;
+using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.onboard;
 using Xunit;
 
@@ -11,10 +14,13 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
 {
     public class OnboardingServiceTest : AbstractIntegrationTest
     {
-        [Fact(Skip = "Will not run successfully without changing the registration code.")]
+        private static readonly UtcDataService UtcDataService = new UtcDataService();
+        private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
+
+        [Fact]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
-            IOnboardingService onboardingService = new OnboardingService(Environment);
+            IOnboardingService onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
 
             OnboardingParameters parameters = new OnboardingParameters
             {
@@ -23,7 +29,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "0e570167f4",
+                RegistrationCode = "f70470a755",
                 CertificationVersionId = CertificationVersionId
             };
 
@@ -45,7 +51,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
         [Fact]
         public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
-            IOnboardingService onboardingService = new OnboardingService(Environment);
+            IOnboardingService onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
 
             OnboardingParameters parameters = new OnboardingParameters
             {

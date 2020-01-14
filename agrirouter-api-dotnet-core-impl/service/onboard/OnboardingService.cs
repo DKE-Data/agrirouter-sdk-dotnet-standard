@@ -1,14 +1,14 @@
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using com.dke.data.agrirouter.api.dto.onboard;
-using com.dke.data.agrirouter.api.env;
 using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.logging;
 using com.dke.data.agrirouter.api.service.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
 using com.dke.data.agrirouter.impl.service.common;
 using Newtonsoft.Json;
+using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
@@ -18,12 +18,14 @@ namespace com.dke.data.agrirouter.impl.service.onboard
     public class OnboardingService : IOnboardingService
     {
         private readonly Environment _environment;
+        private readonly HttpClient _httpClient;
         private readonly UtcDataService _utcDataService;
 
-        public OnboardingService(Environment environment)
+        public OnboardingService(Environment environment, UtcDataService utcDataService, HttpClient httpClient)
         {
             _environment = environment;
-            _utcDataService = new UtcDataService();
+            _httpClient = httpClient;
+            _utcDataService = utcDataService;
         }
 
         /**
@@ -43,13 +45,17 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             };
 
             var jsonContent = JsonConvert.SerializeObject(onboardingRequest);
-            var requestBody = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
-            httpClient.DefaultRequestHeaders.Authorization =
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(_environment.OnboardUrl()),
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            httpRequestMessage.Headers.Authorization =
                 new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);
 
-            var httpResponseMessage = httpClient.PostAsync(_environment.OnboardUrl(), requestBody).Result;
+            var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {

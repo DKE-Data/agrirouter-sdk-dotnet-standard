@@ -8,6 +8,12 @@ namespace com.dke.data.agrirouter.api.test.helper
 {
     public class HttpClientFactory
     {
+        public static HttpClient HttpClient()
+        {
+            var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
+            return httpClient;
+        }
+
         public static HttpClient AuthenticatedHttpClient(OnboardingResponse onboardingResponse)
         {
             var httpClientHandler = new HttpClientHandler();
