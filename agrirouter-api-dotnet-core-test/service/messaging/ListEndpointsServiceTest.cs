@@ -1,10 +1,12 @@
 using System;
+using System.Net.Http;
 using System.Threading;
 using Agrirouter.Request.Payload.Account;
 using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.test.helper;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -14,11 +16,14 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 {
     public class ListEndpointsServiceTest : AbstractIntegrationTest
     {
+        private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
+
         [Fact]
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -27,7 +32,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -42,7 +47,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -52,7 +58,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -67,7 +73,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -77,7 +84,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -92,7 +99,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -102,7 +110,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -117,7 +125,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndEmptyAsTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -127,7 +136,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -143,7 +152,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsService(new MessagingService(), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -154,7 +164,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -165,7 +175,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
                 decodedMessage.ResponseEnvelope.Type);
         }
 
-        private OnboardingResponse OnboardingResponse
+        private static OnboardingResponse OnboardingResponse
         {
             get
             {

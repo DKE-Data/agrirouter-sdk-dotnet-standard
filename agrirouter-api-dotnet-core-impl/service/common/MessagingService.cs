@@ -17,13 +17,13 @@ namespace com.dke.data.agrirouter.impl.service.common
      */
     public class MessagingService : IMessagingService<MessagingParameters>
     {
+        private readonly HttpClient _httpClient;
         private readonly UtcDataService _utcDataService;
-        private readonly HttpClientService _httpClientService;
 
-        public MessagingService()
+        public MessagingService(HttpClient httpClient)
         {
+            _httpClient = httpClient;
             _utcDataService = new UtcDataService();
-            _httpClientService = new HttpClientService();
         }
 
         /**
@@ -44,10 +44,9 @@ namespace com.dke.data.agrirouter.impl.service.common
                 messageRequest.Messages.Add(message);
             }
 
-            var httpClient = _httpClientService.AuthenticatedHttpClient(messagingParameters.OnboardingResponse);
             HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
                 "application/json");
-            var httpResponseMessage = httpClient
+            var httpResponseMessage = _httpClient
                 .PostAsync(messagingParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
 
             if (!httpResponseMessage.IsSuccessStatusCode)

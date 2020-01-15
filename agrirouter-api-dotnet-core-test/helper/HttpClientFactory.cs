@@ -4,17 +4,17 @@ using System.Security.Cryptography.X509Certificates;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.logging;
 
-namespace com.dke.data.agrirouter.impl.service.common
+namespace com.dke.data.agrirouter.api.test.helper
 {
-    /**
-     * Service to create HTTP clients for the communication process.
-     */
-    public class HttpClientService
+    public class HttpClientFactory
     {
-        /**
-         * Create an authenticated HTTP client for the given onboarding response.
-         */
-        public HttpClient AuthenticatedHttpClient(OnboardingResponse onboardingResponse)
+        public static HttpClient HttpClient()
+        {
+            var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
+            return httpClient;
+        }
+
+        public static HttpClient AuthenticatedHttpClient(OnboardingResponse onboardingResponse)
         {
             var httpClientHandler = new HttpClientHandler();
             httpClientHandler.ClientCertificates.Add(new X509Certificate2(

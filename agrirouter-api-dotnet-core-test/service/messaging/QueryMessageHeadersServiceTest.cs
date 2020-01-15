@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using Agrirouter.Feed.Request;
 using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.test.helper;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -15,25 +17,27 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 {
     public class QueryMessageHeadersServiceTest
     {
-        private readonly UtcDataService _utcDataService = new UtcDataService();
+        private static readonly UtcDataService UtcDataService = new UtcDataService();
+        private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
 
         [Fact]
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
+            var queryMessageHeadersService =
+                new QueryMessageHeadersService(new MessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
                 ValidityPeriod = new ValidityPeriod()
             };
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.None);
-            queryMessagesParameters.ValidityPeriod.SentTo = _utcDataService.Timestamp(TimestampOffset.FourWeeks);
+            queryMessagesParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.None);
+            queryMessagesParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.FourWeeks);
             queryMessageHeadersService.Send(queryMessagesParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -48,7 +52,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
+            var queryMessageHeadersService =
+                new QueryMessageHeadersService(new MessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -58,7 +63,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -73,7 +78,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
+            var queryMessageHeadersService =
+                new QueryMessageHeadersService(new MessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -83,7 +89,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -98,7 +104,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenQueryMessageHeadersWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
         {
-            var queryMessageHeadersService = new QueryMessageHeadersService(new MessagingService(), new EncodeMessageService());
+            var queryMessageHeadersService =
+                new QueryMessageHeadersService(new MessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters()
             {
                 OnboardingResponse = OnboardingResponse,
@@ -107,7 +114,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -125,7 +132,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
                 messages.Messages_[0].Message_);
         }
 
-        private OnboardingResponse OnboardingResponse
+        private static OnboardingResponse OnboardingResponse
         {
             get
             {

@@ -1,5 +1,3 @@
-using System;
-
 namespace com.dke.data.agrirouter.api.env
 {
     /**
@@ -12,31 +10,49 @@ namespace com.dke.data.agrirouter.api.env
          *
          * @return -
          */
-        protected abstract String ApiPrefix();
+        protected abstract string ApiPrefix();
 
         /**
          * URL for the registration service.
          *
          * @return -
          */
-        protected abstract String RegistrationServiceUrl();
+        protected abstract string RegistrationServiceUrl();
 
         /**
          * URL for the onboarding request.
          *
          * @return -
          */
-        public String OnboardUrl()
+        public string SecuredOnboardingUrl()
+        {
+            return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/request";
+        }
+
+        /**
+         * URL for the onboarding request.
+         *
+         * @return -
+         */
+        public string OnboardingUrl()
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard";
         }
 
         /**
+         * URL for the onboarding request.
+         */
+        public string VerificationUrl()
+        {
+            return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/verify";
+        }
+
+        /**
          * URL for the authorization process.
          */
-        public String AuthorizationUrl(string applicationId)
+        public string AuthorizationUrl(string applicationId)
         {
-         return AuthorizationServiceUrl() + "/application/" + applicationId + "/authorize";
+            return AuthorizationServiceUrl() + "/application/" + applicationId + "/authorize";
         }
 
         /**

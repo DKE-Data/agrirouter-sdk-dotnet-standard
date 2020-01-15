@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Response;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
 using com.dke.data.agrirouter.api.service.parameters;
+using com.dke.data.agrirouter.api.test.helper;
 using com.dke.data.agrirouter.impl.service.common;
 using com.dke.data.agrirouter.impl.service.messaging;
 using Newtonsoft.Json;
@@ -15,10 +17,12 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 {
     public class SubscriptionServiceTest : AbstractIntegrationTest
     {
+        private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
+
         [Fact]
         public void GivenEmptySubscriptionWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var subscriptionService = new SubscriptionService(new MessagingService(), new EncodeMessageService());
+            var subscriptionService = new SubscriptionService(new MessagingService(HttpClient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
@@ -28,7 +32,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -42,7 +46,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         [Fact]
         public void GivenSingleSubscriptionEntryWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var subscriptionService = new SubscriptionService(new MessagingService(), new EncodeMessageService());
+            var subscriptionService = new SubscriptionService(new MessagingService(HttpClient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
@@ -57,7 +61,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -72,7 +76,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenMultipleSubscriptionEntriesWithOneInvalidTechnicalMessageTypeWhenSendingSubscriptionMessageThenTheMessageShouldBeNotBeAccepted()
         {
-            var subscriptionService = new SubscriptionService(new MessagingService(), new EncodeMessageService());
+            var subscriptionService = new SubscriptionService(new MessagingService(HttpClient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardingResponse = OnboardingResponse,
@@ -93,7 +97,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService();
+            var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardingResponse);
             Assert.Single(fetch);
 
@@ -113,7 +117,7 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
                 messages.Messages_[0].Message_);
         }
 
-        private OnboardingResponse OnboardingResponse
+        private static OnboardingResponse OnboardingResponse
         {
             get
             {
