@@ -1,5 +1,3 @@
-using System;
-
 namespace com.dke.data.agrirouter.api.dto.onboard.inner
 {
     /**
@@ -7,10 +5,10 @@ namespace com.dke.data.agrirouter.api.dto.onboard.inner
      */
     public class Authentication
     {
-        public String Type { get; set; }
+        public string Type { get; set; }
 
-        public String Secret { get; set; }
+        public string Secret { get; set; }
 
-        public String Certificate { get; set; }
+        public string Certificate { get; set; }
     }
 }
