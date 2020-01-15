@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.enums;
@@ -24,12 +25,12 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
 
             var parameters = new OnboardingParameters
             {
-                Uuid = GetType().FullName,
+                Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "47a726bf20",
+                RegistrationCode = "0af6f5d1b8",
                 CertificationVersionId = CertificationVersionId
             };
 

@@ -30,6 +30,16 @@ namespace com.dke.data.agrirouter.api.env
         }
 
         /**
+         * URL for the revoking request.
+         *
+         * @return -
+         */
+        public string RevokeUrl()
+        {
+            return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/revoke";
+        }
+
+        /**
          * URL for the onboarding request.
          *
          * @return -

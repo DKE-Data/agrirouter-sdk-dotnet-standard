@@ -8,24 +8,24 @@ namespace com.dke.data.agrirouter.api.dto.onboard
      */
     public class OnboardingRequest
     {
-        [JsonProperty(PropertyName = "id")] public String Id { get; set; }
+        [JsonProperty(PropertyName = "id")] public string Id { get; set; }
 
         [JsonProperty(PropertyName = "applicationId")]
-        public String ApplicationId { get; set; }
+        public string ApplicationId { get; set; }
 
         [JsonProperty(PropertyName = "certificationVersionId")]
-        public String CertificationVersionId { get; set; }
+        public string CertificationVersionId { get; set; }
 
         [JsonProperty(PropertyName = "gatewayId")]
-        public String GatewayId { get; set; }
+        public string GatewayId { get; set; }
 
         [JsonProperty(PropertyName = "UTCTimestamp")]
-        public String UTCTimestamp { get; set; }
+        public string UTCTimestamp { get; set; }
 
         [JsonProperty(PropertyName = "timeZone")]
-        public String TimeZone { get; set; }
+        public string TimeZone { get; set; }
 
         [JsonProperty(PropertyName = "certificateType")]
-        public String CertificateType { get; set; }
+        public string CertificateType { get; set; }
     }
 }

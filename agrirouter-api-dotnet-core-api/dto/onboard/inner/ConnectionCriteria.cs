@@ -7,16 +7,16 @@ namespace com.dke.data.agrirouter.api.dto.onboard.inner
      */
     public class ConnectionCriteria
     {
-        public String GatewayId { get; set; }
+        public string GatewayId { get; set; }
 
-        public String Measures { get; set; }
+        public string Measures { get; set; }
 
-        public String Commands { get; set; }
+        public string Commands { get; set; }
 
-        public String Host { get; set; }
+        public string Host { get; set; }
 
-        public String Port { get; set; }
+        public string Port { get; set; }
 
-        public String ClientId { get; set; }
+        public string ClientId { get; set; }
     }
 }

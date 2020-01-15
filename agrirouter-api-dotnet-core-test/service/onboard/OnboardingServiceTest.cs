@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using com.dke.data.agrirouter.api.definitions;
 using com.dke.data.agrirouter.api.dto.onboard;
@@ -16,17 +17,49 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
         private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
-        [Fact(Skip = "Will not run successfully without changing the registration code.")]
-        public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
+        //[Fact(Skip = "Will not run successfully without changing the registration code.")]
+        [Fact]
+        public void GivenValidRequestTokenWhenOnboardingForP12ThenThereShouldBeAValidResponse()
         {
             var onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
 
             OnboardingParameters parameters = new OnboardingParameters
             {
-                Uuid = GetType().FullName,
+                Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.P12,
+                CertificationType = CertificationTypeDefinition.PEM,
+                GatewayId = "3",
+                RegistrationCode = "414fa598a3",
+                CertificationVersionId = CertificationVersionId
+            };
+
+
+            OnboardingResponse onboardingResponse = onboardingService.Onboard(parameters);
+
+            Assert.NotEmpty(onboardingResponse.DeviceAlternateId);
+            Assert.NotEmpty(onboardingResponse.SensorAlternateId);
+            Assert.NotEmpty(onboardingResponse.CapabilityAlternateId);
+
+            Assert.NotEmpty(onboardingResponse.Authentication.Certificate);
+            Assert.NotEmpty(onboardingResponse.Authentication.Secret);
+            Assert.NotEmpty(onboardingResponse.Authentication.Type);
+
+            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Commands);
+            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Measures);
+        }
+        
+        [Fact(Skip = "Will not run successfully without changing the registration code.")]
+        public void GivenValidRequestTokenWhenOnboardingForPEMThenThereShouldBeAValidResponse()
+        {
+            var onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
+
+            OnboardingParameters parameters = new OnboardingParameters
+            {
+                Uuid = Guid.NewGuid().ToString(),
+                ApplicationId = ApplicationId,
+                ApplicationType = ApplicationTypeDefinitions.Application,
+                CertificationType = CertificationTypeDefinition.PEM,
                 GatewayId = "3",
                 RegistrationCode = "f70470a755",
                 CertificationVersionId = CertificationVersionId
@@ -54,7 +87,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
 
             OnboardingParameters parameters = new OnboardingParameters
             {
-                Uuid = GetType().FullName,
+                Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
