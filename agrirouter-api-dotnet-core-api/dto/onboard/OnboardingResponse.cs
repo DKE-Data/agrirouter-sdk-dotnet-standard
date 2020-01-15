@@ -1,4 +1,3 @@
-using System;
 using com.dke.data.agrirouter.api.dto.onboard.inner;
 using Newtonsoft.Json;
 
