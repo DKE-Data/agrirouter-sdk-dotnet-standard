@@ -22,6 +22,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             _encodeMessageService = encodeMessageService;
         }
 
+        /// <summary>
+        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// </summary>
+        /// <param name="subscriptionParameters">-</param>
+        /// <returns>-</returns>
         public MessagingResult Send(SubscriptionParameters subscriptionParameters)
         {
             var encodedMessages = new List<string> {Encode(subscriptionParameters).Content};

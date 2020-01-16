@@ -10,17 +10,30 @@ using Google.Protobuf;
 
 namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
 {
+    /// <summary>
+    /// Abstraction of the service to list endpoints to avoid multiple implementations.
+    /// </summary>
     public abstract class ListEndpointsBaseService : IListEndpointsService
     {
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
+        /// <summary>
+        // Constructor.
+        /// </summary>
+        /// <param name="messagingService">-</param>
+        /// <param name="encodeMessageService">-</param>
         protected ListEndpointsBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
             _encodeMessageService = encodeMessageService;
         }
 
+        /// <summary>
+        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// </summary>
+        /// <param name="listEndpointsParameters">-</param>
+        /// <returns>-</returns>
         public MessagingResult Send(ListEndpointsParameters listEndpointsParameters)
         {
             var encodedMessages = new List<string> {Encode(listEndpointsParameters).Content};
