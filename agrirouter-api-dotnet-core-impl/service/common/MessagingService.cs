@@ -12,23 +12,30 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
-    /**
-     * Service to send messages to the AR.
-     */
+    /// <summary>
+    /// Service to send messages to the AR.
+    /// </summary>
     public class MessagingService : IMessagingService<MessagingParameters>
     {
         private readonly HttpClient _httpClient;
         private readonly UtcDataService _utcDataService;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="httpClient">-</param>
         public MessagingService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _utcDataService = new UtcDataService();
         }
 
-        /**
-         * Send message to the AR using the given message parameters.
-         */
+        /// <summary>
+        /// Send message to the AR using the given message parameters.
+        /// </summary>
+        /// <param name="messagingParameters">Messaging parameters.</param>
+        /// <returns>-</returns>
+        /// <exception cref="CouldNotSendMessageException">Will be thrown if the message could not be send.</exception>
         public MessagingResult Send(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
