@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace com.dke.data.agrirouter.api.dto.onboard
 {
-    /**
-     * Data transfer object for the communication.
-     */
+    /// <summary>
+    /// Data transfer object for the communication.
+    /// </summary>
     public class OnboardingResponse
     {
         public string DeviceAlternateId { get; set; }
