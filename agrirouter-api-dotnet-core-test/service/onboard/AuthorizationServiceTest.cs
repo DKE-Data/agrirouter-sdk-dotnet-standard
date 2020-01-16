@@ -1,8 +1,8 @@
-using com.dke.data.agrirouter.api.env;
-using com.dke.data.agrirouter.impl.service.onboard;
+using Agrirouter.Api.Env;
+using Agrirouter.Impl.Service.onboard;
 using Xunit;
 
-namespace com.dke.data.agrirouter.api.test.service.onboard
+namespace Agrirouter.Api.test.service.onboard
 {
     /// <summary>
     /// Functional tests.

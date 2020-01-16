@@ -1,4 +1,4 @@
-namespace com.dke.data.agrirouter.api.definitions
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     /// Technical messages types for the messages.

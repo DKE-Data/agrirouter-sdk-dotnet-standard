@@ -1,6 +1,6 @@
 using Google.Protobuf.WellKnownTypes;
 
-namespace com.dke.data.agrirouter.api.service.messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     /// Decoding message responses for designated messages types.

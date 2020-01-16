@@ -1,12 +1,12 @@
 using System;
 
-namespace com.dke.data.agrirouter.api.exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     /// Will be thrown if a given message can not be decoded.
     /// </summary>
     [Serializable]
-    public class CouldNotDecodeMessageException : Exception
+    public class CouldNotDecodeMessageException : System.Exception
     {
         /// <summary>
         /// Constructor.
@@ -28,7 +28,7 @@ namespace com.dke.data.agrirouter.api.exception
         /// </summary>
         /// <param name="message">-</param>
         /// <param name="inner">-</param>
-        public CouldNotDecodeMessageException(string message, Exception inner) : base(message, inner)
+        public CouldNotDecodeMessageException(string message, System.Exception inner) : base(message, inner)
         {
         }
     }

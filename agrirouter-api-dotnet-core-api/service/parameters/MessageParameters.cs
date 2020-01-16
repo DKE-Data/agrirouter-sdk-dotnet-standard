@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using com.dke.data.agrirouter.api.dto.onboard;
+using Agrirouter.Api.Dto.Onboard;
 
-namespace com.dke.data.agrirouter.api.service.parameters
+namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
     /// Parameter container definition.

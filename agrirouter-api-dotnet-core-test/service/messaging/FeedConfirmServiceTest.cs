@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
-using com.dke.data.agrirouter.api.dto.onboard;
-using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.test.helper;
-using com.dke.data.agrirouter.impl.service.common;
-using com.dke.data.agrirouter.impl.service.messaging;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.test.helper;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.messaging;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace com.dke.data.agrirouter.api.test.service.messaging
+namespace Agrirouter.Api.test.service.messaging
 {
     /// <summary>
     /// Functional tests.

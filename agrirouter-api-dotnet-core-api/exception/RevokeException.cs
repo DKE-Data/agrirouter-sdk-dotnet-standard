@@ -1,12 +1,11 @@
-using System;
 using System.Net;
 
-namespace com.dke.data.agrirouter.api.exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     /// Will be thrown if the revoke is not successful.
     /// </summary>
-    public class RevokeException : Exception
+    public class RevokeException : System.Exception
     {
         private HttpStatusCode StatusCode { get; }
 

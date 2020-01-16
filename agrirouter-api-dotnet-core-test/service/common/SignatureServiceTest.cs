@@ -1,8 +1,8 @@
-using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.impl.service.common;
+using Agrirouter.Api.Exception;
+using Agrirouter.Impl.Service.Common;
 using Xunit;
 
-namespace com.dke.data.agrirouter.api.test.service.common
+namespace Agrirouter.Api.test.service.common
 {
     /// <summary>
     /// Functional tests.

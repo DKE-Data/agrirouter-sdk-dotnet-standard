@@ -1,6 +1,6 @@
 using System;
 
-namespace com.dke.data.agrirouter.impl.service.common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     /// Service to create messages IDs.

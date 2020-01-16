@@ -1,8 +1,8 @@
-using com.dke.data.agrirouter.api.dto.onboard;
-using com.dke.data.agrirouter.api.env;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Env;
 using Serilog;
 
-namespace com.dke.data.agrirouter.api.test.service
+namespace Agrirouter.Api.test.service
 {
     /// <summary>
     /// Abstract integration test class.
@@ -11,7 +11,7 @@ namespace com.dke.data.agrirouter.api.test.service
     {
         private int _testStep = 1;
 
-        protected static string AccountId => "5d47a537-9455-410d-aa6d-fbd69a5cf990";
+        private static string AccountId => "5d47a537-9455-410d-aa6d-fbd69a5cf990";
 
         protected static string ApplicationId => "39d18ae2-04e3-42de-8a42-935565a6b261";
 

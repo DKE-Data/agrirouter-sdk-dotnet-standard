@@ -1,4 +1,4 @@
-namespace com.dke.data.agrirouter.api.definitions
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     /// Several types of application used during the onboarding process.

@@ -1,6 +1,6 @@
 using Agrirouter.Response;
 
-namespace com.dke.data.agrirouter.api.dto.messaging
+namespace Agrirouter.Api.Dto.Messaging
 {
     /// <summary>
     /// Data transfer object for the communication.

@@ -1,6 +1,6 @@
-using com.dke.data.agrirouter.api.dto.messaging;
+using Agrirouter.Api.Dto.Messaging;
 
-namespace com.dke.data.agrirouter.api.service.messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     /// Interface for all services sending messages.

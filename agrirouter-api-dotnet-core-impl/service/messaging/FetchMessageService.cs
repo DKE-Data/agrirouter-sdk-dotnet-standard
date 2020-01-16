@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
-using com.dke.data.agrirouter.api.dto.messaging;
-using com.dke.data.agrirouter.api.dto.onboard;
-using com.dke.data.agrirouter.api.exception;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Exception;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace com.dke.data.agrirouter.impl.service.messaging
+namespace Agrirouter.Impl.Service.messaging
 {
     /// <summary>
     /// Service to fetch messages from the agrirouter.

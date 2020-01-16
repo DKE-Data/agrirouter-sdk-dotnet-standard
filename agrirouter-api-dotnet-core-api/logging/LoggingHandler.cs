@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace com.dke.data.agrirouter.api.logging
+namespace Agrirouter.Api.Logging
 {
     /// <summary>
     ///  Internal logging handler to log request and response.

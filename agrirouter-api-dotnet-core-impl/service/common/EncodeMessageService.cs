@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 using Agrirouter.Request;
-using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.service.parameters;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Parameters;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Serilog;
 
-namespace com.dke.data.agrirouter.impl.service.common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     /// Service for message encoding.

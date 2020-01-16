@@ -1,6 +1,6 @@
-﻿using com.dke.data.agrirouter.api.service.parameters;
+﻿using Agrirouter.Api.Service.Parameters;
 
-namespace com.dke.data.agrirouter.api.service.messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     /// Service to send the subscription for messages types.

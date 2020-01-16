@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Agrirouter.Request;
-using com.dke.data.agrirouter.api.definitions;
-using com.dke.data.agrirouter.api.dto.messaging;
-using com.dke.data.agrirouter.api.service.messaging;
-using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.service.parameters.inner;
-using com.dke.data.agrirouter.impl.service.common;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Impl.Service.Common;
 using Google.Protobuf;
 
-namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
+namespace Agrirouter.Impl.Service.messaging.abstraction
 {
     public abstract class SendMultipleMessagesBaseService : ISendMultipleMessagesService
     {

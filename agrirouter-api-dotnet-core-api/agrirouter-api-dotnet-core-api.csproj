@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>com.dke.data.agrirouter.api</RootNamespace>
+        <RootNamespace>Agrirouter.Api</RootNamespace>
         <LangVersion>default</LangVersion>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>

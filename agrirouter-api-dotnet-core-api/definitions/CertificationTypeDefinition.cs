@@ -1,4 +1,4 @@
-namespace com.dke.data.agrirouter.api.enums
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     /// Several types of certificates used during the onboarding process.
