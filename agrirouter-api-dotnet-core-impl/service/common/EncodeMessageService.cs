@@ -9,9 +9,9 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
-    /**
-     * Service for message encoding.
-     */
+    /// <summary>
+    /// Service for message encoding.
+    /// </summary>
     public class EncodeMessageService
     {
         private readonly UtcDataService _utcDataService;
@@ -21,10 +21,13 @@ namespace com.dke.data.agrirouter.impl.service.common
             _utcDataService = new UtcDataService();
         }
 
-        /**
-         * Encode a message using the given header parameters and payload parameters.
-         * The encoded Base64 message can be sent to the AR directly.
-         */
+        /// <summary>
+        /// Encode a message using the given header parameters and payload parameters. The encoded Base64 message can be sent to the AR directly.
+        /// </summary>
+        /// <param name="messageHeaderParameters">Parameters for the message header.</param>
+        /// <param name="messagePayloadParameters">Parameters for the message payload.</param>
+        /// <returns>-</returns>
+        /// <exception cref="MissingParameterException">Will be thrown if any of the parameters is missing.</exception>
         public string Encode(MessageHeaderParameters messageHeaderParameters,
             MessagePayloadParameters messagePayloadParameters)
         {
