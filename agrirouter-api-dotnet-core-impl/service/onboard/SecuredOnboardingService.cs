@@ -11,16 +11,23 @@ using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
-    /**
-     * Service for the onboarding.
-     */
-    public class SecuredOnboardingService 
+    /// <summary>
+    /// Service for the onboarding.
+    /// </summary>
+    public class SecuredOnboardingService
     {
         private readonly Environment _environment;
         private readonly HttpClient _httpClient;
         private readonly UtcDataService _utcDataService;
         private readonly SignatureService _signatureService;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="environment">The current environment.</param>
+        /// <param name="utcDataService">The UTC data service.</param>
+        /// <param name="signatureService">The signature service.</param>
+        /// <param name="httpClient">The current HTTP client.</param>
         public SecuredOnboardingService(Environment environment, UtcDataService utcDataService,
             SignatureService signatureService, HttpClient httpClient)
         {
@@ -30,9 +37,13 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             _signatureService = signatureService;
         }
 
-        /**
-         * Onboard an endpoint using the simple onboarding procedure and the given parameters.
-         */
+        /// <summary>
+        /// Onboard an endpoint using the simple onboarding procedure and the given parameters.
+        /// </summary>
+        /// <param name="onboardingParameters">The onboarding parameters.</param>
+        /// <param name="privateKey">The private key.</param>
+        /// <returns>-</returns>
+        /// <exception cref="OnboardingException">Will be thrown if the onboarding was not successful.</exception>
         public OnboardingResponse Onboard(OnboardingParameters onboardingParameters, string privateKey)
         {
             var onboardingRequest = new OnboardingRequest
