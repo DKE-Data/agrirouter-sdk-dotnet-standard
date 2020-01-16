@@ -4,9 +4,9 @@ using Agrirouter.Request;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
-    /**
-     * Parameter container definition.
-     */
+    /// <summary>
+    /// Parameter container definition.
+    /// </summary>
     public class MessageHeaderParameters : Parameters
     {
         public string TechnicalMessageType { get; set; }

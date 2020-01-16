@@ -1,8 +1,8 @@
 namespace com.dke.data.agrirouter.api.service.parameters
 {
-    /**
-     * Parameter container definition.
-     */
+    /// <summary>
+    /// Parameter container definition.
+    /// </summary>
     public class OnboardingParameters : Parameters
     {
         public string ApplicationId { get; set; }

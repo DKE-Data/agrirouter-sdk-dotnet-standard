@@ -3,6 +3,9 @@ using Agrirouter.Commons;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
+    /// <summary>
+    /// Parameter container definition.
+    /// </summary>
     public class SendMessageParameters : MessageParameters
     {
         public string TechnicalMessageType { get; set; }

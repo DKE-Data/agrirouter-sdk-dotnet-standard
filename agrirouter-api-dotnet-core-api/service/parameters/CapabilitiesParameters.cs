@@ -4,9 +4,9 @@ using com.dke.data.agrirouter.api.service.parameters.inner;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
-    /**
-     * Parameter container definition.
-     */
+    /// <summary>
+    /// Parameter container definition.
+    /// </summary>
     public class CapabilitiesParameters : MessageParameters
     {
         public string ApplicationId { get; set; }
