@@ -35,14 +35,14 @@ namespace Agrirouter.Api.test.service
             Log.Debug("******************************************************************************");
         }
 
-        protected void LogDebugInformation(OnboardingResponse onboardingResponse)
+        protected void LogDebugInformation(OnboardResponse onboardResponse)
         {
             Log.Debug("******************************************************************************");
             Log.Debug($"* [ACCOUNT_ID]: {AccountId}");
             Log.Debug($"* [APPLICATION_ID]: {ApplicationId}");
             Log.Debug($"* [CERTIFICATION_VERSION_ID]: {ApplicationId}");
-            Log.Debug($"* [SENSOR_ALTERNATE_ID]: {onboardingResponse.SensorAlternateId}");
-            Log.Debug($"* [DEVICE_ALTERNATE_ID]: {onboardingResponse.DeviceAlternateId}");
+            Log.Debug($"* [SENSOR_ALTERNATE_ID]: {onboardResponse.SensorAlternateId}");
+            Log.Debug($"* [DEVICE_ALTERNATE_ID]: {onboardResponse.DeviceAlternateId}");
             Log.Debug("******************************************************************************");
         }
     }

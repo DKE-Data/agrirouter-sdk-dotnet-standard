@@ -30,15 +30,15 @@ namespace Agrirouter.Impl.Service.messaging
         /// <summary>
         /// Fetch messages from the inbox using the given onboarding response.
         /// </summary>
-        /// <param name="onboardingResponse">All the messages that are in the inbox.</param>
+        /// <param name="onboardResponse">All the messages that are in the inbox.</param>
         /// <returns>-</returns>
         /// <exception cref="CouldNotFetchMessagesException">Will be thrown if the messages can not be fetched.</exception>
-        public List<MessageResponse> Fetch(OnboardingResponse onboardingResponse)
+        public List<MessageResponse> Fetch(OnboardResponse onboardResponse)
         {
             Log.Debug("Begin fetching messages.");
             var httpRequestMessage = new HttpRequestMessage
             {
-                RequestUri = new Uri(onboardingResponse.ConnectionCriteria.Commands)
+                RequestUri = new Uri(onboardResponse.ConnectionCriteria.Commands)
             };
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 

@@ -14,7 +14,7 @@ namespace Agrirouter.Api.test.service.onboard
     /// <summary>
     /// Functional tests.
     /// </summary>
-    public class OnboardingServiceTest : AbstractIntegrationTest
+    public class OnboardServiceTest : AbstractIntegrationTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
@@ -23,9 +23,9 @@ namespace Agrirouter.Api.test.service.onboard
         [Fact]
         public void GivenValidRequestTokenWhenOnboardingForP12ThenThereShouldBeAValidResponse()
         {
-            var onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
+            var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardingParameters parameters = new OnboardingParameters
+            OnboardParameters parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
@@ -37,26 +37,26 @@ namespace Agrirouter.Api.test.service.onboard
             };
 
 
-            OnboardingResponse onboardingResponse = onboardingService.Onboard(parameters);
+            OnboardResponse onboardResponse = onboardingService.Onboard(parameters);
 
-            Assert.NotEmpty(onboardingResponse.DeviceAlternateId);
-            Assert.NotEmpty(onboardingResponse.SensorAlternateId);
-            Assert.NotEmpty(onboardingResponse.CapabilityAlternateId);
+            Assert.NotEmpty(onboardResponse.DeviceAlternateId);
+            Assert.NotEmpty(onboardResponse.SensorAlternateId);
+            Assert.NotEmpty(onboardResponse.CapabilityAlternateId);
 
-            Assert.NotEmpty(onboardingResponse.Authentication.Certificate);
-            Assert.NotEmpty(onboardingResponse.Authentication.Secret);
-            Assert.NotEmpty(onboardingResponse.Authentication.Type);
+            Assert.NotEmpty(onboardResponse.Authentication.Certificate);
+            Assert.NotEmpty(onboardResponse.Authentication.Secret);
+            Assert.NotEmpty(onboardResponse.Authentication.Type);
 
-            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Commands);
-            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Measures);
+            Assert.NotEmpty(onboardResponse.ConnectionCriteria.Commands);
+            Assert.NotEmpty(onboardResponse.ConnectionCriteria.Measures);
         }
 
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingForPEMThenThereShouldBeAValidResponse()
         {
-            var onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
+            var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardingParameters parameters = new OnboardingParameters
+            OnboardParameters parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
@@ -68,26 +68,26 @@ namespace Agrirouter.Api.test.service.onboard
             };
 
 
-            OnboardingResponse onboardingResponse = onboardingService.Onboard(parameters);
+            OnboardResponse onboardResponse = onboardingService.Onboard(parameters);
 
-            Assert.NotEmpty(onboardingResponse.DeviceAlternateId);
-            Assert.NotEmpty(onboardingResponse.SensorAlternateId);
-            Assert.NotEmpty(onboardingResponse.CapabilityAlternateId);
+            Assert.NotEmpty(onboardResponse.DeviceAlternateId);
+            Assert.NotEmpty(onboardResponse.SensorAlternateId);
+            Assert.NotEmpty(onboardResponse.CapabilityAlternateId);
 
-            Assert.NotEmpty(onboardingResponse.Authentication.Certificate);
-            Assert.NotEmpty(onboardingResponse.Authentication.Secret);
-            Assert.NotEmpty(onboardingResponse.Authentication.Type);
+            Assert.NotEmpty(onboardResponse.Authentication.Certificate);
+            Assert.NotEmpty(onboardResponse.Authentication.Secret);
+            Assert.NotEmpty(onboardResponse.Authentication.Type);
 
-            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Commands);
-            Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Measures);
+            Assert.NotEmpty(onboardResponse.ConnectionCriteria.Commands);
+            Assert.NotEmpty(onboardResponse.ConnectionCriteria.Measures);
         }
 
         [Fact]
         public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
-            var onboardingService = new OnboardingService(Environment, UtcDataService, HttpClient);
+            var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardingParameters parameters = new OnboardingParameters
+            OnboardParameters parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
@@ -99,7 +99,7 @@ namespace Agrirouter.Api.test.service.onboard
             };
 
 
-            Assert.Throws<OnboardingException>(() => onboardingService.Onboard(parameters));
+            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters));
         }
     }
 }

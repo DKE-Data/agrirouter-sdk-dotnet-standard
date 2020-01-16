@@ -39,8 +39,8 @@ namespace Agrirouter.Impl.Service.Common
         {
             var messageRequest = new MessageRequest
             {
-                SensorAlternateId = messagingParameters.OnboardingResponse.SensorAlternateId,
-                CapabilityAlternateId = messagingParameters.OnboardingResponse.CapabilityAlternateId,
+                SensorAlternateId = messagingParameters.OnboardResponse.SensorAlternateId,
+                CapabilityAlternateId = messagingParameters.OnboardResponse.CapabilityAlternateId,
                 Messages = new List<Api.Dto.Messaging.Inner.Message>()
             };
 
@@ -54,7 +54,7 @@ namespace Agrirouter.Impl.Service.Common
             HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
                 "application/json");
             var httpResponseMessage = _httpClient
-                .PostAsync(messagingParameters.OnboardingResponse.ConnectionCriteria.Measures, requestBody).Result;
+                .PostAsync(messagingParameters.OnboardResponse.ConnectionCriteria.Measures, requestBody).Result;
 
             if (!httpResponseMessage.IsSuccessStatusCode)
             {

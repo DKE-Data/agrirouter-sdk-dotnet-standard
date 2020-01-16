@@ -3,7 +3,7 @@ namespace Agrirouter.Api.Service.Parameters
     /// <summary>
     /// Parameter container definition.
     /// </summary>
-    public class OnboardingParameters : Parameters
+    public class OnboardParameters : Parameters
     {
         public string ApplicationId { get; set; }
 

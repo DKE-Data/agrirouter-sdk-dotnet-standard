@@ -25,7 +25,7 @@ namespace Agrirouter.Api.test.service.onboard
             var onboardingService =
                 new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
 
-            var parameters = new OnboardingParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
@@ -57,7 +57,7 @@ namespace Agrirouter.Api.test.service.onboard
             var onboardingService =
                 new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
 
-            var parameters = new OnboardingParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = GetType().FullName,
                 ApplicationId = ApplicationId,
@@ -69,7 +69,7 @@ namespace Agrirouter.Api.test.service.onboard
             };
 
 
-            Assert.Throws<OnboardingException>(() => onboardingService.Onboard(parameters, PrivateKey));
+            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters, PrivateKey));
         }
     }
 }

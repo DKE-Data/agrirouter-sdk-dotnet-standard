@@ -14,7 +14,7 @@ namespace Agrirouter.Impl.Service.onboard
     /// <summary>
     /// Service for the onboarding.
     /// </summary>
-    public class OnboardingService
+    public class OnboardService
     {
         private readonly Environment _environment;
         private readonly HttpClient _httpClient;
@@ -26,7 +26,7 @@ namespace Agrirouter.Impl.Service.onboard
         /// <param name="environment">The current environment.</param>
         /// <param name="utcDataService">The UTC data service.</param>
         /// <param name="httpClient">The current HTTP client.</param>
-        public OnboardingService(Environment environment, UtcDataService utcDataService, HttpClient httpClient)
+        public OnboardService(Environment environment, UtcDataService utcDataService, HttpClient httpClient)
         {
             _environment = environment;
             _httpClient = httpClient;
@@ -36,18 +36,18 @@ namespace Agrirouter.Impl.Service.onboard
         /// <summary>
         /// Onboard an endpoint using the simple onboarding procedure and the given parameters.
         /// </summary>
-        /// <param name="onboardingParameters">The onboarding parameters.</param>
+        /// <param name="onboardParameters">The onboarding parameters.</param>
         /// <returns>-</returns>
-        /// <exception cref="OnboardingException">Will be thrown if the onboarding was not successful.</exception>
-        public OnboardingResponse Onboard(OnboardingParameters onboardingParameters)
+        /// <exception cref="OnboardException">Will be thrown if the onboarding was not successful.</exception>
+        public OnboardResponse Onboard(OnboardParameters onboardParameters)
         {
-            var onboardingRequest = new OnboardingRequest
+            var onboardingRequest = new OnboardRequest
             {
-                Id = onboardingParameters.Uuid,
-                ApplicationId = onboardingParameters.ApplicationId,
-                CertificationVersionId = onboardingParameters.CertificationVersionId,
-                GatewayId = onboardingParameters.GatewayId,
-                CertificateType = onboardingParameters.CertificationType,
+                Id = onboardParameters.Uuid,
+                ApplicationId = onboardParameters.ApplicationId,
+                CertificationVersionId = onboardParameters.CertificationVersionId,
+                GatewayId = onboardParameters.GatewayId,
+                CertificateType = onboardParameters.CertificationType,
                 TimeZone = _utcDataService.TimeZone,
                 UTCTimestamp = _utcDataService.Now
             };
@@ -61,18 +61,18 @@ namespace Agrirouter.Impl.Service.onboard
                 Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
             };
             httpRequestMessage.Headers.Authorization =
-                new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);
+                new AuthenticationHeaderValue("Bearer", onboardParameters.RegistrationCode);
 
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardingResponse));
-                return onboardingResponse as OnboardingResponse;
+                var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
+                return onboardingResponse as OnboardResponse;
             }
 
-            throw new OnboardingException(httpResponseMessage.StatusCode,
+            throw new OnboardException(httpResponseMessage.StatusCode,
                 httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
     }

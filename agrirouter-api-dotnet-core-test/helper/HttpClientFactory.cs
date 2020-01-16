@@ -24,14 +24,14 @@ namespace Agrirouter.Api.test.helper
         /// <summary>
         /// Create a single HTTP client using the given onboarding response.
         /// </summary>
-        /// <param name="onboardingResponse">The current onboarding response.</param>
+        /// <param name="onboardResponse">The current onboarding response.</param>
         /// <returns>-</returns>
-        public static HttpClient AuthenticatedHttpClient(OnboardingResponse onboardingResponse)
+        public static HttpClient AuthenticatedHttpClient(OnboardResponse onboardResponse)
         {
             var httpClientHandler = new HttpClientHandler();
             httpClientHandler.ClientCertificates.Add(new X509Certificate2(
-                Convert.FromBase64String(onboardingResponse.Authentication.Certificate),
-                onboardingResponse.Authentication.Secret));
+                Convert.FromBase64String(onboardResponse.Authentication.Certificate),
+                onboardResponse.Authentication.Secret));
             var httpClient = new HttpClient(new LoggingHandler(httpClientHandler));
             return httpClient;
         }

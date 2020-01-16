@@ -40,19 +40,19 @@ namespace Agrirouter.Impl.Service.onboard
         /// <summary>
         /// Onboard an endpoint using the simple onboarding procedure and the given parameters.
         /// </summary>
-        /// <param name="onboardingParameters">The onboarding parameters.</param>
+        /// <param name="onboardParameters">The onboarding parameters.</param>
         /// <param name="privateKey">The private key.</param>
         /// <returns>-</returns>
-        /// <exception cref="OnboardingException">Will be thrown if the onboarding was not successful.</exception>
-        public OnboardingResponse Onboard(OnboardingParameters onboardingParameters, string privateKey)
+        /// <exception cref="OnboardException">Will be thrown if the onboarding was not successful.</exception>
+        public OnboardResponse Onboard(OnboardParameters onboardParameters, string privateKey)
         {
-            var onboardingRequest = new OnboardingRequest
+            var onboardingRequest = new OnboardRequest
             {
-                Id = onboardingParameters.Uuid,
-                ApplicationId = onboardingParameters.ApplicationId,
-                CertificationVersionId = onboardingParameters.CertificationVersionId,
-                GatewayId = onboardingParameters.GatewayId,
-                CertificateType = onboardingParameters.CertificationType,
+                Id = onboardParameters.Uuid,
+                ApplicationId = onboardParameters.ApplicationId,
+                CertificationVersionId = onboardParameters.CertificationVersionId,
+                GatewayId = onboardParameters.GatewayId,
+                CertificateType = onboardParameters.CertificationType,
                 TimeZone = _utcDataService.TimeZone,
                 UTCTimestamp = _utcDataService.Now
             };
@@ -66,8 +66,8 @@ namespace Agrirouter.Impl.Service.onboard
                 Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
             };
             httpRequestMessage.Headers.Authorization =
-                new AuthenticationHeaderValue("Bearer", onboardingParameters.RegistrationCode);
-            httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", onboardingParameters.ApplicationId);
+                new AuthenticationHeaderValue("Bearer", onboardParameters.RegistrationCode);
+            httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", onboardParameters.ApplicationId);
             httpRequestMessage.Headers.Add("X-Agrirouter-Signature",
                 _signatureService.XAgrirouterSignature(requestBody, privateKey));
 
@@ -76,11 +76,11 @@ namespace Agrirouter.Impl.Service.onboard
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardingResponse));
-                return onboardingResponse as OnboardingResponse;
+                var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
+                return onboardingResponse as OnboardResponse;
             }
 
-            throw new OnboardingException(httpResponseMessage.StatusCode,
+            throw new OnboardException(httpResponseMessage.StatusCode,
                 httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
     }

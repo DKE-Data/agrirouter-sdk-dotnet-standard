@@ -6,7 +6,7 @@ namespace Agrirouter.Api.Dto.Onboard
     /// <summary>
     /// Data transfer object for the communication.
     /// </summary>
-    public class OnboardingResponse
+    public class OnboardResponse
     {
         public string DeviceAlternateId { get; set; }
 

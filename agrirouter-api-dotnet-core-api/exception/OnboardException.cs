@@ -7,7 +7,7 @@ namespace Agrirouter.Api.Exception
     /// Will be thrown if the onboarding process was not successful.
     /// </summary>
     [Serializable]
-    public class OnboardingException : System.Exception
+    public class OnboardException : System.Exception
     {
         private HttpStatusCode StatusCode { get; }
 
@@ -18,7 +18,7 @@ namespace Agrirouter.Api.Exception
         /// </summary>
         /// <param name="statusCode">-</param>
         /// <param name="errorMessage">-</param>
-        public OnboardingException(HttpStatusCode statusCode, string errorMessage)
+        public OnboardException(HttpStatusCode statusCode, string errorMessage)
         {
             StatusCode = statusCode;
             ErrorMessage = errorMessage;

@@ -5,7 +5,7 @@ namespace Agrirouter.Api.Dto.Onboard
     /// <summary>
     /// Data transfer object for the communication.
     /// </summary>
-    public class OnboardingRequest
+    public class OnboardRequest
     {
         [JsonProperty(PropertyName = "id")] public string Id { get; set; }
 

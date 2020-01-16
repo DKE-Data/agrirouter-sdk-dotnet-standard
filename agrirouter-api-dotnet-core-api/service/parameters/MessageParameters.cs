@@ -8,7 +8,7 @@ namespace Agrirouter.Api.Service.Parameters
     /// </summary>
     public abstract class MessageParameters : Parameters
     {
-        public OnboardingResponse OnboardingResponse { get; set; }
+        public OnboardResponse OnboardResponse { get; set; }
 
         public MessagingParameters BuildMessagingParameter(List<string> encodedMessages)
         {
@@ -16,7 +16,7 @@ namespace Agrirouter.Api.Service.Parameters
             {
                 ApplicationMessageId = ApplicationMessageId,
                 TeamsetContextId = TeamsetContextId,
-                OnboardingResponse = OnboardingResponse,
+                OnboardResponse = OnboardResponse,
                 EncodedMessages = encodedMessages
             };
         }
