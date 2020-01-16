@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
-using com.dke.data.agrirouter.api.dto.onboard;
+using Agrirouter.Api.Dto.Onboard;
 using Newtonsoft.Json;
-using Environment = com.dke.data.agrirouter.api.env.Environment;
+using Environment = Agrirouter.Api.Env.Environment;
 
-namespace com.dke.data.agrirouter.impl.service.onboard
+namespace Agrirouter.Impl.Service.onboard
 {
     /// <summary>
     /// Service for the authorization process.

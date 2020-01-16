@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using com.dke.data.agrirouter.api.dto.messaging;
+using Agrirouter.Api.Dto.Messaging;
 
-namespace com.dke.data.agrirouter.api.builder
+namespace Agrirouter.Api.Builder
 {
     /// <summary>
     /// Builder class for messaging results.

@@ -1,10 +1,10 @@
 using System;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
-using com.dke.data.agrirouter.api.dto.onboard;
-using com.dke.data.agrirouter.api.logging;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Logging;
 
-namespace com.dke.data.agrirouter.api.test.helper
+namespace Agrirouter.Api.test.helper
 {
     /// <summary>
     /// Factory to create HTTP client objects.

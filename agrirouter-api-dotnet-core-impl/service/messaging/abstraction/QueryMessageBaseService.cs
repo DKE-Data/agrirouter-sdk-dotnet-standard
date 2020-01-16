@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using Agrirouter.Feed.Request;
 using Agrirouter.Feed.Response;
 using Agrirouter.Request;
-using com.dke.data.agrirouter.api.dto.messaging;
-using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.service.messaging;
-using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.impl.service.common;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
-namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
+namespace Agrirouter.Impl.Service.messaging.abstraction
 {
     public abstract class QueryMessageBaseService : IQueryMessagesService,
         IDecodeMessageResponseService<MessageQueryResponse.Types.FeedMessage>

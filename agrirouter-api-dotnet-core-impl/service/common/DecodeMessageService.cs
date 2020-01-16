@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using Agrirouter.Commons;
 using Agrirouter.Response;
-using com.dke.data.agrirouter.api.dto.messaging;
-using com.dke.data.agrirouter.api.exception;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
 using Google.Protobuf.WellKnownTypes;
 using Serilog;
 
-namespace com.dke.data.agrirouter.impl.service.common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     /// Service to decoode messages and message contents.

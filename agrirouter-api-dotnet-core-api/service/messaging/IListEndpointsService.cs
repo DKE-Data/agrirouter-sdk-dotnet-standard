@@ -1,6 +1,6 @@
-using com.dke.data.agrirouter.api.service.parameters;
+using Agrirouter.Api.Service.Parameters;
 
-namespace com.dke.data.agrirouter.api.service.messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     /// Sending a message to list all the connected endpoints within the AR.

@@ -1,12 +1,12 @@
 using System;
 
-namespace com.dke.data.agrirouter.api.exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     /// Will be thrown if there are any missing parameters.
     /// </summary>
     [Serializable]
-    public class MissingParameterException : Exception
+    public class MissingParameterException : System.Exception
     {
         /// <summary>
         /// Constructor.
@@ -28,7 +28,7 @@ namespace com.dke.data.agrirouter.api.exception
         /// </summary>
         /// <param name="message">-</param>
         /// <param name="inner">-</param>
-        public MissingParameterException(string message, Exception inner) : base(message, inner)
+        public MissingParameterException(string message, System.Exception inner) : base(message, inner)
         {
         }
     }

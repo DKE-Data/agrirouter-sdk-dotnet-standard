@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace com.dke.data.agrirouter.api.dto.onboard
+namespace Agrirouter.Api.Dto.Onboard
 {
     /// <summary>
     /// Data transfer object for the communication.

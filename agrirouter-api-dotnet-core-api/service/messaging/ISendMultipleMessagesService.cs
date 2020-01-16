@@ -1,7 +1,7 @@
-using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.service.parameters.inner;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters.Inner;
 
-namespace com.dke.data.agrirouter.api.service.messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     /// Service to send multiple messages.

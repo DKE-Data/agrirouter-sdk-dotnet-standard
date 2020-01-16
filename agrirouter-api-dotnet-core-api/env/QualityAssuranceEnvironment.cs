@@ -1,4 +1,4 @@
-namespace com.dke.data.agrirouter.api.env
+namespace Agrirouter.Api.Env
 {
     /// <summary>
     /// Specific QA environment.

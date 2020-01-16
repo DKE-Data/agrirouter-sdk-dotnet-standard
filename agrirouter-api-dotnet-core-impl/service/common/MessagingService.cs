@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using com.dke.data.agrirouter.api.builder;
-using com.dke.data.agrirouter.api.dto.messaging;
-using com.dke.data.agrirouter.api.dto.messaging.inner;
-using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.service.messaging;
-using com.dke.data.agrirouter.api.service.parameters;
+using Agrirouter.Api.Builder;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace com.dke.data.agrirouter.impl.service.common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     /// Service to send messages to the AR.
@@ -42,12 +41,13 @@ namespace com.dke.data.agrirouter.impl.service.common
             {
                 SensorAlternateId = messagingParameters.OnboardingResponse.SensorAlternateId,
                 CapabilityAlternateId = messagingParameters.OnboardingResponse.CapabilityAlternateId,
-                Messages = new List<Message>()
+                Messages = new List<Api.Dto.Messaging.Inner.Message>()
             };
 
             foreach (var encodedMessage in messagingParameters.EncodedMessages)
             {
-                var message = new Message {Content = encodedMessage, Timestamp = _utcDataService.NowAsUnixTimestamp()};
+                var message = new Api.Dto.Messaging.Inner.Message
+                    {Content = encodedMessage, Timestamp = _utcDataService.NowAsUnixTimestamp()};
                 messageRequest.Messages.Add(message);
             }
 

@@ -1,7 +1,7 @@
 using System;
 using Google.Protobuf.WellKnownTypes;
 
-namespace com.dke.data.agrirouter.impl.service.common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     /// Service to provide UTC data like timestamps or string representations.

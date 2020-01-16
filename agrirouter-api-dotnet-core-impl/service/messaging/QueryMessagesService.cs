@@ -1,8 +1,8 @@
-using com.dke.data.agrirouter.api.definitions;
-using com.dke.data.agrirouter.impl.service.common;
-using com.dke.data.agrirouter.impl.service.messaging.abstraction;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.messaging.abstraction;
 
-namespace com.dke.data.agrirouter.impl.service.messaging
+namespace Agrirouter.Impl.Service.messaging
 {
     /// <summary>
     /// Service to query messages.

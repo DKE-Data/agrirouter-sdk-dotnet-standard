@@ -1,13 +1,13 @@
 using System;
 using System.Net;
 
-namespace com.dke.data.agrirouter.api.exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     /// Will be thrown if the messages can not be fetched from the AR.
     /// </summary>
     [Serializable]
-    public class CouldNotFetchMessagesException : Exception
+    public class CouldNotFetchMessagesException : System.Exception
     {
         private HttpStatusCode StatusCode { get; }
 

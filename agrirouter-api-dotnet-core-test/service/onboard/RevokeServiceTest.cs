@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using com.dke.data.agrirouter.api.exception;
-using com.dke.data.agrirouter.api.service.parameters;
-using com.dke.data.agrirouter.api.test.helper;
-using com.dke.data.agrirouter.impl.service.common;
-using com.dke.data.agrirouter.impl.service.onboard;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.test.helper;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.onboard;
 using Xunit;
 
-namespace com.dke.data.agrirouter.api.test.service.onboard
+namespace Agrirouter.Api.test.service.onboard
 {
     /// <summary>
     /// Functional tests.

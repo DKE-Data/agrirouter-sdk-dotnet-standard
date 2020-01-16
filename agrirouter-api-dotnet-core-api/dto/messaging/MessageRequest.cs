@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using com.dke.data.agrirouter.api.dto.messaging.inner;
 using Newtonsoft.Json;
 
-namespace com.dke.data.agrirouter.api.dto.messaging
+namespace Agrirouter.Api.Dto.Messaging
 {
     /// <summary>
     /// Data transfer object for the communication.
@@ -14,6 +13,6 @@ namespace com.dke.data.agrirouter.api.dto.messaging
         [JsonProperty("capabilityAlternateId")]
         public string CapabilityAlternateId { get; set; }
 
-        [JsonProperty("measures")] public List<Message> Messages { get; set; }
+        [JsonProperty("measures")] public List<Inner.Message> Messages { get; set; }
     }
 }
