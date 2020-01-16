@@ -9,14 +9,18 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
-    /**
-     * Service for message decoding.
-     */
+    /// <summary>
+    /// Service to decoode messages and message contents.
+    /// </summary>
     public class DecodeMessageService
     {
-        /**
-         * Decoding a Base64-encoded message which is containing a response envelope and a response payload wrapper. 
-         */
+        /// <summary>
+        /// Decoding a Base64-encoded message which is containing a response envelope and a response payload wrapper.
+        /// </summary>
+        /// <param name="rawMessage"The raw messages (Base64 encoded9).</param>
+        /// <returns>-</returns>
+        /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
+        /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message can not be decoded.</exception>
         public DecodedMessage Decode(string rawMessage)
         {
             if (string.IsNullOrWhiteSpace(rawMessage))
@@ -49,9 +53,12 @@ namespace com.dke.data.agrirouter.impl.service.common
             }
         }
 
-        /**
-         * Parsing the inner message of the payload wrapper using the any object containing the content.
-         */
+        /// <summary>
+        /// Parsing the inner message of the payload wrapper using the any object containing the content.
+        /// </summary>
+        /// <param name="any">The message content from the decoded message.</param>
+        /// <returns></returns>
+        /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message content can not be decoded.</exception>
         public Messages Decode(Any any)
         {
             try
