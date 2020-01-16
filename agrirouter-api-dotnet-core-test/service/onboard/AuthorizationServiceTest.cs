@@ -4,6 +4,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.onboard
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class AuthorizationServiceTest
     {
         [Fact]
@@ -14,13 +17,15 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             Assert.Equal(
                 $"https://agrirouter-qa.cfapps.eu10.hana.ondemand.com/application/16b1c3ab-55ef-412c-952b-f280424272e1/authorize?response_type=onboard&state={authorizationUrlResult.State}",
                 authorizationUrlResult.AuthorizationUrl);
-        }        
-        
+        }
+
         [Fact]
-        public void GivenValidApplicationIdAndRedirectUriWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
+        public void
+            GivenValidApplicationIdAndRedirectUriWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
         {
             var authorizationService = new AuthorizationService(new QualityAssuranceEnvironment());
-            var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId, "https://www.saschadoemer.de");
+            var authorizationUrlResult =
+                authorizationService.AuthorizationUrl(ApplicationId, "https://www.saschadoemer.de");
             Assert.Equal(
                 $"https://agrirouter-qa.cfapps.eu10.hana.ondemand.com/application/16b1c3ab-55ef-412c-952b-f280424272e1/authorize?response_type=onboard&state={authorizationUrlResult.State}&redirect_uri=https://www.saschadoemer.de",
                 authorizationUrlResult.AuthorizationUrl);
@@ -38,7 +43,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             Assert.NotNull(authorizationResult.Signature);
             Assert.Null(authorizationResult.Error);
         }
-        
+
         [Fact]
         public void GivenValidResponseWhenParsingTheTokenThenTheAuthorizationTokenObjectWShouldBeFilled()
         {
@@ -55,7 +60,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             Assert.NotNull(authorizationToken.RegistrationCode);
             Assert.NotNull(authorizationToken.Expires);
         }
-        
+
         public string ApplicationId => "16b1c3ab-55ef-412c-952b-f280424272e1";
     }
 }

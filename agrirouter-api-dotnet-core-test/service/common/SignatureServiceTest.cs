@@ -4,6 +4,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.common
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class SignatureServiceTest
     {
         private static string PrivateKey => "-----BEGIN PRIVATE KEY-----\n" +
@@ -51,8 +54,8 @@ namespace com.dke.data.agrirouter.api.test.service.common
             var signatureService = new SignatureService();
             var signature = signatureService.Signature("REQUEST CONTENT", PrivateKey);
             Assert.True(signatureService.Verify("REQUEST CONTENT", signature, PublicKey));
-        }   
-        
+        }
+
         [Fact]
         public void GivenValidCertificatesWhenCreatingTheXAgrirouterSignatureThenTheCreatedSignatureShouldBeOk()
         {

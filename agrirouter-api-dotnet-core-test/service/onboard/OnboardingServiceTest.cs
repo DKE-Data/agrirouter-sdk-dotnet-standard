@@ -12,6 +12,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.onboard
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class OnboardingServiceTest : AbstractIntegrationTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
@@ -48,7 +51,7 @@ namespace com.dke.data.agrirouter.api.test.service.onboard
             Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Commands);
             Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Measures);
         }
-        
+
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingForPEMThenThereShouldBeAValidResponse()
         {

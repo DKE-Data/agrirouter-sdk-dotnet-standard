@@ -12,6 +12,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class PublishtMessageServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);

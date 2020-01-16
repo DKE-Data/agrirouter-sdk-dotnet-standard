@@ -4,6 +4,9 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.api.test.service
 {
+    /// <summary>
+    /// Abstract integration test class.
+    /// </summary>
     public class AbstractIntegrationTest
     {
         private int _testStep = 1;
