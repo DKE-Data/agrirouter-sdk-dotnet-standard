@@ -16,6 +16,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="messagingService">-</param>
+        /// <param name="encodeMessageService">-</param>
         public FeedConfirmService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
@@ -23,7 +28,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
         /// </summary>
         /// <param name="feedConfirmParameters">-</param>
         /// <returns>-</returns>
@@ -34,6 +39,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             return _messagingService.Send(messagingParameters);
         }
 
+        /// <summary>
+        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        /// </summary>
+        /// <param name="feedConfirmParameters">-</param>
+        /// <returns>-</returns>
         public EncodedMessage Encode(FeedConfirmParameters feedConfirmParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters
