@@ -2,14 +2,15 @@ using System;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
-    /**
-     * Service to create messages IDs.
-     */
+    /// <summary>
+    /// Service to create messages IDs.
+    /// </summary>
     public class MessageIdService
     {
-        /**
-         * Create an application message ID.
-         */
+        /// <summary>
+        /// Create an application message ID.
+        /// </summary>
+        /// <returns>-</returns>
         public static string ApplicationMessageId() => Guid.NewGuid().ToString();
     }
 }

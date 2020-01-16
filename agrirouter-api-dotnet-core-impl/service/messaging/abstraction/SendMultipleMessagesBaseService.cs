@@ -23,6 +23,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
             _encodeMessageService = encodeMessageService;
         }
 
+        /// <summary>
+        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// </summary>
+        /// <param name="sendMultipleMessagesParameters">-</param>
+        /// <returns>-</returns>
         public MessagingResult Send(SendMultipleMessagesParameters sendMultipleMessagesParameters)
         {
             List<string> encodedMessages = new List<string>();
@@ -36,6 +41,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
             return _messagingService.Send(messagingParameters);
         }
 
+        /// <summary>
+        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        /// </summary>
+        /// <param name="multipleMessageEntry">-</param>
+        /// <returns>-</returns>
         public EncodedMessage Encode(MultipleMessageEntry multipleMessageEntry)
         {
             var messageHeaderParameters = new MessageHeaderParameters

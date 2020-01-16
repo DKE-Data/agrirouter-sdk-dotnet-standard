@@ -6,14 +6,26 @@ using com.dke.data.agrirouter.api.logging;
 
 namespace com.dke.data.agrirouter.api.test.helper
 {
+    /// <summary>
+    /// Factory to create HTTP client objects.
+    /// </summary>
     public class HttpClientFactory
     {
+        /// <summary>
+        /// Create a single HTTP client.
+        /// </summary>
+        /// <returns>-</returns>
         public static HttpClient HttpClient()
         {
             var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
             return httpClient;
         }
 
+        /// <summary>
+        /// Create a single HTTP client using the given onboarding response.
+        /// </summary>
+        /// <param name="onboardingResponse">The current onboarding response.</param>
+        /// <returns>-</returns>
         public static HttpClient AuthenticatedHttpClient(OnboardingResponse onboardingResponse)
         {
             var httpClientHandler = new HttpClientHandler();

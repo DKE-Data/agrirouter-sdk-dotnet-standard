@@ -14,6 +14,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class ListEndpointsUnfilteredServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
@@ -22,7 +25,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -46,7 +50,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -71,7 +76,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -96,7 +102,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -121,7 +128,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndEmptyAsTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,
@@ -147,7 +155,8 @@ namespace com.dke.data.agrirouter.api.test.service.messaging
         public void
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
-            var listEndpointsService = new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
+            var listEndpointsService =
+                new ListEndpointsUnfilteredService(new MessagingService(HttpClient), new EncodeMessageService());
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardingResponse = OnboardingResponse,

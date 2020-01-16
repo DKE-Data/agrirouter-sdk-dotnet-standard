@@ -1,73 +1,68 @@
 namespace com.dke.data.agrirouter.api.env
 {
-    /**
-     * Abstract environment holding environment data.
-     */
+    /// <summary>
+    /// Abstract environment holding environment data.
+    /// </summary>
     public abstract class Environment
     {
-        /**
-         * Returning the API prefix for several AR URLs, like the onboarding URL for example.
-         *
-         * @return -
-         */
+        /// <summary>
+        /// Returning the API prefix for several AR URLs, like the onboarding URL for example.
+        /// </summary>
+        /// <returns>-</returns>
         protected abstract string ApiPrefix();
 
-        /**
-         * URL for the registration service.
-         *
-         * @return -
-         */
+        /// <summary>
+        /// URL for the registration service.
+        /// </summary>
+        /// <returns>-</returns>
         protected abstract string RegistrationServiceUrl();
 
-        /**
-         * URL for the onboarding request.
-         *
-         * @return -
-         */
+        /// <summary>
+        /// URL for the onboarding request.
+        /// </summary>
+        /// <returns>-</returns>
         public string SecuredOnboardingUrl()
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/request";
         }
 
-        /**
-         * URL for the revoking request.
-         *
-         * @return -
-         */
+        /// <summary>
+        /// URL for the revoking request.
+        /// </summary>
+        /// <returns>-</returns>
         public string RevokeUrl()
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/revoke";
         }
 
-        /**
-         * URL for the onboarding request.
-         *
-         * @return -
-         */
+        /// <summary>
+        /// URL for the onboarding request.
+        /// </summary>
+        /// <returns>-</returns>
         public string OnboardingUrl()
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard";
         }
 
-        /**
-         * URL for the onboarding request.
-         */
+        /// <summary>
+        /// URL for the onboarding request.
+        /// </summary>
         public string VerificationUrl()
         {
             return RegistrationServiceUrl() + ApiPrefix() + "/registration/onboard/verify";
         }
 
-        /**
-         * URL for the authorization process.
-         */
+        /// <summary>
+        /// URL for the authorization process.
+        /// </summary>
         public string AuthorizationUrl(string applicationId)
         {
             return AuthorizationServiceUrl() + "/application/" + applicationId + "/authorize";
         }
 
-        /**
-         * URL for the authorization process.
-         */
+        /// <summary>
+        /// URL for the authorization process.
+        /// </summary>
         protected abstract string AuthorizationServiceUrl();
     }
 }

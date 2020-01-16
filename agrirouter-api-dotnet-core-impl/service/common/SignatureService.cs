@@ -9,13 +9,29 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
+    /// <summary>
+    /// Service to create the signatures for the authorization process.
+    /// </summary>
     public class SignatureService
     {
+        /// <summary>
+        /// Creating the agrirouter signature used for signing the requests.
+        /// </summary>
+        /// <param name="requestBody">The request body.</param>
+        /// <param name="privateKey">The private key.</param>
+        /// <returns>-</returns>
         public string XAgrirouterSignature(string requestBody, string privateKey)
         {
             return Hex.ToHexString(Signature(requestBody, privateKey));
         }
-        
+
+        /// <summary>
+        /// Creating a common signature for the given request.
+        /// </summary>
+        /// <param name="requestBody">The request body.</param>
+        /// <param name="privateKey">The private key.</param>
+        /// <returns>-</returns>
+        /// <exception cref="CouldNotCreateSignatureException">Will be thrown if the signature can not be created.</exception>
         public byte[] Signature(string requestBody, string privateKey)
         {
             try
@@ -31,6 +47,14 @@ namespace com.dke.data.agrirouter.impl.service.common
             }
         }
 
+        /// <summary>
+        /// Verify the created signature.
+        /// </summary>
+        /// <param name="requestBody">The request body.</param>
+        /// <param name="signature">The formerly created signature.</param>
+        /// <param name="publicKey">The public key.</param>
+        /// <returns>-</returns>
+        /// <exception cref="CouldNotVerifySignatureException">Will be thrown if the signature can not be created.</exception>
         public bool Verify(string requestBody, byte[] signature, string publicKey)
         {
             try

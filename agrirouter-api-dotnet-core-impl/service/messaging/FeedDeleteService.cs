@@ -16,12 +16,22 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="messagingService">-</param>
+        /// <param name="encodeMessageService">-</param>
         public FeedDeleteService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
             _encodeMessageService = encodeMessageService;
         }
 
+        /// <summary>
+        /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
+        /// </summary>
+        /// <param name="feedDeleteParameters">-</param>
+        /// <returns>-</returns>
         public MessagingResult Send(FeedDeleteParameters feedDeleteParameters)
         {
             var encodedMessages = new List<string> {Encode(feedDeleteParameters).Content};
@@ -29,6 +39,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             return _messagingService.Send(messagingParameters);
         }
 
+        /// <summary>
+        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        /// </summary>
+        /// <param name="feedDeleteParameters">-</param>
+        /// <returns>-</returns>
         public EncodedMessage Encode(FeedDeleteParameters feedDeleteParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters

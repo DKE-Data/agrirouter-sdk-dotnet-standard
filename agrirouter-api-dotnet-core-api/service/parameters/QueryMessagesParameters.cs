@@ -3,6 +3,9 @@ using Agrirouter.Feed.Request;
 
 namespace com.dke.data.agrirouter.api.service.parameters
 {
+    /// <summary>
+    /// Parameter container definition.
+    /// </summary>
     public class QueryMessagesParameters : MessageParameters
     {
         public List<string> Senders { get; set; }

@@ -4,9 +4,18 @@ using com.dke.data.agrirouter.impl.service.messaging.abstraction;
 
 namespace com.dke.data.agrirouter.impl.service.messaging
 {
+    /// <summary>
+    /// Service to query message headers.
+    /// </summary>
     public class QueryMessageHeadersService : QueryMessageBaseService
     {
-        public QueryMessageHeadersService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="messagingService">-</param>
+        /// <param name="encodeMessageService">-</param>
+        public QueryMessageHeadersService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+            : base(messagingService, encodeMessageService)
         {
         }
 

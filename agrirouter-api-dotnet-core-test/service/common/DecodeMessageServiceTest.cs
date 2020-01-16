@@ -5,6 +5,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.common
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class DecodeMessageServiceTest
     {
         [Fact]

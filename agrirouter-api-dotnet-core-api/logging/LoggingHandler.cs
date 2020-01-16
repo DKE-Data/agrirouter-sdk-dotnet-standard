@@ -5,16 +5,26 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.api.logging
 {
-    /**
-     * Internal logging handler to log request and response.
-     */
+    /// <summary>
+    ///  Internal logging handler to log request and response.
+    /// </summary>
     public class LoggingHandler : DelegatingHandler
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="innerHandler">-</param>
         public LoggingHandler(HttpMessageHandler innerHandler)
             : base(innerHandler)
         {
         }
 
+        /// <summary>
+        /// Logging and delegating the request to the common handler.
+        /// </summary>
+        /// <param name="request">-</param>
+        /// <param name="cancellationToken">-</param>
+        /// <returns></returns>
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {

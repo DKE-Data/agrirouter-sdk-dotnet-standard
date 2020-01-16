@@ -15,6 +15,9 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class FeedDeleteServiceTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();

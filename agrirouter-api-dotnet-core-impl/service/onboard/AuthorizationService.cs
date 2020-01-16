@@ -8,21 +8,27 @@ using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
-    /**
-     * Service for the authorization process.
-     */
+    /// <summary>
+    /// Service for the authorization process.
+    /// </summary>
     public class AuthorizationService
     {
         private readonly Environment _environment;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="environment">The current environment.</param>
         public AuthorizationService(Environment environment)
         {
             _environment = environment;
         }
 
-        /**
-         * Generates the authorization URL for the application used within the onboarding process..
-         */
+        /// <summary>
+        /// Generates the authorization URL for the application used within the onboarding process.
+        /// </summary>
+        /// <param name="applicationId">The application ID for the authorization.</param>
+        /// <returns>-</returns>
         public AuthorizationUrlResult AuthorizationUrl(string applicationId)
         {
             var state = Guid.NewGuid().ToString();
@@ -34,9 +40,12 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             };
         }
 
-        /**
-         * Generates the authorization URL for the application used within the onboarding process and adds the redirect URI parameter.
-         */
+        /// <summary>
+        /// Generates the authorization URL for the application used within the onboarding process and adds the redirect URI parameter.
+        /// </summary>
+        /// <param name="applicationId">The application ID for the authorization.</param>
+        /// <param name="redirectUri">The redirect URI.</param>
+        /// <returns>-</returns>
         public AuthorizationUrlResult AuthorizationUrl(string applicationId, String redirectUri)
         {
             var state = Guid.NewGuid().ToString();
@@ -48,9 +57,12 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             };
         }
 
-        /**
-         * Parsing the result which was attached as parameters to the URL.
-         */
+        /// <summary>
+        /// Parsing the result which was attached as parameters to the URL.
+        /// </summary>
+        /// <param name="authorizationResult">The result of the parsing.</param>
+        /// <returns>-</returns>
+        /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
         public AuthorizationResult Parse(string authorizationResult)
         {
             var split = authorizationResult.Split('&');
@@ -80,6 +92,11 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
         }
 
+        /// <summary>
+        /// Parsing the token from the authorization result.
+        /// </summary>
+        /// <param name="authorizationResult">-</param>
+        /// <returns>-</returns>
         public AuthorizationToken Parse(AuthorizationResult authorizationResult)
         {
             return

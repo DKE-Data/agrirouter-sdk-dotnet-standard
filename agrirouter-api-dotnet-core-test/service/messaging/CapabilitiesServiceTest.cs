@@ -15,14 +15,18 @@ using Xunit;
 
 namespace com.dke.data.agrirouter.api.test.service.messaging
 {
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
     public class CapabilitiesServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardingResponse);
-        
+
         [Fact]
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
-            var capabilitiesServices = new CapabilitiesService(new MessagingService(HttpClient), new EncodeMessageService());
+            var capabilitiesServices =
+                new CapabilitiesService(new MessagingService(HttpClient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardingResponse = OnboardingResponse,

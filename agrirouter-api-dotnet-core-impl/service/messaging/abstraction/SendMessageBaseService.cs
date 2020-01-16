@@ -21,13 +21,23 @@ namespace com.dke.data.agrirouter.impl.service.messaging.abstraction
             _encodeMessageService = encodeMessageService;
         }
 
+        /// <summary>
+        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// </summary>
+        /// <param name="sendMessageParameters">-</param>
+        /// <returns>-</returns>
         public MessagingResult Send(SendMessageParameters sendMessageParameters)
         {
             var encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
             var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
-        }        
-        
+        }
+
+        /// <summary>
+        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        /// </summary>
+        /// <param name="sendMessageParameters">-</param>
+        /// <returns>-</returns>
         public EncodedMessage Encode(SendMessageParameters sendMessageParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters

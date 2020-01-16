@@ -1,8 +1,8 @@
 namespace com.dke.data.agrirouter.api.dto.onboard.inner
 {
-    /**
-     * Data transfer object for the communication.
-     */
+    /// <summary>
+    /// Data transfer object for the communication.
+    /// </summary>
     public class ConnectionCriteria
     {
         public string GatewayId { get; set; }

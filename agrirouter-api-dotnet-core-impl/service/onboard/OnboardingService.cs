@@ -11,15 +11,21 @@ using Environment = com.dke.data.agrirouter.api.env.Environment;
 
 namespace com.dke.data.agrirouter.impl.service.onboard
 {
-    /**
-     * Service for the onboarding.
-     */
-    public class OnboardingService 
+    /// <summary>
+    /// Service for the onboarding.
+    /// </summary>
+    public class OnboardingService
     {
         private readonly Environment _environment;
         private readonly HttpClient _httpClient;
         private readonly UtcDataService _utcDataService;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="environment">The current environment.</param>
+        /// <param name="utcDataService">The UTC data service.</param>
+        /// <param name="httpClient">The current HTTP client.</param>
         public OnboardingService(Environment environment, UtcDataService utcDataService, HttpClient httpClient)
         {
             _environment = environment;
@@ -27,9 +33,12 @@ namespace com.dke.data.agrirouter.impl.service.onboard
             _utcDataService = utcDataService;
         }
 
-        /**
-         * Onboard an endpoint using the simple onboarding procedure and the given parameters.
-         */
+        /// <summary>
+        /// Onboard an endpoint using the simple onboarding procedure and the given parameters.
+        /// </summary>
+        /// <param name="onboardingParameters">The onboarding parameters.</param>
+        /// <returns>-</returns>
+        /// <exception cref="OnboardingException">Will be thrown if the onboarding was not successful.</exception>
         public OnboardingResponse Onboard(OnboardingParameters onboardingParameters)
         {
             var onboardingRequest = new OnboardingRequest

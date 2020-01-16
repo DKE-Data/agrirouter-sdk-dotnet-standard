@@ -3,6 +3,9 @@ using Serilog;
 
 namespace com.dke.data.agrirouter.api.test.service
 {
+    /// <summary>
+    /// Abstract integration test class.
+    /// </summary>
     public class AbstractSecuredIntegrationTest
     {
         protected string PrivateKey => "-----BEGIN PRIVATE KEY-----\n" +
