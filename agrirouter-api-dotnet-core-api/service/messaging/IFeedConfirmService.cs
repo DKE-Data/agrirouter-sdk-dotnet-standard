@@ -2,6 +2,9 @@
 
 namespace com.dke.data.agrirouter.api.service.messaging
 {
+    /// <summary>
+    /// Service to confirm messages within the feed.
+    /// </summary>
     public interface IFeedConfirmService : IMessagingService<FeedConfirmParameters>,
         IEncodeMessageService<FeedConfirmParameters>
     {
