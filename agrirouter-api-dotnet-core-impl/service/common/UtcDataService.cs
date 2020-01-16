@@ -3,44 +3,48 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace com.dke.data.agrirouter.impl.service.common
 {
-    /**
-     * UTC data service.
-     */
+    /// <summary>
+    /// Service to provide UTC data like timestamps or string representations.
+    /// </summary>
     public class UtcDataService
     {
-        /**
-         * Delivering the current time zone.
-         */
+        /// <summary>
+        /// Delivering the current time zone.
+        /// </summary>
         public string TimeZone =>
             (TimeZoneInfo.Local.BaseUtcOffset < TimeSpan.Zero ? "-" : "+") +
             TimeZoneInfo.Local.BaseUtcOffset.ToString("hh") + ":00";
 
-        /**
-         * Delivering the current date using a valid AR format.
-         */
+        /// <summary>
+        /// Delivering the current date using a valid AR format.
+        /// </summary>
         public string Now => DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
 
-        /**
-         * Delivering the current date using a timestamp format.
-         */
+        /// <summary>
+        /// Delivering the current date using a timestamp format.
+        /// </summary>
+        /// <returns></returns>
         public Timestamp NowAsTimestamp()
         {
             var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
             return new Timestamp {Seconds = (long) timeSpan.TotalSeconds, Nanos = 1000000};
         }
 
-        /**
-         * Delivering the current date using a timestamp format.
-         */
+        /// <summary>
+        /// Delivering the current date using a timestamp format.
+        /// </summary>
+        /// <param name="offset">The current offset.</param>
+        /// <returns>-</returns>
         public Timestamp Timestamp(long offset)
         {
             var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
             return new Timestamp {Seconds = (long) timeSpan.TotalSeconds - offset, Nanos = 1000000};
         }
 
-        /**
-         * Delivering the current date using a unix timestamp format.
-         */
+        /// <summary>
+        /// Delivering the current date using a unix timestamp format.
+        /// </summary>
+        /// <returns>-</returns>
         public string NowAsUnixTimestamp()
         {
             Int32 unixTimestamp = (Int32) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
