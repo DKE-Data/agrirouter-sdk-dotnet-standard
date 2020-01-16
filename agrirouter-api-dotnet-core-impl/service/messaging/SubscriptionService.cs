@@ -11,11 +11,19 @@ using Google.Protobuf;
 
 namespace com.dke.data.agrirouter.impl.service.messaging
 {
+    /// <summary>
+    /// Service to send the subscriptions.
+    /// </summary>
     public class SubscriptionService : ISubscriptionService
     {
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="messagingService">-</param>
+        /// <param name="encodeMessageService">-</param>
         public SubscriptionService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
@@ -23,7 +31,7 @@ namespace com.dke.data.agrirouter.impl.service.messaging
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
         /// </summary>
         /// <param name="subscriptionParameters">-</param>
         /// <returns>-</returns>
@@ -34,6 +42,11 @@ namespace com.dke.data.agrirouter.impl.service.messaging
             return _messagingService.Send(messagingParameters);
         }
 
+        /// <summary>
+        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        /// </summary>
+        /// <param name="subscriptionParameters">-</param>
+        /// <returns>-</returns>
         public EncodedMessage Encode(SubscriptionParameters subscriptionParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters
