@@ -13,8 +13,7 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace Agrirouter.Impl.Service.messaging.abstraction
 {
-    public abstract class QueryMessageBaseService : IQueryMessagesService,
-        IDecodeMessageResponseService<MessageQueryResponse.Types.FeedMessage>
+    public abstract class QueryMessageBaseService : IQueryMessagesService
     {
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
@@ -74,17 +73,6 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         }
 
         protected abstract string TechnicalMessageType { get; }
-
-        public MessageQueryResponse.Types.FeedMessage Decode(Any messageResponse)
-        {
-            try
-            {
-                return MessageQueryResponse.Types.FeedMessage.Parser.ParseFrom(messageResponse.ToByteString());
-            }
-            catch (Exception e)
-            {
-                throw new CouldNotDecodeMessageException("Could not decode query message header response.", e);
-            }
-        }
+        
     }
 }
