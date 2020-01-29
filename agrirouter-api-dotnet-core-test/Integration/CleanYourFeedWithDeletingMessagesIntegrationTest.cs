@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using Agrirouter.Api.Definitions;
@@ -17,7 +18,7 @@ using Xunit;
 
 namespace Agrirouter.Api.test.integration
 {
-    public class CleanYourFeedWithConfirmingMessagesIntegrationTest : AbstractIntegrationTest
+    public class CleanYourFeedWithDeletingMessagesIntegrationTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
@@ -141,14 +142,10 @@ namespace Agrirouter.Api.test.integration
         /// 1. Query the message headers.
         /// 2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
         /// 3. Fetch the response from the AR and check.
-        /// 
-        /// 4. Query the message with that message ID and check the results.
+        ///
+        /// 4. Delete the messages using the message IDs to clean the feed.
         /// 5. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
         /// 6. Fetch the response from the AR and check.
-        ///
-        /// 7. Confirm the message using the message ID to clean the feed.
-        /// 8. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 9. Fetch the response from the AR and check.
         /// 
         /// </summary>
         private void ActionsForRecipient()
@@ -179,17 +176,18 @@ namespace Agrirouter.Api.test.integration
             Assert.True(feedMessageQuery.QueryMetrics.TotalMessagesInQuery > 0,
                 "There has to be at least one message in the query.");
 
-            var messageId = feedMessageQuery.Feed[0].Headers[0].MessageId;
+            var messageIds =
+                (from feed in feedMessageQuery.Feed from feedHeader in feed.Headers select feedHeader.MessageId)
+                .ToList();
 
-            var queryMessagesService =
-                new QueryMessagesService(new MessagingService(HttpClientForRecipient),
-                    new EncodeMessageService());
-            var queryMessagesParameters = new QueryMessagesParameters
+            var feedDeleteService =
+                new FeedDeleteService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+            var feedDeleteParameters = new FeedDeleteParameters()
             {
                 OnboardingResponse = Recipient,
-                MessageIds = new List<string> {messageId}
+                MessageIds = messageIds
             };
-            queryMessagesService.Send(queryMessagesParameters);
+            feedDeleteService.Send(feedDeleteParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(2));
 
@@ -198,37 +196,6 @@ namespace Agrirouter.Api.test.integration
 
             decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
-                decodedMessage.ResponseEnvelope.Type);
-
-            var feedMessage = queryMessagesService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
-            Assert.Equal(1, feedMessage.QueryMetrics.TotalMessagesInQuery);
-
-            var feedConfirmService =
-                new FeedConfirmService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
-            var feedConfirmParameters = new FeedConfirmParameters
-            {
-                OnboardingResponse = Recipient,
-                MessageIds = new List<string> {messageId}
-            };
-            feedConfirmService.Send(feedConfirmParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(2));
-
-            fetch = fetchMessageService.Fetch(Recipient);
-            Assert.Single(fetch);
-
-            decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-
-            var messages = decodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
-            Assert.NotNull(messages);
-            Assert.NotEmpty(messages.Messages_);
-            Assert.Single(messages.Messages_);
-            Assert.Equal("VAL_000206", messages.Messages_[0].MessageCode);
-            Assert.Equal(
-                "Feed message confirmation confirmed.",
-                messages.Messages_[0].Message_);
         }
 
         private static OnboardingResponse Sender
