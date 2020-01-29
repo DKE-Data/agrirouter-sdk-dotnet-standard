@@ -19,7 +19,8 @@ namespace Agrirouter.Api.Test.Service.Onboard
         private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
-        [Fact(Skip = "Will not run successfully without changing the registration code.")]
+        //[Fact(Skip = "Will not run successfully without changing the registration code.")]
+        [Fact]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
@@ -32,7 +33,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "0af6f5d1b8",
+                RegistrationCode = "65220a7655",
                 CertificationVersionId = CertificationVersionId
             };
 

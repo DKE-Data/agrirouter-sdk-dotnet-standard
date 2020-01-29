@@ -54,13 +54,13 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
             {
                 ApplicationMessageId = onboardVcuParameters.ApplicationMessageId,
                 TeamSetContextId = onboardVcuParameters.TeamsetContextId ?? "",
-                TechnicalMessageType = TechnicalMessageTypes.DkeCapabilities,
+                TechnicalMessageType = TechnicalMessageTypes.DkeCloudOnboardEndpoints,
                 Mode = RequestEnvelope.Types.Mode.Direct
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
             {
-                TypeUrl = CapabilitySpecification.Descriptor.FullName
+                TypeUrl = OnboardingRequest.Descriptor.FullName
             };
 
             var onboardingRequest = new OnboardingRequest();

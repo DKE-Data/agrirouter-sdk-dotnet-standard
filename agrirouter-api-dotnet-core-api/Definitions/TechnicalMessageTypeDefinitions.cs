@@ -14,7 +14,7 @@ namespace Agrirouter.Api.Definitions
         /// Type 'dke:capabilities'.
         /// </summary>
         public static string DkeCapabilities => "dke:capabilities";
-        
+
         /// <summary>
         /// Type 'dke:list_endpoints'.
         /// </summary>
@@ -29,12 +29,12 @@ namespace Agrirouter.Api.Definitions
         /// Type 'dke:feed_header_query'.
         /// </summary>
         public static string DkeFeedHeaderQuery => "dke:feed_header_query";
-        
+
         /// <summary>
         /// Type 'dke:feed_header_query'.
         /// </summary>
         public static string DkeFeedMessageQuery => "dke:feed_message_query";
-        
+
         /// <summary>
         /// Type 'dke:feed_confirm'.
         /// </summary>
@@ -44,6 +44,11 @@ namespace Agrirouter.Api.Definitions
         /// Type 'dke:subscription'.
         /// </summary>
         public static string DkeSubscription => "dke:subscription";
+
+        /// <summary>
+        /// Type 'dke:cloud_onboard_endpoints'.
+        /// </summary>
+        public static string DkeCloudOnboardEndpoints => "dke:cloud_onboard_endpoints";
 
         /// <summary>
         /// Type 'iso:11783:-10:taskdata:zip'.
