@@ -42,7 +42,7 @@ namespace Agrirouter.Api.test.service.messaging
                 OnboardingResponse = Sender,
                 ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                 TechnicalMessageType = TechnicalMessageTypes.ImgPng,
-                Base64MessageContent = DataProvider.Base64EncodedImage
+                Base64MessageContent = DataProvider.ReadBase64EncodedImage()
             };
             publishMessageService.Send(sendMessageParameters);
 

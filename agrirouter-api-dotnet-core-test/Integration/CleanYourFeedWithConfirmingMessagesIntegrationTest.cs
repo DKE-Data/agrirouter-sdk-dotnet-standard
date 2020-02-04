@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
@@ -21,6 +23,7 @@ namespace Agrirouter.Api.test.integration
     public class CleanYourFeedWithConfirmingMessagesIntegrationTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
+        private static readonly string FilePrefix = "message-content-";
 
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
@@ -119,7 +122,7 @@ namespace Agrirouter.Api.test.integration
                 ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                 TechnicalMessageType = TechnicalMessageTypes.ImgPng,
                 Recipients = new List<string> {Recipient.SensorAlternateId},
-                Base64MessageContent = DataProvider.Base64EncodedImage
+                Base64MessageContent = DataProvider.ReadBase64EncodedImage()
             };
             sendMessageService.Send(sendMessageParameters);
 
@@ -173,11 +176,11 @@ namespace Agrirouter.Api.test.integration
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
                 decodedMessage.ResponseEnvelope.Type);
 
-            var feedMessageQuery = queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
-            Assert.True(feedMessageQuery.QueryMetrics.TotalMessagesInQuery > 0,
+            var feedMessageHeaderQuery = queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.True(feedMessageHeaderQuery.QueryMetrics.TotalMessagesInQuery > 0,
                 "There has to be at least one message in the query.");
 
-            var messageId = feedMessageQuery.Feed[0].Headers[0].MessageId;
+            var messageId = feedMessageHeaderQuery.Feed[0].Headers[0].MessageId;
 
             var queryMessagesService =
                 new QueryMessagesService(new MessagingService(HttpClientForRecipient),
@@ -201,6 +204,11 @@ namespace Agrirouter.Api.test.integration
 
             var feedMessage = queryMessagesService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
             Assert.Equal(1, feedMessage.QueryMetrics.TotalMessagesInQuery);
+
+            var fileName = FilePrefix + feedMessage.Messages[0].Header.MessageId + ".png";
+            var content = Convert.FromBase64String(feedMessage.Messages[0].Content.Value.ToBase64());
+            var image = Convert.FromBase64String(Encoding.UTF8.GetString(content));
+            File.WriteAllBytes(fileName, image);
 
             var feedConfirmService =
                 new FeedConfirmService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
