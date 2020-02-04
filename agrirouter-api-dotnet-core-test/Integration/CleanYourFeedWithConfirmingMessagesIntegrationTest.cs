@@ -12,7 +12,7 @@ using Agrirouter.Api.test.Data;
 using Agrirouter.Api.test.helper;
 using Agrirouter.Api.test.service;
 using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.service.Convinience;
+using Agrirouter.Impl.service.Convenience;
 using Agrirouter.Impl.Service.messaging;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Response;

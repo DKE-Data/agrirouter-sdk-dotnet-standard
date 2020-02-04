@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Agrirouter.Impl.service.Convinience;
+using Agrirouter.Impl.service.Convenience;
 
 namespace Agrirouter.Api.test.Data
 {
