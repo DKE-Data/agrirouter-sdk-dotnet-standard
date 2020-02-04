@@ -1,13 +1,19 @@
+using System;
 using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Feed.Response;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging.abstraction;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Agrirouter.Impl.Service.messaging
 {
     /// <summary>
     /// Service to query messages.
     /// </summary>
-    public class QueryMessagesService : QueryMessageBaseService
+    public class QueryMessagesService : QueryMessageBaseService, IDecodeMessageResponseService<MessageQueryResponse>
     {
         /// <summary>
         /// Constructor.
@@ -20,5 +26,17 @@ namespace Agrirouter.Impl.Service.messaging
         }
 
         protected override string TechnicalMessageType => TechnicalMessageTypes.DkeFeedMessageQuery;
+
+        public MessageQueryResponse Decode(Any messageResponse)
+        {
+            try
+            {
+                return MessageQueryResponse.Parser.ParseFrom(messageResponse.Value);
+            }
+            catch (Exception e)
+            {
+                throw new CouldNotDecodeMessageException("Could not decode query message header response.", e);
+            }
+        }
     }
 }
