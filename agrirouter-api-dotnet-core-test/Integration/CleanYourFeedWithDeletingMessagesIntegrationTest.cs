@@ -120,7 +120,7 @@ namespace Agrirouter.Api.test.integration
                 ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                 TechnicalMessageType = TechnicalMessageTypes.ImgPng,
                 Recipients = new List<string> {Recipient.SensorAlternateId},
-                Base64MessageContent = DataProvider.Base64EncodedImage
+                Base64MessageContent = DataProvider.ReadBase64EncodedImage()
             };
             sendMessageService.Send(sendMessageParameters);
 
@@ -170,12 +170,12 @@ namespace Agrirouter.Api.test.integration
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
                 decodedMessage.ResponseEnvelope.Type);
 
-            var feedMessageQuery = queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
-            Assert.True(feedMessageQuery.QueryMetrics.TotalMessagesInQuery > 0,
+            var feedMessageHeaderQuery = queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.True(feedMessageHeaderQuery.QueryMetrics.TotalMessagesInQuery > 0,
                 "There has to be at least one message in the query.");
 
             var messageIds =
-                (from feed in feedMessageQuery.Feed from feedHeader in feed.Headers select feedHeader.MessageId)
+                (from feed in feedMessageHeaderQuery.Feed from feedHeader in feed.Headers select feedHeader.MessageId)
                 .ToList();
 
             var feedDeleteService =

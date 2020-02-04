@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
@@ -10,6 +12,7 @@ using Agrirouter.Api.test.Data;
 using Agrirouter.Api.test.helper;
 using Agrirouter.Api.test.service;
 using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.service.Convenience;
 using Agrirouter.Impl.Service.messaging;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Response;
@@ -21,6 +24,7 @@ namespace Agrirouter.Api.test.integration
     public class CleanYourFeedWithConfirmingMessagesIntegrationTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
+        private static readonly string FilePrefix = "message-content-";
 
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
@@ -104,7 +108,7 @@ namespace Agrirouter.Api.test.integration
         /// <summary>
         /// The actions for the sender are the following:
         ///
-        /// 1. Send the message containing the image file.
+        /// 1. Send the message containing the image file from the input folder.
         /// 2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
         /// 3. Fetch the message response and validate it.
         /// 
@@ -119,7 +123,7 @@ namespace Agrirouter.Api.test.integration
                 ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                 TechnicalMessageType = TechnicalMessageTypes.ImgPng,
                 Recipients = new List<string> {Recipient.SensorAlternateId},
-                Base64MessageContent = DataProvider.Base64EncodedImage
+                Base64MessageContent = DataProvider.ReadBase64EncodedImage()
             };
             sendMessageService.Send(sendMessageParameters);
 
@@ -144,9 +148,11 @@ namespace Agrirouter.Api.test.integration
         /// 5. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
         /// 6. Fetch the response from the AR and check.
         ///
-        /// 7. Confirm the message using the message ID to clean the feed.
-        /// 8. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 9. Fetch the response from the AR and check.
+        /// 7. Write the message content to the output folder.
+        ///
+        /// 8. Confirm the message using the message ID to clean the feed.
+        /// 9. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
+        /// 10. Fetch the response from the AR and check.
         /// 
         /// </summary>
         private void ActionsForRecipient()
@@ -173,11 +179,12 @@ namespace Agrirouter.Api.test.integration
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
                 decodedMessage.ResponseEnvelope.Type);
 
-            var feedMessageQuery = queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
-            Assert.True(feedMessageQuery.QueryMetrics.TotalMessagesInQuery > 0,
+            var feedMessageHeaderQuery =
+                queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.True(feedMessageHeaderQuery.QueryMetrics.TotalMessagesInQuery > 0,
                 "There has to be at least one message in the query.");
 
-            var messageId = feedMessageQuery.Feed[0].Headers[0].MessageId;
+            var messageId = feedMessageHeaderQuery.Feed[0].Headers[0].MessageId;
 
             var queryMessagesService =
                 new QueryMessagesService(new MessagingService(HttpClientForRecipient),
@@ -201,6 +208,10 @@ namespace Agrirouter.Api.test.integration
 
             var feedMessage = queryMessagesService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
             Assert.Equal(1, feedMessage.QueryMetrics.TotalMessagesInQuery);
+
+            var fileName = FilePrefix + feedMessage.Messages[0].Header.MessageId + ".png";
+            var image = Encode.FromMessageContent(feedMessage.Messages[0].Content);
+            File.WriteAllBytes(fileName, image);
 
             var feedConfirmService =
                 new FeedConfirmService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());

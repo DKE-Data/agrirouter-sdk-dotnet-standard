@@ -39,14 +39,14 @@ namespace Agrirouter.Api.test.service.messaging
                         ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                         TechnicalMessageType = TechnicalMessageTypes.ImgPng,
                         Recipients = new List<string> {Recipient.SensorAlternateId},
-                        Base64MessageContent = DataProvider.Base64EncodedImage
+                        Base64MessageContent = DataProvider.ReadBase64EncodedImage()
                     },
                     new MultipleMessageEntry
                     {
                         ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                         TechnicalMessageType = TechnicalMessageTypes.ImgPng,
                         Recipients = new List<string> {Recipient.SensorAlternateId},
-                        Base64MessageContent = DataProvider.Base64EncodedImage
+                        Base64MessageContent = DataProvider.ReadBase64EncodedImage()
                     }
                 }
             };
