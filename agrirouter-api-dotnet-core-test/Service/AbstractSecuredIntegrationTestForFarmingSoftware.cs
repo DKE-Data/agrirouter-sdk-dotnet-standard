@@ -6,7 +6,7 @@ namespace Agrirouter.Api.Test.Service
     /// <summary>
     /// Abstract integration test class.
     /// </summary>
-    public class AbstractSecuredIntegrationTest
+    public class AbstractSecuredIntegrationTestForFarmingSoftware
     {
         protected static string PrivateKey => "-----BEGIN PRIVATE KEY-----\n" +
                                               "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQD85DBkLGppK9Cl\n" +
@@ -43,7 +43,7 @@ namespace Agrirouter.Api.Test.Service
 
         protected Environment Environment => new QualityAssuranceEnvironment();
 
-        protected AbstractSecuredIntegrationTest()
+        protected AbstractSecuredIntegrationTestForFarmingSoftware()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()

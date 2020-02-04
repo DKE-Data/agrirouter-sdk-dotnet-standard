@@ -13,12 +13,19 @@ namespace Agrirouter.Api.Test.Service.Onboard
     /// <summary>
     /// Functional tests.
     /// </summary>
-    public class SecuredOnboardingServiceTest : AbstractSecuredIntegrationTest
+    public class SecuredOnboardingServiceTestForTelemtryPlatform : AbstractSecuredIntegrationTestForTelemetryPlatform
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
+        [Fact(Skip = "Can be run to generate the authorization URL.")]
+        public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
+        {
+            var authorizationService = new AuthorizationService(Environment);
+            var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId);
+        }
+        
         //[Fact(Skip = "Will not run successfully without changing the registration code.")]
         [Fact]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
@@ -33,7 +40,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "65220a7655",
+                RegistrationCode = "920149e366",
                 CertificationVersionId = CertificationVersionId
             };
 
