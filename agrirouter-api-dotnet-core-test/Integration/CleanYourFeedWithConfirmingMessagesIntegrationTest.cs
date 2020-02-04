@@ -12,6 +12,7 @@ using Agrirouter.Api.test.Data;
 using Agrirouter.Api.test.helper;
 using Agrirouter.Api.test.service;
 using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.service.Convinience;
 using Agrirouter.Impl.Service.messaging;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Response;
@@ -178,7 +179,8 @@ namespace Agrirouter.Api.test.integration
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
                 decodedMessage.ResponseEnvelope.Type);
 
-            var feedMessageHeaderQuery = queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            var feedMessageHeaderQuery =
+                queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
             Assert.True(feedMessageHeaderQuery.QueryMetrics.TotalMessagesInQuery > 0,
                 "There has to be at least one message in the query.");
 
@@ -208,8 +210,7 @@ namespace Agrirouter.Api.test.integration
             Assert.Equal(1, feedMessage.QueryMetrics.TotalMessagesInQuery);
 
             var fileName = FilePrefix + feedMessage.Messages[0].Header.MessageId + ".png";
-            var content = Convert.FromBase64String(feedMessage.Messages[0].Content.Value.ToBase64());
-            var image = Convert.FromBase64String(Encoding.UTF8.GetString(content));
+            var image = Encode.FromMessageContent(feedMessage.Messages[0].Content);
             File.WriteAllBytes(fileName, image);
 
             var feedConfirmService =

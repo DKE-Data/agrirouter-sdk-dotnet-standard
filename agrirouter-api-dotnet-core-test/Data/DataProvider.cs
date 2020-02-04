@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Agrirouter.Impl.service.Convinience;
 
 namespace Agrirouter.Api.test.Data
 {
@@ -12,9 +13,7 @@ namespace Agrirouter.Api.test.Data
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                 @"Data/Content/example.png");
             var allBytes = File.ReadAllBytes(path);
-            var imageAsBase64String = Convert.ToBase64String(allBytes);
-            var base64EncodedMessageContent = Convert.ToBase64String(Encoding.UTF8.GetBytes(imageAsBase64String));
-            return base64EncodedMessageContent;
+            return Encode.ToMessageContent(allBytes);
         }
     }
 }
