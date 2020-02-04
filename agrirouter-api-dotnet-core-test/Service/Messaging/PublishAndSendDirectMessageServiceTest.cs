@@ -1,119 +1,44 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.test.Data;
 using Agrirouter.Api.test.helper;
-using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging;
-using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Response;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.test.integration
+namespace Agrirouter.Api.Test.Service.Messaging
 {
-    public class CleanYourFeedWithDeletingMessagesIntegrationTest : AbstractIntegrationTest
+    /// <summary>
+    /// Functional tests.
+    /// </summary>
+    public class PublishAndSendDirectMessageServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
-        private static readonly HttpClient
-            HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
-
-        [Fact(DisplayName = "Clean your feed integration test scenario.")]
-        public void Run()
+        [Fact]
+        public void
+            GivenValidMessageContentWhenPublishingAndSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
         {
-            PrepareTestEnvironment();
-            ActionsForSender();
-            ActionsForRecipient();
-        }
+            // Description of the messaging process.
 
-        private static void PrepareTestEnvironment()
-        {
-            PrepareTestEnvironmentForSender();
-            PrepareTestEnvironmentForRecipient();
-        }
+            // 1. Set all capabilities for each endpoint - this is done once, not each time.
+            // Done once before the test.
 
-        private static void PrepareTestEnvironmentForSender()
-        {
-            var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForSender), new EncodeMessageService());
-            var capabilitiesParameters = new CapabilitiesParameters
-            {
-                OnboardResponse = Sender,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
-            };
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng
-            };
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
+            // 2. Recipient has to create his subscriptions in order to get the messages. If they are not set correctly the AR will return a HTTP 400.
+            // Done once before the test.
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            // 3. Set routes within the UI - this is done once, not each time.
+            // Done manually, not API interaction necessary.
 
-            var fetchMessageService = new FetchMessageService(HttpClientForSender);
-            var fetch = fetchMessageService.Fetch(Sender);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-        }
-
-        private static void PrepareTestEnvironmentForRecipient()
-        {
-            var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
-            var capabilitiesParameters = new CapabilitiesParameters
-            {
-                OnboardResponse = Recipient,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
-            };
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng
-            };
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(2));
-
-            var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
-            var fetch = fetchMessageService.Fetch(Recipient);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-        }
-
-        /// <summary>
-        /// The actions for the sender are the following:
-        ///
-        /// 1. Send the message containing the image file.
-        /// 2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 3. Fetch the message response and validate it.
-        /// 
-        /// </summary>
-        private static void ActionsForSender()
-        {
-            var sendMessageService =
-                new SendDirectMessageService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+            // 4. Publish message from sender to recipient.
+            var publishAndSendMessageService =
+                new PublishAndSendMessageService(new MessagingService(HttpClientForSender), new EncodeMessageService());
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,
@@ -122,79 +47,19 @@ namespace Agrirouter.Api.test.integration
                 Recipients = new List<string> {Recipient.SensorAlternateId},
                 Base64MessageContent = DataProvider.ReadBase64EncodedImage()
             };
-            sendMessageService.Send(sendMessageParameters);
+            publishAndSendMessageService.Send(sendMessageParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            // 5. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
+            Thread.Sleep(TimeSpan.FromSeconds(5));
 
+            // 6. Fetch and analyze the ACK from the AR.
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
             Assert.Single(fetch);
+
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-        }
-
-        /// <summary>
-        ///  The actions for the recipient are the following:
-        ///
-        /// 1. Query the message headers.
-        /// 2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 3. Fetch the response from the AR and check.
-        ///
-        /// 4. Delete the messages using the message IDs to clean the feed.
-        /// 5. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 6. Fetch the response from the AR and check.
-        /// 
-        /// </summary>
-        private void ActionsForRecipient()
-        {
-            var queryMessageHeadersService =
-                new QueryMessageHeadersService(new MessagingService(HttpClientForRecipient),
-                    new EncodeMessageService());
-            var queryMessageHeadersParameters = new QueryMessagesParameters
-            {
-                OnboardResponse = Recipient,
-                Senders = new List<string> {Sender.SensorAlternateId}
-            };
-            queryMessageHeadersService.Send(queryMessageHeadersParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(2));
-
-            var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
-            var fetch = fetchMessageService.Fetch(Recipient);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,
-                decodedMessage.ResponseEnvelope.Type);
-
-            var feedMessageHeaderQuery =
-                queryMessageHeadersService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
-            Assert.True(feedMessageHeaderQuery.QueryMetrics.TotalMessagesInQuery > 0,
-                "There has to be at least one message in the query.");
-
-            var messageIds =
-                (from feed in feedMessageHeaderQuery.Feed from feedHeader in feed.Headers select feedHeader.MessageId)
-                .ToList();
-
-            var feedDeleteService =
-                new FeedDeleteService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
-            var feedDeleteParameters = new FeedDeleteParameters()
-            {
-                OnboardResponse = Recipient,
-                MessageIds = messageIds
-            };
-            feedDeleteService.Send(feedDeleteParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(2));
-
-            fetch = fetchMessageService.Fetch(Recipient);
-            Assert.Single(fetch);
-
-            decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
         private static OnboardResponse Sender
