@@ -11,6 +11,9 @@ using Google.Protobuf;
 
 namespace Agrirouter.Impl.Service.messaging
 {
+    /// <summary>
+    /// Please see <seealso cref="IFeedDeleteService"/> for documentation.
+    /// </summary>
     public class FeedDeleteService : IFeedDeleteService
     {
         private readonly MessagingService _messagingService;

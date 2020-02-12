@@ -11,9 +11,9 @@ using Google.Protobuf;
 
 namespace Agrirouter.Impl.Service.messaging
 {
-    /**
-     * Service to send capabilites messages.
-     */
+    /// <summary>
+    /// Please see <seealso cref="ICapabilitiesServices"/> for documentation.
+    /// </summary>
     public class CapabilitiesService : ICapabilitiesServices
     {
         private readonly MessagingService _messagingService;
