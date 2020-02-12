@@ -18,6 +18,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class QueryMessagesServiceTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();

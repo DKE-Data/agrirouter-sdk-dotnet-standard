@@ -13,6 +13,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class RevokeServiceTestForFarmingSoftware : AbstractSecuredIntegrationTestForFarmingSoftware
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
@@ -49,7 +50,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
 
         private static string AccountId => "5d47a537-9455-410d-aa6d-fbd69a5cf990";
 
-        private new static string ApplicationgId => "16b1c3ab-55ef-412c-952b-f280424272e1";
+        private new static string ApplicationId => "16b1c3ab-55ef-412c-952b-f280424272e1";
 
         private static string EndpointId => "72c57d24-7d38-4607-b9f3-c3afbe8473db";
     }

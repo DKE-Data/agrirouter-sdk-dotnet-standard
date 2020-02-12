@@ -14,13 +14,13 @@ namespace Agrirouter.Api.Test.Service.Onboard
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class OnboardServiceTest : AbstractIntegrationTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
-        //[Fact(Skip = "Will not run successfully without changing the registration code.")]
-        [Fact]
+        [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingForP12ThenThereShouldBeAValidResponse()
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
