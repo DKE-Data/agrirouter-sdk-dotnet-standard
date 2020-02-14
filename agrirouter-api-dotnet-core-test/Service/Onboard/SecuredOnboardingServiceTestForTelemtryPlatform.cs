@@ -19,15 +19,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
-        [Fact(Skip = "Can be run to generate the authorization URL.")]
-        public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
-        {
-            var authorizationService = new AuthorizationService(Environment);
-            var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId);
-        }
-        
-        //[Fact(Skip = "Will not run successfully without changing the registration code.")]
-        [Fact]
+        [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
