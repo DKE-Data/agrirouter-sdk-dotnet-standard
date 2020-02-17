@@ -11,6 +11,9 @@ using Google.Protobuf;
 
 namespace Agrirouter.Impl.Service.messaging
 {
+    /// <summary>
+    /// Please see <seealso cref="IFeedConfirmService"/> for documentation.
+    /// </summary>
     public class FeedConfirmService : IFeedConfirmService
     {
         private readonly MessagingService _messagingService;
