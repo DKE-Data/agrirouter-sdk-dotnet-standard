@@ -44,12 +44,12 @@ namespace Agrirouter.Impl.Service.onboard
         /// <exception cref="RevokeException">Will be thrown if the revoking was not successful.</exception>
         public void Revoke(RevokeParameters revokeParameters, string privateKey)
         {
-            var revokeRequest = new RevokeRequest()
+            var revokeRequest = new RevokeRequest
             {
                 AccountId = revokeParameters.AccountId,
                 EndpointIds = revokeParameters.EndpointIds,
-                TimeZone = _utcDataService.TimeZone,
-                UtcTimestamp = _utcDataService.Now
+                TimeZone = UtcDataService.TimeZone,
+                UtcTimestamp = UtcDataService.Now
             };
 
             var requestBody = JsonConvert.SerializeObject(revokeRequest);
@@ -62,7 +62,7 @@ namespace Agrirouter.Impl.Service.onboard
             };
             httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", revokeParameters.ApplicationId);
             httpRequestMessage.Headers.Add("X-Agrirouter-Signature",
-                _signatureService.XAgrirouterSignature(requestBody, privateKey));
+                SignatureService.XAgrirouterSignature(requestBody, privateKey));
 
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 

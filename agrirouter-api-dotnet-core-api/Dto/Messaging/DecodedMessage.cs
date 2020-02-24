@@ -7,8 +7,14 @@ namespace Agrirouter.Api.Dto.Messaging
     /// </summary>
     public class DecodedMessage
     {
+        /// <summary>
+        /// Response envelope.
+        /// </summary>
         public ResponseEnvelope ResponseEnvelope { get; set; }
 
+        /// <summary>
+        /// Response payload wrapper.
+        /// </summary>
         public ResponsePayloadWrapper ResponsePayloadWrapper { get; set; }
     }
 }

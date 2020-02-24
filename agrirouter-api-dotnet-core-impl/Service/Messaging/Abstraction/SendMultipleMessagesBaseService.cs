@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Service.Messaging;
@@ -30,13 +31,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         /// <returns>-</returns>
         public MessagingResult Send(SendMultipleMessagesParameters sendMultipleMessagesParameters)
         {
-            List<string> encodedMessages = new List<string>();
-            foreach (var sendMessageParameters in sendMultipleMessagesParameters.MultipleMessageEntries)
-            {
-                var encodedMessage = Encode(sendMessageParameters).Content;
-                encodedMessages.Add(encodedMessage);
-            }
-
+            var encodedMessages = sendMultipleMessagesParameters.MultipleMessageEntries.Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
             var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
         }

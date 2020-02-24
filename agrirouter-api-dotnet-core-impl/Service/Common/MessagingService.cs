@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Agrirouter.Api.Builder;
@@ -44,10 +45,9 @@ namespace Agrirouter.Impl.Service.Common
                 Messages = new List<Api.Dto.Messaging.Inner.Message>()
             };
 
-            foreach (var encodedMessage in messagingParameters.EncodedMessages)
+            foreach (var message in messagingParameters.EncodedMessages.Select(encodedMessage => new Api.Dto.Messaging.Inner.Message
+                {Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp()}))
             {
-                var message = new Api.Dto.Messaging.Inner.Message
-                    {Content = encodedMessage, Timestamp = _utcDataService.NowAsUnixTimestamp()};
                 messageRequest.Messages.Add(message);
             }
 
@@ -56,16 +56,17 @@ namespace Agrirouter.Impl.Service.Common
             var httpResponseMessage = _httpClient
                 .PostAsync(messagingParameters.OnboardResponse.ConnectionCriteria.Measures, requestBody).Result;
 
-            if (!httpResponseMessage.IsSuccessStatusCode)
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
-                Log.Error("Sending the message was not successful. HTTP response was " +
-                          httpResponseMessage.StatusCode + ". Please check exception for more details.");
-                throw new CouldNotSendMessageException(httpResponseMessage.StatusCode,
-                    httpResponseMessage.Content.ReadAsStringAsync().Result);
+                return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
+                    .Build();
             }
 
-            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
-                .Build();
+            Log.Error("Sending the message was not successful. HTTP response was " +
+                      httpResponseMessage.StatusCode + ". Please check exception for more details.");
+            throw new CouldNotSendMessageException(httpResponseMessage.StatusCode,
+                httpResponseMessage.Content.ReadAsStringAsync().Result);
+
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <returns>-</returns>
         /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
         /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message can not be decoded.</exception>
-        public DecodedMessage Decode(string rawMessage)
+        public static DecodedMessage Decode(string rawMessage)
         {
             if (string.IsNullOrWhiteSpace(rawMessage))
             {
@@ -59,7 +59,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <param name="any">The message content from the decoded message.</param>
         /// <returns></returns>
         /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message content can not be decoded.</exception>
-        public Messages Decode(Any any)
+        public static Messages Decode(Any any)
         {
             try
             {

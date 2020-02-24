@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardParameters parameters = new OnboardParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
@@ -36,7 +36,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
             };
 
 
-            OnboardResponse onboardResponse = onboardingService.Onboard(parameters);
+            var onboardResponse = onboardingService.Onboard(parameters);
 
             Assert.NotEmpty(onboardResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardResponse.SensorAlternateId);
@@ -55,7 +55,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardParameters parameters = new OnboardParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
@@ -67,7 +67,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
             };
 
 
-            OnboardResponse onboardResponse = onboardingService.Onboard(parameters);
+            var onboardResponse = onboardingService.Onboard(parameters);
 
             Assert.NotEmpty(onboardResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardResponse.SensorAlternateId);
@@ -86,7 +86,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardParameters parameters = new OnboardParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,

@@ -5,6 +5,9 @@ namespace Agrirouter.Api.Dto.Messaging.Inner
     /// </summary>
     public class Command
     {
+        /// <summary>
+        /// Message.
+        /// </summary>
         public string Message { get; set; }
     }
 }

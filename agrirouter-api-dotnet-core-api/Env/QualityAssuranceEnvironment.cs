@@ -5,13 +5,11 @@ namespace Agrirouter.Api.Env
     /// </summary>
     public class QualityAssuranceEnvironment : Environment
     {
-        private static readonly string API_PREFIX = "/api/v1.0";
+        private const string API_PREFIX = "/api/v1.0";
 
-        private static readonly string REGISTRATION_SERVICE_URL =
-            "https://agrirouter-registration-service-hubqa-eu10.cfapps.eu10.hana.ondemand.com";
+        private const string REGISTRATION_SERVICE_URL = "https://agrirouter-registration-service-hubqa-eu10.cfapps.eu10.hana.ondemand.com";
 
-        private static readonly string AUTHORIZATION_SERVICE_URL =
-            "https://agrirouter-qa.cfapps.eu10.hana.ondemand.com";
+        private const string AUTHORIZATION_SERVICE_URL = "https://agrirouter-qa.cfapps.eu10.hana.ondemand.com";
 
         /// <summary>
         /// API prefix for the service calls.

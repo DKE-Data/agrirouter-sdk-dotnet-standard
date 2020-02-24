@@ -52,15 +52,15 @@ namespace Agrirouter.Api.Test.Service.Common
         public void GivenValidCertificatesWhenVerifyingTheCreatedSignatureThenTheResultShouldBeOk()
         {
             var signatureService = new SignatureService();
-            var signature = signatureService.Signature("REQUEST CONTENT", PrivateKey);
-            Assert.True(signatureService.Verify("REQUEST CONTENT", signature, PublicKey));
+            var signature = SignatureService.Signature("REQUEST CONTENT", PrivateKey);
+            Assert.True(SignatureService.Verify("REQUEST CONTENT", signature, PublicKey));
         }
 
         [Fact]
         public void GivenValidCertificatesWhenCreatingTheXAgrirouterSignatureThenTheCreatedSignatureShouldBeOk()
         {
             var signatureService = new SignatureService();
-            var signature = signatureService.XAgrirouterSignature("REQUEST CONTENT", PrivateKey);
+            var signature = SignatureService.XAgrirouterSignature("REQUEST CONTENT", PrivateKey);
             Assert.NotEmpty(signature);
         }
 
@@ -69,16 +69,16 @@ namespace Agrirouter.Api.Test.Service.Common
         {
             var signatureService = new SignatureService();
             Assert.Throws<CouldNotCreateSignatureException>(() =>
-                signatureService.Signature("REQUEST CONTENT", PrivateKey.Substring(42)));
+                SignatureService.Signature("REQUEST CONTENT", PrivateKey.Substring(42)));
         }
 
         [Fact]
         public void GivenInvalidCertificatesWhenVerifyingTheCreatedSignatureThenThereShouldBeAnException()
         {
             var signatureService = new SignatureService();
-            var signature = signatureService.Signature("REQUEST CONTENT", PrivateKey);
+            var signature = SignatureService.Signature("REQUEST CONTENT", PrivateKey);
             Assert.Throws<CouldNotVerifySignatureException>(() =>
-                signatureService.Verify("REQUEST CONTENT", signature, PublicKey.Substring(42)));
+                SignatureService.Verify("REQUEST CONTENT", signature, PublicKey.Substring(42)));
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Agrirouter.Impl.Service.Common
             return encodedMessage;
         }
 
-        private RequestEnvelope Header(MessageHeaderParameters messageHeaderParameters)
+        private static RequestEnvelope Header(MessageHeaderParameters messageHeaderParameters)
         {
             Log.Debug("Begin creating the header of the message.");
 
@@ -58,7 +58,7 @@ namespace Agrirouter.Impl.Service.Common
                 ApplicationMessageSeqNo = Parameters.ApplicationMessageSeqNo,
                 TechnicalMessageType = messageHeaderParameters.TechnicalMessageType,
                 Mode = messageHeaderParameters.Mode,
-                Timestamp = _utcDataService.NowAsTimestamp()
+                Timestamp = UtcDataService.NowAsTimestamp()
             };
 
             if (!string.IsNullOrEmpty(messageHeaderParameters.TeamSetContextId))
@@ -84,7 +84,7 @@ namespace Agrirouter.Impl.Service.Common
             return requestEnvelope;
         }
 
-        private RequestPayloadWrapper PayloadWrapper(MessagePayloadParameters messagePayloadParameters)
+        private static RequestPayloadWrapper PayloadWrapper(MessagePayloadParameters messagePayloadParameters)
         {
             Log.Debug("Begin creating the payload of the message.");
             var any = new Any {TypeUrl = messagePayloadParameters.TypeUrl, Value = messagePayloadParameters.Value};
