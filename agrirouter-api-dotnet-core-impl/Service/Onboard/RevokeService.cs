@@ -49,7 +49,7 @@ namespace Agrirouter.Impl.Service.onboard
                 AccountId = revokeParameters.AccountId,
                 EndpointIds = revokeParameters.EndpointIds,
                 TimeZone = _utcDataService.TimeZone,
-                UTCTimestamp = _utcDataService.Now
+                UtcTimestamp = _utcDataService.Now
             };
 
             var requestBody = JsonConvert.SerializeObject(revokeRequest);

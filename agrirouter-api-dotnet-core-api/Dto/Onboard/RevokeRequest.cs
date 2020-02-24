@@ -15,7 +15,7 @@ namespace Agrirouter.Api.Dto.Onboard
         public List<string> EndpointIds { get; set; }
 
         [JsonProperty(PropertyName = "UTCTimestamp")]
-        public string UTCTimestamp { get; set; }
+        public string UtcTimestamp { get; set; }
 
         [JsonProperty(PropertyName = "timeZone")]
         public string TimeZone { get; set; }

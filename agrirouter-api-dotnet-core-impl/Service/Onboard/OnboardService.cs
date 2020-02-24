@@ -49,7 +49,7 @@ namespace Agrirouter.Impl.Service.onboard
                 GatewayId = onboardParameters.GatewayId,
                 CertificateType = onboardParameters.CertificationType,
                 TimeZone = _utcDataService.TimeZone,
-                UTCTimestamp = _utcDataService.Now
+                UtcTimestamp = _utcDataService.Now
             };
 
             var requestBody = JsonConvert.SerializeObject(onboardingRequest);

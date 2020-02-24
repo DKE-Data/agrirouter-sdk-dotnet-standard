@@ -7,7 +7,6 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Cloud.Registration;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
-using Agrirouter.Request.Payload.Endpoint;
 using Google.Protobuf;
 
 namespace Agrirouter.Impl.Service.Messaging.Vcu

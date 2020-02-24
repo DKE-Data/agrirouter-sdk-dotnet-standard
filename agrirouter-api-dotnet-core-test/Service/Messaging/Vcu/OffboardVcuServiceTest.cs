@@ -19,7 +19,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
         [Fact]
-        public void GivenNonExistingEndpointIdWhenOffboardingVCUThenTheARShouldReturnErrorMessage()
+        public void GivenNonExistingEndpointIdWhenOffboardingVcuThenTheArShouldReturnErrorMessage()
         {
             var offboardVcuService =
                 new OffboardVcuService(new MessagingService(HttpClient), new EncodeMessageService());
@@ -46,7 +46,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
         }
 
         [Fact]
-        public void GivenExistingEndpointIdWhenOffboardingVCUThenTheARShouldReturnErrorMessage()
+        public void GivenExistingEndpointIdWhenOffboardingVcuThenTheArShouldReturnErrorMessage()
         {
             var onboardVcuService = new OnboardVcuService(new MessagingService(HttpClient), new EncodeMessageService());
             var endpointId = Guid.NewGuid().ToString();

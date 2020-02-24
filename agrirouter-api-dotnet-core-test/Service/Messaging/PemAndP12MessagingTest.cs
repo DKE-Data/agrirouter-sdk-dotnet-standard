@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
@@ -9,6 +8,7 @@ using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.test.helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging;
+using Agrirouter.Request.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -28,7 +28,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
         [Fact(Skip = "Due to PEM type this does currently not work.")]
         public void
-            GivenValidCapabilitiesWhenSendingCapabilitiesMessageWithPEMCertificateThenTheAgrirouterShouldSetTheCapabilities()
+            GivenValidCapabilitiesWhenSendingCapabilitiesMessageWithPemCertificateThenTheAgrirouterShouldSetTheCapabilities()
         {
             RunWith(OnboardResponseWithPemCertificate);
         }

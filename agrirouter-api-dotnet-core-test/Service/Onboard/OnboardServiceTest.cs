@@ -29,7 +29,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.PEM,
+                CertificationType = CertificationTypeDefinition.Pem,
                 GatewayId = "3",
                 RegistrationCode = "414fa598a3",
                 CertificationVersionId = CertificationVersionId
@@ -60,7 +60,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.PEM,
+                CertificationType = CertificationTypeDefinition.Pem,
                 GatewayId = "3",
                 RegistrationCode = "f70470a755",
                 CertificationVersionId = CertificationVersionId
