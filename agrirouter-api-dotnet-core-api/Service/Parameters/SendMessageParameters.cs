@@ -19,11 +19,6 @@ namespace Agrirouter.Api.Service.Parameters
         public List<string> Recipients { get; set; }
         
         /// <summary>
-        /// Chunk information.
-        /// </summary>
-        public ChunkComponent ChunkInfo { get; set; }
-        
-        /// <summary>
         /// Message content.
         /// </summary>
         public string Base64MessageContent { get; set; }
@@ -32,5 +27,10 @@ namespace Agrirouter.Api.Service.Parameters
         /// Type URL.
         /// </summary>
         public string TypeUrl { get; set; }
+
+        /// <summary>
+        /// Define the size of the chunks.
+        /// </summary>
+        public int ChunkSize { get; set; }
     }
 }

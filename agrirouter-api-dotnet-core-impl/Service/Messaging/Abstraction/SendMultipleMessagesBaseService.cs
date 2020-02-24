@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Text;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
@@ -30,7 +32,8 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         /// <returns>-</returns>
         public MessagingResult Send(SendMultipleMessagesParameters sendMultipleMessagesParameters)
         {
-            var encodedMessages = sendMultipleMessagesParameters.MultipleMessageEntries.Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
+            var encodedMessages = sendMultipleMessagesParameters.MultipleMessageEntries
+                .Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
             var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
         }
@@ -49,7 +52,6 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
                 TechnicalMessageType = multipleMessageEntry.TechnicalMessageType,
                 Mode = Mode,
                 Recipients = multipleMessageEntry.Recipients,
-                ChunkInfo = multipleMessageEntry.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
@@ -65,6 +67,23 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             };
 
             return encodedMessage;
+        }
+
+        /// <summary>
+        /// Checks whether a message has to be chunked or not.
+        /// </summary>
+        /// <param name="sendMessageParameters"></param>
+        /// <returns></returns>
+        public static void CheckWetherMessageShouldHaveBeenChunked(SendMessageParameters sendMessageParameters)
+        {
+            var base64MessageContent = sendMessageParameters.Base64MessageContent;
+            var byteCount = Encoding.Unicode.GetByteCount(base64MessageContent);
+            if (byteCount / ChunkSizeDefinition.MaximumSupported > 1)
+            {
+                throw new MessageShouldHaveBeenChunkedException();
+            }
+
+            ;
         }
 
         protected abstract RequestEnvelope.Types.Mode Mode { get; }
