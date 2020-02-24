@@ -50,7 +50,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
         {
             var onboardVcuService = new OnboardVcuService(new MessagingService(HttpClient), new EncodeMessageService());
             var endpointId = Guid.NewGuid().ToString();
-            
+
             var onboardVcuParameters = new OnboardVcuParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -75,7 +75,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
             var decodeMessageService = new DecodeMessageService();
             var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-            
+
             var offboardVcuService =
                 new OffboardVcuService(new MessagingService(HttpClient), new EncodeMessageService());
             var offboardVcuParameters = new OffboardVcuParameters()
@@ -87,7 +87,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
                     endpointId
                 }
             };
-            var messageResponse = offboardVcuService.Send(offboardVcuParameters);
+            offboardVcuService.Send(offboardVcuParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 

@@ -38,7 +38,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
                     }
                 }
             };
-            var messageResponse = onboardVcuService.Send(onboardVcuParameters);
+            onboardVcuService.Send(onboardVcuParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
