@@ -16,11 +16,11 @@ namespace Agrirouter.Impl.Service.Common
     {
         /// <summary>
         /// Decoding a Base64-encoded message which is containing a response envelope and a response payload wrapper.
-        /// </summary>
-        /// <param name="rawMessage"The raw messages (Base64 encoded9).</param>
+        /// <param name="rawMessage">The raw messages (Base64 encoded9).</param>
         /// <returns>-</returns>
         /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
         /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message can not be decoded.</exception>
+        /// </summary>
         public static DecodedMessage Decode(string rawMessage)
         {
             if (string.IsNullOrWhiteSpace(rawMessage))

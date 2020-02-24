@@ -46,7 +46,6 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }

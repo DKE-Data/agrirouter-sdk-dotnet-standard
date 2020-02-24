@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
@@ -62,7 +61,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             var encodedMessage = new EncodedMessage
             {
                 Id = Guid.NewGuid().ToString(),
-                Content = _encodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
+                Content = EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
             };
 
             return encodedMessage;

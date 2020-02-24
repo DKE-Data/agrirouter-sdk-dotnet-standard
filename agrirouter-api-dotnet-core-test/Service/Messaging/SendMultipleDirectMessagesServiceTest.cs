@@ -58,7 +58,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(Sender);
             Assert.Equal(2, fetch.Count);
 
-            var decodeMessageService = new DecodeMessageService();
             Assert.Equal(201, DecodeMessageService.Decode(fetch[0].Command.Message).ResponseEnvelope.ResponseCode);
             Assert.Equal(201, DecodeMessageService.Decode(fetch[1].Command.Message).ResponseEnvelope.ResponseCode);
         }

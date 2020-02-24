@@ -51,7 +51,6 @@ namespace Agrirouter.Api.Test.Service.Common
         [Fact]
         public void GivenValidCertificatesWhenVerifyingTheCreatedSignatureThenTheResultShouldBeOk()
         {
-            var signatureService = new SignatureService();
             var signature = SignatureService.Signature("REQUEST CONTENT", PrivateKey);
             Assert.True(SignatureService.Verify("REQUEST CONTENT", signature, PublicKey));
         }
@@ -59,7 +58,6 @@ namespace Agrirouter.Api.Test.Service.Common
         [Fact]
         public void GivenValidCertificatesWhenCreatingTheXAgrirouterSignatureThenTheCreatedSignatureShouldBeOk()
         {
-            var signatureService = new SignatureService();
             var signature = SignatureService.XAgrirouterSignature("REQUEST CONTENT", PrivateKey);
             Assert.NotEmpty(signature);
         }
@@ -67,7 +65,6 @@ namespace Agrirouter.Api.Test.Service.Common
         [Fact]
         public void GivenInvalidCertificatesWhenSigningThenThereShouldBeAnException()
         {
-            var signatureService = new SignatureService();
             Assert.Throws<CouldNotCreateSignatureException>(() =>
                 SignatureService.Signature("REQUEST CONTENT", PrivateKey.Substring(42)));
         }
@@ -75,7 +72,6 @@ namespace Agrirouter.Api.Test.Service.Common
         [Fact]
         public void GivenInvalidCertificatesWhenVerifyingTheCreatedSignatureThenThereShouldBeAnException()
         {
-            var signatureService = new SignatureService();
             var signature = SignatureService.Signature("REQUEST CONTENT", PrivateKey);
             Assert.Throws<CouldNotVerifySignatureException>(() =>
                 SignatureService.Verify("REQUEST CONTENT", signature, PublicKey.Substring(42)));

@@ -20,7 +20,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
     /// </summary>
     public class QueryMessagesServiceTest
     {
-        private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
         [Fact]
@@ -44,7 +43,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
@@ -70,7 +68,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
@@ -96,7 +93,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
@@ -121,7 +117,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
 

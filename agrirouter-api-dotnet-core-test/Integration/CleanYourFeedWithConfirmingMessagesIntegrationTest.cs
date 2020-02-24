@@ -68,7 +68,6 @@ namespace Agrirouter.Api.test.integration
             var fetch = fetchMessageService.Fetch(Sender);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
@@ -99,7 +98,6 @@ namespace Agrirouter.Api.test.integration
             var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
@@ -131,7 +129,7 @@ namespace Agrirouter.Api.test.integration
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
             Assert.Single(fetch);
-            var decodeMessageService = new DecodeMessageService();
+
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
@@ -172,7 +170,6 @@ namespace Agrirouter.Api.test.integration
             var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedHeaderList,

@@ -28,7 +28,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <param name="messagePayloadParameters">Parameters for the message payload.</param>
         /// <returns>-</returns>
         /// <exception cref="MissingParameterException">Will be thrown if any of the parameters is missing.</exception>
-        public string Encode(MessageHeaderParameters messageHeaderParameters,
+        public static string Encode(MessageHeaderParameters messageHeaderParameters,
             MessagePayloadParameters messagePayloadParameters)
         {
             Log.Debug("Start encoding of the message.");

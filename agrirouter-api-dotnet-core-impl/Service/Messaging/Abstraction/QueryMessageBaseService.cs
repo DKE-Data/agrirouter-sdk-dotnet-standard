@@ -63,7 +63,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             var encodedMessage = new EncodedMessage
             {
                 Id = Guid.NewGuid().ToString(),
-                Content = _encodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
+                Content = EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
             };
 
             return encodedMessage;

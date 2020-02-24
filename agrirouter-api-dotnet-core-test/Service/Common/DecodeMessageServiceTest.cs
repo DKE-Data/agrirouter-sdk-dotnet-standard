@@ -30,7 +30,6 @@ namespace Agrirouter.Api.Test.Service.Common
                                            "g3YjdmNioLCMHy1/AFEICvvnGEAQqBAQowdHlwZXMuYWdyaXJvdXRlci5jb20vYWdyaXJvdXRlci5jb21tb25zLk1lc3NhZ2VzEk0K" +
                                            "Swo9U2tpcHBpbmcgY2FwYWJpbGl0aWVzIHVwZGF0ZSBiZWNhdXNlIHRoZXJlIGFyZSBubyBkaWZmZXJlbmNlcxIKVkFMXzAwMDAyMg==";
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(responseMessage);
             Assert.NotNull(decodedMessage.ResponseEnvelope);
             Assert.NotNull(decodedMessage.ResponsePayloadWrapper);
@@ -43,7 +42,6 @@ namespace Agrirouter.Api.Test.Service.Common
             const string responseMessage = "EwiQAxADKgwIpITc8AUQgP/1sQNvCm0KMHR5cGVzLmFncmlyb3V0ZXIuY29tL2Fncmlyb3V0ZXIuY29tbW9ucy5NZXNzYWdlcxI5" +
                                            "CjcKKUVycm9yIG9jY3VyZWQgd2hpbGUgZGVjb2RpbmcgdGhlIG1lc3NhZ2UuEgpWQUxfMDAwMzAw";
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(responseMessage);
             Assert.NotNull(decodedMessage.ResponseEnvelope);
             Assert.NotNull(decodedMessage.ResponsePayloadWrapper);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Messaging.vcu;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Cloud.Registration;
@@ -33,7 +34,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         /// <summary>
         /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
         /// </summary>
-        /// <param name="onboardVcuParameters">-</param>
+        /// <param name="offboardVcuParameters">-</param>
         /// <returns>-</returns>
         public MessagingResult Send(OffboardVcuParameters offboardVcuParameters)
         {
@@ -45,7 +46,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         /// <summary>
         /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
         /// </summary>
-        /// <param name="onboardVcuParameters"></param>
+        /// <param name="offboardVcuParameters"></param>
         /// <returns>-</returns>
         public EncodedMessage Encode(OffboardVcuParameters offboardVcuParameters)
         {
@@ -73,7 +74,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
             var encodedMessage = new EncodedMessage
             {
                 Id = Guid.NewGuid().ToString(),
-                Content = _encodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
+                Content = EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
             };
 
             return encodedMessage;

@@ -42,7 +42,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckWithFailure,
@@ -75,7 +74,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckWithMessages,
@@ -109,7 +107,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
             Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckWithFailure,
@@ -142,7 +139,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
 
