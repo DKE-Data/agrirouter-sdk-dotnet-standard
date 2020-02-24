@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Service.Messaging;
-using Agrirouter.Api.Service.Messaging.vcu;
+using Agrirouter.Api.Service.Messaging.Vcu;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Cloud.Registration;
 using Agrirouter.Impl.Service.Common;

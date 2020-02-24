@@ -12,7 +12,7 @@ using Agrirouter.Impl.Service.Messaging.Vcu;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging.vcu
+namespace Agrirouter.Api.Test.Service.Messaging.Vcu
 {
     public class OffboardVcuServiceTest : AbstractSecuredIntegrationTestForFarmingSoftware
     {
