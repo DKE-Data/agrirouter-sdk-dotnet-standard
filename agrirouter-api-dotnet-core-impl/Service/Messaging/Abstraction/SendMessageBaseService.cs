@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
@@ -33,43 +34,53 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         {
             var encodedMessages = new List<string>();
 
-            if (MessageHasToBeChunked(sendMessageParameters))
+            if (string.IsNullOrWhiteSpace(sendMessageParameters.Base64MessageContent))
             {
-                var chunkContextId = Guid.NewGuid().ToString();
-                var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
-
-                var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
-                    sendMessageParameters.ChunkSize > 0
-                        ? sendMessageParameters.ChunkSize
-                        : ChunkSizeDefinition.MaximumSupported);
-
-                var current = 0;
-                foreach (var chunkedMessage in chunkedMessages)
-                {
-                    var sendMessageParametersDuplicate = new SendChunkedMessageParameters
-                    {
-                        Recipients = sendMessageParameters.Recipients, TypeUrl = sendMessageParameters.TypeUrl,
-                        TechnicalMessageType = sendMessageParameters.TechnicalMessageType
-                    };
-                    var chunkComponent = new ChunkComponent
-                    {
-                        Current = current++,
-                        Total = chunkedMessage.Length,
-                        ContextId = chunkContextId,
-                        TotalSize = totalSize
-                    };
-                    sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
-                    sendMessageParameters.Base64MessageContent = chunkedMessage;
-                    encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
-                }
+                throw new CouldNotSendMessageException(HttpStatusCode.BadRequest,
+                    "Sending empty messages does not make any sense.");
             }
             else
             {
-                encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
-            }
+                if (MessageHasToBeChunked(sendMessageParameters))
+                {
+                    var chunkContextId = Guid.NewGuid().ToString();
+                    var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
 
-            var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
-            return _messagingService.Send(messagingParameters);
+                    var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
+                        sendMessageParameters.ChunkSize > 0
+                            ? sendMessageParameters.ChunkSize
+                            : ChunkSizeDefinition.MaximumSupported);
+
+                    var current = 0;
+                    foreach (var chunkedMessage in chunkedMessages)
+                    {
+                        var sendMessageParametersDuplicate = new SendChunkedMessageParameters
+                        {
+                            Recipients = sendMessageParameters.Recipients,
+                            TypeUrl = sendMessageParameters.TypeUrl,
+                            TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
+                            ApplicationMessageId = MessageIdService.ApplicationMessageId()
+                        };
+                        var chunkComponent = new ChunkComponent
+                        {
+                            Current = current++,
+                            Total = chunkedMessage.Length,
+                            ContextId = chunkContextId,
+                            TotalSize = totalSize
+                        };
+                        sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
+                        sendMessageParametersDuplicate.Base64MessageContent = chunkedMessage;
+                        encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
+                    }
+                }
+                else
+                {
+                    encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+                }
+
+                var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
+                return _messagingService.Send(messagingParameters);
+            }
         }
 
         /// <summary>

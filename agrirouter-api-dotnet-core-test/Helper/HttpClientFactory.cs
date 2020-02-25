@@ -35,5 +35,20 @@ namespace Agrirouter.Api.test.helper
             var httpClient = new HttpClient(new LoggingHandler(httpClientHandler));
             return httpClient;
         }
+
+        /// <summary>
+        /// Create a single HTTP client using the given onboarding response.
+        /// </summary>
+        /// <param name="onboardResponse">The current onboarding response.</param>
+        /// <returns>-</returns>
+        public static HttpClient AuthenticatedNonLoggingHttpClient(OnboardResponse onboardResponse)
+        {
+            var httpClientHandler = new HttpClientHandler();
+            httpClientHandler.ClientCertificates.Add(new X509Certificate2(
+                Convert.FromBase64String(onboardResponse.Authentication.Certificate),
+                onboardResponse.Authentication.Secret));
+            var httpClient = new HttpClient(httpClientHandler);
+            return httpClient;
+        }
     }
 }

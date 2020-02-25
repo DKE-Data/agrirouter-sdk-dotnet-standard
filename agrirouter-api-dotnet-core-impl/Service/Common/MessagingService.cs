@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -45,8 +46,9 @@ namespace Agrirouter.Impl.Service.Common
                 Messages = new List<Api.Dto.Messaging.Inner.Message>()
             };
 
-            foreach (var message in messagingParameters.EncodedMessages.Select(encodedMessage => new Api.Dto.Messaging.Inner.Message
-                {Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp()}))
+            foreach (var message in messagingParameters.EncodedMessages.Select(encodedMessage =>
+                new Api.Dto.Messaging.Inner.Message
+                    {Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp()}))
             {
                 messageRequest.Messages.Add(message);
             }
@@ -66,7 +68,6 @@ namespace Agrirouter.Impl.Service.Common
                       httpResponseMessage.StatusCode + ". Please check exception for more details.");
             throw new CouldNotSendMessageException(httpResponseMessage.StatusCode,
                 httpResponseMessage.Content.ReadAsStringAsync().Result);
-
         }
     }
 }
