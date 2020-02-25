@@ -3,6 +3,8 @@ using System.Linq;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.test.Data;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.messaging;
 using Agrirouter.Impl.Service.messaging.abstraction;
 using Xunit;
 
@@ -18,7 +20,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         {
             var sendMessageParameters = new SendMessageParameters
                 {Base64MessageContent = DataProvider.ReadBase64EncodedSmallShape()};
-            Assert.False(SendMessageBaseService.MessageHasToBeChunked(sendMessageParameters));
+            Assert.False(SendDirectMessageService.MessageHasToBeChunked(sendMessageParameters));
         }
 
         [Fact]
@@ -26,13 +28,13 @@ namespace Agrirouter.Api.Test.Service.Messaging
         {
             var sendMessageParameters = new SendMessageParameters
                 {Base64MessageContent = DataProvider.ReadBase64EncodedLargeShape()};
-            Assert.True(SendMessageBaseService.MessageHasToBeChunked(sendMessageParameters));
+            Assert.True(SendDirectMessageService.MessageHasToBeChunked(sendMessageParameters));
         }
 
         [Fact]
         public void GivenBigMessageContentWhenChunkingTheMessageThenTheMethodShouldReturnAllChunks()
         {
-            var chunkedMessages = new List<string>(SendMessageBaseService.ChunkMessageContent(
+            var chunkedMessages = new List<string>(SendDirectMessageService.ChunkMessageContent(
                 DataProvider.ReadBase64EncodedLargeShape(),
                 ChunkSizeDefinition.MaximumSupported));
             Assert.Equal(5, chunkedMessages.Count);
@@ -44,11 +46,14 @@ namespace Agrirouter.Api.Test.Service.Messaging
         [Fact]
         public void GivenSmallMessageContentWhenChunkingTheMessageThenTheMethodShouldReturnASingleChunk()
         {
-            var chunkedMessages = new List<string>(SendMessageBaseService.ChunkMessageContent(
+            var chunkedMessages = new List<string>(SendDirectMessageService.ChunkMessageContent(
                 DataProvider.ReadBase64EncodedSmallShape(),
                 ChunkSizeDefinition.MaximumSupported));
             Assert.Single(chunkedMessages);
             Assert.Equal(DataProvider.ReadBase64EncodedSmallShape(), chunkedMessages[0]);
         }
+
+        public SendDirectMessageService SendDirectMessageService =>
+            new SendDirectMessageService(new MessagingService(null), new EncodeMessageService());
     }
 }

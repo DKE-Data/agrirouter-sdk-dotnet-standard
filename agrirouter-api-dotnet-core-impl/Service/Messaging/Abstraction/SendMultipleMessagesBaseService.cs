@@ -74,7 +74,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         /// </summary>
         /// <param name="sendMessageParameters"></param>
         /// <returns></returns>
-        public static void CheckWetherMessageShouldHaveBeenChunked(SendMessageParameters sendMessageParameters)
+        public void CheckWetherMessageShouldHaveBeenChunked(SendMessageParameters sendMessageParameters)
         {
             var base64MessageContent = sendMessageParameters.Base64MessageContent;
             var byteCount = Encoding.Unicode.GetByteCount(base64MessageContent);

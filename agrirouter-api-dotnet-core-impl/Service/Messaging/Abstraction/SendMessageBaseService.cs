@@ -88,7 +88,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         /// </summary>
         /// <param name="sendMessageParameters"></param>
         /// <returns></returns>
-        public static bool MessageHasToBeChunked(SendMessageParameters sendMessageParameters)
+        public bool MessageHasToBeChunked(SendMessageParameters sendMessageParameters)
         {
             var base64MessageContent = sendMessageParameters.Base64MessageContent;
             var byteCount = Encoding.Unicode.GetByteCount(base64MessageContent);
@@ -102,7 +102,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         /// <param name="chunkSize">Size of the chunks, <seealso cref="ChunkSizeDefinition"/></param>
         /// <returns>-</returns>
         /// <exception cref="ChunkSizeNotSupportedException">-</exception>
-        public static IEnumerable<string> ChunkMessageContent(string base64MessageContent, int chunkSize)
+        public IEnumerable<string> ChunkMessageContent(string base64MessageContent, int chunkSize)
         {
             if (chunkSize > ChunkSizeDefinition.MaximumSupported)
             {

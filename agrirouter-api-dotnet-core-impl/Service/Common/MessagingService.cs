@@ -19,7 +19,6 @@ namespace Agrirouter.Impl.Service.Common
     public class MessagingService : IMessagingService<MessagingParameters>
     {
         private readonly HttpClient _httpClient;
-        private readonly UtcDataService _utcDataService;
 
         /// <summary>
         /// Constructor.
@@ -28,7 +27,6 @@ namespace Agrirouter.Impl.Service.Common
         public MessagingService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _utcDataService = new UtcDataService();
         }
 
         /// <summary>

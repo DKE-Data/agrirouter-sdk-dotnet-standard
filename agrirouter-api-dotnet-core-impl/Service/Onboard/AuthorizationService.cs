@@ -63,11 +63,11 @@ namespace Agrirouter.Impl.Service.onboard
         /// <param name="authorizationResult">The result of the parsing.</param>
         /// <returns>-</returns>
         /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
-        public static AuthorizationResult Parse(string authorizationResult)
+        public AuthorizationResult Parse(string authorizationResult)
         {
             var split = authorizationResult.Split('&');
             var parameters = new Dictionary<string, string>();
-            
+
             if (split.Length != 3 && split.Length != 4)
             {
                 throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
@@ -91,7 +91,6 @@ namespace Agrirouter.Impl.Service.onboard
                 Token = parameters.GetValueOrDefault("token"),
                 Error = parameters.GetValueOrDefault("error")
             };
-
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace Agrirouter.Impl.Service.onboard
         /// </summary>
         /// <param name="authorizationResult">-</param>
         /// <returns>-</returns>
-        public static AuthorizationToken Parse(AuthorizationResult authorizationResult)
+        public AuthorizationToken Parse(AuthorizationResult authorizationResult)
         {
             return
                 (AuthorizationToken) JsonConvert.DeserializeObject(
