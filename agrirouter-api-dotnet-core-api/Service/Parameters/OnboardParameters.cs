@@ -16,12 +16,12 @@ namespace Agrirouter.Api.Service.Parameters
         public string Uuid { get; set; }
 
         /// <summary>
-        /// Version ID.
+        /// Certification version ID.
         /// </summary>
         public string CertificationVersionId { get; set; }
 
         /// <summary>
-        /// Gateway.
+        /// Gateway ID.
         /// </summary>
         public string GatewayId { get; set; }
 
