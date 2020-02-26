@@ -18,7 +18,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
-
+       
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {

@@ -5,10 +5,12 @@ using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.test.Data;
 using Agrirouter.Api.test.helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging;
+using Agrirouter.Request.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -17,9 +19,13 @@ namespace Agrirouter.Api.Test.Service.Messaging
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class PublishAndSendDirectMessageServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
+
+        private static readonly HttpClient
+            HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
 
         [Fact]
         public void
@@ -28,7 +34,8 @@ namespace Agrirouter.Api.Test.Service.Messaging
             // Description of the messaging process.
 
             // 1. Set all capabilities for each endpoint - this is done once, not each time.
-            // Done once before the test.
+            SetCapabilitiesForSender();
+            SetCapabilitiesForRecipient();
 
             // 2. Recipient has to create his subscriptions in order to get the messages. If they are not set correctly the AR will return a HTTP 400.
             // Done once before the test.
@@ -55,6 +62,72 @@ namespace Agrirouter.Api.Test.Service.Messaging
             // 6. Fetch and analyze the ACK from the AR.
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+        }
+
+        private void SetCapabilitiesForSender()
+        {
+            var capabilitiesServices =
+                new CapabilitiesService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+            var capabilitiesParameters = new CapabilitiesParameters
+            {
+                OnboardResponse = Sender,
+                ApplicationId = ApplicationId,
+                CertificationVersionId = CertificationVersionId,
+                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
+                CapabilityParameters = new List<CapabilityParameter>()
+            };
+
+            var capabilitiesParameter = new CapabilityParameter
+            {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+            };
+
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+            capabilitiesServices.Send(capabilitiesParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClientForSender);
+            var fetch = fetchMessageService.Fetch(Sender);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+        }
+
+        private void SetCapabilitiesForRecipient()
+        {
+            var capabilitiesServices =
+                new CapabilitiesService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+            var capabilitiesParameters = new CapabilitiesParameters
+            {
+                OnboardResponse = Recipient,
+                ApplicationId = ApplicationId,
+                CertificationVersionId = CertificationVersionId,
+                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
+                CapabilityParameters = new List<CapabilityParameter>()
+            };
+
+            var capabilitiesParameter = new CapabilityParameter
+            {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+            };
+
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+            capabilitiesServices.Send(capabilitiesParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
+            var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
             var decodeMessageService = new DecodeMessageService();

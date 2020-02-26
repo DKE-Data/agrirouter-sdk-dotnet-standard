@@ -17,6 +17,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.vcu
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class OnboardVcuServiceTestForFarmingSoftware : AbstractSecuredIntegrationTestForFarmingSoftware
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
