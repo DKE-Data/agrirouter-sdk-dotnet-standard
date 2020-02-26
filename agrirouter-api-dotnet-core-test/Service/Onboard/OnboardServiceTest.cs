@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
-using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.test.helper;
@@ -25,19 +24,19 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardParameters parameters = new OnboardParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.PEM,
+                CertificationType = CertificationTypeDefinition.Pem,
                 GatewayId = "3",
                 RegistrationCode = "414fa598a3",
                 CertificationVersionId = CertificationVersionId
             };
 
 
-            OnboardResponse onboardResponse = onboardingService.Onboard(parameters);
+            var onboardResponse = onboardingService.Onboard(parameters);
 
             Assert.NotEmpty(onboardResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardResponse.SensorAlternateId);
@@ -56,19 +55,19 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardParameters parameters = new OnboardParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.PEM,
+                CertificationType = CertificationTypeDefinition.Pem,
                 GatewayId = "3",
                 RegistrationCode = "f70470a755",
                 CertificationVersionId = CertificationVersionId
             };
 
 
-            OnboardResponse onboardResponse = onboardingService.Onboard(parameters);
+            var onboardResponse = onboardingService.Onboard(parameters);
 
             Assert.NotEmpty(onboardResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardResponse.SensorAlternateId);
@@ -87,7 +86,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
 
-            OnboardParameters parameters = new OnboardParameters
+            var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,

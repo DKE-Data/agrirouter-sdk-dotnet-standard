@@ -14,18 +14,42 @@ using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Messaging.Vcu
 {
-    /// <summary>
-    /// Functional tests.
-    /// </summary>
-    [Collection("Integrationtest")]
-    public class OnboardVcuServiceTestForFarmingSoftware : AbstractSecuredIntegrationTestForFarmingSoftware
+    public class OffboardVcuServiceTest : AbstractSecuredIntegrationTestForFarmingSoftware
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
         [Fact]
-        public void GivenValidIdAndNameWhenOnboardingVirtualCuThenTheOnbardingShouldBePossible()
+        public void GivenNonExistingEndpointIdWhenOffboardingVcuThenTheArShouldReturnErrorMessage()
+        {
+            var offboardVcuService =
+                new OffboardVcuService(new MessagingService(HttpClient), new EncodeMessageService());
+            var offboardVcuParameters = new OffboardVcuParameters
+            {
+                OnboardResponse = OnboardResponse,
+                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
+                Endpoints = new List<string>
+                {
+                    "8597bd75-0366-41a9-b13c-3e685a47909e"
+                }
+            };
+            offboardVcuService.Send(offboardVcuParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClient);
+            var fetch = fetchMessageService.Fetch(OnboardResponse);
+            Assert.Single(fetch);
+
+            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+        }
+
+        [Fact]
+        public void GivenExistingEndpointIdWhenOffboardingVcuThenTheArShouldReturnErrorMessage()
         {
             var onboardVcuService = new OnboardVcuService(new MessagingService(HttpClient), new EncodeMessageService());
+            var endpointId = Guid.NewGuid().ToString();
+
             var onboardVcuParameters = new OnboardVcuParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -34,8 +58,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Vcu
                 {
                     new OnboardingRequest.Types.EndpointRegistrationDetails
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        Name = "My first virtual CU..."
+                        Id = endpointId,
+                        Name = "My first virtual CU which is deleted directly..."
                     }
                 }
             };
@@ -49,6 +73,27 @@ namespace Agrirouter.Api.Test.Service.Messaging.Vcu
 
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var offboardVcuService =
+                new OffboardVcuService(new MessagingService(HttpClient), new EncodeMessageService());
+            var offboardVcuParameters = new OffboardVcuParameters
+            {
+                OnboardResponse = OnboardResponse,
+                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
+                Endpoints = new List<string>
+                {
+                    endpointId
+                }
+            };
+            offboardVcuService.Send(offboardVcuParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            fetch = fetchMessageService.Fetch(OnboardResponse);
+            Assert.Single(fetch);
+
+            decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
         private static OnboardResponse OnboardResponse

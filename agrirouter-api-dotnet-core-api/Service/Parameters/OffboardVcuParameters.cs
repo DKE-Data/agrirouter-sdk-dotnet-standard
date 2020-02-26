@@ -5,11 +5,11 @@ namespace Agrirouter.Api.Service.Parameters
     /// <summary>
     /// Parameter container definition.
     /// </summary>
-    public class MessagingParameters : MessageParameters
+    public class OffboardVcuParameters : MessageParameters
     {
         /// <summary>
-        /// Encoded messages.
+        /// Endpoints.
         /// </summary>
-        public List<string> EncodedMessages { get; set; }
+        public List<string> Endpoints { get; set; }
     }
 }

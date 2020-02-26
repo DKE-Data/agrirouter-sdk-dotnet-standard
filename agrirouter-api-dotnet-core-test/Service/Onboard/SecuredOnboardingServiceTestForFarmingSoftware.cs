@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
-using Agrirouter.Api.Env;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.test.helper;
@@ -17,8 +16,6 @@ namespace Agrirouter.Api.Test.Service.Onboard
     [Collection("Integrationtest")]
     public class SecuredOnboardingServiceTestForFarmingSoftware : AbstractSecuredIntegrationTestForFarmingSoftware
     {
-        private static readonly UtcDataService UtcDataService = new UtcDataService();
-        private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
         [Fact(Skip = "Can be run to generate the authorization URL.")]
@@ -26,13 +23,15 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var authorizationService = new AuthorizationService(Environment);
             var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId);
+            Assert.NotEmpty(authorizationUrlResult.State);
+            Assert.NotEmpty(authorizationUrlResult.AuthorizationUrl);
         }
 
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
-                new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
+                new SecuredOnboardingService(Environment, HttpClient);
 
             var parameters = new OnboardParameters
             {
@@ -64,7 +63,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
-                new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
+                new SecuredOnboardingService(Environment, HttpClient);
 
             var parameters = new OnboardParameters
             {

@@ -18,8 +18,6 @@ namespace Agrirouter.Impl.Service.onboard
     {
         private readonly Environment _environment;
         private readonly HttpClient _httpClient;
-        private readonly UtcDataService _utcDataService;
-        private readonly SignatureService _signatureService;
 
         /// <summary>
         /// Constructor.
@@ -28,13 +26,10 @@ namespace Agrirouter.Impl.Service.onboard
         /// <param name="utcDataService">The UTC data service.</param>
         /// <param name="signatureService">The signature service.</param>
         /// <param name="httpClient">The current HTTP client.</param>
-        public SecuredOnboardingService(Environment environment, UtcDataService utcDataService,
-            SignatureService signatureService, HttpClient httpClient)
+        public SecuredOnboardingService(Environment environment, HttpClient httpClient)
         {
             _environment = environment;
             _httpClient = httpClient;
-            _utcDataService = utcDataService;
-            _signatureService = signatureService;
         }
 
         /// <summary>
@@ -48,13 +43,13 @@ namespace Agrirouter.Impl.Service.onboard
         {
             var onboardingRequest = new OnboardRequest
             {
-                Id = onboardParameters.Uuid,
+                ExternalId = onboardParameters.Uuid,
                 ApplicationId = onboardParameters.ApplicationId,
                 CertificationVersionId = onboardParameters.CertificationVersionId,
                 GatewayId = onboardParameters.GatewayId,
                 CertificateType = onboardParameters.CertificationType,
-                TimeZone = _utcDataService.TimeZone,
-                UTCTimestamp = _utcDataService.Now
+                TimeZone = UtcDataService.TimeZone,
+                UtcTimestamp = UtcDataService.Now
             };
 
             var requestBody = JsonConvert.SerializeObject(onboardingRequest);
@@ -69,19 +64,19 @@ namespace Agrirouter.Impl.Service.onboard
                 new AuthenticationHeaderValue("Bearer", onboardParameters.RegistrationCode);
             httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", onboardParameters.ApplicationId);
             httpRequestMessage.Headers.Add("X-Agrirouter-Signature",
-                _signatureService.XAgrirouterSignature(requestBody, privateKey));
+                SignatureService.XAgrirouterSignature(requestBody, privateKey));
 
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
-            if (httpResponseMessage.IsSuccessStatusCode)
+            if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
-                return onboardingResponse as OnboardResponse;
+                throw new OnboardException(httpResponseMessage.StatusCode,
+                    httpResponseMessage.Content.ReadAsStringAsync().Result);
             }
 
-            throw new OnboardException(httpResponseMessage.StatusCode,
-                httpResponseMessage.Content.ReadAsStringAsync().Result);
+            var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
+            return onboardingResponse as OnboardResponse;
         }
     }
 }

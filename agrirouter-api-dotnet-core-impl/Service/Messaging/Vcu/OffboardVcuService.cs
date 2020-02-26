@@ -1,20 +1,21 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Messaging.Vcu;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Feed.Request;
+using Agrirouter.Cloud.Registration;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging.Vcu
 {
     /// <summary>
-    /// Please see <seealso cref="IFeedDeleteService"/> for documentation.
+    /// Service to onboard VCUs.
     /// </summary>
-    public class FeedDeleteService : IFeedDeleteService
+    public class OffboardVcuService : IOffboardVcuService
     {
         private readonly MessagingService _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
@@ -24,7 +25,7 @@ namespace Agrirouter.Impl.Service.messaging
         /// </summary>
         /// <param name="messagingService">-</param>
         /// <param name="encodeMessageService">-</param>
-        public FeedDeleteService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        public OffboardVcuService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
             _encodeMessageService = encodeMessageService;
@@ -33,41 +34,42 @@ namespace Agrirouter.Impl.Service.messaging
         /// <summary>
         /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
         /// </summary>
-        /// <param name="feedDeleteParameters">-</param>
+        /// <param name="offboardVcuParameters">-</param>
         /// <returns>-</returns>
-        public MessagingResult Send(FeedDeleteParameters feedDeleteParameters)
+        public MessagingResult Send(OffboardVcuParameters offboardVcuParameters)
         {
-            var encodedMessages = new List<string> {Encode(feedDeleteParameters).Content};
-            var messagingParameters = feedDeleteParameters.BuildMessagingParameter(encodedMessages);
+            var encodedMessages = new List<string> {Encode(offboardVcuParameters).Content};
+            var messagingParameters = offboardVcuParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
         }
 
         /// <summary>
         /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
         /// </summary>
-        /// <param name="feedDeleteParameters">-</param>
+        /// <param name="offboardVcuParameters"></param>
         /// <returns>-</returns>
-        public EncodedMessage Encode(FeedDeleteParameters feedDeleteParameters)
+        public EncodedMessage Encode(OffboardVcuParameters offboardVcuParameters)
         {
             var messageHeaderParameters = new MessageHeaderParameters
             {
-                ApplicationMessageId = feedDeleteParameters.ApplicationMessageId,
-                TeamSetContextId = feedDeleteParameters.TeamsetContextId ?? "",
-                TechnicalMessageType = TechnicalMessageTypes.DkeFeedConfirm,
+                ApplicationMessageId = offboardVcuParameters.ApplicationMessageId,
+                TeamSetContextId = offboardVcuParameters.TeamsetContextId ?? "",
+                TechnicalMessageType = TechnicalMessageTypes.DkeCloudOffboardEndpoints,
                 Mode = RequestEnvelope.Types.Mode.Direct
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
             {
-                TypeUrl = MessageDelete.Descriptor.FullName
+                TypeUrl = OffboardingRequest.Descriptor.FullName
             };
 
-            var messageDelete = new MessageDelete();
-            feedDeleteParameters.Senders?.ForEach(sender => messageDelete.Senders.Add(sender));
-            feedDeleteParameters.MessageIds?.ForEach(messageId => messageDelete.MessageIds.Add(messageId));
-            feedDeleteParameters.ValidityPeriod = feedDeleteParameters.ValidityPeriod;
+            var offboardingRequest = new OffboardingRequest();
+            foreach (var endpoint in offboardVcuParameters.Endpoints)
+            {
+                offboardingRequest.Endpoints.Add(endpoint);
+            }
 
-            messagePayloadParameters.Value = messageDelete.ToByteString();
+            messagePayloadParameters.Value = offboardingRequest.ToByteString();
 
             var encodedMessage = new EncodedMessage
             {

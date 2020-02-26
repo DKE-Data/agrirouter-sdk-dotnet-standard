@@ -8,7 +8,7 @@ namespace Agrirouter.Api.Definitions
         /// <summary>
         /// Type 'PEM'.
         /// </summary>
-        public static string PEM => "PEM";
+        public static string Pem => "PEM";
 
         /// <summary>
         /// Type 'P12'.

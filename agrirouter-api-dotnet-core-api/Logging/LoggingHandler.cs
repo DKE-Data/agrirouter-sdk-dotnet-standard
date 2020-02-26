@@ -35,7 +35,7 @@ namespace Agrirouter.Api.Logging
                 Log.Debug(await request.Content.ReadAsStringAsync());
             }
 
-            HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
+            var response = await base.SendAsync(request, cancellationToken);
 
             Log.Debug("Response:");
             Log.Debug(response.ToString());

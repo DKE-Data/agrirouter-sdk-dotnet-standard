@@ -17,7 +17,7 @@ namespace Agrirouter.Api.Test.Service
 
         protected static string CertificationVersionId => "719afec8-d2ff-4cf8-8194-e688ae56b3b5";
 
-        protected Environment Environment => new QualityAssuranceEnvironment();
+        protected static Environment Environment => new QualityAssuranceEnvironment();
 
         protected AbstractIntegrationTest()
         {

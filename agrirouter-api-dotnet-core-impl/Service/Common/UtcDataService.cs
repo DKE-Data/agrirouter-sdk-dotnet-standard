@@ -11,20 +11,20 @@ namespace Agrirouter.Impl.Service.Common
         /// <summary>
         /// Delivering the current time zone.
         /// </summary>
-        public string TimeZone =>
+        public static string TimeZone =>
             (TimeZoneInfo.Local.BaseUtcOffset < TimeSpan.Zero ? "-" : "+") +
             TimeZoneInfo.Local.BaseUtcOffset.ToString("hh") + ":00";
 
         /// <summary>
         /// Delivering the current date using a valid AR format.
         /// </summary>
-        public string Now => DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+        public static string Now => DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
 
         /// <summary>
         /// Delivering the current date using a timestamp format.
         /// </summary>
         /// <returns></returns>
-        public Timestamp NowAsTimestamp()
+        public static Timestamp NowAsTimestamp()
         {
             var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
             return new Timestamp {Seconds = (long) timeSpan.TotalSeconds, Nanos = 1000000};
@@ -35,7 +35,7 @@ namespace Agrirouter.Impl.Service.Common
         /// </summary>
         /// <param name="offset">The current offset.</param>
         /// <returns>-</returns>
-        public Timestamp Timestamp(long offset)
+        public static Timestamp Timestamp(long offset)
         {
             var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
             return new Timestamp {Seconds = (long) timeSpan.TotalSeconds - offset, Nanos = 1000000};
@@ -45,9 +45,9 @@ namespace Agrirouter.Impl.Service.Common
         /// Delivering the current date using a unix timestamp format.
         /// </summary>
         /// <returns>-</returns>
-        public string NowAsUnixTimestamp()
+        public static string NowAsUnixTimestamp()
         {
-            Int32 unixTimestamp = (Int32) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            var unixTimestamp = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             return unixTimestamp.ToString();
         }
     }

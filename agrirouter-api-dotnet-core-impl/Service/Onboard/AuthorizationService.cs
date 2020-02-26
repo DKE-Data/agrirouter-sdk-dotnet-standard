@@ -46,7 +46,7 @@ namespace Agrirouter.Impl.Service.onboard
         /// <param name="applicationId">The application ID for the authorization.</param>
         /// <param name="redirectUri">The redirect URI.</param>
         /// <returns>-</returns>
-        public AuthorizationUrlResult AuthorizationUrl(string applicationId, String redirectUri)
+        public AuthorizationUrlResult AuthorizationUrl(string applicationId, string redirectUri)
         {
             var state = Guid.NewGuid().ToString();
             return new AuthorizationUrlResult
@@ -63,33 +63,35 @@ namespace Agrirouter.Impl.Service.onboard
         /// <param name="authorizationResult">The result of the parsing.</param>
         /// <returns>-</returns>
         /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
-        public AuthorizationResult Parse(string authorizationResult)
+        public static AuthorizationResult Parse(string authorizationResult)
         {
             var split = authorizationResult.Split('&');
             var parameters = new Dictionary<string, string>();
-            if (split.Length == 3 || split.Length == 4)
+            
+            if (split.Length != 3 && split.Length != 4)
             {
-                foreach (var parameter in split)
-                {
-                    var parameterSplit = parameter.Split("=");
-                    if (parameterSplit.Length != 2)
-                    {
-                        throw new ArgumentException($"Parameter '{parameter}' could not be parsed.");
-                    }
-
-                    parameters.Add(parameterSplit[0], HttpUtility.UrlDecode(parameterSplit[1]));
-                }
-
-                return new AuthorizationResult
-                {
-                    State = parameters.GetValueOrDefault("state"),
-                    Signature = parameters.GetValueOrDefault("signature"),
-                    Token = parameters.GetValueOrDefault("token"),
-                    Error = parameters.GetValueOrDefault("error")
-                };
+                throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
             }
 
-            throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
+            foreach (var parameter in split)
+            {
+                var parameterSplit = parameter.Split("=");
+                if (parameterSplit.Length != 2)
+                {
+                    throw new ArgumentException($"Parameter '{parameter}' could not be parsed.");
+                }
+
+                parameters.Add(parameterSplit[0], HttpUtility.UrlDecode(parameterSplit[1]));
+            }
+
+            return new AuthorizationResult
+            {
+                State = parameters.GetValueOrDefault("state"),
+                Signature = parameters.GetValueOrDefault("signature"),
+                Token = parameters.GetValueOrDefault("token"),
+                Error = parameters.GetValueOrDefault("error")
+            };
+
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace Agrirouter.Impl.Service.onboard
         /// </summary>
         /// <param name="authorizationResult">-</param>
         /// <returns>-</returns>
-        public AuthorizationToken Parse(AuthorizationResult authorizationResult)
+        public static AuthorizationToken Parse(AuthorizationResult authorizationResult)
         {
             return
                 (AuthorizationToken) JsonConvert.DeserializeObject(

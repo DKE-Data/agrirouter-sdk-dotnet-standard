@@ -49,6 +49,11 @@ namespace Agrirouter.Api.Definitions
         /// Type 'dke:cloud_onboard_endpoints'.
         /// </summary>
         public static string DkeCloudOnboardEndpoints => "dke:cloud_onboard_endpoints";
+        
+        /// <summary>
+        /// Type 'dke:cloud_offboard_endpoints'.
+        /// </summary>
+        public static string DkeCloudOffboardEndpoints => "dke:cloud_offboard_endpoints";
 
         /// <summary>
         /// Type 'iso:11783:-10:taskdata:zip'.

@@ -15,15 +15,13 @@ namespace Agrirouter.Api.Test.Service.Onboard
     /// </summary>
     public class SecuredOnboardingServiceTestForTelemtryPlatform : AbstractSecuredIntegrationTestForTelemetryPlatform
     {
-        private static readonly UtcDataService UtcDataService = new UtcDataService();
-        private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
-       
+
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
-                new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
+                new SecuredOnboardingService(Environment, HttpClient);
 
             var parameters = new OnboardParameters
             {
@@ -55,7 +53,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
-                new SecuredOnboardingService(Environment, UtcDataService, SignatureService, HttpClient);
+                new SecuredOnboardingService(Environment, HttpClient);
 
             var parameters = new OnboardParameters
             {

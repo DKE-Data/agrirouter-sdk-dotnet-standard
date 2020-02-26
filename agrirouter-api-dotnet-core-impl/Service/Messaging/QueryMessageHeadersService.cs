@@ -5,7 +5,6 @@ using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Feed.Response;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging.abstraction;
-using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
 namespace Agrirouter.Impl.Service.messaging

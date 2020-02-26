@@ -44,17 +44,19 @@ namespace Agrirouter.Impl.Service.messaging
 
             var httpResponseMessage = _httpClient
                 .SendAsync(httpRequestMessage).Result;
-            if (httpResponseMessage.IsSuccessStatusCode)
+            
+            if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                var messageResponses =
-                    JsonConvert.DeserializeObject<List<MessageResponse>>(httpResponseMessage.Content.ReadAsStringAsync()
-                        .Result);
-                Log.Debug("Finished fetching messages.");
-                return messageResponses;
+                throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode,
+                    httpResponseMessage.Content.ReadAsStringAsync().Result);
             }
 
-            throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode,
-                httpResponseMessage.Content.ReadAsStringAsync().Result);
+            var messageResponses =
+                JsonConvert.DeserializeObject<List<MessageResponse>>(httpResponseMessage.Content.ReadAsStringAsync()
+                    .Result);
+            Log.Debug("Finished fetching messages.");
+            return messageResponses;
+
         }
     }
 }
