@@ -14,6 +14,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class OnboardServiceTest : AbstractIntegrationTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
