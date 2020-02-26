@@ -14,7 +14,8 @@ namespace Agrirouter.Impl.Service.messaging
         /// </summary>
         /// <param name="messagingService"></param>
         /// <param name="encodeMessageService"></param>
-        public ListEndpointsService(MessagingService messagingService, EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
+        public ListEndpointsService(MessagingService messagingService, EncodeMessageService encodeMessageService) :
+            base(messagingService, encodeMessageService)
         {
         }
 

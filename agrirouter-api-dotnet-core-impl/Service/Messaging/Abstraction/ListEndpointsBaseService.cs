@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Agrirouter.Request.Payload.Account;
+using Agrirouter.Response.Payload.Account;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Agrirouter.Impl.Service.messaging.abstraction
 {
@@ -77,6 +80,24 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             };
 
             return encodedMessage;
+        }
+        
+        /// <summary>
+        /// Decode the list endpoints response from the server.
+        /// </summary>
+        /// <param name="messageResponse"></param>
+        /// <returns></returns>
+        /// <exception cref="CouldNotDecodeMessageException"></exception>
+        public ListEndpointsResponse Decode(Any messageResponse)
+        {
+            try
+            {
+                return ListEndpointsResponse.Parser.ParseFrom(messageResponse.Value);
+            }
+            catch (Exception e)
+            {
+                throw new CouldNotDecodeMessageException("Could not decode list endpoints message.", e);
+            }
         }
 
         protected abstract string TechnicalMessageType { get; }

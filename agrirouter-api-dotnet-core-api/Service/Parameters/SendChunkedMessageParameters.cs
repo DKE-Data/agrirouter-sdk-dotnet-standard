@@ -6,7 +6,7 @@ namespace Agrirouter.Api.Service.Parameters
     /// <summary>
     /// Parameter container definition.
     /// </summary>
-    public class SendMessageParameters : MessageParameters
+    public class SendChunkedMessageParameters : MessageParameters
     {
         /// <summary>
         /// Technical message type.
