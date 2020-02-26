@@ -13,7 +13,7 @@ namespace Agrirouter.Api.Service.Parameters
         public ListEndpointsQuery.Types.Direction Direction { get; set; }
 
         /// <summary>
-        /// Technical message types.
+        /// Technical message type.
         /// </summary>
         public string TechnicalMessageType { get; set; }
     }
