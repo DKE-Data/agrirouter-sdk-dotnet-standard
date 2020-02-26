@@ -15,7 +15,7 @@ namespace Agrirouter.Api.Service.Parameters
         public string ApplicationId { get; set; }
 
         /// <summary>
-        /// Version ID.
+        /// Certification version ID.
         /// </summary>
         public string CertificationVersionId { get; set; }
 
