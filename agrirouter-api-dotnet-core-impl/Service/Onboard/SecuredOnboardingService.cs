@@ -18,8 +18,6 @@ namespace Agrirouter.Impl.Service.onboard
     {
         private readonly Environment _environment;
         private readonly HttpClient _httpClient;
-        private readonly UtcDataService _utcDataService;
-        private readonly SignatureService _signatureService;
 
         /// <summary>
         /// Constructor.
@@ -28,13 +26,10 @@ namespace Agrirouter.Impl.Service.onboard
         /// <param name="utcDataService">The UTC data service.</param>
         /// <param name="signatureService">The signature service.</param>
         /// <param name="httpClient">The current HTTP client.</param>
-        public SecuredOnboardingService(Environment environment, UtcDataService utcDataService,
-            SignatureService signatureService, HttpClient httpClient)
+        public SecuredOnboardingService(Environment environment, HttpClient httpClient)
         {
             _environment = environment;
             _httpClient = httpClient;
-            _utcDataService = utcDataService;
-            _signatureService = signatureService;
         }
 
         /// <summary>

@@ -18,6 +18,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class SubscriptionServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
@@ -58,7 +59,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             };
             var technicalMessageType = new Subscription.Types.MessageTypeSubscriptionItem
             {
-                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
             };
             subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageType);
             subscriptionService.Send(subscriptionParameters);
@@ -88,7 +89,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             };
             var technicalMessageTypeForTaskdata = new Subscription.Types.MessageTypeSubscriptionItem
             {
-                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
             };
             subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForTaskdata);
 

@@ -18,6 +18,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class QueryMessageHeadersServiceTest
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);

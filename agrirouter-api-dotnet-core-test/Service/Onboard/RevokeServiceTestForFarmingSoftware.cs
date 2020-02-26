@@ -13,10 +13,9 @@ namespace Agrirouter.Api.Test.Service.Onboard
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class RevokeServiceTestForFarmingSoftware : AbstractSecuredIntegrationTestForFarmingSoftware
     {
-        private static readonly UtcDataService UtcDataService = new UtcDataService();
-        private static readonly SignatureService SignatureService = new SignatureService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
         [Fact(Skip = "Will only run if there is an endpoint with the given endpoint ID.")]
@@ -29,7 +28,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationId = ApplicationId
             };
 
-            var revokeService = new RevokeService(Environment, UtcDataService, SignatureService, HttpClient);
+            var revokeService = new RevokeService(Environment, HttpClient);
             revokeService.Revoke(revokeParameters, PrivateKey);
         }
 
@@ -43,7 +42,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationId = ApplicationId
             };
 
-            var revokeService = new RevokeService(Environment, UtcDataService, SignatureService, HttpClient);
+            var revokeService = new RevokeService(Environment, HttpClient);
             Assert.Throws<RevokeException>(() => revokeService.Revoke(revokeParameters, PrivateKey));
         }
 

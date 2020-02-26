@@ -18,6 +18,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
     /// <summary>
     /// Functional tests.
     /// </summary>
+    [Collection("Integrationtest")]
     public class QueryMessagesServiceTest
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
@@ -33,7 +34,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
                 OnboardResponse = OnboardResponse,
                 ValidityPeriod = new ValidityPeriod()
             };
-            queryMessagesParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.None);
+            queryMessagesParameters.ValidityPeriod.SentFrom = UtcDataService.Timestamp(TimestampOffset.None);
             queryMessagesParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.FourWeeks);
             queryMessagesService.Send(queryMessagesParameters);
 

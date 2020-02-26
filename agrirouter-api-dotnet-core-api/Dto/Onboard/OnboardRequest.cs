@@ -19,13 +19,13 @@ namespace Agrirouter.Api.Dto.Onboard
         public string ApplicationId { get; set; }
 
         /// <summary>
-        /// Version ID.
+        /// Certification version ID.
         /// </summary>
         [JsonProperty(PropertyName = "certificationVersionId")]
         public string CertificationVersionId { get; set; }
 
         /// <summary>
-        /// Gateway.
+        /// Gateway ID.
         /// </summary>
         [JsonProperty(PropertyName = "gatewayId")]
         public string GatewayId { get; set; }

@@ -23,6 +23,10 @@ namespace Agrirouter.Api.Service.Parameters.Inner
         /// </summary>
         public List<string> Recipients { get; set; }
 
+        /// <summary>
+        /// Chunk information.
+        /// </summary>
+        public ChunkComponent ChunkInfo { get; set; }
 
         /// <summary>
         /// Message content.
