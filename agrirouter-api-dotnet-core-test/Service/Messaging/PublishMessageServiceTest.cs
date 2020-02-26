@@ -56,8 +56,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
 
             // 3. Set routes within the UI - this is done once, not each time.
@@ -83,8 +82,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             fetch = fetchMessageService.Fetch(Sender);
             Assert.Single(fetch);
 
-            decodeMessageService = new DecodeMessageService();
-            decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 

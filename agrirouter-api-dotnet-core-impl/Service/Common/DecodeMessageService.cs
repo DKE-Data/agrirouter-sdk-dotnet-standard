@@ -1,9 +1,9 @@
 using System;
 using System.IO;
-using Agrirouter.Commons;
-using Agrirouter.Response;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Exception;
+using Agrirouter.Commons;
+using Agrirouter.Response;
 using Google.Protobuf.WellKnownTypes;
 using Serilog;
 
@@ -16,12 +16,12 @@ namespace Agrirouter.Impl.Service.Common
     {
         /// <summary>
         /// Decoding a Base64-encoded message which is containing a response envelope and a response payload wrapper.
-        /// </summary>
-        /// <param name="rawMessage"The raw messages (Base64 encoded9).</param>
+        /// <param name="rawMessage">The raw messages (Base64 encoded9).</param>
         /// <returns>-</returns>
         /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
         /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message can not be decoded.</exception>
-        public DecodedMessage Decode(string rawMessage)
+        /// </summary>
+        public static DecodedMessage Decode(string rawMessage)
         {
             if (string.IsNullOrWhiteSpace(rawMessage))
             {
@@ -59,7 +59,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <param name="any">The message content from the decoded message.</param>
         /// <returns></returns>
         /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message content can not be decoded.</exception>
-        public Messages Decode(Any any)
+        public static Messages Decode(Any any)
         {
             try
             {

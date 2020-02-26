@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
-using Agrirouter.Api.Env;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.test.helper;
@@ -26,6 +25,8 @@ namespace Agrirouter.Api.Test.Service.Onboard
         {
             var authorizationService = new AuthorizationService(Environment);
             var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId);
+            Assert.NotEmpty(authorizationUrlResult.State);
+            Assert.NotEmpty(authorizationUrlResult.AuthorizationUrl);
         }
 
         [Fact(Skip = "Will not run successfully without changing the registration code.")]

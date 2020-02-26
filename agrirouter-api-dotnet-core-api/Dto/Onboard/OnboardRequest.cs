@@ -7,23 +7,44 @@ namespace Agrirouter.Api.Dto.Onboard
     /// </summary>
     public class OnboardRequest
     {
-        [JsonProperty(PropertyName = "id")] public string Id { get; set; }
+        /// <summary>
+        /// External ID.
+        /// </summary>
+        [JsonProperty(PropertyName = "id")] public string ExternalId { get; set; }
 
+        /// <summary>
+        /// Application ID.
+        /// </summary>
         [JsonProperty(PropertyName = "applicationId")]
         public string ApplicationId { get; set; }
 
+        /// <summary>
+        /// Version ID.
+        /// </summary>
         [JsonProperty(PropertyName = "certificationVersionId")]
         public string CertificationVersionId { get; set; }
 
+        /// <summary>
+        /// Gateway.
+        /// </summary>
         [JsonProperty(PropertyName = "gatewayId")]
         public string GatewayId { get; set; }
 
+        /// <summary>
+        /// Timestamp.
+        /// </summary>
         [JsonProperty(PropertyName = "UTCTimestamp")]
-        public string UTCTimestamp { get; set; }
+        public string UtcTimestamp { get; set; }
 
+        /// <summary>
+        /// Timezone.
+        /// </summary>
         [JsonProperty(PropertyName = "timeZone")]
         public string TimeZone { get; set; }
 
+        /// <summary>
+        /// Certification type.
+        /// </summary>
         [JsonProperty(PropertyName = "certificateType")]
         public string CertificateType { get; set; }
     }

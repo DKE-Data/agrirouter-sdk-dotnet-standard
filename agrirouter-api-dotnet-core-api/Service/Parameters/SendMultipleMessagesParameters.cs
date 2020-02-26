@@ -8,6 +8,9 @@ namespace Agrirouter.Api.Service.Parameters
     /// </summary>
     public class SendMultipleMessagesParameters : MessageParameters
     {
+        /// <summary>
+        /// Message entries.
+        /// </summary>
         public List<MultipleMessageEntry> MultipleMessageEntries { get; set; }
     }
 }

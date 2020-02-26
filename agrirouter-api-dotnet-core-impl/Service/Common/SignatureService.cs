@@ -20,7 +20,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <param name="requestBody">The request body.</param>
         /// <param name="privateKey">The private key.</param>
         /// <returns>-</returns>
-        public string XAgrirouterSignature(string requestBody, string privateKey)
+        public static string XAgrirouterSignature(string requestBody, string privateKey)
         {
             return Hex.ToHexString(Signature(requestBody, privateKey));
         }
@@ -32,7 +32,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <param name="privateKey">The private key.</param>
         /// <returns>-</returns>
         /// <exception cref="CouldNotCreateSignatureException">Will be thrown if the signature can not be created.</exception>
-        public byte[] Signature(string requestBody, string privateKey)
+        public static byte[] Signature(string requestBody, string privateKey)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <param name="publicKey">The public key.</param>
         /// <returns>-</returns>
         /// <exception cref="CouldNotVerifySignatureException">Will be thrown if the signature can not be created.</exception>
-        public bool Verify(string requestBody, byte[] signature, string publicKey)
+        public static bool Verify(string requestBody, byte[] signature, string publicKey)
         {
             try
             {

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Agrirouter.Request;
-using Agrirouter.Request.Payload.Account;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Common;
+using Agrirouter.Request;
+using Agrirouter.Request.Payload.Account;
 using Google.Protobuf;
 
 namespace Agrirouter.Impl.Service.messaging.abstraction
@@ -19,10 +19,10 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         private readonly EncodeMessageService _encodeMessageService;
 
         /// <summary>
-        // Constructor.
-        /// </summary>
+        /// Constructor.
         /// <param name="messagingService">-</param>
         /// <param name="encodeMessageService">-</param>
+        /// </summary>
         protected ListEndpointsBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
         {
             _messagingService = messagingService;
@@ -73,7 +73,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             var encodedMessage = new EncodedMessage
             {
                 Id = Guid.NewGuid().ToString(),
-                Content = _encodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
+                Content = EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
             };
 
             return encodedMessage;

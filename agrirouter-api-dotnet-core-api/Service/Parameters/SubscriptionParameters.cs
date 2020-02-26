@@ -8,6 +8,9 @@ namespace Agrirouter.Api.Service.Parameters
     /// </summary>
     public class SubscriptionParameters : MessageParameters
     {
+        /// <summary>
+        /// Technical message types.
+        /// </summary>
         public List<Subscription.Types.MessageTypeSubscriptionItem> TechnicalMessageTypes { get; set; }
     }
 }

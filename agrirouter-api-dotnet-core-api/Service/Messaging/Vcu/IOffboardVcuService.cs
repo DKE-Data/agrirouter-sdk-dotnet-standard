@@ -1,6 +1,6 @@
 using Agrirouter.Api.Service.Parameters;
 
-namespace Agrirouter.Api.Service.Messaging.vcu
+namespace Agrirouter.Api.Service.Messaging.Vcu
 {
     /// <summary>
     /// Service to onboard VCUs.

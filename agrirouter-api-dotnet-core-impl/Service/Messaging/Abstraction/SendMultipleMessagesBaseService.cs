@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
-using Agrirouter.Request;
+using System.Linq;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Impl.Service.Common;
+using Agrirouter.Request;
 using Google.Protobuf;
 
 namespace Agrirouter.Impl.Service.messaging.abstraction
@@ -30,13 +30,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         /// <returns>-</returns>
         public MessagingResult Send(SendMultipleMessagesParameters sendMultipleMessagesParameters)
         {
-            List<string> encodedMessages = new List<string>();
-            foreach (var sendMessageParameters in sendMultipleMessagesParameters.MultipleMessageEntries)
-            {
-                var encodedMessage = Encode(sendMessageParameters).Content;
-                encodedMessages.Add(encodedMessage);
-            }
-
+            var encodedMessages = sendMultipleMessagesParameters.MultipleMessageEntries.Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
             var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
         }
@@ -67,7 +61,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             var encodedMessage = new EncodedMessage
             {
                 Id = Guid.NewGuid().ToString(),
-                Content = _encodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
+                Content = EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
             };
 
             return encodedMessage;

@@ -7,8 +7,14 @@ namespace Agrirouter.Api.Service.Parameters.Inner
     /// </summary>
     public class CapabilityParameter
     {
+        /// <summary>
+        /// Technical message type.
+        /// </summary>
         public string TechnicalMessageType { get; set; }
 
+        /// <summary>
+        /// Direction.
+        /// </summary>
         public CapabilitySpecification.Types.Direction Direction { get; set; }
     }
 }

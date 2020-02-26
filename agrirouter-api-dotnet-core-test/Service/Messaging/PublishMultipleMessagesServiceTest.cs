@@ -51,10 +51,9 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = decodeMessageService.Decode(fetch[0].Command.Message);
+            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-            
+
             var publishMultipleMessagesService =
                 new PublishMultipleMessagesService(new MessagingService(HttpClientForSender),
                     new EncodeMessageService());
@@ -86,9 +85,8 @@ namespace Agrirouter.Api.Test.Service.Messaging
             fetch = fetchMessageService.Fetch(Sender);
             Assert.Equal(2, fetch.Count);
 
-            decodeMessageService = new DecodeMessageService();
-            Assert.Equal(201, decodeMessageService.Decode(fetch[0].Command.Message).ResponseEnvelope.ResponseCode);
-            Assert.Equal(201, decodeMessageService.Decode(fetch[1].Command.Message).ResponseEnvelope.ResponseCode);
+            Assert.Equal(201, DecodeMessageService.Decode(fetch[0].Command.Message).ResponseEnvelope.ResponseCode);
+            Assert.Equal(201, DecodeMessageService.Decode(fetch[1].Command.Message).ResponseEnvelope.ResponseCode);
         }
 
         private static OnboardResponse Sender
