@@ -25,7 +25,7 @@ namespace Agrirouter.Api.Dto.Onboard
         public string CertificationVersionId { get; set; }
 
         /// <summary>
-        /// Gateway.
+        /// Gateway ID.
         /// </summary>
         [JsonProperty(PropertyName = "gatewayId")]
         public string GatewayId { get; set; }
