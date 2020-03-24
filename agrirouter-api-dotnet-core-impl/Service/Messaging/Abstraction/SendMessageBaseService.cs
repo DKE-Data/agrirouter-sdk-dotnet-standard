@@ -1,5 +1,7 @@
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Agrirouter.Api.Definitions;
@@ -41,36 +43,43 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             }
             else
             {
-                if (MessageHasToBeChunked(sendMessageParameters))
+                if (MessageCanBeChunked(sendMessageParameters.TechnicalMessageType))
                 {
-                    var chunkContextId = Guid.NewGuid().ToString();
-                    var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
-
-                    var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
-                        sendMessageParameters.ChunkSize > 0
-                            ? sendMessageParameters.ChunkSize
-                            : ChunkSizeDefinition.MaximumSupported);
-
-                    var current = 0;
-                    foreach (var chunkedMessage in chunkedMessages)
+                    if (MessageHasToBeChunked(sendMessageParameters.Base64MessageContent))
                     {
-                        var sendMessageParametersDuplicate = new SendChunkedMessageParameters
+                        var chunkContextId = Guid.NewGuid().ToString();
+                        var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
+
+                        var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
+                            sendMessageParameters.ChunkSize > 0
+                                ? sendMessageParameters.ChunkSize
+                                : ChunkSizeDefinition.MaximumSupported);
+
+                        var current = 0;
+                        foreach (var chunkedMessage in chunkedMessages)
                         {
-                            Recipients = sendMessageParameters.Recipients,
-                            TypeUrl = sendMessageParameters.TypeUrl,
-                            TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
-                            ApplicationMessageId = MessageIdService.ApplicationMessageId()
-                        };
-                        var chunkComponent = new ChunkComponent
-                        {
-                            Current = current++,
-                            Total = chunkedMessage.Length,
-                            ContextId = chunkContextId,
-                            TotalSize = totalSize
-                        };
-                        sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
-                        sendMessageParametersDuplicate.Base64MessageContent = chunkedMessage;
-                        encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
+                            var sendMessageParametersDuplicate = new SendChunkedMessageParameters
+                            {
+                                Recipients = sendMessageParameters.Recipients,
+                                TypeUrl = sendMessageParameters.TypeUrl,
+                                TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
+                                ApplicationMessageId = MessageIdService.ApplicationMessageId()
+                            };
+                            var chunkComponent = new ChunkComponent
+                            {
+                                Current = current++,
+                                Total = chunkedMessage.Length,
+                                ContextId = chunkContextId,
+                                TotalSize = totalSize
+                            };
+                            sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
+                            sendMessageParametersDuplicate.Base64MessageContent = chunkedMessage;
+                            encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
+                        }
+                    }
+                    else
+                    {
+                        encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
                     }
                 }
                 else
@@ -83,15 +92,19 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             }
         }
 
+        private bool MessageCanBeChunked(string technicalMessageType)
+        {
+            return TechnicalMessageTypes.IsChunkable(technicalMessageType);
+        }
+
         /// <summary>
         /// Checks whether a message has to be chunked or not.
         /// </summary>
-        /// <param name="sendMessageParameters"></param>
+        /// <param name="base64MessageContent"></param>
         /// <returns></returns>
-        public bool MessageHasToBeChunked(SendMessageParameters sendMessageParameters)
+        public bool MessageHasToBeChunked(string base64MessageContent)
         {
-            var base64MessageContent = sendMessageParameters.Base64MessageContent;
-            var byteCount = Encoding.Unicode.GetByteCount(base64MessageContent);
+            var byteCount = Encoding.Unicode.GetByteCount(base64MessageContent) / 4;
             return byteCount / ChunkSizeDefinition.MaximumSupported > 1;
         }
 
@@ -109,16 +122,23 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
                 throw new ChunkSizeNotSupportedException();
             }
 
-            var chunkedMessages = new List<string>();
-            while (base64MessageContent.Length > chunkSize)
+            var chunks = new List<string>();
+            var source = Encoding.UTF8.GetBytes(base64MessageContent);
+            byte[] chunk;
+            for(var i = 0; i < source.Length; i+=chunkSize)
             {
-                chunkedMessages.Add(base64MessageContent.Substring(0, chunkSize));
-                base64MessageContent = base64MessageContent.Substring(chunkSize);
+                if (i + chunkSize > source.Length) continue;
+                
+                chunk = new byte[chunkSize];
+                Array.Copy(source, i, chunk, 0, chunkSize);
+                chunks.Add(Encoding.UTF8.GetString(chunk));
             }
+            var lastSourceIndex = chunks.Count*chunkSize;
+            chunk = new byte[source.Length-lastSourceIndex];
+            Array.Copy(source, lastSourceIndex, chunk, 0, source.Length-lastSourceIndex);
+            chunks.Add(Encoding.UTF8.GetString(chunk));
 
-            chunkedMessages.Add(base64MessageContent);
-
-            return chunkedMessages;
+            return chunks;
         }
 
         /// <summary>

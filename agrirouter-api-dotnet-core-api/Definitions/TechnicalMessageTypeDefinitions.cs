@@ -109,5 +109,13 @@ namespace Agrirouter.Api.Definitions
         /// Type 'vid:wmv'.
         /// </summary>
         public static string VidWmv => "vid:wmv";
+
+        public static bool IsChunkable(string technicalMessageType)
+        {
+            return Iso11783TaskdataZip.Equals(technicalMessageType) || ImgBmp.Equals(technicalMessageType) ||
+                ImgJpeg.Equals(technicalMessageType) || ShpShapeZip.Equals(technicalMessageType) ||
+                DocPdf.Equals(technicalMessageType) || VidAvi.Equals(technicalMessageType) ||
+                VidMp4.Equals(technicalMessageType) || VidWmv.Equals(technicalMessageType);
+        }
     }
 }
