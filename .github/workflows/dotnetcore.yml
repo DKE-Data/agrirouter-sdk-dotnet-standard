@@ -15,8 +15,8 @@ jobs:
       with:
         dotnet-version: 3.1.100
 
-    - name:
-      run: nuget sources add -name GitHub -source https://nuget.pkg.github.com/DKE-Data/index.json -username saschadoemer -password ${{ GITHUB_TOKEN }}
+    - name: Update NuGet Sources
+      run: nuget sources add -name GitHub -source https://nuget.pkg.github.com/DKE-Data/index.json -username saschadoemer -password ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build with dotnet
+    - name: Build
       run: dotnet build --configuration Release
