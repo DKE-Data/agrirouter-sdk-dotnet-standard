@@ -34,8 +34,8 @@ namespace Agrirouter.Api.Test.Service.Messaging
                 OnboardResponse = OnboardResponse,
                 ValidityPeriod = new ValidityPeriod()
             };
-            queryMessagesParameters.ValidityPeriod.SentFrom = UtcDataService.Timestamp(TimestampOffset.None);
-            queryMessagesParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.FourWeeks);
+            queryMessagesParameters.ValidityPeriod.SentFrom = UtcDataService.Timestamp(TimestampOffset.FourWeeks);
+            queryMessagesParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.None);
             queryMessagesService.Send(queryMessagesParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
