@@ -46,32 +46,7 @@ The `test` module contains the integrations tests for the given API as example i
 
 === Integration
 
-If you want to add a dependency feel free to fetch the latest release from Github Packages. Please find the documentation right https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-apache-maven-for-use-with-github-packages[here].
-We are supporting JDK 8 and later, releases are build using a JDK 8 to have compatibility for most users. If you need to build the current development branch, please feel free build the branch on yourself and install it to your local repository.
-
-== Certificates for the communication
-
-We do not longer maintain the certificates within the API.
-Maintaining them in the API would mean, that we have to release the API with every change of the certificate.
-Therefore feel free to add the root certificates to a Java Key Store add reference it within your application.
-
-=== Adding a certificate to the JKS
-
-The certificates are PEM files which can be added directly to the keystore using the following command.
-
-[source]
-----
-keytool -importcert -file certificate.pem -keystore my_agrirouter_key_store.jks
-----
-
-If you try to add the command, please be aware, that the containing PEM file has to fulfill the following requirements:
-
-* The header and footer are included enclosed between five dashes.
-* There are no trailing spaces on each line.
-* The certificate is saved as a .p7b.
-
-If the files does not meet those requirements, the import will not be possible.
-The certificates are part of the integration guide which can be found in the external resources.
+If you want to add a reference feel free to fetch the latest release from Github Packages. Please find the documentation right https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-dotnet-cli-for-use-with-github-packages[here].
 
 == External resources
 
