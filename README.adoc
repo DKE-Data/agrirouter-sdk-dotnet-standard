@@ -1,0 +1,58 @@
+
+= agrirouter-api-dotnet-standard
+:imagesdir: assets/images
+:toc:
+:toc-title:
+:toclevels: 4
+
+[abstract]
+== Abstract
+image::agrirouter.svg[agrirouter]
+
+The agrirouter is a universal data exchange platform for farmers and agricultural contractors that makes it possible to connect machinery and agricultural software, regardless of vendor or manufacturer. Agrirouter does not save data; it transfers data.
+As a universal data exchange platform, agrirouter fills a gap on the way to Farming 4.0. Its underlying concept unites cross-vendor and discrimination-free data transfer. You retain full control over your data. Even data exchange with service providers (e.g. agricultural contractors) and other partners is uncomplicated: Data are very rapidly transferred via the online connection, and if you wish, is intelligently connected to other datasets.
+
+== Supporters & Maintainers
+image::lmis.svg[agrirouter]
+
+The LMIS AG is a recognised german IT service company, certified according to DIN EN ISO 9001:2015 and based in
+Osnabrück, Berlin, Friedland and Wuppertal. Our core competence is the individual development, optimisation and support
+of IT solutions. We also provide professional IT consulting services and training courses. We have been supporting
+the whole project during the development in the field of test management and are currently responsible for the development
+support of the platform.
+
+We are active maintainers of the API and are using the API for internal testing purposes as well. Therefore we have a
+high interest in a stable and usable interface to connect to the agrirouter.
+
+Feel free to get in touch by visiting our https://www.lmis.de[website] or contacting us via GitHub.
+
+== The current project you're looking at
+
+This project contains the API for the communication with the agrirouter. Everything you need for the onboarding process, secure communication and much more.
+
+== Modules
+
+=== `api` Module
+
+The `api` module contains interfaces, common helper classes and DTOs as well as exceptions.
+
+=== `impl` Module
+
+The `impl` module contains the implementation of the given API defined by the `api` module.
+
+=== `test` Module
+
+The `test` module contains the integrations tests for the given API as example implementation.
+
+=== Integration
+
+If you want to add a reference feel free to fetch the latest release from Github Packages. Please find the documentation right https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-dotnet-cli-for-use-with-github-packages[here].
+
+== External resources
+
+Here are some external resources for the development:
+
+* https://my-agrirouter.com[My Agrirouter Website]
+* https://github.com/DKE-Data/agrirouter-interface-documentation[Integration Guide]
+* https://www.aef-online.org[EFDI Protobuf Definition]
+* https://www.lmis.de[LMIS - Maintenance & Support]
