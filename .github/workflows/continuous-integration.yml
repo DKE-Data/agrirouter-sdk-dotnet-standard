@@ -1,7 +1,9 @@
 name: Continuous Integration Build
 
-on: [push]
-
+on:
+  pull_request:
+    branches:
+      - develop
 jobs:
   build:
 
@@ -18,8 +20,8 @@ jobs:
     - name: Setup Nuget
       uses: warrenbuckley/Setup-Nuget@v1
 
-    - name: Update NuGet Sources
-      run: nuget sources add -name GitHub -source https://nuget.pkg.github.com/DKE-Data/index.json -username saschadoemer -password ${{ secrets.GITHUB_TOKEN }}
+    - name: Add private GitHub registry to NuGet
+      run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/DKE-Data/index.json -Username DKE-Data -Password ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
       run: dotnet build --configuration Release
