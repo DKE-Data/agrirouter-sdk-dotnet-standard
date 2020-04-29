@@ -1,0 +1,83 @@
+
+= agrirouter-api-java
+:imagesdir: assets/images
+:toc:
+:toc-title:
+:toclevels: 4
+
+[abstract]
+== Abstract
+image::agrirouter.svg[agrirouter]
+
+The agrirouter is a universal data exchange platform for farmers and agricultural contractors that makes it possible to connect machinery and agricultural software, regardless of vendor or manufacturer. Agrirouter does not save data; it transfers data.
+As a universal data exchange platform, agrirouter fills a gap on the way to Farming 4.0. Its underlying concept unites cross-vendor and discrimination-free data transfer. You retain full control over your data. Even data exchange with service providers (e.g. agricultural contractors) and other partners is uncomplicated: Data are very rapidly transferred via the online connection, and if you wish, is intelligently connected to other datasets.
+
+== Supporters & Maintainers
+image::lmis.svg[agrirouter]
+
+The LMIS AG is a recognised german IT service company, certified according to DIN EN ISO 9001:2015 and based in
+Osnabrück, Berlin, Friedland and Wuppertal. Our core competence is the individual development, optimisation and support
+of IT solutions. We also provide professional IT consulting services and training courses. We have been supporting
+the whole project during the development in the field of test management and are currently responsible for the development
+support of the platform.
+
+We are active maintainers of the API and are using the API for internal testing purposes as well. Therefore we have a
+high interest in a stable and usable interface to connect to the agrirouter.
+
+Feel free to get in touch by visiting our https://www.lmis.de[website] or contacting us via GitHub.
+
+== The current project you're looking at
+
+This project contains the API for the communication with the agrirouter. Everything you need for the onboarding process, secure communication and much more.
+
+== Modules
+
+=== `api` Module
+
+The `api` module contains interfaces, common helper classes and DTOs as well as exceptions.
+
+=== `impl` Module
+
+The `impl` module contains the implementation of the given API defined by the `api` module.
+
+=== `test` Module
+
+The `test` module contains the integrations tests for the given API as example implementation.
+
+=== Integration
+
+If you want to add a dependency feel free to fetch the latest release from Github Packages. Please find the documentation right https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-apache-maven-for-use-with-github-packages[here].
+We are supporting JDK 8 and later, releases are build using a JDK 8 to have compatibility for most users. If you need to build the current development branch, please feel free build the branch on yourself and install it to your local repository.
+
+== Certificates for the communication
+
+We do not longer maintain the certificates within the API.
+Maintaining them in the API would mean, that we have to release the API with every change of the certificate.
+Therefore feel free to add the root certificates to a Java Key Store add reference it within your application.
+
+=== Adding a certificate to the JKS
+
+The certificates are PEM files which can be added directly to the keystore using the following command.
+
+[source]
+----
+keytool -importcert -file certificate.pem -keystore my_agrirouter_key_store.jks
+----
+
+If you try to add the command, please be aware, that the containing PEM file has to fulfill the following requirements:
+
+* The header and footer are included enclosed between five dashes.
+* There are no trailing spaces on each line.
+* The certificate is saved as a .p7b.
+
+If the files does not meet those requirements, the import will not be possible.
+The certificates are part of the integration guide which can be found in the external resources.
+
+== External resources
+
+Here are some external resources for the development:
+
+* https://my-agrirouter.com[My Agrirouter Website]
+* https://github.com/DKE-Data/agrirouter-interface-documentation[Integration Guide]
+* https://www.aef-online.org[EFDI Protobuf Definition]
+* https://www.lmis.de[LMIS - Maintenance & Support]
