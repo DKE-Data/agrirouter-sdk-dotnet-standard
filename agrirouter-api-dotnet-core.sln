@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agrirouter-api-dotnet-core-api", "agrirouter-api-dotnet-core-api\agrirouter-api-dotnet-core-api.csproj", "{395B48F7-1325-4E88-A7B4-6BDC0FA73F8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agrirouter-api-dotnet-standard-api", "agrirouter-api-dotnet-standard-api\agrirouter-api-dotnet-standard-api.csproj", "{395B48F7-1325-4E88-A7B4-6BDC0FA73F8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agrirouter-api-dotnet-core-test", "agrirouter-api-dotnet-core-test\agrirouter-api-dotnet-core-test.csproj", "{9F37C3C1-E1B8-4A96-89D6-7A462469DFC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agrirouter-api-dotnet-standard-test", "agrirouter-api-dotnet-standard-test\agrirouter-api-dotnet-standard-test.csproj", "{9F37C3C1-E1B8-4A96-89D6-7A462469DFC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agrirouter-api-dotnet-core-impl", "agrirouter-api-dotnet-core-impl\agrirouter-api-dotnet-core-impl.csproj", "{D02C59BD-3B38-4F3D-A87E-F13C977BABB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agrirouter-api-dotnet-standard-impl", "agrirouter-api-dotnet-standard-impl\agrirouter-api-dotnet-standard-impl.csproj", "{D02C59BD-3B38-4F3D-A87E-F13C977BABB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
