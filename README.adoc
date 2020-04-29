@@ -1,5 +1,5 @@
 
-= agrirouter-api-java
+= agrirouter-api-dotnet-standard
 :imagesdir: assets/images
 :toc:
 :toc-title:
