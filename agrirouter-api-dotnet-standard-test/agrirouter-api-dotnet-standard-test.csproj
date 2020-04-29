@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\agrirouter-api-dotnet-core-api\agrirouter-api-dotnet-core-api.csproj" />
-        <ProjectReference Include="..\agrirouter-api-dotnet-core-impl\agrirouter-api-dotnet-core-impl.csproj" />
+        <ProjectReference Include="..\agrirouter-api-dotnet-standard-api\agrirouter-api-dotnet-standard-api.csproj" />
+        <ProjectReference Include="..\agrirouter-api-dotnet-standard-impl\agrirouter-api-dotnet-standard-impl.csproj" />
     </ItemGroup>
 
     <ItemGroup>
