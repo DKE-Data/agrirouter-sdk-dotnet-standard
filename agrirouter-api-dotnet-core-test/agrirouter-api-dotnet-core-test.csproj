@@ -4,7 +4,7 @@
         <RootNamespace>Agrirouter.Api.test</RootNamespace>
         <OutputType>Library</OutputType>
         <LangVersion>default</LangVersion>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
