@@ -55,8 +55,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
 
             var publishMultipleMessagesService =
-                new PublishMultipleMessagesService(new HttpMessagingService(HttpClientForSender),
-                    new EncodeMessageService());
+                new PublishMultipleMessagesService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMultipleMessagesParameters
             {
                 OnboardResponse = Sender,

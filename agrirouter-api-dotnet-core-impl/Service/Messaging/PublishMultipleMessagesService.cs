@@ -1,3 +1,5 @@
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging.abstraction;
 using Agrirouter.Request;
@@ -12,10 +14,9 @@ namespace Agrirouter.Impl.Service.messaging
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="httpMessagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public PublishMultipleMessagesService(HttpMessagingService httpMessagingService,
-            EncodeMessageService encodeMessageService) : base(httpMessagingService, encodeMessageService)
+        /// <param name="messagingService">-</param>
+        public PublishMultipleMessagesService(IMessagingService<MessagingParameters> messagingService) : base(
+            messagingService)
         {
         }
 

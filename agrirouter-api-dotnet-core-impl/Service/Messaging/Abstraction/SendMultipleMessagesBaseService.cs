@@ -15,14 +15,11 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 {
     public abstract class SendMultipleMessagesBaseService : ISendMultipleMessagesService
     {
-        private readonly HttpMessagingService _httpMessagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
-        protected SendMultipleMessagesBaseService(HttpMessagingService httpMessagingService,
-            EncodeMessageService encodeMessageService)
+        protected SendMultipleMessagesBaseService(IMessagingService<MessagingParameters> messagingService)
         {
-            _httpMessagingService = httpMessagingService;
-            _encodeMessageService = encodeMessageService;
+            _messagingService = messagingService;
         }
 
         /// <summary>
@@ -35,7 +32,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             var encodedMessages = sendMultipleMessagesParameters.MultipleMessageEntries
                 .Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
             var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
-            return _httpMessagingService.Send(messagingParameters);
+            return _messagingService.Send(messagingParameters);
         }
 
         /// <summary>
@@ -82,8 +79,6 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             {
                 throw new MessageShouldHaveBeenChunkedException();
             }
-
-            ;
         }
 
         protected abstract RequestEnvelope.Types.Mode Mode { get; }

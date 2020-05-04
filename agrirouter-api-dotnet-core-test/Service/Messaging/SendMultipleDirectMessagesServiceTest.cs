@@ -27,8 +27,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenMultipleValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
         {
             var sendMessageService =
-                new SendMultipleDirectMessagesService(new HttpMessagingService(HttpClientForSender),
-                    new EncodeMessageService());
+                new SendMultipleDirectMessagesService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMultipleMessagesParameters
             {
                 OnboardResponse = Sender,
