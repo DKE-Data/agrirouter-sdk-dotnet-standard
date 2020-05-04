@@ -28,7 +28,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessageHeadersWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
         {
             var queryMessageHeadersService =
-                new QueryMessageHeadersService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessageHeadersService(new HttpMessagingService(HttpClient));
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -55,7 +55,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
             var queryMessageHeadersService =
-                new QueryMessageHeadersService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessageHeadersService(new HttpMessagingService(HttpClient));
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -80,7 +80,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessageHeadersWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
             var queryMessageHeadersService =
-                new QueryMessageHeadersService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessageHeadersService(new HttpMessagingService(HttpClient));
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -105,7 +105,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessageHeadersWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
         {
             var queryMessageHeadersService =
-                new QueryMessageHeadersService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessageHeadersService(new HttpMessagingService(HttpClient));
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse

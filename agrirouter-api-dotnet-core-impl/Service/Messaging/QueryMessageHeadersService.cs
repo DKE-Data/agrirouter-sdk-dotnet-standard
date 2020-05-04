@@ -2,6 +2,7 @@ using System;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Feed.Response;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging.abstraction;
@@ -18,10 +19,9 @@ namespace Agrirouter.Impl.Service.messaging
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="httpMessagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public QueryMessageHeadersService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
-            : base(httpMessagingService, encodeMessageService)
+        /// <param name="messagingService">-</param>
+        public QueryMessageHeadersService(IMessagingService<MessagingParameters> messagingService)
+            : base(messagingService)
         {
         }
 

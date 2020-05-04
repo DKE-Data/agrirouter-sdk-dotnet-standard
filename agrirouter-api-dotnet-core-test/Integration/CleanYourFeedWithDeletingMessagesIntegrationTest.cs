@@ -148,8 +148,7 @@ namespace Agrirouter.Api.test.integration
         private static void ActionsForRecipient()
         {
             var queryMessageHeadersService =
-                new QueryMessageHeadersService(new HttpMessagingService(HttpClientForRecipient),
-                    new EncodeMessageService());
+                new QueryMessageHeadersService(new HttpMessagingService(HttpClientForRecipient));
             var queryMessageHeadersParameters = new QueryMessagesParameters
             {
                 OnboardResponse = Recipient,
