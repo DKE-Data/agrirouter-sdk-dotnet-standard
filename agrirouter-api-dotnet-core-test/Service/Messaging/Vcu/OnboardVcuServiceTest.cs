@@ -25,7 +25,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Vcu
         [Fact]
         public void GivenValidIdAndNameWhenOnboardingVirtualCuThenTheOnbardingShouldBePossible()
         {
-            var onboardVcuService = new OnboardVcuService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+            var onboardVcuService = new OnboardVcuService(new HttpMessagingService(HttpClient));
             var onboardVcuParameters = new OnboardVcuParameters
             {
                 OnboardResponse = OnboardResponse,

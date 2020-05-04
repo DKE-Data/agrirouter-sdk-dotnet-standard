@@ -47,7 +47,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Vcu
         [Fact]
         public void GivenExistingEndpointIdWhenOffboardingVcuThenTheArShouldReturnErrorMessage()
         {
-            var onboardVcuService = new OnboardVcuService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+            var onboardVcuService = new OnboardVcuService(new HttpMessagingService(HttpClient));
             var endpointId = Guid.NewGuid().ToString();
 
             var onboardVcuParameters = new OnboardVcuParameters
