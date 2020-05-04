@@ -64,7 +64,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             // 4. Publish message from sender to recipient.
             var publishMessageService =
-                new PublishMessageService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
+                new PublishMessageService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,

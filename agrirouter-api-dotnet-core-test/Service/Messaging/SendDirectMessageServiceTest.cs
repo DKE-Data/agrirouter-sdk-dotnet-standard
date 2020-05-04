@@ -41,7 +41,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             // 3. Send message from sender to recipient.
             var sendMessageService =
-                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,

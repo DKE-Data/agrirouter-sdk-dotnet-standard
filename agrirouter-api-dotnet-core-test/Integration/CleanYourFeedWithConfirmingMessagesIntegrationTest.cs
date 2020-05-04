@@ -114,7 +114,7 @@ namespace Agrirouter.Api.test.integration
         private static void ActionsForSender()
         {
             var sendMessageService =
-                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,
