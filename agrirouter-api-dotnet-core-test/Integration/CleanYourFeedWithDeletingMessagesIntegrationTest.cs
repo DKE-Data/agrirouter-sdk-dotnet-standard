@@ -178,7 +178,7 @@ namespace Agrirouter.Api.test.integration
                 .ToList();
 
             var feedDeleteService =
-                new FeedDeleteService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new FeedDeleteService(new HttpMessagingService(HttpClientForRecipient));
             var feedDeleteParameters = new FeedDeleteParameters
             {
                 OnboardResponse = Recipient,
