@@ -18,18 +18,15 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
     /// </summary>
     public abstract class ListEndpointsBaseService : IListEndpointsService
     {
-        private readonly HttpMessagingService _httpMessagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
-        /// <param name="httpMessagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
+        /// <param name="messagingService">-</param>
         /// </summary>
-        protected ListEndpointsBaseService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
+        protected ListEndpointsBaseService(IMessagingService<MessagingParameters> messagingService)
         {
-            _httpMessagingService = httpMessagingService;
-            _encodeMessageService = encodeMessageService;
+            _messagingService = messagingService;
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         {
             var encodedMessages = new List<string> {Encode(listEndpointsParameters).Content};
             var messagingParameters = listEndpointsParameters.BuildMessagingParameter(encodedMessages);
-            return _httpMessagingService.Send(messagingParameters);
+            return _messagingService.Send(messagingParameters);
         }
 
         /// <summary>

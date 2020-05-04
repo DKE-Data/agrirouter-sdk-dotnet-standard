@@ -27,7 +27,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new ListEndpointsService(new HttpMessagingService(HttpClient));
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardResponse = OnboardResponse
@@ -51,7 +51,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new ListEndpointsService(new HttpMessagingService(HttpClient));
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -76,7 +76,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new ListEndpointsService(new HttpMessagingService(HttpClient));
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -101,7 +101,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new ListEndpointsService(new HttpMessagingService(HttpClient));
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -126,7 +126,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndEmptyAsTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new ListEndpointsService(new HttpMessagingService(HttpClient));
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -152,7 +152,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
         {
             var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new ListEndpointsService(new HttpMessagingService(HttpClient));
             var listEndpointsParameters = new ListEndpointsParameters
             {
                 OnboardResponse = OnboardResponse,

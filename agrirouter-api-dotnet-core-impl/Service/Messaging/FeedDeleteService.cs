@@ -22,7 +22,7 @@ namespace Agrirouter.Impl.Service.messaging
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        public FeedDeleteService(HttpMessagingService messagingService)
+        public FeedDeleteService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
         }
