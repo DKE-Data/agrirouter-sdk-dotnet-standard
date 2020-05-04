@@ -1,6 +1,6 @@
 using System.IO;
 using System.Reflection;
-using Agrirouter.Impl.service.Convenience;
+using Agrirouter.Impl.Service.Convenience;
 
 namespace Agrirouter.Api.test.Data
 {
