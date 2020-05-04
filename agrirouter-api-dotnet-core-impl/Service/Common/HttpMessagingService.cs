@@ -34,7 +34,7 @@ namespace Agrirouter.Impl.Service.Common
         /// </summary>
         /// <param name="messagingParameters">Messaging parameters.</param>
         /// <returns>-</returns>
-        /// <exception cref="CouldNotSendMessageException">Will be thrown if the message could not be send.</exception>
+        /// <exception cref="CouldNotSendHttpMessageException">Will be thrown if the message could not be send.</exception>
         public MessagingResult Send(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
@@ -64,7 +64,7 @@ namespace Agrirouter.Impl.Service.Common
 
             Log.Error("Sending the message was not successful. HTTP response was " +
                       httpResponseMessage.StatusCode + ". Please check exception for more details.");
-            throw new CouldNotSendMessageException(httpResponseMessage.StatusCode,
+            throw new CouldNotSendHttpMessageException(httpResponseMessage.StatusCode,
                 httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
     }

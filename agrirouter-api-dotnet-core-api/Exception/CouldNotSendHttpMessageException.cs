@@ -7,7 +7,7 @@ namespace Agrirouter.Api.Exception
     /// Will be thrown if the message could not be sent to the AR.
     /// </summary>
     [Serializable]
-    public class CouldNotSendMessageException : System.Exception
+    public class CouldNotSendHttpMessageException : System.Exception
     {
         private HttpStatusCode StatusCode { get; }
       
@@ -18,7 +18,7 @@ namespace Agrirouter.Api.Exception
         /// </summary>
         /// <param name="statusCode">-</param>
         /// <param name="errorMessage">-</param>
-        public CouldNotSendMessageException(HttpStatusCode statusCode, string errorMessage)
+        public CouldNotSendHttpMessageException(HttpStatusCode statusCode, string errorMessage)
         {
             StatusCode = statusCode;
             ErrorMessage = errorMessage;

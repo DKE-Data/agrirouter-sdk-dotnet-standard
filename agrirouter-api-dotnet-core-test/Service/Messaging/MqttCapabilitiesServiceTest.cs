@@ -22,7 +22,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(MqttClient), new EncodeMessageService());
+                new CapabilitiesService(new MqttMessagingService(MqttClient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = OnboardResponse,

@@ -38,7 +38,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 
             if (string.IsNullOrWhiteSpace(sendMessageParameters.Base64MessageContent))
             {
-                throw new CouldNotSendMessageException(HttpStatusCode.BadRequest,
+                throw new CouldNotSendHttpMessageException(HttpStatusCode.BadRequest,
                     "Sending empty messages does not make any sense.");
             }
             else

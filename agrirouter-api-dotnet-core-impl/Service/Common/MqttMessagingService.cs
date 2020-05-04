@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using Agrirouter.Api.Builder;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
+using MQTTnet;
 using MQTTnet.Client;
 using Newtonsoft.Json;
 using Serilog;
@@ -35,7 +37,7 @@ namespace Agrirouter.Impl.Service.Common
         /// </summary>
         /// <param name="messagingParameters">Messaging parameters.</param>
         /// <returns>-</returns>
-        /// <exception cref="CouldNotSendMessageException">Will be thrown if the message could not be send.</exception>
+        /// <exception cref="CouldNotSendHttpMessageException">Will be thrown if the message could not be send.</exception>
         public MessagingResult Send(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
@@ -52,21 +54,27 @@ namespace Agrirouter.Impl.Service.Common
                 messageRequest.Messages.Add(message);
             }
 
-            HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
-                "application/json");
-            var httpResponseMessage = _mqttClient
-                .PostAsync(messagingParameters.OnboardResponse.ConnectionCriteria.Measures, requestBody).Result;
+            var messagePayload = JsonConvert.SerializeObject(messageRequest);
+            
+            var mqttMessage = new MqttApplicationMessageBuilder()
+                .WithTopic(messagingParameters.OnboardResponse.ConnectionCriteria.Measures)
+                .WithPayload(messagePayload)
+                .WithExactlyOnceQoS()
+                .WithRetainFlag()
+                .Build();
+            
+            var mqttClientPublishResult =  _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
 
-            if (httpResponseMessage.IsSuccessStatusCode)
+            if (mqttClientPublishResult.IsCompletedSuccessfully)
             {
                 return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
                     .Build();
             }
-
-            Log.Error("Sending the message was not successful. HTTP response was " +
-                      httpResponseMessage.StatusCode + ". Please check exception for more details.");
-            throw new CouldNotSendMessageException(httpResponseMessage.StatusCode,
-                httpResponseMessage.Content.ReadAsStringAsync().Result);
+            
+            Log.Error("Sending the message was not successful. MQTT publish result response was " +
+                      mqttClientPublishResult.Result.ReasonCode + " with message '"+mqttClientPublishResult.Result.ReasonString+"'. Please check exception for more details.");
+            throw new CouldNotSendMqttMessageException(mqttClientPublishResult.Result.ReasonCode,
+                mqttClientPublishResult.Result.ReasonString);
         }
     }
 }

@@ -16,17 +16,17 @@ namespace Agrirouter.Impl.Service.messaging
     /// </summary>
     public class CapabilitiesService : ICapabilitiesServices
     {
-        private readonly HttpMessagingService _httpMessagingService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="httpMessagingService">-</param>
+        /// <param name="messagingService">-</param>
         /// <param name="encodeMessageService">-</param>
-        public CapabilitiesService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
+        public CapabilitiesService(IMessagingService<MessagingParameters> messagingService, EncodeMessageService encodeMessageService)
         {
-            _httpMessagingService = httpMessagingService;
+            _messagingService = messagingService;
             _encodeMessageService = encodeMessageService;
         }
 
@@ -39,7 +39,7 @@ namespace Agrirouter.Impl.Service.messaging
         {
             var encodedMessages = new List<string> {Encode(capabilitiesParameters).Content};
             var messagingParameters = capabilitiesParameters.BuildMessagingParameter(encodedMessages);
-            return _httpMessagingService.Send(messagingParameters);
+            return _messagingService.Send(messagingParameters);
         }
 
         /// <summary>
