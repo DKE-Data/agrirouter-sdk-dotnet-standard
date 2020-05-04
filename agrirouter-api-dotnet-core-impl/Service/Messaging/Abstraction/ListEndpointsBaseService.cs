@@ -11,7 +11,7 @@ using Agrirouter.Response.Payload.Account;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
-namespace Agrirouter.Impl.Service.messaging.abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     /// <summary>
     /// Abstraction of the service to list endpoints to avoid multiple implementations.

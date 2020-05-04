@@ -11,7 +11,7 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging.abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     public abstract class SendMultipleMessagesBaseService : ISendMultipleMessagesService
     {

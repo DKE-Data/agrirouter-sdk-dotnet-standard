@@ -1,7 +1,7 @@
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Impl.Service.messaging.abstraction;
+using Agrirouter.Impl.Service.Messaging.Abstraction;
 
 namespace Agrirouter.Impl.Service.messaging
 {

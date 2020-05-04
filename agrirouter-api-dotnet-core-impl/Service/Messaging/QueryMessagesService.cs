@@ -4,7 +4,7 @@ using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Feed.Response;
-using Agrirouter.Impl.Service.messaging.abstraction;
+using Agrirouter.Impl.Service.Messaging.Abstraction;
 using Google.Protobuf.WellKnownTypes;
 
 namespace Agrirouter.Impl.Service.messaging

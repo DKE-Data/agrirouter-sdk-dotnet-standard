@@ -1,6 +1,6 @@
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Impl.Service.messaging.abstraction;
+using Agrirouter.Impl.Service.Messaging.Abstraction;
 using Agrirouter.Request;
 
 namespace Agrirouter.Impl.Service.messaging
