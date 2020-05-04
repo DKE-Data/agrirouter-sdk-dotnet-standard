@@ -23,7 +23,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         }
 
         /// <summary>
-        /// Please see <see cref="HttpMessagingService.Send"/> for documentation.
+        /// Please see base class declaration for documentation.
         /// </summary>
         /// <param name="sendMultipleMessagesParameters">-</param>
         /// <returns>-</returns>

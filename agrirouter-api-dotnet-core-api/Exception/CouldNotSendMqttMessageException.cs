@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using MQTTnet.Client.Publishing;
 
 namespace Agrirouter.Api.Exception

@@ -1,7 +1,5 @@
 using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
 using Agrirouter.Api.Definitions;
@@ -26,7 +24,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         }
 
         /// <summary>
-        /// Please see <see cref="HttpMessagingService.Send"/> for documentation.
+        /// Please see base class declaration for documentation.
         /// </summary>
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
