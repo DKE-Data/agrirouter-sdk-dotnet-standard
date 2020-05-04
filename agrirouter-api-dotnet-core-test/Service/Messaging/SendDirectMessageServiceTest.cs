@@ -11,7 +11,6 @@ using Agrirouter.Api.test.helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging;
 using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Response.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -68,7 +67,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void SetCapabilitiesForSender()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Sender,
@@ -100,7 +99,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void SetCapabilitiesForRecipient()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Recipient,

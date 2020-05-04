@@ -61,7 +61,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void PrepareTestEnvironment(OnboardResponse onboardResponse, HttpClient httpClient)
         {
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(httpClient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(httpClient));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = onboardResponse,

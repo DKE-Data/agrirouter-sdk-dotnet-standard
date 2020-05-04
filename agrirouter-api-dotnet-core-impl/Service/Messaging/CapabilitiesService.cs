@@ -17,17 +17,14 @@ namespace Agrirouter.Impl.Service.messaging
     public class CapabilitiesService : ICapabilitiesServices
     {
         private readonly IMessagingService<MessagingParameters> _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public CapabilitiesService(IMessagingService<MessagingParameters> messagingService, EncodeMessageService encodeMessageService)
+        public CapabilitiesService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>

@@ -46,7 +46,7 @@ namespace Agrirouter.Api.test.integration
         private static void PrepareTestEnvironmentForSender()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Sender,
@@ -76,7 +76,7 @@ namespace Agrirouter.Api.test.integration
         private static void PrepareTestEnvironmentForRecipient()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Recipient,
