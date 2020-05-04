@@ -78,7 +78,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
 
             return encodedMessage;
         }
-        
+
         /// <summary>
         /// Decode the list endpoints response from the server.
         /// </summary>

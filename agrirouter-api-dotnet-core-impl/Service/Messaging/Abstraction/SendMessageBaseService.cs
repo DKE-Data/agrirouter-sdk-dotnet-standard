@@ -121,17 +121,18 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             var chunks = new List<string>();
             var source = Encoding.UTF8.GetBytes(base64MessageContent);
             byte[] chunk;
-            for(var i = 0; i < source.Length; i+=chunkSize)
+            for (var i = 0; i < source.Length; i += chunkSize)
             {
                 if (i + chunkSize > source.Length) continue;
-                
+
                 chunk = new byte[chunkSize];
                 Array.Copy(source, i, chunk, 0, chunkSize);
                 chunks.Add(Encoding.UTF8.GetString(chunk));
             }
-            var lastSourceIndex = chunks.Count*chunkSize;
-            chunk = new byte[source.Length-lastSourceIndex];
-            Array.Copy(source, lastSourceIndex, chunk, 0, source.Length-lastSourceIndex);
+
+            var lastSourceIndex = chunks.Count * chunkSize;
+            chunk = new byte[source.Length - lastSourceIndex];
+            Array.Copy(source, lastSourceIndex, chunk, 0, source.Length - lastSourceIndex);
             chunks.Add(Encoding.UTF8.GetString(chunk));
 
             return chunks;

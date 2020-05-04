@@ -52,24 +52,25 @@ namespace Agrirouter.Impl.Service.Common
             }
 
             var messagePayload = JsonConvert.SerializeObject(messageRequest);
-            
+
             var mqttMessage = new MqttApplicationMessageBuilder()
                 .WithTopic(messagingParameters.OnboardResponse.ConnectionCriteria.Measures)
                 .WithPayload(messagePayload)
                 .WithExactlyOnceQoS()
                 .WithRetainFlag()
                 .Build();
-            
-            var mqttClientPublishResult =  _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
+
+            var mqttClientPublishResult = _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
 
             if (mqttClientPublishResult.IsCompletedSuccessfully)
             {
                 return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
                     .Build();
             }
-            
+
             Log.Error("Sending the message was not successful. MQTT publish result response was " +
-                      mqttClientPublishResult.Result.ReasonCode + " with message '"+mqttClientPublishResult.Result.ReasonString+"'. Please check exception for more details.");
+                      mqttClientPublishResult.Result.ReasonCode + " with message '" +
+                      mqttClientPublishResult.Result.ReasonString + "'. Please check exception for more details.");
             throw new CouldNotSendMqttMessageException(mqttClientPublishResult.Result.ReasonCode,
                 mqttClientPublishResult.Result.ReasonString);
         }

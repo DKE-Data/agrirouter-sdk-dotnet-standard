@@ -10,7 +10,7 @@ namespace Agrirouter.Api.Exception
     public class CouldNotSendHttpMessageException : System.Exception
     {
         private HttpStatusCode StatusCode { get; }
-      
+
         private string ErrorMessage { get; }
 
         /// <summary>

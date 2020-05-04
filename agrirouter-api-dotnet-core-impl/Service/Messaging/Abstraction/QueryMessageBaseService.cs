@@ -68,6 +68,5 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         protected abstract string TechnicalMessageType { get; }
-        
     }
 }

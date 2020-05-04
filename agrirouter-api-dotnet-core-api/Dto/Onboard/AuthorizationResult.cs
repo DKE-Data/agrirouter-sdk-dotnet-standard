@@ -9,17 +9,17 @@ namespace Agrirouter.Api.Dto.Onboard
         /// State.
         /// </summary>
         public string State { get; set; }
-      
+
         /// <summary>
         /// Signature.
         /// </summary>
         public string Signature { get; set; }
-      
+
         /// <summary>
         /// Token.
         /// </summary>
         public string Token { get; set; }
-     
+
         /// <summary>
         /// Error.
         /// </summary>

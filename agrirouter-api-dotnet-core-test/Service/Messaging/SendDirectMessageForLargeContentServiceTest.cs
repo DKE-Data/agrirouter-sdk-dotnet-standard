@@ -32,7 +32,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         {
             PrepareTestEnvironment(Sender, HttpClientForSender);
             PrepareTestEnvironment(Recipient, HttpClientForRecipient);
-            
+
             var sendMessageService =
                 new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMessageParameters

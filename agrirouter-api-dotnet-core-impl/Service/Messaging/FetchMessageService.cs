@@ -44,7 +44,7 @@ namespace Agrirouter.Impl.Service.Messaging
 
             var httpResponseMessage = _httpClient
                 .SendAsync(httpRequestMessage).Result;
-            
+
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
                 throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode,
@@ -56,7 +56,6 @@ namespace Agrirouter.Impl.Service.Messaging
                     .Result);
             Log.Debug("Finished fetching messages.");
             return messageResponses;
-
         }
     }
 }

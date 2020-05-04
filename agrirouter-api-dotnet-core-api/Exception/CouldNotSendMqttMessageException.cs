@@ -10,7 +10,7 @@ namespace Agrirouter.Api.Exception
     public class CouldNotSendMqttMessageException : System.Exception
     {
         private MqttClientPublishReasonCode ReasonCode { get; }
-      
+
         private string ErrorMessage { get; }
 
         /// <summary>

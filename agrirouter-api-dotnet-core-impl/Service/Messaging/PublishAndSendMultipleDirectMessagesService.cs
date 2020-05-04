@@ -14,7 +14,8 @@ namespace Agrirouter.Impl.Service.Messaging
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        public PublishAndSendMultipleDirectMessagesService(IMessagingService<MessagingParameters> messagingService) : base(messagingService)
+        public PublishAndSendMultipleDirectMessagesService(IMessagingService<MessagingParameters> messagingService) :
+            base(messagingService)
         {
         }
 
