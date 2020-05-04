@@ -1,10 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading;
+using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.messaging;
+using Agrirouter.Request.Payload.Endpoint;
+using MQTTnet;
+using MQTTnet.Client;
 using Newtonsoft.Json;
+using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Messaging
 {
-    public class MqttCapabilitiesServiceTest
+    public class MqttCapabilitiesServiceTest : AbstractIntegrationTest
     {
+        [Fact]
+        public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
+        {
+            var capabilitiesServices =
+                new CapabilitiesService(new MessagingService(MqttClient), new EncodeMessageService());
+            var capabilitiesParameters = new CapabilitiesParameters
+            {
+                OnboardResponse = OnboardResponse,
+                ApplicationId = ApplicationId,
+                CertificationVersionId = CertificationVersionId,
+                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
+                CapabilityParameters = new List<CapabilityParameter>()
+            };
+
+            var capabilitiesParameter = new CapabilityParameter
+            {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
+            };
+
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+            capabilitiesServices.Send(capabilitiesParameters);
+        }
+
+        private static MqttClient MqttClient
+        {
+            get
+            {
+                var factory = new MqttFactory();
+                var mqttClient = factory.CreateMqttClient();
+                return mqttClient as MqttClient;
+            }
+        }
+
         private static OnboardResponse OnboardResponse
         {
             get
