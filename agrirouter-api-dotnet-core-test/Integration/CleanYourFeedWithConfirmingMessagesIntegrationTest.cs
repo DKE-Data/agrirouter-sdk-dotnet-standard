@@ -211,7 +211,7 @@ namespace Agrirouter.Api.test.integration
             File.WriteAllBytes(fileName, image);
 
             var feedConfirmService =
-                new FeedConfirmService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new FeedConfirmService(new HttpMessagingService(HttpClientForRecipient));
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = Recipient,
