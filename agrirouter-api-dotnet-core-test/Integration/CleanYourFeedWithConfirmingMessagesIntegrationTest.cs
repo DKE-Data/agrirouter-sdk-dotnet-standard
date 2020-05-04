@@ -18,7 +18,7 @@ using Agrirouter.Response;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.test.integration
+namespace Agrirouter.Api.Test.Integration
 {
     [Collection("Integrationtest")]
     public class CleanYourFeedWithConfirmingMessagesIntegrationTest : AbstractIntegrationTest
