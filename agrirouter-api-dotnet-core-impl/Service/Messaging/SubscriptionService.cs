@@ -16,18 +16,16 @@ namespace Agrirouter.Impl.Service.messaging
     /// </summary>
     public class SubscriptionService : ISubscriptionService
     {
-        private readonly HttpMessagingService _httpMessagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="httpMessagingService">-</param>
+        /// <param name="messagingService">-</param>
         /// <param name="encodeMessageService">-</param>
-        public SubscriptionService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
+        public SubscriptionService(IMessagingService<MessagingParameters> messagingService)
         {
-            _httpMessagingService = httpMessagingService;
-            _encodeMessageService = encodeMessageService;
+            _messagingService = messagingService;
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace Agrirouter.Impl.Service.messaging
         {
             var encodedMessages = new List<string> {Encode(subscriptionParameters).Content};
             var messagingParameters = subscriptionParameters.BuildMessagingParameter(encodedMessages);
-            return _httpMessagingService.Send(messagingParameters);
+            return _messagingService.Send(messagingParameters);
         }
 
         /// <summary>

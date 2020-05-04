@@ -11,7 +11,6 @@ using Agrirouter.Api.test.helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.messaging;
 using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Response;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -32,7 +31,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenMultipleValidMessageContentWhenPublishingMessagesThenTheMessageShouldBeDelivered()
         {
             var subscriptionService =
-                new SubscriptionService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new SubscriptionService(new HttpMessagingService(HttpClientForRecipient));
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardResponse = Recipient,
