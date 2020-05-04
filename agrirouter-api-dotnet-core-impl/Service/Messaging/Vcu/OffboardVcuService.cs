@@ -17,18 +17,16 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
     /// </summary>
     public class OffboardVcuService : IOffboardVcuService
     {
-        private readonly HttpMessagingService _httpMessagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="httpMessagingService">-</param>
+        /// <param name="messagingService">-</param>
         /// <param name="encodeMessageService">-</param>
-        public OffboardVcuService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
+        public OffboardVcuService(IMessagingService<MessagingParameters> messagingService)
         {
-            _httpMessagingService = httpMessagingService;
-            _encodeMessageService = encodeMessageService;
+            _messagingService = messagingService;
         }
 
         /// <summary>
@@ -40,7 +38,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         {
             var encodedMessages = new List<string> {Encode(offboardVcuParameters).Content};
             var messagingParameters = offboardVcuParameters.BuildMessagingParameter(encodedMessages);
-            return _httpMessagingService.Send(messagingParameters);
+            return _messagingService.Send(messagingParameters);
         }
 
         /// <summary>

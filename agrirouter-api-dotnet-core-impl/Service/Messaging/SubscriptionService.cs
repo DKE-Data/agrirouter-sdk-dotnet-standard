@@ -16,7 +16,7 @@ namespace Agrirouter.Impl.Service.messaging
     /// </summary>
     public class SubscriptionService : ISubscriptionService
     {
-        IMessagingService<MessagingParameters> _messagingService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.

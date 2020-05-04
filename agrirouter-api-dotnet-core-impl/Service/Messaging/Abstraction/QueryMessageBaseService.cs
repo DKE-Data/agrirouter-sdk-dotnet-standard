@@ -12,7 +12,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 {
     public abstract class QueryMessageBaseService : IQueryMessagesService
     {
-        IMessagingService<MessagingParameters> _messagingService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         protected QueryMessageBaseService(IMessagingService<MessagingParameters> messagingService)
         {

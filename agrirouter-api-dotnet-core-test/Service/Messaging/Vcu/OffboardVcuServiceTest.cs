@@ -22,7 +22,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Vcu
         public void GivenNonExistingEndpointIdWhenOffboardingVcuThenTheArShouldReturnErrorMessage()
         {
             var offboardVcuService =
-                new OffboardVcuService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new OffboardVcuService(new HttpMessagingService(HttpClient));
             var offboardVcuParameters = new OffboardVcuParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -75,7 +75,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Vcu
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
 
             var offboardVcuService =
-                new OffboardVcuService(new HttpMessagingService(HttpClient), new EncodeMessageService());
+                new OffboardVcuService(new HttpMessagingService(HttpClient));
             var offboardVcuParameters = new OffboardVcuParameters
             {
                 OnboardResponse = OnboardResponse,
