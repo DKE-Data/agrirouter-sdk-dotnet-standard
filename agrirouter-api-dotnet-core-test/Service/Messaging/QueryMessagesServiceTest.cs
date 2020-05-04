@@ -28,7 +28,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessagesWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
         {
             var queryMessagesService =
-                new QueryMessagesService(new MessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessagesService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -55,7 +55,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
             var queryMessagesService =
-                new QueryMessagesService(new MessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessagesService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -80,7 +80,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
         {
             var queryMessagesService =
-                new QueryMessagesService(new MessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessagesService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -105,7 +105,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenExistingEndpointsWhenQueryMessagesWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
         {
             var queryMessagesService =
-                new QueryMessagesService(new MessagingService(HttpClient), new EncodeMessageService());
+                new QueryMessagesService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
                 OnboardResponse = OnboardResponse

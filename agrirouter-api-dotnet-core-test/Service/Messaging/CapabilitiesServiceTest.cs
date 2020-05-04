@@ -27,7 +27,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = OnboardResponse,

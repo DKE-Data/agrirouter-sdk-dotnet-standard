@@ -53,6 +53,6 @@ namespace Agrirouter.Api.Test.Service.Messaging
         }
 
         private SendDirectMessageService SendDirectMessageService =>
-            new SendDirectMessageService(new MessagingService(null), new EncodeMessageService());
+            new SendDirectMessageService(new HttpMessagingService(null), new EncodeMessageService());
     }
 }

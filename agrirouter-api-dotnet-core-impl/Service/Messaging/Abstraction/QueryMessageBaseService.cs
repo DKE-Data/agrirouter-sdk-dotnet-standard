@@ -12,17 +12,17 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 {
     public abstract class QueryMessageBaseService : IQueryMessagesService
     {
-        private readonly MessagingService _messagingService;
+        private readonly HttpMessagingService _httpMessagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
-        protected QueryMessageBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        protected QueryMessageBaseService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
         {
-            _messagingService = messagingService;
+            _httpMessagingService = httpMessagingService;
             _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see <see cref="HttpMessagingService.Send"/> for documentation.
         /// </summary>
         /// <param name="queryMessagesParameters">-</param>
         /// <returns>-</returns>
@@ -30,7 +30,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         {
             var encodedMessages = new List<string> {Encode(queryMessagesParameters).Content};
             var messagingParameters = queryMessagesParameters.BuildMessagingParameter(encodedMessages);
-            return _messagingService.Send(messagingParameters);
+            return _httpMessagingService.Send(messagingParameters);
         }
 
         /// <summary>

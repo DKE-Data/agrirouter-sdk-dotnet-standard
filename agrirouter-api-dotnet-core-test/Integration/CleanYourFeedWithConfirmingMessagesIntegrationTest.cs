@@ -46,7 +46,7 @@ namespace Agrirouter.Api.test.integration
         private static void PrepareTestEnvironmentForSender()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Sender,
@@ -76,7 +76,7 @@ namespace Agrirouter.Api.test.integration
         private static void PrepareTestEnvironmentForRecipient()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Recipient,
@@ -114,7 +114,7 @@ namespace Agrirouter.Api.test.integration
         private static void ActionsForSender()
         {
             var sendMessageService =
-                new SendDirectMessageService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,
@@ -156,7 +156,7 @@ namespace Agrirouter.Api.test.integration
         private static void ActionsForRecipient()
         {
             var queryMessageHeadersService =
-                new QueryMessageHeadersService(new MessagingService(HttpClientForRecipient),
+                new QueryMessageHeadersService(new HttpMessagingService(HttpClientForRecipient),
                     new EncodeMessageService());
             var queryMessageHeadersParameters = new QueryMessagesParameters
             {
@@ -184,7 +184,7 @@ namespace Agrirouter.Api.test.integration
             var messageId = feedMessageHeaderQuery.Feed[0].Headers[0].MessageId;
 
             var queryMessagesService =
-                new QueryMessagesService(new MessagingService(HttpClientForRecipient),
+                new QueryMessagesService(new HttpMessagingService(HttpClientForRecipient),
                     new EncodeMessageService());
             var queryMessagesParameters = new QueryMessagesParameters
             {
@@ -211,7 +211,7 @@ namespace Agrirouter.Api.test.integration
             File.WriteAllBytes(fileName, image);
 
             var feedConfirmService =
-                new FeedConfirmService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new FeedConfirmService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = Recipient,

@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenEmptyMessageIdsWhenConfirmingMessagesThenTheMessageShouldNotBeAccepted()
         {
             var feedConfirmService =
-                new FeedConfirmService(new MessagingService(HttpClient), new EncodeMessageService());
+                new FeedConfirmService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = OnboardResponse
@@ -54,7 +54,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenNonExistingMessageIdWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
             var feedConfirmService =
-                new FeedConfirmService(new MessagingService(HttpClient), new EncodeMessageService());
+                new FeedConfirmService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -85,7 +85,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenNonExistingMessageIdsWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
             var feedConfirmService =
-                new FeedConfirmService(new MessagingService(HttpClient), new EncodeMessageService());
+                new FeedConfirmService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = OnboardResponse,

@@ -38,7 +38,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         {
             var httpClient = HttpClientFactory.AuthenticatedHttpClient(onboardResponse);
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(httpClient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(httpClient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = onboardResponse,

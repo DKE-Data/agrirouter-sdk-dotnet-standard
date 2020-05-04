@@ -37,7 +37,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             // 2. Recipient has to create his subscriptions in order to get the messages. If they are not set correctly the AR will return a HTTP 400.
             var subscriptionService =
-                new SubscriptionService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new SubscriptionService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardResponse = Recipient,
@@ -64,7 +64,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             // 4. Publish message from sender to recipient.
             var publishMessageService =
-                new PublishMessageService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new PublishMessageService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,

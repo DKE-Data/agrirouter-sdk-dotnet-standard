@@ -16,17 +16,17 @@ namespace Agrirouter.Impl.Service.messaging
     /// </summary>
     public class FeedConfirmService : IFeedConfirmService
     {
-        private readonly MessagingService _messagingService;
+        private readonly HttpMessagingService _httpMessagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="messagingService">-</param>
+        /// <param name="httpMessagingService">-</param>
         /// <param name="encodeMessageService">-</param>
-        public FeedConfirmService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        public FeedConfirmService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
         {
-            _messagingService = messagingService;
+            _httpMessagingService = httpMessagingService;
             _encodeMessageService = encodeMessageService;
         }
 
@@ -39,7 +39,7 @@ namespace Agrirouter.Impl.Service.messaging
         {
             var encodedMessages = new List<string> {Encode(feedConfirmParameters).Content};
             var messagingParameters = feedConfirmParameters.BuildMessagingParameter(encodedMessages);
-            return _messagingService.Send(messagingParameters);
+            return _httpMessagingService.Send(messagingParameters);
         }
 
         /// <summary>

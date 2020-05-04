@@ -42,7 +42,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             // 3. Send message from sender to recipient.
             var sendMessageService =
-                new SendDirectMessageService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,
@@ -68,7 +68,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void SetCapabilitiesForSender()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Sender,
@@ -100,7 +100,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void SetCapabilitiesForRecipient()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Recipient,

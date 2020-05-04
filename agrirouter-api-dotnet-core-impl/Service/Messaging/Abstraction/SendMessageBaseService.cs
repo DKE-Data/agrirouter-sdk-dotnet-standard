@@ -18,17 +18,17 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 {
     public abstract class SendMessageBaseService : ISendMessageService
     {
-        private readonly MessagingService _messagingService;
+        private readonly HttpMessagingService _httpMessagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
-        protected SendMessageBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        protected SendMessageBaseService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
         {
-            _messagingService = messagingService;
+            _httpMessagingService = httpMessagingService;
             _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see <see cref="HttpMessagingService.Send"/> for documentation.
         /// </summary>
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
@@ -88,7 +88,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
                 }
 
                 var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
-                return _messagingService.Send(messagingParameters);
+                return _httpMessagingService.Send(messagingParameters);
             }
         }
 

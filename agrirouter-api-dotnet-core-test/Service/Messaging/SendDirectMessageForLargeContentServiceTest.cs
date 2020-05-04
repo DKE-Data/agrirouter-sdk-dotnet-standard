@@ -34,7 +34,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             PrepareTestEnvironment(Recipient, HttpClientForRecipient);
             
             var sendMessageService =
-                new SendDirectMessageService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender), new EncodeMessageService());
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,
@@ -61,7 +61,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void PrepareTestEnvironment(OnboardResponse onboardResponse, HttpClient httpClient)
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(httpClient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(httpClient), new EncodeMessageService());
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = onboardResponse,

@@ -12,10 +12,10 @@ namespace Agrirouter.Impl.Service.messaging
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="messagingService">-</param>
+        /// <param name="httpMessagingService">-</param>
         /// <param name="encodeMessageService">-</param>
-        public SendMultipleDirectMessagesService(MessagingService messagingService,
-            EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
+        public SendMultipleDirectMessagesService(HttpMessagingService httpMessagingService,
+            EncodeMessageService encodeMessageService) : base(httpMessagingService, encodeMessageService)
         {
         }
 

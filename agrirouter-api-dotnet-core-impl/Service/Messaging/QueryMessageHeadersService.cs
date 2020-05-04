@@ -18,10 +18,10 @@ namespace Agrirouter.Impl.Service.messaging
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="messagingService">-</param>
+        /// <param name="httpMessagingService">-</param>
         /// <param name="encodeMessageService">-</param>
-        public QueryMessageHeadersService(MessagingService messagingService, EncodeMessageService encodeMessageService)
-            : base(messagingService, encodeMessageService)
+        public QueryMessageHeadersService(HttpMessagingService httpMessagingService, EncodeMessageService encodeMessageService)
+            : base(httpMessagingService, encodeMessageService)
         {
         }
 

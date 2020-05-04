@@ -15,18 +15,18 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 {
     public abstract class SendMultipleMessagesBaseService : ISendMultipleMessagesService
     {
-        private readonly MessagingService _messagingService;
+        private readonly HttpMessagingService _httpMessagingService;
         private readonly EncodeMessageService _encodeMessageService;
 
-        protected SendMultipleMessagesBaseService(MessagingService messagingService,
+        protected SendMultipleMessagesBaseService(HttpMessagingService httpMessagingService,
             EncodeMessageService encodeMessageService)
         {
-            _messagingService = messagingService;
+            _httpMessagingService = httpMessagingService;
             _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see <see cref="HttpMessagingService.Send"/> for documentation.
         /// </summary>
         /// <param name="sendMultipleMessagesParameters">-</param>
         /// <returns>-</returns>
@@ -35,7 +35,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             var encodedMessages = sendMultipleMessagesParameters.MultipleMessageEntries
                 .Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
             var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
-            return _messagingService.Send(messagingParameters);
+            return _httpMessagingService.Send(messagingParameters);
         }
 
         /// <summary>

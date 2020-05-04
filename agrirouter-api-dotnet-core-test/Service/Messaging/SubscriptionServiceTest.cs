@@ -27,7 +27,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenEmptySubscriptionWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
             var subscriptionService =
-                new SubscriptionService(new MessagingService(HttpClient), new EncodeMessageService());
+                new SubscriptionService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters
             {
                 OnboardResponse = OnboardResponse
@@ -51,7 +51,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenSingleSubscriptionEntryWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
             var subscriptionService =
-                new SubscriptionService(new MessagingService(HttpClient), new EncodeMessageService());
+                new SubscriptionService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters
             {
                 OnboardResponse = OnboardResponse,
@@ -81,7 +81,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             GivenMultipleSubscriptionEntriesWithOneInvalidTechnicalMessageTypeWhenSendingSubscriptionMessageThenTheMessageShouldBeNotBeAccepted()
         {
             var subscriptionService =
-                new SubscriptionService(new MessagingService(HttpClient), new EncodeMessageService());
+                new SubscriptionService(new HttpMessagingService(HttpClient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters
             {
                 OnboardResponse = OnboardResponse,

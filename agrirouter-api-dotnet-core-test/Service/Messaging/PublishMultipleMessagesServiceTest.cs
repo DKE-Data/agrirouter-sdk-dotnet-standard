@@ -32,7 +32,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         public void GivenMultipleValidMessageContentWhenPublishingMessagesThenTheMessageShouldBeDelivered()
         {
             var subscriptionService =
-                new SubscriptionService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new SubscriptionService(new HttpMessagingService(HttpClientForRecipient), new EncodeMessageService());
             var subscriptionParameters = new SubscriptionParameters()
             {
                 OnboardResponse = Recipient,
@@ -55,7 +55,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
 
             var publishMultipleMessagesService =
-                new PublishMultipleMessagesService(new MessagingService(HttpClientForSender),
+                new PublishMultipleMessagesService(new HttpMessagingService(HttpClientForSender),
                     new EncodeMessageService());
             var sendMessageParameters = new SendMultipleMessagesParameters
             {

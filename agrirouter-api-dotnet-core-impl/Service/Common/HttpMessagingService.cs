@@ -16,7 +16,7 @@ namespace Agrirouter.Impl.Service.Common
     /// <summary>
     /// Service to send messages to the AR.
     /// </summary>
-    public class MessagingService : IMessagingService<MessagingParameters>
+    public class HttpMessagingService : IMessagingService<MessagingParameters>
     {
         private readonly HttpClient _httpClient;
 
@@ -24,7 +24,7 @@ namespace Agrirouter.Impl.Service.Common
         /// Constructor.
         /// </summary>
         /// <param name="httpClient">-</param>
-        public MessagingService(HttpClient httpClient)
+        public HttpMessagingService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
