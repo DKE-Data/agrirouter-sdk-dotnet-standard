@@ -8,6 +8,7 @@ using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
+using MQTTnet.Client;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -18,15 +19,15 @@ namespace Agrirouter.Impl.Service.Common
     /// </summary>
     public class MqttMessagingService : IMessagingService<MessagingParameters>
     {
-        private readonly HttpClient _httpClient;
+        private readonly MqttClient _mqttClient;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="httpClient">-</param>
-        public MqttMessagingService(HttpClient httpClient)
+        /// <param name="mqttClient">-</param>
+        public MqttMessagingService(MqttClient mqttClient)
         {
-            _httpClient = httpClient;
+            _mqttClient = mqttClient;
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Agrirouter.Impl.Service.Common
 
             HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
                 "application/json");
-            var httpResponseMessage = _httpClient
+            var httpResponseMessage = _mqttClient
                 .PostAsync(messagingParameters.OnboardResponse.ConnectionCriteria.Measures, requestBody).Result;
 
             if (httpResponseMessage.IsSuccessStatusCode)
