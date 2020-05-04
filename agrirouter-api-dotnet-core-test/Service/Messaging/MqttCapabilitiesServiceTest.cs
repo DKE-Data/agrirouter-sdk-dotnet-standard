@@ -4,7 +4,7 @@ using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.messaging;
+using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
 using MQTTnet;
 using MQTTnet.Client;

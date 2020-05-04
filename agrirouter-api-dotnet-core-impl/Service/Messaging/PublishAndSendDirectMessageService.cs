@@ -3,7 +3,7 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Messaging.Abstraction;
 using Agrirouter.Request;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to publish and send messages.

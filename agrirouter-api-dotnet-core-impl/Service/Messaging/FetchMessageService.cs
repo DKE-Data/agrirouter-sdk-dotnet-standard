@@ -9,7 +9,7 @@ using Agrirouter.Api.Exception;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to fetch messages from the agrirouter.

@@ -3,7 +3,7 @@ using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Messaging.Abstraction;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to list the endpoints connected to an endpoint.

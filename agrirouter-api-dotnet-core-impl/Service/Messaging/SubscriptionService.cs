@@ -9,7 +9,7 @@ using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to send the subscriptions.

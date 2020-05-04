@@ -7,7 +7,7 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.test.helper;
 using Agrirouter.Cloud.Registration;
 using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.messaging;
+using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Impl.Service.Messaging.Vcu;
 using Newtonsoft.Json;
 using Xunit;

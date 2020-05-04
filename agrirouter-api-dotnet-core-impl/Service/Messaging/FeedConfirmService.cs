@@ -9,7 +9,7 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Please see <seealso cref="IFeedConfirmService"/> for documentation.

@@ -7,7 +7,7 @@ using Agrirouter.Feed.Response;
 using Agrirouter.Impl.Service.Messaging.Abstraction;
 using Google.Protobuf.WellKnownTypes;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to query message headers.

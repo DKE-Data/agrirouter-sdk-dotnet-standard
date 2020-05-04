@@ -4,7 +4,7 @@ using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.test.Data;
 using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.messaging;
+using Agrirouter.Impl.Service.Messaging;
 using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Messaging
