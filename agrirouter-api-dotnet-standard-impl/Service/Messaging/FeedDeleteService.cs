@@ -9,25 +9,22 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Please see <seealso cref="IFeedDeleteService"/> for documentation.
     /// </summary>
     public class FeedDeleteService : IFeedDeleteService
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public FeedDeleteService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        public FeedDeleteService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>

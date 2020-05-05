@@ -11,22 +11,19 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging.abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     public abstract class SendMultipleMessagesBaseService : ISendMultipleMessagesService
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
-        protected SendMultipleMessagesBaseService(MessagingService messagingService,
-            EncodeMessageService encodeMessageService)
+        protected SendMultipleMessagesBaseService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see base class declaration for documentation.
         /// </summary>
         /// <param name="sendMultipleMessagesParameters">-</param>
         /// <returns>-</returns>
@@ -82,8 +79,6 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             {
                 throw new MessageShouldHaveBeenChunkedException();
             }
-
-            ;
         }
 
         protected abstract RequestEnvelope.Types.Mode Mode { get; }

@@ -3,8 +3,7 @@ using System.Net.Http;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Api.test.helper;
-using Agrirouter.Impl.Service.Common;
+using Agrirouter.Api.Test.Helper;
 using Agrirouter.Impl.Service.onboard;
 using Xunit;
 

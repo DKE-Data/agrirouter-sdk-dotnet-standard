@@ -62,7 +62,7 @@ namespace Agrirouter.Impl.Service.onboard
         /// </summary>
         /// <param name="authorizationResult">The result of the parsing.</param>
         /// <returns>-</returns>
-        /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
+        /// <exception cref="System.ArgumentException">Will be thrown if the input is not valid.</exception>
         public AuthorizationResult Parse(string authorizationResult)
         {
             var split = authorizationResult.Split('&');

@@ -9,25 +9,22 @@ using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Please see <seealso cref="ICapabilitiesServices"/> for documentation.
     /// </summary>
     public class CapabilitiesService : ICapabilitiesServices
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public CapabilitiesService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        public CapabilitiesService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>

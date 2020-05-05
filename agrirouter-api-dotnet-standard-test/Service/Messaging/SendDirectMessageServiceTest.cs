@@ -6,12 +6,11 @@ using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
-using Agrirouter.Api.test.Data;
-using Agrirouter.Api.test.helper;
+using Agrirouter.Api.Test.Data;
+using Agrirouter.Api.Test.Helper;
 using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.messaging;
+using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Response.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -42,7 +41,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             // 3. Send message from sender to recipient.
             var sendMessageService =
-                new SendDirectMessageService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,
@@ -68,7 +67,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void SetCapabilitiesForSender()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForSender), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Sender,
@@ -100,7 +99,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private void SetCapabilitiesForRecipient()
         {
             var capabilitiesServices =
-                new CapabilitiesService(new MessagingService(HttpClientForRecipient), new EncodeMessageService());
+                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Recipient,
