@@ -23,7 +23,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        public OnboardVcuService(HttpMessagingService messagingService)
+        public OnboardVcuService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
         }

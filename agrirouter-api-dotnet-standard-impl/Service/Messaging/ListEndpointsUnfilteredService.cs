@@ -1,5 +1,6 @@
 using Agrirouter.Api.Definitions;
-using Agrirouter.Impl.Service.Common;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Messaging.Abstraction;
 
 namespace Agrirouter.Impl.Service.Messaging
@@ -13,7 +14,7 @@ namespace Agrirouter.Impl.Service.Messaging
         /// Constructor.
         /// </summary>
         /// <param name="messagingService"></param>
-        public ListEndpointsUnfilteredService(HttpMessagingService messagingService) : base(messagingService)
+        public ListEndpointsUnfilteredService(IMessagingService<MessagingParameters> messagingService) : base(messagingService)
         {
         }
 
