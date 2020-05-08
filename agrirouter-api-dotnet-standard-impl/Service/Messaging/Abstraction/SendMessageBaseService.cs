@@ -22,8 +22,10 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             _messagingService = messagingService;
         }
 
+        protected abstract RequestEnvelope.Types.Mode Mode { get; }
+
         /// <summary>
-        /// Please see base class declaration for documentation.
+        ///     Please see base class declaration for documentation.
         /// </summary>
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
@@ -35,55 +37,84 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             {
                 throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
             }
-            else
+
+            if (MessageCanBeChunked(sendMessageParameters.TechnicalMessageType))
             {
-                if (MessageCanBeChunked(sendMessageParameters.TechnicalMessageType))
+                if (MessageHasToBeChunked(sendMessageParameters.Base64MessageContent))
                 {
-                    if (MessageHasToBeChunked(sendMessageParameters.Base64MessageContent))
+                    var chunkContextId = Guid.NewGuid().ToString();
+                    var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
+
+                    var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
+                        sendMessageParameters.ChunkSize > 0
+                            ? sendMessageParameters.ChunkSize
+                            : ChunkSizeDefinition.MaximumSupported);
+
+                    var current = 0;
+                    foreach (var chunkedMessage in chunkedMessages)
                     {
-                        var chunkContextId = Guid.NewGuid().ToString();
-                        var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
-
-                        var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
-                            sendMessageParameters.ChunkSize > 0
-                                ? sendMessageParameters.ChunkSize
-                                : ChunkSizeDefinition.MaximumSupported);
-
-                        var current = 0;
-                        foreach (var chunkedMessage in chunkedMessages)
+                        var sendMessageParametersDuplicate = new SendChunkedMessageParameters
                         {
-                            var sendMessageParametersDuplicate = new SendChunkedMessageParameters
-                            {
-                                Recipients = sendMessageParameters.Recipients,
-                                TypeUrl = sendMessageParameters.TypeUrl,
-                                TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
-                                ApplicationMessageId = MessageIdService.ApplicationMessageId()
-                            };
-                            var chunkComponent = new ChunkComponent
-                            {
-                                Current = current++,
-                                Total = chunkedMessage.Length,
-                                ContextId = chunkContextId,
-                                TotalSize = totalSize
-                            };
-                            sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
-                            sendMessageParametersDuplicate.Base64MessageContent = chunkedMessage;
-                            encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
-                        }
-                    }
-                    else
-                    {
-                        encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+                            Recipients = sendMessageParameters.Recipients,
+                            TypeUrl = sendMessageParameters.TypeUrl,
+                            TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
+                            ApplicationMessageId = MessageIdService.ApplicationMessageId()
+                        };
+                        var chunkComponent = new ChunkComponent
+                        {
+                            Current = current++,
+                            Total = chunkedMessage.Length,
+                            ContextId = chunkContextId,
+                            TotalSize = totalSize
+                        };
+                        sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
+                        sendMessageParametersDuplicate.Base64MessageContent = chunkedMessage;
+                        encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
                     }
                 }
                 else
                 {
                     encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
                 }
-
-                var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
-                return _messagingService.Send(messagingParameters);
             }
+            else
+            {
+                encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+            }
+
+            var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
+        /// </summary>
+        /// <param name="sendMessageParameters">-</param>
+        /// <returns>-</returns>
+        public EncodedMessage Encode(SendMessageParameters sendMessageParameters)
+        {
+            var messageHeaderParameters = new MessageHeaderParameters
+            {
+                ApplicationMessageId = sendMessageParameters.ApplicationMessageId,
+                TeamSetContextId = sendMessageParameters.TeamsetContextId ?? "",
+                TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
+                Mode = Mode,
+                Recipients = sendMessageParameters.Recipients
+            };
+
+            var messagePayloadParameters = new MessagePayloadParameters
+            {
+                TypeUrl = sendMessageParameters.TypeUrl ?? TechnicalMessageTypes.Empty,
+                Value = ByteString.FromBase64(sendMessageParameters.Base64MessageContent)
+            };
+
+            var encodedMessage = new EncodedMessage
+            {
+                Id = Guid.NewGuid().ToString(),
+                Content = EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
+            };
+
+            return encodedMessage;
         }
 
         private bool MessageCanBeChunked(string technicalMessageType)
@@ -92,7 +123,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Checks whether a message has to be chunked or not.
+        ///     Checks whether a message has to be chunked or not.
         /// </summary>
         /// <param name="base64MessageContent"></param>
         /// <returns></returns>
@@ -103,18 +134,15 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Chunk the message content to be sure, that the message will not be rejected by the AR.
+        ///     Chunk the message content to be sure, that the message will not be rejected by the AR.
         /// </summary>
         /// <param name="base64MessageContent">Content of the message.</param>
-        /// <param name="chunkSize">Size of the chunks, <seealso cref="ChunkSizeDefinition"/></param>
+        /// <param name="chunkSize">Size of the chunks, <seealso cref="ChunkSizeDefinition" /></param>
         /// <returns>-</returns>
         /// <exception cref="ChunkSizeNotSupportedException">-</exception>
         public IEnumerable<string> ChunkMessageContent(string base64MessageContent, int chunkSize)
         {
-            if (chunkSize > ChunkSizeDefinition.MaximumSupported)
-            {
-                throw new ChunkSizeNotSupportedException();
-            }
+            if (chunkSize > ChunkSizeDefinition.MaximumSupported) throw new ChunkSizeNotSupportedException();
 
             var chunks = new List<string>();
             var source = Encoding.UTF8.GetBytes(base64MessageContent);
@@ -137,38 +165,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
-        /// </summary>
-        /// <param name="sendMessageParameters">-</param>
-        /// <returns>-</returns>
-        public EncodedMessage Encode(SendMessageParameters sendMessageParameters)
-        {
-            var messageHeaderParameters = new MessageHeaderParameters
-            {
-                ApplicationMessageId = sendMessageParameters.ApplicationMessageId,
-                TeamSetContextId = sendMessageParameters.TeamsetContextId ?? "",
-                TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
-                Mode = Mode,
-                Recipients = sendMessageParameters.Recipients,
-            };
-
-            var messagePayloadParameters = new MessagePayloadParameters
-            {
-                TypeUrl = sendMessageParameters.TypeUrl ?? TechnicalMessageTypes.Empty,
-                Value = ByteString.FromBase64(sendMessageParameters.Base64MessageContent)
-            };
-
-            var encodedMessage = new EncodedMessage
-            {
-                Id = Guid.NewGuid().ToString(),
-                Content = EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)
-            };
-
-            return encodedMessage;
-        }
-
-        /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
@@ -198,7 +195,5 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
 
             return encodedMessage;
         }
-
-        protected abstract RequestEnvelope.Types.Mode Mode { get; }
     }
 }

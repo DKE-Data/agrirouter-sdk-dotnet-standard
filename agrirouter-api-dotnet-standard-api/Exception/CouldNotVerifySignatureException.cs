@@ -3,20 +3,20 @@ using System;
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    /// Will be thrown if the signature can not be verified.
+    ///     Will be thrown if the signature can not be verified.
     /// </summary>
     [Serializable]
     public class CouldNotVerifySignatureException : System.Exception
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         public CouldNotVerifySignatureException()
         {
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         public CouldNotVerifySignatureException(string message) : base(message)
@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Exception
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         /// <param name="inner">-</param>

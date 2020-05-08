@@ -1,12 +1,12 @@
 namespace Agrirouter.Api.Dto.Messaging.Inner
 {
     /// <summary>
-    /// Data transfer object for the communication.
+    ///     Data transfer object for the communication.
     /// </summary>
     public class Command
     {
         /// <summary>
-        /// Message.
+        ///     Message.
         /// </summary>
         public string Message { get; set; }
     }

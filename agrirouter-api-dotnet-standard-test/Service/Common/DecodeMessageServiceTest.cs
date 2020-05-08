@@ -6,16 +6,10 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Common
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     public class DecodeMessageServiceTest
     {
-        [Fact]
-        public void GivenWhitespacesAsMessageWhenDecodingTheMessageThenThereShouldBeAnException()
-        {
-            Assert.Throws<ArgumentException>(() => DecodeMessageService.Decode("   "));
-        }
-
         [Fact]
         public void GivenInvalidDataAsMessageWhenDecodingTheMessageThenThereShouldBeAnException()
         {
@@ -55,6 +49,12 @@ namespace Agrirouter.Api.Test.Service.Common
             Assert.Single(messages.Messages_);
             Assert.Equal("VAL_000300", messages.Messages_[0].MessageCode);
             Assert.Equal("Error occured while decoding the message.", messages.Messages_[0].Message_);
+        }
+
+        [Fact]
+        public void GivenWhitespacesAsMessageWhenDecodingTheMessageThenThereShouldBeAnException()
+        {
+            Assert.Throws<ArgumentException>(() => DecodeMessageService.Decode("   "));
         }
     }
 }

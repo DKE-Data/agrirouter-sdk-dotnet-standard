@@ -11,13 +11,33 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Onboard
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
     public class OnboardServiceTest : AbstractIntegrationTest
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
+
+        [Fact]
+        public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
+        {
+            var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
+
+            var parameters = new OnboardParameters
+            {
+                Uuid = Guid.NewGuid().ToString(),
+                ApplicationId = ApplicationId,
+                ApplicationType = ApplicationTypeDefinitions.Application,
+                CertificationType = CertificationTypeDefinition.P12,
+                GatewayId = "3",
+                RegistrationCode = "XXXXXXXX",
+                CertificationVersionId = CertificationVersionId
+            };
+
+
+            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters));
+        }
 
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingForP12ThenThereShouldBeAValidResponse()
@@ -79,26 +99,6 @@ namespace Agrirouter.Api.Test.Service.Onboard
 
             Assert.NotEmpty(onboardResponse.ConnectionCriteria.Commands);
             Assert.NotEmpty(onboardResponse.ConnectionCriteria.Measures);
-        }
-
-        [Fact]
-        public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
-        {
-            var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
-
-            var parameters = new OnboardParameters
-            {
-                Uuid = Guid.NewGuid().ToString(),
-                ApplicationId = ApplicationId,
-                ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.P12,
-                GatewayId = "3",
-                RegistrationCode = "XXXXXXXX",
-                CertificationVersionId = CertificationVersionId
-            };
-
-
-            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters));
         }
     }
 }

@@ -1,7 +1,7 @@
 namespace Agrirouter.Api.Env
 {
     /// <summary>
-    /// Specific QA environment.
+    ///     Specific QA environment.
     /// </summary>
     public class QualityAssuranceEnvironment : Environment
     {
@@ -13,7 +13,7 @@ namespace Agrirouter.Api.Env
         private const string AUTHORIZATION_SERVICE_URL = "https://agrirouter-qa.cfapps.eu10.hana.ondemand.com";
 
         /// <summary>
-        /// API prefix for the service calls.
+        ///     API prefix for the service calls.
         /// </summary>
         /// <returns></returns>
         protected override string ApiPrefix()
@@ -22,7 +22,7 @@ namespace Agrirouter.Api.Env
         }
 
         /// <summary>
-        /// URL for the registration service which is used for the onboard process and revoke process.
+        ///     URL for the registration service which is used for the onboard process and revoke process.
         /// </summary>
         /// <returns>-</returns>
         protected override string RegistrationServiceUrl()
@@ -31,7 +31,7 @@ namespace Agrirouter.Api.Env
         }
 
         /// <summary>
-        /// URL for the authorization service which is used to authorize the application to connect to the AR account.
+        ///     URL for the authorization service which is used to authorize the application to connect to the AR account.
         /// </summary>
         /// <returns>-</returns>
         protected override string AuthorizationServiceUrl()

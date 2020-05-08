@@ -12,7 +12,7 @@ using Environment = Agrirouter.Api.Env.Environment;
 namespace Agrirouter.Impl.Service.onboard
 {
     /// <summary>
-    /// Service for the onboarding.
+    ///     Service for the onboarding.
     /// </summary>
     public class OnboardService
     {
@@ -21,7 +21,7 @@ namespace Agrirouter.Impl.Service.onboard
         private readonly UtcDataService _utcDataService;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="environment">The current environment.</param>
         /// <param name="utcDataService">The UTC data service.</param>
@@ -34,7 +34,7 @@ namespace Agrirouter.Impl.Service.onboard
         }
 
         /// <summary>
-        /// Onboard an endpoint using the simple onboarding procedure and the given parameters.
+        ///     Onboard an endpoint using the simple onboarding procedure and the given parameters.
         /// </summary>
         /// <param name="onboardParameters">The onboarding parameters.</param>
         /// <returns>-</returns>
@@ -66,10 +66,8 @@ namespace Agrirouter.Impl.Service.onboard
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
             if (!httpResponseMessage.IsSuccessStatusCode)
-            {
                 throw new OnboardException(httpResponseMessage.StatusCode,
                     httpResponseMessage.Content.ReadAsStringAsync().Result);
-            }
 
             var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
             var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));

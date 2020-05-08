@@ -6,7 +6,6 @@ using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.Test.Helper;
-using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
@@ -16,25 +15,11 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
     public class PemAndP12MessagingTest : AbstractIntegrationTest
     {
-        [Fact]
-        public void
-            GivenValidCapabilitiesWhenSendingCapabilitiesMessageWithP12CertificateThenTheAgrirouterShouldSetTheCapabilities()
-        {
-            RunWith(OnboardResponseWithP12Certificate);
-        }
-
-        [Fact(Skip = "Due to PEM type this does currently not work.")]
-        public void
-            GivenValidCapabilitiesWhenSendingCapabilitiesMessageWithPemCertificateThenTheAgrirouterShouldSetTheCapabilities()
-        {
-            RunWith(OnboardResponseWithPemCertificate);
-        }
-
         private static void RunWith(OnboardResponse onboardResponse)
         {
             var httpClient = HttpClientFactory.AuthenticatedHttpClient(onboardResponse);
@@ -90,6 +75,20 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
                     JsonConvert.DeserializeObject(onboardingResponseAsJson, typeof(OnboardResponse));
                 return onboardingResponse as OnboardResponse;
             }
+        }
+
+        [Fact]
+        public void
+            GivenValidCapabilitiesWhenSendingCapabilitiesMessageWithP12CertificateThenTheAgrirouterShouldSetTheCapabilities()
+        {
+            RunWith(OnboardResponseWithP12Certificate);
+        }
+
+        [Fact(Skip = "Due to PEM type this does currently not work.")]
+        public void
+            GivenValidCapabilitiesWhenSendingCapabilitiesMessageWithPemCertificateThenTheAgrirouterShouldSetTheCapabilities()
+        {
+            RunWith(OnboardResponseWithPemCertificate);
         }
     }
 }

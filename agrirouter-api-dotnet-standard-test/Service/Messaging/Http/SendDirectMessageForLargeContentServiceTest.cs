@@ -8,7 +8,6 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
-using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
@@ -18,7 +17,7 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     public class SendDirectMessageForLargeContentServiceTest : AbstractIntegrationTest
     {
@@ -27,37 +26,6 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
 
         private static readonly HttpClient HttpClientForRecipient =
             HttpClientFactory.AuthenticatedNonLoggingHttpClient(Recipient);
-
-        [Fact]
-        public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
-        {
-            PrepareTestEnvironment(Sender, HttpClientForSender);
-            PrepareTestEnvironment(Recipient, HttpClientForRecipient);
-
-            var sendMessageService =
-                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
-            var sendMessageParameters = new SendMessageParameters
-            {
-                OnboardResponse = Sender,
-                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng,
-                Recipients = new List<string> {Recipient.SensorAlternateId},
-                Base64MessageContent = DataProvider.ReadBase64EncodedLargeBmp()
-            };
-            sendMessageService.Send(sendMessageParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClientForSender);
-            var fetch = fetchMessageService.Fetch(Sender);
-            Assert.Equal(6, fetch.Count);
-
-            foreach (var messageResponse in fetch)
-            {
-                var decodedMessage = DecodeMessageService.Decode(messageResponse.Command.Message);
-                Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-            }
-        }
 
         private void PrepareTestEnvironment(OnboardResponse onboardResponse, HttpClient httpClient)
         {
@@ -112,6 +80,37 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
                 var onboardingResponse =
                     JsonConvert.DeserializeObject(onboardingResponseAsJson, typeof(OnboardResponse));
                 return onboardingResponse as OnboardResponse;
+            }
+        }
+
+        [Fact]
+        public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
+        {
+            PrepareTestEnvironment(Sender, HttpClientForSender);
+            PrepareTestEnvironment(Recipient, HttpClientForRecipient);
+
+            var sendMessageService =
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
+            var sendMessageParameters = new SendMessageParameters
+            {
+                OnboardResponse = Sender,
+                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng,
+                Recipients = new List<string> {Recipient.SensorAlternateId},
+                Base64MessageContent = DataProvider.ReadBase64EncodedLargeBmp()
+            };
+            sendMessageService.Send(sendMessageParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClientForSender);
+            var fetch = fetchMessageService.Fetch(Sender);
+            Assert.Equal(6, fetch.Count);
+
+            foreach (var messageResponse in fetch)
+            {
+                var decodedMessage = DecodeMessageService.Decode(messageResponse.Command.Message);
+                Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
             }
         }
     }

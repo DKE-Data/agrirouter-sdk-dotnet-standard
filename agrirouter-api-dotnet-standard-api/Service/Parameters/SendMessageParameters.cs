@@ -4,37 +4,37 @@ using Agrirouter.Commons;
 namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
-    /// Parameter container definition.
+    ///     Parameter container definition.
     /// </summary>
     public class SendMessageParameters : MessageParameters
     {
         /// <summary>
-        /// Technical message type.
+        ///     Technical message type.
         /// </summary>
         public string TechnicalMessageType { get; set; }
 
         /// <summary>
-        /// Recipients.
+        ///     Recipients.
         /// </summary>
         public List<string> Recipients { get; set; }
 
         /// <summary>
-        /// Chunk information.
+        ///     Chunk information.
         /// </summary>
         public ChunkComponent ChunkInfo { get; set; }
 
         /// <summary>
-        /// Message content.
+        ///     Message content.
         /// </summary>
         public string Base64MessageContent { get; set; }
 
         /// <summary>
-        /// Type URL.
+        ///     Type URL.
         /// </summary>
         public string TypeUrl { get; set; }
 
         /// <summary>
-        /// Define the size of the chunks.
+        ///     Define the size of the chunks.
         /// </summary>
         public int ChunkSize { get; set; }
     }

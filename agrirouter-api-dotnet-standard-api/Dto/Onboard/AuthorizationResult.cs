@@ -1,27 +1,27 @@
 namespace Agrirouter.Api.Dto.Onboard
 {
     /// <summary>
-    /// Data transfer object for the communication.
+    ///     Data transfer object for the communication.
     /// </summary>
     public class AuthorizationResult
     {
         /// <summary>
-        /// State.
+        ///     State.
         /// </summary>
         public string State { get; set; }
 
         /// <summary>
-        /// Signature.
+        ///     Signature.
         /// </summary>
         public string Signature { get; set; }
 
         /// <summary>
-        /// Token.
+        ///     Token.
         /// </summary>
         public string Token { get; set; }
 
         /// <summary>
-        /// Error.
+        ///     Error.
         /// </summary>
         public string Error { get; set; }
     }

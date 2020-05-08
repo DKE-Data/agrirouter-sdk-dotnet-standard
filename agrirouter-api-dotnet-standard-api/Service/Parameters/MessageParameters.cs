@@ -4,17 +4,17 @@ using Agrirouter.Api.Dto.Onboard;
 namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
-    /// Parameter container definition.
+    ///     Parameter container definition.
     /// </summary>
     public abstract class MessageParameters : Parameters
     {
         /// <summary>
-        /// Onboarding response.
+        ///     Onboarding response.
         /// </summary>
         public OnboardResponse OnboardResponse { get; set; }
 
         /// <summary>
-        /// Builder.
+        ///     Builder.
         /// </summary>
         /// <param name="encodedMessages">Encoded messages.</param>
         /// <returns></returns>

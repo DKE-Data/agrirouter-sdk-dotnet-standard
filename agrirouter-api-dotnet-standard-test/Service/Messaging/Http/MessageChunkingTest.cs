@@ -10,17 +10,12 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     public class MessageChunkingTest
     {
-        [Fact]
-        public void GivenSmallMessageContentWhenCheckingIfTheMessageHasToBeChunkedThenTheMethodShouldReturnFalse()
-        {
-            var sendMessageParameters = new SendMessageParameters
-                {Base64MessageContent = DataProvider.ReadBase64EncodedSmallShape()};
-            Assert.False(SendDirectMessageService.MessageHasToBeChunked(sendMessageParameters.Base64MessageContent));
-        }
+        private SendDirectMessageService SendDirectMessageService =>
+            new SendDirectMessageService(new HttpMessagingService(null));
 
         [Fact]
         public void GivenBigMessageContentWhenCheckingIfTheMessageHasToBeChunkedThenTheMethodShouldReturnTrue()
@@ -43,6 +38,14 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
         }
 
         [Fact]
+        public void GivenSmallMessageContentWhenCheckingIfTheMessageHasToBeChunkedThenTheMethodShouldReturnFalse()
+        {
+            var sendMessageParameters = new SendMessageParameters
+                {Base64MessageContent = DataProvider.ReadBase64EncodedSmallShape()};
+            Assert.False(SendDirectMessageService.MessageHasToBeChunked(sendMessageParameters.Base64MessageContent));
+        }
+
+        [Fact]
         public void GivenSmallMessageContentWhenChunkingTheMessageThenTheMethodShouldReturnASingleChunk()
         {
             var chunkedMessages = new List<string>(SendDirectMessageService.ChunkMessageContent(
@@ -51,8 +54,5 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             Assert.Single(chunkedMessages);
             Assert.Equal(DataProvider.ReadBase64EncodedSmallShape(), chunkedMessages[0]);
         }
-
-        private SendDirectMessageService SendDirectMessageService =>
-            new SendDirectMessageService(new HttpMessagingService(null));
     }
 }

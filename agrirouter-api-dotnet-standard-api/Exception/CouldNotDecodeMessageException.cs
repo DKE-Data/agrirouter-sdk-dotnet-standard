@@ -3,20 +3,20 @@ using System;
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    /// Will be thrown if a given message can not be decoded.
+    ///     Will be thrown if a given message can not be decoded.
     /// </summary>
     [Serializable]
     public class CouldNotDecodeMessageException : System.Exception
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         public CouldNotDecodeMessageException()
         {
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         public CouldNotDecodeMessageException(string message) : base(message)
@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Exception
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         /// <param name="inner">-</param>

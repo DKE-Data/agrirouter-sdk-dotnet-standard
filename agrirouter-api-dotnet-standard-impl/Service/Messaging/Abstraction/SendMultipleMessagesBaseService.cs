@@ -22,8 +22,10 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             _messagingService = messagingService;
         }
 
+        protected abstract RequestEnvelope.Types.Mode Mode { get; }
+
         /// <summary>
-        /// Please see base class declaration for documentation.
+        ///     Please see base class declaration for documentation.
         /// </summary>
         /// <param name="sendMultipleMessagesParameters">-</param>
         /// <returns>-</returns>
@@ -36,7 +38,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="multipleMessageEntry">-</param>
         /// <returns>-</returns>
@@ -48,7 +50,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TeamSetContextId = multipleMessageEntry.TeamsetContextId ?? "",
                 TechnicalMessageType = multipleMessageEntry.TechnicalMessageType,
                 Mode = Mode,
-                Recipients = multipleMessageEntry.Recipients,
+                Recipients = multipleMessageEntry.Recipients
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
@@ -67,7 +69,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Checks whether a message has to be chunked or not.
+        ///     Checks whether a message has to be chunked or not.
         /// </summary>
         /// <param name="sendMessageParameters"></param>
         /// <returns></returns>
@@ -75,12 +77,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         {
             var base64MessageContent = sendMessageParameters.Base64MessageContent;
             var byteCount = Encoding.Unicode.GetByteCount(base64MessageContent);
-            if (byteCount / ChunkSizeDefinition.MaximumSupported > 1)
-            {
-                throw new MessageShouldHaveBeenChunkedException();
-            }
+            if (byteCount / ChunkSizeDefinition.MaximumSupported > 1) throw new MessageShouldHaveBeenChunkedException();
         }
-
-        protected abstract RequestEnvelope.Types.Mode Mode { get; }
     }
 }

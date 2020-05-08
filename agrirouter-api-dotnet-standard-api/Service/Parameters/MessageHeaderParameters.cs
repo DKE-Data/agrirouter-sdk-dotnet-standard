@@ -5,32 +5,32 @@ using Agrirouter.Request;
 namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
-    /// Parameter container definition.
+    ///     Parameter container definition.
     /// </summary>
     public class MessageHeaderParameters : Parameters
     {
         /// <summary>
-        /// Technical message type.
+        ///     Technical message type.
         /// </summary>
         public string TechnicalMessageType { get; set; }
 
         /// <summary>
-        /// Mode.
+        ///     Mode.
         /// </summary>
         public RequestEnvelope.Types.Mode Mode { get; set; }
 
         /// <summary>
-        /// Teamset context ID.
+        ///     Teamset context ID.
         /// </summary>
         public string TeamSetContextId { get; set; }
 
         /// <summary>
-        /// Recipients.
+        ///     Recipients.
         /// </summary>
         public List<string> Recipients { get; set; }
 
         /// <summary>
-        /// Chunk information.
+        ///     Chunk information.
         /// </summary>
         public ChunkComponent ChunkInfo { get; set; }
     }

@@ -14,14 +14,14 @@ using Serilog;
 namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
-    /// Service to send messages to the AR.
+    ///     Service to send messages to the AR.
     /// </summary>
     public class MqttMessagingService : IMessagingService<MessagingParameters>
     {
         private readonly MqttClient _mqttClient;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="mqttClient">-</param>
         public MqttMessagingService(MqttClient mqttClient)
@@ -30,7 +30,7 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
-        /// Send message to the AR using the given message parameters.
+        ///     Send message to the AR using the given message parameters.
         /// </summary>
         /// <param name="messagingParameters">Messaging parameters.</param>
         /// <returns>-</returns>
@@ -47,9 +47,7 @@ namespace Agrirouter.Impl.Service.Common
             foreach (var message in messagingParameters.EncodedMessages.Select(encodedMessage =>
                 new Api.Dto.Messaging.Inner.Message
                     {Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp()}))
-            {
                 messageRequest.Messages.Add(message);
-            }
 
             var messagePayload = JsonConvert.SerializeObject(messageRequest);
 
@@ -63,10 +61,8 @@ namespace Agrirouter.Impl.Service.Common
             var mqttClientPublishResult = _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
 
             if (mqttClientPublishResult.IsCompletedSuccessfully)
-            {
                 return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
                     .Build();
-            }
 
             Log.Error("Sending the message was not successful. MQTT publish result response was " +
                       mqttClientPublishResult.Result.ReasonCode + " with message '" +

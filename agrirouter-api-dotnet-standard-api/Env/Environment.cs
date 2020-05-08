@@ -1,24 +1,24 @@
 namespace Agrirouter.Api.Env
 {
     /// <summary>
-    /// Abstract environment holding environment data.
+    ///     Abstract environment holding environment data.
     /// </summary>
     public abstract class Environment
     {
         /// <summary>
-        /// Returning the API prefix for several AR URLs, like the onboarding URL for example.
+        ///     Returning the API prefix for several AR URLs, like the onboarding URL for example.
         /// </summary>
         /// <returns>-</returns>
         protected abstract string ApiPrefix();
 
         /// <summary>
-        /// URL for the registration service.
+        ///     URL for the registration service.
         /// </summary>
         /// <returns>-</returns>
         protected abstract string RegistrationServiceUrl();
 
         /// <summary>
-        /// URL for the onboarding request.
+        ///     URL for the onboarding request.
         /// </summary>
         /// <returns>-</returns>
         public string SecuredOnboardingUrl()
@@ -27,7 +27,7 @@ namespace Agrirouter.Api.Env
         }
 
         /// <summary>
-        /// URL for the revoking request.
+        ///     URL for the revoking request.
         /// </summary>
         /// <returns>-</returns>
         public string RevokeUrl()
@@ -36,7 +36,7 @@ namespace Agrirouter.Api.Env
         }
 
         /// <summary>
-        /// URL for the onboarding request.
+        ///     URL for the onboarding request.
         /// </summary>
         /// <returns>-</returns>
         public string OnboardingUrl()
@@ -45,7 +45,7 @@ namespace Agrirouter.Api.Env
         }
 
         /// <summary>
-        /// URL for the onboarding request.
+        ///     URL for the onboarding request.
         /// </summary>
         public string VerificationUrl()
         {
@@ -53,7 +53,7 @@ namespace Agrirouter.Api.Env
         }
 
         /// <summary>
-        /// URL for the authorization process.
+        ///     URL for the authorization process.
         /// </summary>
         public string AuthorizationUrl(string applicationId)
         {
@@ -61,7 +61,7 @@ namespace Agrirouter.Api.Env
         }
 
         /// <summary>
-        /// URL for the authorization process.
+        ///     URL for the authorization process.
         /// </summary>
         protected abstract string AuthorizationServiceUrl();
     }

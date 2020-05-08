@@ -6,12 +6,12 @@ using Agrirouter.Request;
 namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
-    /// Service to send messages directly.
+    ///     Service to send messages directly.
     /// </summary>
     public class SendDirectMessageService : SendMessageBaseService
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
         public SendDirectMessageService(IMessagingService<MessagingParameters> messagingService) :
