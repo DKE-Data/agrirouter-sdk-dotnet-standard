@@ -34,7 +34,7 @@ namespace Agrirouter.Impl.Service.Common
         /// </summary>
         /// <param name="messagingParameters">Messaging parameters.</param>
         /// <returns>-</returns>
-        /// <exception cref="CouldNotSendHttpMessageException">Will be thrown if the message could not be send.</exception>
+        /// <exception cref="CouldNotSendMqttMessageException">Will be thrown if the message could not be send.</exception>
         public MessagingResult Send(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
