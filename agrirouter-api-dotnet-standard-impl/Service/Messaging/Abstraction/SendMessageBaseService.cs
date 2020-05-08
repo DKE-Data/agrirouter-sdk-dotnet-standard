@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Text;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
