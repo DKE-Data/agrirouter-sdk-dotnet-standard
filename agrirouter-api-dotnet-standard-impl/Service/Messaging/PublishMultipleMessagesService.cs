@@ -1,8 +1,9 @@
-using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.messaging.abstraction;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Messaging.Abstraction;
 using Agrirouter.Request;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to publish multiple messages.
@@ -13,9 +14,8 @@ namespace Agrirouter.Impl.Service.messaging
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public PublishMultipleMessagesService(MessagingService messagingService,
-            EncodeMessageService encodeMessageService) : base(messagingService, encodeMessageService)
+        public PublishMultipleMessagesService(IMessagingService<MessagingParameters> messagingService) : base(
+            messagingService)
         {
         }
 

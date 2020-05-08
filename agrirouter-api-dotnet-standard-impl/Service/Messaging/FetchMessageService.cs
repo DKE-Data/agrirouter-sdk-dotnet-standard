@@ -9,7 +9,7 @@ using Agrirouter.Api.Exception;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to fetch messages from the agrirouter.
@@ -44,7 +44,7 @@ namespace Agrirouter.Impl.Service.messaging
 
             var httpResponseMessage = _httpClient
                 .SendAsync(httpRequestMessage).Result;
-            
+
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
                 throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode,
@@ -56,7 +56,6 @@ namespace Agrirouter.Impl.Service.messaging
                     .Result);
             Log.Debug("Finished fetching messages.");
             return messageResponses;
-
         }
     }
 }

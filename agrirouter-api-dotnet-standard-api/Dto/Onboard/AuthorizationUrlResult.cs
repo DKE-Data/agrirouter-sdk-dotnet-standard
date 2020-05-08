@@ -9,7 +9,7 @@ namespace Agrirouter.Api.Dto.Onboard
         /// URL.
         /// </summary>
         public string AuthorizationUrl { get; set; }
-        
+
         /// <summary>
         /// State.
         /// </summary>

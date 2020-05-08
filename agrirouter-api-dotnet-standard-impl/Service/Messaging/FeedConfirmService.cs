@@ -9,25 +9,22 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Please see <seealso cref="IFeedConfirmService"/> for documentation.
     /// </summary>
     public class FeedConfirmService : IFeedConfirmService
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public FeedConfirmService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        public FeedConfirmService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>

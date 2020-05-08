@@ -17,18 +17,15 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
     /// </summary>
     public class OffboardVcuService : IOffboardVcuService
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public OffboardVcuService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        public OffboardVcuService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>

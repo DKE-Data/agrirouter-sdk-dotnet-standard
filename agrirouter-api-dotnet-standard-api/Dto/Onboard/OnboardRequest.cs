@@ -10,7 +10,8 @@ namespace Agrirouter.Api.Dto.Onboard
         /// <summary>
         /// External ID.
         /// </summary>
-        [JsonProperty(PropertyName = "id")] public string ExternalId { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string ExternalId { get; set; }
 
         /// <summary>
         /// Application ID.

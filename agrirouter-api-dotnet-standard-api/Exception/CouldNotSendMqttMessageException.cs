@@ -1,5 +1,5 @@
 using System;
-using System.Net;
+using MQTTnet.Client.Publishing;
 
 namespace Agrirouter.Api.Exception
 {
@@ -7,20 +7,20 @@ namespace Agrirouter.Api.Exception
     /// Will be thrown if the message could not be sent to the AR.
     /// </summary>
     [Serializable]
-    public class CouldNotSendMessageException : System.Exception
+    public class CouldNotSendMqttMessageException : System.Exception
     {
-        private HttpStatusCode StatusCode { get; }
-      
+        private MqttClientPublishReasonCode ReasonCode { get; }
+
         private string ErrorMessage { get; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="statusCode">-</param>
+        /// <param name="reasonCode">-</param>
         /// <param name="errorMessage">-</param>
-        public CouldNotSendMessageException(HttpStatusCode statusCode, string errorMessage)
+        public CouldNotSendMqttMessageException(MqttClientPublishReasonCode reasonCode, string errorMessage)
         {
-            StatusCode = statusCode;
+            ReasonCode = reasonCode;
             ErrorMessage = errorMessage;
         }
     }

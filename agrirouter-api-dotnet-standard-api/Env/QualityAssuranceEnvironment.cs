@@ -7,7 +7,8 @@ namespace Agrirouter.Api.Env
     {
         private const string API_PREFIX = "/api/v1.0";
 
-        private const string REGISTRATION_SERVICE_URL = "https://agrirouter-registration-service-hubqa-eu10.cfapps.eu10.hana.ondemand.com";
+        private const string REGISTRATION_SERVICE_URL =
+            "https://agrirouter-registration-service-hubqa-eu10.cfapps.eu10.hana.ondemand.com";
 
         private const string AUTHORIZATION_SERVICE_URL = "https://agrirouter-qa.cfapps.eu10.hana.ondemand.com";
 

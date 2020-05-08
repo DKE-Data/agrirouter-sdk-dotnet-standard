@@ -8,21 +8,19 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging.abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     public abstract class QueryMessageBaseService : IQueryMessagesService
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
-        protected QueryMessageBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        protected QueryMessageBaseService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see base class declaration for documentation.
         /// </summary>
         /// <param name="queryMessagesParameters">-</param>
         /// <returns>-</returns>
@@ -70,6 +68,5 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
         }
 
         protected abstract string TechnicalMessageType { get; }
-        
     }
 }

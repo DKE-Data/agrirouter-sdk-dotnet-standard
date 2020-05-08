@@ -1,8 +1,5 @@
 using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Text;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
@@ -14,21 +11,19 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Request;
 using Google.Protobuf;
 
-namespace Agrirouter.Impl.Service.messaging.abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     public abstract class SendMessageBaseService : ISendMessageService
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
-        protected SendMessageBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        protected SendMessageBaseService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see base class declaration for documentation.
         /// </summary>
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
@@ -38,8 +33,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 
             if (string.IsNullOrWhiteSpace(sendMessageParameters.Base64MessageContent))
             {
-                throw new CouldNotSendMessageException(HttpStatusCode.BadRequest,
-                    "Sending empty messages does not make any sense.");
+                throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
             }
             else
             {
@@ -125,17 +119,18 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
             var chunks = new List<string>();
             var source = Encoding.UTF8.GetBytes(base64MessageContent);
             byte[] chunk;
-            for(var i = 0; i < source.Length; i+=chunkSize)
+            for (var i = 0; i < source.Length; i += chunkSize)
             {
                 if (i + chunkSize > source.Length) continue;
-                
+
                 chunk = new byte[chunkSize];
                 Array.Copy(source, i, chunk, 0, chunkSize);
                 chunks.Add(Encoding.UTF8.GetString(chunk));
             }
-            var lastSourceIndex = chunks.Count*chunkSize;
-            chunk = new byte[source.Length-lastSourceIndex];
-            Array.Copy(source, lastSourceIndex, chunk, 0, source.Length-lastSourceIndex);
+
+            var lastSourceIndex = chunks.Count * chunkSize;
+            chunk = new byte[source.Length - lastSourceIndex];
+            Array.Copy(source, lastSourceIndex, chunk, 0, source.Length - lastSourceIndex);
             chunks.Add(Encoding.UTF8.GetString(chunk));
 
             return chunks;

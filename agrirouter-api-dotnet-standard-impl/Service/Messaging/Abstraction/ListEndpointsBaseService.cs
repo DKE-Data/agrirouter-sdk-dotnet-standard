@@ -11,29 +11,26 @@ using Agrirouter.Response.Payload.Account;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
-namespace Agrirouter.Impl.Service.messaging.abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     /// <summary>
     /// Abstraction of the service to list endpoints to avoid multiple implementations.
     /// </summary>
     public abstract class ListEndpointsBaseService : IListEndpointsService
     {
-        private readonly MessagingService _messagingService;
-        private readonly EncodeMessageService _encodeMessageService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         /// Constructor.
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
         /// </summary>
-        protected ListEndpointsBaseService(MessagingService messagingService, EncodeMessageService encodeMessageService)
+        protected ListEndpointsBaseService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
-            _encodeMessageService = encodeMessageService;
         }
 
         /// <summary>
-        /// Please see <see cref="MessagingService.Send"/> for documentation.
+        /// Please see base class declaration for documentation.
         /// </summary>
         /// <param name="listEndpointsParameters">-</param>
         /// <returns>-</returns>
@@ -81,7 +78,7 @@ namespace Agrirouter.Impl.Service.messaging.abstraction
 
             return encodedMessage;
         }
-        
+
         /// <summary>
         /// Decode the list endpoints response from the server.
         /// </summary>

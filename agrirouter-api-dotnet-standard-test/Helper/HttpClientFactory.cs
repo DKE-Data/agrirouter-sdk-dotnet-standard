@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Logging;
 
-namespace Agrirouter.Api.test.helper
+namespace Agrirouter.Api.Test.Helper
 {
     /// <summary>
     /// Factory to create HTTP client objects.

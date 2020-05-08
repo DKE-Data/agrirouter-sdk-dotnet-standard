@@ -26,9 +26,10 @@ namespace Agrirouter.Api.Test.Service.Common
         public void
             GivenValidCapabilitiesMessageResponseWhenDecodingTheMessageThenTheResponseEnvelopeAndResponsePayloadWrapperShouldBeFilled()
         {
-            const string responseMessage = "XgjJARACGiQ5MDAxMjg3Yi03NjA5LTQ0MjYtYjU3My0xNTE5MmQwYzEyNDIiJGMyZGViM2VlLTIyMDItNDA1Mi1hZDJhLTUxMjVkND" +
-                                           "g3YjdmNioLCMHy1/AFEICvvnGEAQqBAQowdHlwZXMuYWdyaXJvdXRlci5jb20vYWdyaXJvdXRlci5jb21tb25zLk1lc3NhZ2VzEk0K" +
-                                           "Swo9U2tpcHBpbmcgY2FwYWJpbGl0aWVzIHVwZGF0ZSBiZWNhdXNlIHRoZXJlIGFyZSBubyBkaWZmZXJlbmNlcxIKVkFMXzAwMDAyMg==";
+            const string responseMessage =
+                "XgjJARACGiQ5MDAxMjg3Yi03NjA5LTQ0MjYtYjU3My0xNTE5MmQwYzEyNDIiJGMyZGViM2VlLTIyMDItNDA1Mi1hZDJhLTUxMjVkND" +
+                "g3YjdmNioLCMHy1/AFEICvvnGEAQqBAQowdHlwZXMuYWdyaXJvdXRlci5jb20vYWdyaXJvdXRlci5jb21tb25zLk1lc3NhZ2VzEk0K" +
+                "Swo9U2tpcHBpbmcgY2FwYWJpbGl0aWVzIHVwZGF0ZSBiZWNhdXNlIHRoZXJlIGFyZSBubyBkaWZmZXJlbmNlcxIKVkFMXzAwMDAyMg==";
 
             var decodedMessage = DecodeMessageService.Decode(responseMessage);
             Assert.NotNull(decodedMessage.ResponseEnvelope);
@@ -39,8 +40,9 @@ namespace Agrirouter.Api.Test.Service.Common
         [Fact]
         public void GivenValidMessageWhenDecodingTheMessageThenTheMessageShouldBeParsedCorrectly()
         {
-            const string responseMessage = "EwiQAxADKgwIpITc8AUQgP/1sQNvCm0KMHR5cGVzLmFncmlyb3V0ZXIuY29tL2Fncmlyb3V0ZXIuY29tbW9ucy5NZXNzYWdlcxI5" +
-                                           "CjcKKUVycm9yIG9jY3VyZWQgd2hpbGUgZGVjb2RpbmcgdGhlIG1lc3NhZ2UuEgpWQUxfMDAwMzAw";
+            const string responseMessage =
+                "EwiQAxADKgwIpITc8AUQgP/1sQNvCm0KMHR5cGVzLmFncmlyb3V0ZXIuY29tL2Fncmlyb3V0ZXIuY29tbW9ucy5NZXNzYWdlcxI5" +
+                "CjcKKUVycm9yIG9jY3VyZWQgd2hpbGUgZGVjb2RpbmcgdGhlIG1lc3NhZ2UuEgpWQUxfMDAwMzAw";
 
             var decodedMessage = DecodeMessageService.Decode(responseMessage);
             Assert.NotNull(decodedMessage.ResponseEnvelope);

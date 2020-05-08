@@ -14,7 +14,6 @@ namespace Agrirouter.Impl.Service.Common
     /// </summary>
     public class EncodeMessageService
     {
-
         /// <summary>
         /// Encode a message using the given header parameters and payload parameters. The encoded Base64 message can be sent to the AR directly.
         /// </summary>

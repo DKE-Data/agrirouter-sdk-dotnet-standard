@@ -2,12 +2,12 @@ using System;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Feed.Response;
-using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.messaging.abstraction;
+using Agrirouter.Impl.Service.Messaging.Abstraction;
 using Google.Protobuf.WellKnownTypes;
 
-namespace Agrirouter.Impl.Service.messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     /// Service to query message headers.
@@ -19,9 +19,8 @@ namespace Agrirouter.Impl.Service.messaging
         /// Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
-        /// <param name="encodeMessageService">-</param>
-        public QueryMessageHeadersService(MessagingService messagingService, EncodeMessageService encodeMessageService)
-            : base(messagingService, encodeMessageService)
+        public QueryMessageHeadersService(IMessagingService<MessagingParameters> messagingService)
+            : base(messagingService)
         {
         }
 
