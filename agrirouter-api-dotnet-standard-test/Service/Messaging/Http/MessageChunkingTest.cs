@@ -7,7 +7,7 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
     /// Functional tests.

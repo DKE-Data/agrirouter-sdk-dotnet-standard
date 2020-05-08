@@ -8,26 +8,27 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
+using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
     /// Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class PublishAndSendMultipleDirectMessagesServiceTest : AbstractIntegrationTest
+    public class SendMultipleDirectMessagesServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
         [Fact]
-        public void GivenMultipleValidMessageContentWhenPublishingMessagesThenTheMessageShouldBeDelivered()
+        public void GivenMultipleValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
         {
-            var publishAndSendMultipleDirectMessagesService =
-                new PublishAndSendMultipleDirectMessagesService(new HttpMessagingService(HttpClientForSender));
+            var sendMessageService =
+                new SendMultipleDirectMessagesService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMultipleMessagesParameters
             {
                 OnboardResponse = Sender,
@@ -50,7 +51,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
                     }
                 }
             };
-            publishAndSendMultipleDirectMessagesService.Send(sendMessageParameters);
+            sendMessageService.Send(sendMessageParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 

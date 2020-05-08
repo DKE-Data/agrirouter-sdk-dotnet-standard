@@ -6,111 +6,100 @@ using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Test.Helper;
-using Agrirouter.Feed.Request;
+using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Response;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
     /// Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class QueryMessagesServiceTest
+    public class SubscriptionServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
         [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessagesWithValidityPeriodThenTheResultShouldBeAnEmptySetOfMessages()
+        public void GivenEmptySubscriptionWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
         {
-            var queryMessagesService =
-                new QueryMessagesService(new HttpMessagingService(HttpClient));
-            var queryMessagesParameters = new QueryMessagesParameters
-            {
-                OnboardResponse = OnboardResponse,
-                ValidityPeriod = new ValidityPeriod()
-            };
-            queryMessagesParameters.ValidityPeriod.SentFrom = UtcDataService.Timestamp(TimestampOffset.FourWeeks);
-            queryMessagesParameters.ValidityPeriod.SentTo = UtcDataService.Timestamp(TimestampOffset.None);
-            queryMessagesService.Send(queryMessagesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClient);
-            var fetch = fetchMessageService.Fetch(OnboardResponse);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsMessageIdsThenTheResultShouldBeAnEmptySetOfMessages()
-        {
-            var queryMessagesService =
-                new QueryMessagesService(new HttpMessagingService(HttpClient));
-            var queryMessagesParameters = new QueryMessagesParameters
-            {
-                OnboardResponse = OnboardResponse,
-                MessageIds = new List<string> {Guid.NewGuid().ToString()}
-            };
-            queryMessagesService.Send(queryMessagesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClient);
-            var fetch = fetchMessageService.Fetch(OnboardResponse);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessagesWithUnknownMessageIdsSenderIdsThenTheResultShouldBeAnEmptySetOfMessages()
-        {
-            var queryMessagesService =
-                new QueryMessagesService(new HttpMessagingService(HttpClient));
-            var queryMessagesParameters = new QueryMessagesParameters
-            {
-                OnboardResponse = OnboardResponse,
-                Senders = new List<string> {Guid.NewGuid().ToString()}
-            };
-            queryMessagesService.Send(queryMessagesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClient);
-            var fetch = fetchMessageService.Fetch(OnboardResponse);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(204, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenQueryMessagesWithoutParametersWhenPerformingQueryThenTheMessageShouldNotBeAccepted()
-        {
-            var queryMessagesService =
-                new QueryMessagesService(new HttpMessagingService(HttpClient));
-            var queryMessagesParameters = new QueryMessagesParameters
+            var subscriptionService =
+                new SubscriptionService(new HttpMessagingService(HttpClient));
+            var subscriptionParameters = new SubscriptionParameters
             {
                 OnboardResponse = OnboardResponse
             };
-            queryMessagesService.Send(queryMessagesParameters);
+
+            subscriptionService.Send(subscriptionParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClient);
+            var fetch = fetchMessageService.Fetch(OnboardResponse);
+            Assert.Single(fetch);
+
+            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.Ack,
+                decodedMessage.ResponseEnvelope.Type);
+        }
+
+        [Fact]
+        public void GivenSingleSubscriptionEntryWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
+        {
+            var subscriptionService =
+                new SubscriptionService(new HttpMessagingService(HttpClient));
+            var subscriptionParameters = new SubscriptionParameters
+            {
+                OnboardResponse = OnboardResponse,
+                TechnicalMessageTypes = new List<Subscription.Types.MessageTypeSubscriptionItem>()
+            };
+            var technicalMessageType = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageType);
+            subscriptionService.Send(subscriptionParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClient);
+            var fetch = fetchMessageService.Fetch(OnboardResponse);
+            Assert.Single(fetch);
+
+            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.Ack,
+                decodedMessage.ResponseEnvelope.Type);
+        }
+
+        [Fact]
+        public void
+            GivenMultipleSubscriptionEntriesWithOneInvalidTechnicalMessageTypeWhenSendingSubscriptionMessageThenTheMessageShouldBeNotBeAccepted()
+        {
+            var subscriptionService =
+                new SubscriptionService(new HttpMessagingService(HttpClient));
+            var subscriptionParameters = new SubscriptionParameters
+            {
+                OnboardResponse = OnboardResponse,
+                TechnicalMessageTypes = new List<Subscription.Types.MessageTypeSubscriptionItem>()
+            };
+            var technicalMessageTypeForTaskdata = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForTaskdata);
+
+            var technicalMessageTypeForProtobuf = new Subscription.Types.MessageTypeSubscriptionItem
+            {
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783DeviceDescriptionProtobuf
+            };
+            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForProtobuf);
+            subscriptionService.Send(subscriptionParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -120,14 +109,16 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckWithFailure,
+                decodedMessage.ResponseEnvelope.Type);
 
             var messages = DecodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
             Assert.NotNull(messages);
             Assert.NotEmpty(messages.Messages_);
             Assert.Single(messages.Messages_);
-            Assert.Equal("VAL_000017", messages.Messages_[0].MessageCode);
+            Assert.Equal("VAL_000006", messages.Messages_[0].MessageCode);
             Assert.Equal(
-                "Query does not contain any filtering criteria: messageIds, senders or validityPeriod. Information required to process message is missing or malformed.",
+                "Subscription to \"iso:11783:-10:device_description:protobuf\" is not valid per reported capabilities.",
                 messages.Messages_[0].Message_);
         }
 

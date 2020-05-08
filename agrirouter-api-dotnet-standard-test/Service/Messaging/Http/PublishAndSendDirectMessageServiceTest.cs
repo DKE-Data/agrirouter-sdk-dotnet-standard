@@ -8,19 +8,20 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
+using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
     /// Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class SendDirectMessageServiceTest : AbstractIntegrationTest
+    public class PublishAndSendDirectMessageServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
@@ -28,7 +29,8 @@ namespace Agrirouter.Api.Test.Service.Messaging
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
 
         [Fact]
-        public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
+        public void
+            GivenValidMessageContentWhenPublishingAndSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
         {
             // Description of the messaging process.
 
@@ -36,12 +38,15 @@ namespace Agrirouter.Api.Test.Service.Messaging
             SetCapabilitiesForSender();
             SetCapabilitiesForRecipient();
 
-            // 2. Set routes within the UI - this is done once, not each time.
+            // 2. Recipient has to create his subscriptions in order to get the messages. If they are not set correctly the AR will return a HTTP 400.
+            // Done once before the test.
+
+            // 3. Set routes within the UI - this is done once, not each time.
             // Done manually, not API interaction necessary.
 
-            // 3. Send message from sender to recipient.
-            var sendMessageService =
-                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
+            // 4. Publish message from sender to recipient.
+            var publishAndSendMessageService =
+                new PublishAndSendMessageService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMessageParameters
             {
                 OnboardResponse = Sender,
@@ -50,12 +55,12 @@ namespace Agrirouter.Api.Test.Service.Messaging
                 Recipients = new List<string> {Recipient.SensorAlternateId},
                 Base64MessageContent = DataProvider.ReadBase64EncodedImage()
             };
-            sendMessageService.Send(sendMessageParameters);
+            publishAndSendMessageService.Send(sendMessageParameters);
 
-            // 4. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
+            // 5. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            // 5. Fetch and analyze the ACK from the AR.
+            // 6. Fetch and analyze the ACK from the AR.
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
             Assert.Single(fetch);
@@ -92,6 +97,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(Sender);
             Assert.Single(fetch);
 
+            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
@@ -124,6 +130,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
+            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }

@@ -8,13 +8,14 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
+using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
     /// Functional tests.

@@ -1,38 +1,36 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
-using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Test.Helper;
+using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
-using Agrirouter.Request.Payload.Account;
-using Agrirouter.Response;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
     /// Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class ListEndpointsServiceTest : AbstractIntegrationTest
+    public class FeedConfirmServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
         [Fact]
-        public void
-            GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
+        public void GivenEmptyMessageIdsWhenConfirmingMessagesThenTheMessageShouldNotBeAccepted()
         {
-            var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient));
-            var listEndpointsParameters = new ListEndpointsParameters
+            var feedConfirmService =
+                new FeedConfirmService(new HttpMessagingService(HttpClient));
+            var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = OnboardResponse
             };
-            listEndpointsService.Send(listEndpointsParameters);
+            feedConfirmService.Send(feedConfirmParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -41,23 +39,29 @@ namespace Agrirouter.Api.Test.Service.Messaging
             Assert.Single(fetch);
 
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.EndpointsListing,
-                decodedMessage.ResponseEnvelope.Type);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = DecodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000017", messages.Messages_[0].MessageCode);
+            Assert.Equal(
+                "messageIds information required to process message is missing or malformed.",
+                messages.Messages_[0].Message_);
         }
 
         [Fact]
-        public void
-            GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
+        public void GivenNonExistingMessageIdWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
-            var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient));
-            var listEndpointsParameters = new ListEndpointsParameters
+            var feedConfirmService =
+                new FeedConfirmService(new HttpMessagingService(HttpClient));
+            var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = OnboardResponse,
-                Direction = ListEndpointsQuery.Types.Direction.Send
+                MessageIds = new List<string> {MessageIdService.ApplicationMessageId()}
             };
-            listEndpointsService.Send(listEndpointsParameters);
+            feedConfirmService.Send(feedConfirmParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -67,22 +71,29 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.EndpointsListing,
-                decodedMessage.ResponseEnvelope.Type);
+
+            var messages = DecodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000205", messages.Messages_[0].MessageCode);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[0].Message_);
         }
 
         [Fact]
-        public void
-            GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
+        public void GivenNonExistingMessageIdsWhenConfirmingMessagesThenTheMessageShouldBeAccepted()
         {
-            var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient));
-            var listEndpointsParameters = new ListEndpointsParameters
+            var feedConfirmService =
+                new FeedConfirmService(new HttpMessagingService(HttpClient));
+            var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = OnboardResponse,
-                Direction = ListEndpointsQuery.Types.Direction.Receive
+                MessageIds = new List<string>
+                    {MessageIdService.ApplicationMessageId(), MessageIdService.ApplicationMessageId()}
             };
-            listEndpointsService.Send(listEndpointsParameters);
+            feedConfirmService.Send(feedConfirmParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -92,86 +103,21 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.EndpointsListing,
-                decodedMessage.ResponseEnvelope.Type);
+
+            var messages = DecodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Equal(2, messages.Messages_.Count);
+            Assert.Equal("VAL_000205", messages.Messages_[0].MessageCode);
+            Assert.Equal("VAL_000205", messages.Messages_[1].MessageCode);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[0].Message_);
+            Assert.Equal(
+                "Feed message cannot be found.",
+                messages.Messages_[1].Message_);
         }
 
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionSendReceiveAndEmptyTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
-        {
-            var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient));
-            var listEndpointsParameters = new ListEndpointsParameters
-            {
-                OnboardResponse = OnboardResponse,
-                Direction = ListEndpointsQuery.Types.Direction.SendReceive
-            };
-            listEndpointsService.Send(listEndpointsParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClient);
-            var fetch = fetchMessageService.Fetch(OnboardResponse);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.EndpointsListing,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenListEndpointsIsExecutedWithEmptyDirectionAndEmptyAsTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
-        {
-            var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient));
-            var listEndpointsParameters = new ListEndpointsParameters
-            {
-                OnboardResponse = OnboardResponse,
-                TechnicalMessageType = TechnicalMessageTypes.Empty
-            };
-            listEndpointsService.Send(listEndpointsParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClient);
-            var fetch = fetchMessageService.Fetch(OnboardResponse);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.EndpointsListing,
-                decodedMessage.ResponseEnvelope.Type);
-        }
-
-
-        [Fact]
-        public void
-            GivenExistingEndpointsWhenListEndpointsIsExecutedWithDirectionAndTechnicalMessageTypeThenTheMessageShouldReturnAValidResult()
-        {
-            var listEndpointsService =
-                new ListEndpointsService(new HttpMessagingService(HttpClient));
-            var listEndpointsParameters = new ListEndpointsParameters
-            {
-                OnboardResponse = OnboardResponse,
-                Direction = ListEndpointsQuery.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.Empty
-            };
-            listEndpointsService.Send(listEndpointsParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClient);
-            var fetch = fetchMessageService.Fetch(OnboardResponse);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.EndpointsListing,
-                decodedMessage.ResponseEnvelope.Type);
-        }
 
         private static OnboardResponse OnboardResponse
         {
