@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
 
             var parameters = new OnboardParameters
             {
-                Uuid = GetType().FullName,
+                Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
