@@ -208,7 +208,7 @@ namespace Agrirouter.Api.Test.Integration
             }
         }
 
-        [Fact(DisplayName = "Clean your feed integration test scenario.")]
+        [Fact(DisplayName = "Clean your feed with deleting messages integration test scenario.")]
         public void Run()
         {
             PrepareTestEnvironment();
