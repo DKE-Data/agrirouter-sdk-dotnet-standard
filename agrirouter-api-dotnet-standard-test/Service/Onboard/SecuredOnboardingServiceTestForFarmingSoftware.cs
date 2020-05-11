@@ -18,7 +18,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
         [Fact]
-        public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
+        public void GivenInvalidRequestTokenWhenOnboardingThenThereShouldBeAnException()
         {
             var onboardingService =
                 new SecuredOnboardingService(Environment, HttpClient);
