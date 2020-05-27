@@ -27,7 +27,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
         private static readonly HttpClient HttpClientForRecipient =
             HttpClientFactory.AuthenticatedNonLoggingHttpClient(Recipient);
 
-        [Fact]
+        [Fact(Skip="Does currently fail because of the new Release 1.2 in QA and needs to be fixed when the implementation is clear.")]
         public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
         {
             PrepareTestEnvironment(Sender, HttpClientForSender);
