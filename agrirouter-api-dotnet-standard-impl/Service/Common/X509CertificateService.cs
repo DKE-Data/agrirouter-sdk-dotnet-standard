@@ -21,7 +21,7 @@ namespace Agrirouter.Impl.Service.Common
         /// Create a certificate for the given onboarding response from the AR.
         /// </summary>
         /// <param name="onboardResponse">-</param>
-        /// <returns>-</returns>
+        /// <returns>A X509 certificate to use for the communication between endpoint and AR.</returns>
         /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception>
         public static X509Certificate GetCertificate(OnboardResponse onboardResponse)
         {
@@ -51,7 +51,7 @@ namespace Agrirouter.Impl.Service.Common
         /// </summary>
         /// <param name="pem">-</param>
         /// <param name="secret">-</param>
-        /// <returns>-</returns>
+        /// <returns>RSA information extracted from the plain input.</returns>
         private static RSA ExtractRsaFromPem(string pem, string secret)
         {
             var rsa = RSA.Create();
