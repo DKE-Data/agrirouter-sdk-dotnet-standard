@@ -3,20 +3,20 @@ using System;
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    /// Will be thrown if the signature can not be created.
+    ///     Will be thrown if the signature can not be created.
     /// </summary>
     [Serializable]
     public class CouldNotCreateSignatureException : System.Exception
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         public CouldNotCreateSignatureException()
         {
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         public CouldNotCreateSignatureException(string message) : base(message)
@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Exception
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         /// <param name="inner">-</param>

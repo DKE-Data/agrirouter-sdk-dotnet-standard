@@ -1,42 +1,42 @@
 namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
-    /// Parameter container definition.
+    ///     Parameter container definition.
     /// </summary>
     public class OnboardParameters : Parameters
     {
         /// <summary>
-        /// Application ID.
+        ///     Application ID.
         /// </summary>
         public string ApplicationId { get; set; }
 
         /// <summary>
-        /// UUID for the endpoint.
+        ///     UUID for the endpoint.
         /// </summary>
         public string Uuid { get; set; }
 
         /// <summary>
-        /// Certification version ID.
+        ///     Certification version ID.
         /// </summary>
         public string CertificationVersionId { get; set; }
 
         /// <summary>
-        /// Gateway ID.
+        ///     Gateway ID.
         /// </summary>
         public string GatewayId { get; set; }
 
         /// <summary>
-        /// Certificate type.
+        ///     Certificate type.
         /// </summary>
         public string CertificationType { get; set; }
 
         /// <summary>
-        /// Application type.
+        ///     Application type.
         /// </summary>
         public string ApplicationType { get; set; }
 
         /// <summary>
-        /// Registration code.
+        ///     Registration code.
         /// </summary>
         public string RegistrationCode { get; set; }
     }

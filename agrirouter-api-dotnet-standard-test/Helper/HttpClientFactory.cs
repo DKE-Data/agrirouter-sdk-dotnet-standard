@@ -7,12 +7,12 @@ using Agrirouter.Api.Logging;
 namespace Agrirouter.Api.Test.Helper
 {
     /// <summary>
-    /// Factory to create HTTP client objects.
+    ///     Factory to create HTTP client objects.
     /// </summary>
     public class HttpClientFactory
     {
         /// <summary>
-        /// Create a single HTTP client.
+        ///     Create a single HTTP client.
         /// </summary>
         /// <returns>-</returns>
         public static HttpClient HttpClient()
@@ -22,7 +22,7 @@ namespace Agrirouter.Api.Test.Helper
         }
 
         /// <summary>
-        /// Create a single HTTP client using the given onboarding response.
+        ///     Create a single HTTP client using the given onboarding response.
         /// </summary>
         /// <param name="onboardResponse">The current onboarding response.</param>
         /// <returns>-</returns>
@@ -37,7 +37,7 @@ namespace Agrirouter.Api.Test.Helper
         }
 
         /// <summary>
-        /// Create a single HTTP client using the given onboarding response.
+        ///     Create a single HTTP client using the given onboarding response.
         /// </summary>
         /// <param name="onboardResponse">The current onboarding response.</param>
         /// <returns>-</returns>

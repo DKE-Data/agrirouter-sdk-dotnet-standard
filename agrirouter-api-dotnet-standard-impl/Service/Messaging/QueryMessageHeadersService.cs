@@ -10,13 +10,13 @@ using Google.Protobuf.WellKnownTypes;
 namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
-    /// Service to query message headers.
+    ///     Service to query message headers.
     /// </summary>
     public class QueryMessageHeadersService : QueryMessageBaseService,
         IDecodeMessageResponseService<HeaderQueryResponse>
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
         public QueryMessageHeadersService(IMessagingService<MessagingParameters> messagingService)

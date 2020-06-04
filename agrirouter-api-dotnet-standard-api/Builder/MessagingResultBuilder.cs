@@ -4,14 +4,14 @@ using Agrirouter.Api.Dto.Messaging;
 namespace Agrirouter.Api.Builder
 {
     /// <summary>
-    /// Builder class for messaging results.
+    ///     Builder class for messaging results.
     /// </summary>
     public class MessagingResultBuilder
     {
         private readonly MessagingResult _messagingResult;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         public MessagingResultBuilder()
         {
@@ -19,7 +19,7 @@ namespace Agrirouter.Api.Builder
         }
 
         /// <summary>
-        /// Add application message ID to the messaging result.
+        ///     Add application message ID to the messaging result.
         /// </summary>
         /// <param name="applicationMessageId">-</param>
         /// <returns>-</returns>
@@ -30,7 +30,7 @@ namespace Agrirouter.Api.Builder
         }
 
         /// <summary>
-        /// Build the result.
+        ///     Build the result.
         /// </summary>
         /// <returns>-</returns>
         public MessagingResult Build()

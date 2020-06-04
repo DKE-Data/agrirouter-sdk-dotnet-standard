@@ -3,20 +3,20 @@ using System;
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    /// Will be thrown if the chunk size is not supported.
+    ///     Will be thrown if the chunk size is not supported.
     /// </summary>
     [Serializable]
     public class ChunkSizeNotSupportedException : System.Exception
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         public ChunkSizeNotSupportedException()
         {
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         public ChunkSizeNotSupportedException(string message) : base(message)
@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Exception
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         /// <param name="inner">-</param>

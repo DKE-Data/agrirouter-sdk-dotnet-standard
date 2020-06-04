@@ -14,23 +14,25 @@ using Google.Protobuf.WellKnownTypes;
 namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     /// <summary>
-    /// Abstraction of the service to list endpoints to avoid multiple implementations.
+    ///     Abstraction of the service to list endpoints to avoid multiple implementations.
     /// </summary>
     public abstract class ListEndpointsBaseService : IListEndpointsService
     {
         private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
-        /// Constructor.
-        /// <param name="messagingService">-</param>
+        ///     Constructor.
+        ///     <param name="messagingService">-</param>
         /// </summary>
         protected ListEndpointsBaseService(IMessagingService<MessagingParameters> messagingService)
         {
             _messagingService = messagingService;
         }
 
+        protected abstract string TechnicalMessageType { get; }
+
         /// <summary>
-        /// Please see base class declaration for documentation.
+        ///     Please see base class declaration for documentation.
         /// </summary>
         /// <param name="listEndpointsParameters">-</param>
         /// <returns>-</returns>
@@ -42,7 +44,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="listEndpointsParameters">-</param>
         /// <returns>-</returns>
@@ -64,9 +66,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             var listEndpointsQuery = new ListEndpointsQuery {Direction = listEndpointsParameters.Direction};
 
             if (null != listEndpointsParameters.TechnicalMessageType)
-            {
                 listEndpointsQuery.TechnicalMessageType = listEndpointsParameters.TechnicalMessageType;
-            }
 
             messagePayloadParameters.Value = listEndpointsQuery.ToByteString();
 
@@ -80,7 +80,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Decode the list endpoints response from the server.
+        ///     Decode the list endpoints response from the server.
         /// </summary>
         /// <param name="messageResponse"></param>
         /// <returns></returns>
@@ -96,7 +96,5 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 throw new CouldNotDecodeMessageException("Could not decode list endpoints message.", e);
             }
         }
-
-        protected abstract string TechnicalMessageType { get; }
     }
 }

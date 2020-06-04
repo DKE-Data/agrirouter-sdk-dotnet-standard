@@ -14,63 +14,26 @@ using Agrirouter.Request.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
-    [Collection("Integrationtest")]
-    public class SendDirectMessageServiceTest : AbstractIntegrationTest
+    public class SendDirectMessageForLargeContentServiceTest : AbstractIntegrationTest
     {
-        private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
+        private static readonly HttpClient HttpClientForSender =
+            HttpClientFactory.AuthenticatedNonLoggingHttpClient(Sender);
 
-        private static readonly HttpClient
-            HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
+        private static readonly HttpClient HttpClientForRecipient =
+            HttpClientFactory.AuthenticatedNonLoggingHttpClient(Recipient);
 
-        [Fact]
-        public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
-        {
-            // Description of the messaging process.
-
-            // 1. Set all capabilities for each endpoint - this is done once, not each time.
-            SetCapabilitiesForSender();
-            SetCapabilitiesForRecipient();
-
-            // 2. Set routes within the UI - this is done once, not each time.
-            // Done manually, not API interaction necessary.
-
-            // 3. Send message from sender to recipient.
-            var sendMessageService =
-                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
-            var sendMessageParameters = new SendMessageParameters
-            {
-                OnboardResponse = Sender,
-                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng,
-                Recipients = new List<string> {Recipient.SensorAlternateId},
-                Base64MessageContent = DataProvider.ReadBase64EncodedImage()
-            };
-            sendMessageService.Send(sendMessageParameters);
-
-            // 4. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            // 5. Fetch and analyze the ACK from the AR.
-            var fetchMessageService = new FetchMessageService(HttpClientForSender);
-            var fetch = fetchMessageService.Fetch(Sender);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-        }
-
-        private void SetCapabilitiesForSender()
+        private void PrepareTestEnvironment(OnboardResponse onboardResponse, HttpClient httpClient)
         {
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
+                new CapabilitiesService(new HttpMessagingService(httpClient));
             var capabilitiesParameters = new CapabilitiesParameters
             {
-                OnboardResponse = Sender,
+                OnboardResponse = onboardResponse,
                 ApplicationId = ApplicationId,
                 CertificationVersionId = CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
@@ -80,7 +43,7 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var capabilitiesParameter = new CapabilityParameter
             {
                 Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+                TechnicalMessageType = TechnicalMessageTypes.ImgBmp
             };
 
             capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
@@ -88,40 +51,8 @@ namespace Agrirouter.Api.Test.Service.Messaging
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            var fetchMessageService = new FetchMessageService(HttpClientForSender);
-            var fetch = fetchMessageService.Fetch(Sender);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-        }
-
-        private void SetCapabilitiesForRecipient()
-        {
-            var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
-            var capabilitiesParameters = new CapabilitiesParameters
-            {
-                OnboardResponse = Recipient,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
-            };
-
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng
-            };
-
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
-            var fetch = fetchMessageService.Fetch(Recipient);
+            var fetchMessageService = new FetchMessageService(httpClient);
+            var fetch = fetchMessageService.Fetch(onboardResponse);
             Assert.Single(fetch);
 
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
@@ -149,6 +80,37 @@ namespace Agrirouter.Api.Test.Service.Messaging
                 var onboardingResponse =
                     JsonConvert.DeserializeObject(onboardingResponseAsJson, typeof(OnboardResponse));
                 return onboardingResponse as OnboardResponse;
+            }
+        }
+
+        [Fact]
+        public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
+        {
+            PrepareTestEnvironment(Sender, HttpClientForSender);
+            PrepareTestEnvironment(Recipient, HttpClientForRecipient);
+
+            var sendMessageService =
+                new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
+            var sendMessageParameters = new SendMessageParameters
+            {
+                OnboardResponse = Sender,
+                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng,
+                Recipients = new List<string> {Recipient.SensorAlternateId},
+                Base64MessageContent = DataProvider.ReadBase64EncodedLargeBmp()
+            };
+            sendMessageService.Send(sendMessageParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClientForSender);
+            var fetch = fetchMessageService.Fetch(Sender);
+            Assert.Equal(6, fetch.Count);
+
+            foreach (var messageResponse in fetch)
+            {
+                var decodedMessage = DecodeMessageService.Decode(messageResponse.Command.Message);
+                Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
             }
         }
     }

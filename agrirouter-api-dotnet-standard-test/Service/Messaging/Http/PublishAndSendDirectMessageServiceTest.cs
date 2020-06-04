@@ -14,35 +14,73 @@ using Agrirouter.Request.Payload.Endpoint;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.Test.Service.Messaging.Http
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class PublishMultipleMessagesServiceTest : AbstractIntegrationTest
+    public class PublishAndSendDirectMessageServiceTest : AbstractIntegrationTest
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
 
-        [Fact]
-        public void GivenMultipleValidMessageContentWhenPublishingMessagesThenTheMessageShouldBeDelivered()
+        private void SetCapabilitiesForSender()
         {
-            var subscriptionService =
-                new SubscriptionService(new HttpMessagingService(HttpClientForRecipient));
-            var subscriptionParameters = new SubscriptionParameters()
+            var capabilitiesServices =
+                new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
+            var capabilitiesParameters = new CapabilitiesParameters
             {
-                OnboardResponse = Recipient,
-                TechnicalMessageTypes = new List<Subscription.Types.MessageTypeSubscriptionItem>()
+                OnboardResponse = Sender,
+                ApplicationId = ApplicationId,
+                CertificationVersionId = CertificationVersionId,
+                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
+                CapabilityParameters = new List<CapabilityParameter>()
             };
-            var technicalMessageType = new Subscription.Types.MessageTypeSubscriptionItem
+
+            var capabilitiesParameter = new CapabilityParameter
             {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
                 TechnicalMessageType = TechnicalMessageTypes.ImgPng
             };
-            subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageType);
-            subscriptionService.Send(subscriptionParameters);
+
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+            capabilitiesServices.Send(capabilitiesParameters);
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var fetchMessageService = new FetchMessageService(HttpClientForSender);
+            var fetch = fetchMessageService.Fetch(Sender);
+            Assert.Single(fetch);
+
+            var decodeMessageService = new DecodeMessageService();
+            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+        }
+
+        private void SetCapabilitiesForRecipient()
+        {
+            var capabilitiesServices =
+                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
+            var capabilitiesParameters = new CapabilitiesParameters
+            {
+                OnboardResponse = Recipient,
+                ApplicationId = ApplicationId,
+                CertificationVersionId = CertificationVersionId,
+                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
+                CapabilityParameters = new List<CapabilityParameter>()
+            };
+
+            var capabilitiesParameter = new CapabilityParameter
+            {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+            };
+
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+            capabilitiesServices.Send(capabilitiesParameters);
 
             Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -50,41 +88,9 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
+            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-
-            var publishMultipleMessagesService =
-                new PublishMultipleMessagesService(new HttpMessagingService(HttpClientForSender));
-            var sendMessageParameters = new SendMultipleMessagesParameters
-            {
-                OnboardResponse = Sender,
-                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                MultipleMessageEntries = new List<MultipleMessageEntry>
-                {
-                    new MultipleMessageEntry
-                    {
-                        ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                        TechnicalMessageType = TechnicalMessageTypes.ImgPng,
-                        Base64MessageContent = DataProvider.ReadBase64EncodedImage()
-                    },
-                    new MultipleMessageEntry
-                    {
-                        ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                        TechnicalMessageType = TechnicalMessageTypes.ImgPng,
-                        Base64MessageContent = DataProvider.ReadBase64EncodedImage()
-                    }
-                }
-            };
-            publishMultipleMessagesService.Send(sendMessageParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            fetchMessageService = new FetchMessageService(HttpClientForSender);
-            fetch = fetchMessageService.Fetch(Sender);
-            Assert.Equal(2, fetch.Count);
-
-            Assert.Equal(201, DecodeMessageService.Decode(fetch[0].Command.Message).ResponseEnvelope.ResponseCode);
-            Assert.Equal(201, DecodeMessageService.Decode(fetch[1].Command.Message).ResponseEnvelope.ResponseCode);
         }
 
         private static OnboardResponse Sender
@@ -103,12 +109,53 @@ namespace Agrirouter.Api.Test.Service.Messaging
         {
             get
             {
-                var onboardingResponseAsJson =
+                const string onboardingResponseAsJson =
                     "{\"deviceAlternateId\":\"fc43478e-f26c-4527-9bdd-c1fcb5542dc8\",\"capabilityAlternateId\":\"c2467f6d-0a7e-48ca-9b57-1862186aef12\",\"sensorAlternateId\":\"97c1eb60-b7a6-4ac4-8455-84d7c423e7ad\",\"connectionCriteria\":{\"gatewayId\":\"3\",\"measures\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/measures/fc43478e-f26c-4527-9bdd-c1fcb5542dc8\",\"commands\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/commands/fc43478e-f26c-4527-9bdd-c1fcb5542dc8\"},\"authentication\":{\"type\":\"P12\",\"secret\":\"LQXaUbU1IAzoRKvayZNvdeHVUORUM8sskr3Q\",\"certificate\":\"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\"}}";
                 var onboardingResponse =
                     JsonConvert.DeserializeObject(onboardingResponseAsJson, typeof(OnboardResponse));
                 return onboardingResponse as OnboardResponse;
             }
+        }
+
+        [Fact]
+        public void
+            GivenValidMessageContentWhenPublishingAndSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
+        {
+            // Description of the messaging process.
+
+            // 1. Set all capabilities for each endpoint - this is done once, not each time.
+            SetCapabilitiesForSender();
+            SetCapabilitiesForRecipient();
+
+            // 2. Recipient has to create his subscriptions in order to get the messages. If they are not set correctly the AR will return a HTTP 400.
+            // Done once before the test.
+
+            // 3. Set routes within the UI - this is done once, not each time.
+            // Done manually, not API interaction necessary.
+
+            // 4. Publish message from sender to recipient.
+            var publishAndSendMessageService =
+                new PublishAndSendMessageService(new HttpMessagingService(HttpClientForSender));
+            var sendMessageParameters = new SendMessageParameters
+            {
+                OnboardResponse = Sender,
+                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng,
+                Recipients = new List<string> {Recipient.SensorAlternateId},
+                Base64MessageContent = DataProvider.ReadBase64EncodedImage()
+            };
+            publishAndSendMessageService.Send(sendMessageParameters);
+
+            // 5. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            // 6. Fetch and analyze the ACK from the AR.
+            var fetchMessageService = new FetchMessageService(HttpClientForSender);
+            var fetch = fetchMessageService.Fetch(Sender);
+            Assert.Single(fetch);
+
+            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
     }
 }

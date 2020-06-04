@@ -11,7 +11,7 @@ using Environment = Agrirouter.Api.Env.Environment;
 namespace Agrirouter.Impl.Service.onboard
 {
     /// <summary>
-    /// Service for revoking endpoints.
+    ///     Service for revoking endpoints.
     /// </summary>
     public class RevokeService
     {
@@ -19,7 +19,7 @@ namespace Agrirouter.Impl.Service.onboard
         private readonly HttpClient _httpClient;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="environment">The current environment.</param>
         /// <param name="utcDataService">The UTC data service.</param>
@@ -32,7 +32,7 @@ namespace Agrirouter.Impl.Service.onboard
         }
 
         /// <summary>
-        /// Revoke an existing endpoint.
+        ///     Revoke an existing endpoint.
         /// </summary>
         /// <param name="revokeParameters">The parameters for the revoke process.</param>
         /// <param name="privateKey">The private key.</param>
@@ -62,10 +62,8 @@ namespace Agrirouter.Impl.Service.onboard
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
             if (!httpResponseMessage.IsSuccessStatusCode)
-            {
                 throw new RevokeException(httpResponseMessage.StatusCode,
                     httpResponseMessage.Content.ReadAsStringAsync().Result);
-            }
         }
     }
 }

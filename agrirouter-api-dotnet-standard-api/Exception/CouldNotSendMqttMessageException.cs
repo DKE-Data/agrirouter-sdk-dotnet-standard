@@ -4,17 +4,13 @@ using MQTTnet.Client.Publishing;
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    /// Will be thrown if the message could not be sent to the AR.
+    ///     Will be thrown if the message could not be sent to the AR.
     /// </summary>
     [Serializable]
     public class CouldNotSendMqttMessageException : System.Exception
     {
-        private MqttClientPublishReasonCode ReasonCode { get; }
-
-        private string ErrorMessage { get; }
-
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="reasonCode">-</param>
         /// <param name="errorMessage">-</param>
@@ -23,5 +19,9 @@ namespace Agrirouter.Api.Exception
             ReasonCode = reasonCode;
             ErrorMessage = errorMessage;
         }
+
+        private MqttClientPublishReasonCode ReasonCode { get; }
+
+        private string ErrorMessage { get; }
     }
 }

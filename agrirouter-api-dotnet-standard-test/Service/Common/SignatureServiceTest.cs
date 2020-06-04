@@ -5,7 +5,7 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Common
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     public class SignatureServiceTest
     {
@@ -49,20 +49,6 @@ namespace Agrirouter.Api.Test.Service.Common
                                            "-----END PUBLIC KEY-----";
 
         [Fact]
-        public void GivenValidCertificatesWhenVerifyingTheCreatedSignatureThenTheResultShouldBeOk()
-        {
-            var signature = SignatureService.Signature("REQUEST CONTENT", PrivateKey);
-            Assert.True(SignatureService.Verify("REQUEST CONTENT", signature, PublicKey));
-        }
-
-        [Fact]
-        public void GivenValidCertificatesWhenCreatingTheXAgrirouterSignatureThenTheCreatedSignatureShouldBeOk()
-        {
-            var signature = SignatureService.XAgrirouterSignature("REQUEST CONTENT", PrivateKey);
-            Assert.NotEmpty(signature);
-        }
-
-        [Fact]
         public void GivenInvalidCertificatesWhenSigningThenThereShouldBeAnException()
         {
             Assert.Throws<CouldNotCreateSignatureException>(() =>
@@ -75,6 +61,20 @@ namespace Agrirouter.Api.Test.Service.Common
             var signature = SignatureService.Signature("REQUEST CONTENT", PrivateKey);
             Assert.Throws<CouldNotVerifySignatureException>(() =>
                 SignatureService.Verify("REQUEST CONTENT", signature, PublicKey.Substring(42)));
+        }
+
+        [Fact]
+        public void GivenValidCertificatesWhenCreatingTheXAgrirouterSignatureThenTheCreatedSignatureShouldBeOk()
+        {
+            var signature = SignatureService.XAgrirouterSignature("REQUEST CONTENT", PrivateKey);
+            Assert.NotEmpty(signature);
+        }
+
+        [Fact]
+        public void GivenValidCertificatesWhenVerifyingTheCreatedSignatureThenTheResultShouldBeOk()
+        {
+            var signature = SignatureService.Signature("REQUEST CONTENT", PrivateKey);
+            Assert.True(SignatureService.Verify("REQUEST CONTENT", signature, PublicKey));
         }
     }
 }

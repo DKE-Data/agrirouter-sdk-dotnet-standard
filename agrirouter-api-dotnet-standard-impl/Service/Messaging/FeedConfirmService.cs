@@ -12,14 +12,14 @@ using Google.Protobuf;
 namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
-    /// Please see <seealso cref="IFeedConfirmService"/> for documentation.
+    ///     Please see <seealso cref="IFeedConfirmService" /> for documentation.
     /// </summary>
     public class FeedConfirmService : IFeedConfirmService
     {
         private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
         public FeedConfirmService(IMessagingService<MessagingParameters> messagingService)
@@ -28,7 +28,7 @@ namespace Agrirouter.Impl.Service.Messaging
         }
 
         /// <summary>
-        /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
+        ///     Please see <seealso cref="IMessagingService{T}.Send" /> for documentation.
         /// </summary>
         /// <param name="feedConfirmParameters">-</param>
         /// <returns>-</returns>
@@ -40,7 +40,7 @@ namespace Agrirouter.Impl.Service.Messaging
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="feedConfirmParameters">-</param>
         /// <returns>-</returns>

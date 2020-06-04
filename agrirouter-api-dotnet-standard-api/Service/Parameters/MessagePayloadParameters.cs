@@ -3,17 +3,17 @@ using Google.Protobuf;
 namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
-    /// Parameter container definition.
+    ///     Parameter container definition.
     /// </summary>
     public class MessagePayloadParameters : Parameters
     {
         /// <summary>
-        /// Type URL.
+        ///     Type URL.
         /// </summary>
         public string TypeUrl { get; set; }
 
         /// <summary>
-        /// Value.
+        ///     Value.
         /// </summary>
         public ByteString Value { get; set; }
     }

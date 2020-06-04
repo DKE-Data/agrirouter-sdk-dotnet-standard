@@ -12,14 +12,14 @@ using Google.Protobuf;
 namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
-    /// Please see <seealso cref="ICapabilitiesServices"/> for documentation.
+    ///     Please see <seealso cref="ICapabilitiesServices" /> for documentation.
     /// </summary>
     public class CapabilitiesService : ICapabilitiesServices
     {
         private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
         public CapabilitiesService(IMessagingService<MessagingParameters> messagingService)
@@ -28,7 +28,7 @@ namespace Agrirouter.Impl.Service.Messaging
         }
 
         /// <summary>
-        /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
+        ///     Please see <seealso cref="IMessagingService{T}.Send" /> for documentation.
         /// </summary>
         /// <param name="capabilitiesParameters">-</param>
         /// <returns>-</returns>
@@ -40,7 +40,7 @@ namespace Agrirouter.Impl.Service.Messaging
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="capabilitiesParameters"></param>
         /// <returns>-</returns>

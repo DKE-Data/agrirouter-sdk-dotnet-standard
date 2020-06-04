@@ -1,37 +1,37 @@
 namespace Agrirouter.Api.Dto.Onboard.Inner
 {
     /// <summary>
-    /// Data transfer object for the communication.
+    ///     Data transfer object for the communication.
     /// </summary>
     public class ConnectionCriteria
     {
         /// <summary>
-        /// Gateway ID.
+        ///     Gateway ID.
         /// </summary>
         public string GatewayId { get; set; }
 
         /// <summary>
-        /// Measures.
+        ///     Measures.
         /// </summary>
         public string Measures { get; set; }
 
         /// <summary>
-        /// Commands.
+        ///     Commands.
         /// </summary>
         public string Commands { get; set; }
 
         /// <summary>
-        /// Host.
+        ///     Host.
         /// </summary>
         public string Host { get; set; }
 
         /// <summary>
-        /// Port.
+        ///     Port.
         /// </summary>
         public string Port { get; set; }
 
         /// <summary>
-        /// Client ID.
+        ///     Client ID.
         /// </summary>
         public string ClientId { get; set; }
     }

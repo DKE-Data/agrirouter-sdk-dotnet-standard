@@ -5,12 +5,13 @@ using Google.Protobuf.WellKnownTypes;
 namespace Agrirouter.Impl.Service.Convenience
 {
     /// <summary>
-    /// Encode and decode message contents from the AR.
+    ///     Encode and decode message contents from the AR.
     /// </summary>
     public class Encode
     {
         /// <summary>
-        /// Encode the message content. This means, that the raw data (which is read from the file) is encoded to base 64 (twice).
+        ///     Encode the message content. This means, that the raw data (which is read from the file) is encoded to base 64
+        ///     (twice).
         /// </summary>
         /// <param name="raw"></param>
         /// <returns></returns>
@@ -22,7 +23,8 @@ namespace Agrirouter.Impl.Service.Convenience
         }
 
         /// <summary>
-        /// Decode the message content. This means, that the message content (which is read from the message) is decoded from base 64 (twice).
+        ///     Decode the message content. This means, that the message content (which is read from the message) is decoded from
+        ///     base 64 (twice).
         /// </summary>
         /// <param name="messageContent"></param>
         /// <returns></returns>
