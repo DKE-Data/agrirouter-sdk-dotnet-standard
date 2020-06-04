@@ -6,15 +6,16 @@ using Agrirouter.Impl.Service.Messaging.Abstraction;
 namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
-    /// Service to list the endpoints connected to an endpoint.
+    ///     Service to list the endpoints connected to an endpoint.
     /// </summary>
     public class ListEndpointsUnfilteredService : ListEndpointsBaseService
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="messagingService"></param>
-        public ListEndpointsUnfilteredService(IMessagingService<MessagingParameters> messagingService) : base(messagingService)
+        public ListEndpointsUnfilteredService(IMessagingService<MessagingParameters> messagingService) : base(
+            messagingService)
         {
         }
 

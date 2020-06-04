@@ -19,8 +19,10 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             _messagingService = messagingService;
         }
 
+        protected abstract string TechnicalMessageType { get; }
+
         /// <summary>
-        /// Please see base class declaration for documentation.
+        ///     Please see base class declaration for documentation.
         /// </summary>
         /// <param name="queryMessagesParameters">-</param>
         /// <returns>-</returns>
@@ -32,7 +34,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="queryMessagesParameters">-</param>
         /// <returns>-</returns>
@@ -66,7 +68,5 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
 
             return encodedMessage;
         }
-
-        protected abstract string TechnicalMessageType { get; }
     }
 }

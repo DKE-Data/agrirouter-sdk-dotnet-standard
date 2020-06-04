@@ -4,24 +4,24 @@ using Google.Protobuf.WellKnownTypes;
 namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
-    /// Service to provide UTC data like timestamps or string representations.
+    ///     Service to provide UTC data like timestamps or string representations.
     /// </summary>
     public class UtcDataService
     {
         /// <summary>
-        /// Delivering the current time zone.
+        ///     Delivering the current time zone.
         /// </summary>
         public static string TimeZone =>
             (TimeZoneInfo.Local.BaseUtcOffset < TimeSpan.Zero ? "-" : "+") +
             TimeZoneInfo.Local.BaseUtcOffset.ToString("hh") + ":00";
 
         /// <summary>
-        /// Delivering the current date using a valid AR format.
+        ///     Delivering the current date using a valid AR format.
         /// </summary>
         public static string Now => DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
 
         /// <summary>
-        /// Delivering the current date using a timestamp format.
+        ///     Delivering the current date using a timestamp format.
         /// </summary>
         /// <returns></returns>
         public static Timestamp NowAsTimestamp()
@@ -31,7 +31,7 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
-        /// Delivering the current date using a timestamp format.
+        ///     Delivering the current date using a timestamp format.
         /// </summary>
         /// <param name="offset">The current offset.</param>
         /// <returns>-</returns>
@@ -42,7 +42,7 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
-        /// Delivering the current date using a unix timestamp format.
+        ///     Delivering the current date using a unix timestamp format.
         /// </summary>
         /// <returns>-</returns>
         public static string NowAsUnixTimestamp()

@@ -4,10 +4,19 @@ using Serilog;
 namespace Agrirouter.Api.Test.Service
 {
     /// <summary>
-    /// Abstract integration test class.
+    ///     Abstract integration test class.
     /// </summary>
     public class AbstractSecuredIntegrationTestForFarmingSoftware
     {
+        protected AbstractSecuredIntegrationTestForFarmingSoftware()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.Debug()
+                .CreateLogger();
+        }
+
         protected static string PrivateKey => "-----BEGIN PRIVATE KEY-----\n" +
                                               "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQD85DBkLGppK9Cl\n" +
                                               "GCQzZYGer8Gs3IyX14IvPKxJgKGBksuX2XnNscgjL13ems69xRtpJ3SabmxgJ2q/\n" +
@@ -42,14 +51,5 @@ namespace Agrirouter.Api.Test.Service
         protected static string CertificationVersionId => "2141fce0-dbf7-405f-a9b9-58a72f5d3e5d";
 
         protected static Environment Environment => new QualityAssuranceEnvironment();
-
-        protected AbstractSecuredIntegrationTestForFarmingSoftware()
-        {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .WriteTo.Debug()
-                .CreateLogger();
-        }
     }
 }

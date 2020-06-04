@@ -3,48 +3,48 @@ using Newtonsoft.Json;
 namespace Agrirouter.Api.Dto.Onboard
 {
     /// <summary>
-    /// Data transfer object for the communication.
+    ///     Data transfer object for the communication.
     /// </summary>
     public class OnboardRequest
     {
         /// <summary>
-        /// External ID.
+        ///     External ID.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string ExternalId { get; set; }
 
         /// <summary>
-        /// Application ID.
+        ///     Application ID.
         /// </summary>
         [JsonProperty(PropertyName = "applicationId")]
         public string ApplicationId { get; set; }
 
         /// <summary>
-        /// Certification version ID.
+        ///     Certification version ID.
         /// </summary>
         [JsonProperty(PropertyName = "certificationVersionId")]
         public string CertificationVersionId { get; set; }
 
         /// <summary>
-        /// Gateway ID.
+        ///     Gateway ID.
         /// </summary>
         [JsonProperty(PropertyName = "gatewayId")]
         public string GatewayId { get; set; }
 
         /// <summary>
-        /// Timestamp.
+        ///     Timestamp.
         /// </summary>
         [JsonProperty(PropertyName = "UTCTimestamp")]
         public string UtcTimestamp { get; set; }
 
         /// <summary>
-        /// Timezone.
+        ///     Timezone.
         /// </summary>
         [JsonProperty(PropertyName = "timeZone")]
         public string TimeZone { get; set; }
 
         /// <summary>
-        /// Certification type.
+        ///     Certification type.
         /// </summary>
         [JsonProperty(PropertyName = "certificateType")]
         public string CertificateType { get; set; }

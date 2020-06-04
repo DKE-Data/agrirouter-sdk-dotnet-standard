@@ -5,19 +5,11 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Onboard
 {
     /// <summary>
-    /// Functional tests.
+    ///     Functional tests.
     /// </summary>
     public class AuthorizationServiceTest
     {
-        [Fact]
-        public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
-        {
-            var authorizationService = new AuthorizationService(new QualityAssuranceEnvironment());
-            var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId);
-            Assert.Equal(
-                $"https://agrirouter-qa.cfapps.eu10.hana.ondemand.com/application/16b1c3ab-55ef-412c-952b-f280424272e1/authorize?response_type=onboard&state={authorizationUrlResult.State}",
-                authorizationUrlResult.AuthorizationUrl);
-        }
+        private static string ApplicationId => "16b1c3ab-55ef-412c-952b-f280424272e1";
 
         [Fact]
         public void
@@ -28,6 +20,16 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 authorizationService.AuthorizationUrl(ApplicationId, "https://www.saschadoemer.de");
             Assert.Equal(
                 $"https://agrirouter-qa.cfapps.eu10.hana.ondemand.com/application/16b1c3ab-55ef-412c-952b-f280424272e1/authorize?response_type=onboard&state={authorizationUrlResult.State}&redirect_uri=https://www.saschadoemer.de",
+                authorizationUrlResult.AuthorizationUrl);
+        }
+
+        [Fact]
+        public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
+        {
+            var authorizationService = new AuthorizationService(new QualityAssuranceEnvironment());
+            var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId);
+            Assert.Equal(
+                $"https://agrirouter-qa.cfapps.eu10.hana.ondemand.com/application/16b1c3ab-55ef-412c-952b-f280424272e1/authorize?response_type=onboard&state={authorizationUrlResult.State}",
                 authorizationUrlResult.AuthorizationUrl);
         }
 
@@ -59,7 +61,5 @@ namespace Agrirouter.Api.Test.Service.Onboard
             Assert.NotNull(authorizationToken.RegistrationCode);
             Assert.NotNull(authorizationToken.Expires);
         }
-
-        private static string ApplicationId => "16b1c3ab-55ef-412c-952b-f280424272e1";
     }
 }

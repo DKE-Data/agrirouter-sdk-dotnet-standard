@@ -10,12 +10,14 @@ using Org.BouncyCastle.Utilities.Encoders;
 namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
-    /// Service to create the signatures for the authorization process.
+    ///     Service to create the signatures for the authorization process.
     /// </summary>
     public class SignatureService
     {
+        private static string Algorithm => "SHA-256withRSA";
+
         /// <summary>
-        /// Creating the agrirouter signature used for signing the requests.
+        ///     Creating the agrirouter signature used for signing the requests.
         /// </summary>
         /// <param name="requestBody">The request body.</param>
         /// <param name="privateKey">The private key.</param>
@@ -26,7 +28,7 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
-        /// Creating a common signature for the given request.
+        ///     Creating a common signature for the given request.
         /// </summary>
         /// <param name="requestBody">The request body.</param>
         /// <param name="privateKey">The private key.</param>
@@ -48,7 +50,7 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
-        /// Verify the created signature.
+        ///     Verify the created signature.
         /// </summary>
         /// <param name="requestBody">The request body.</param>
         /// <param name="signature">The formerly created signature.</param>
@@ -79,7 +81,5 @@ namespace Agrirouter.Impl.Service.Common
         {
             return (RsaKeyParameters) new PemReader(new StringReader(pem)).ReadObject();
         }
-
-        private static string Algorithm => "SHA-256withRSA";
     }
 }

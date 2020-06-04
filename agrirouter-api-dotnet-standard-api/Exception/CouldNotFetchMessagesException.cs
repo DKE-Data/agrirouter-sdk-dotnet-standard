@@ -4,17 +4,13 @@ using System.Net;
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    /// Will be thrown if the messages can not be fetched from the AR.
+    ///     Will be thrown if the messages can not be fetched from the AR.
     /// </summary>
     [Serializable]
     public class CouldNotFetchMessagesException : System.Exception
     {
-        private HttpStatusCode StatusCode { get; }
-
-        private string ErrorMessage { get; }
-
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="statusCode">-</param>
         /// <param name="errorMessage">-</param>
@@ -23,5 +19,9 @@ namespace Agrirouter.Api.Exception
             StatusCode = statusCode;
             ErrorMessage = errorMessage;
         }
+
+        private HttpStatusCode StatusCode { get; }
+
+        private string ErrorMessage { get; }
     }
 }

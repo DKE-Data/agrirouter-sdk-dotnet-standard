@@ -13,14 +13,14 @@ using Google.Protobuf;
 namespace Agrirouter.Impl.Service.Messaging.Vcu
 {
     /// <summary>
-    /// Service to onboard VCUs.
+    ///     Service to onboard VCUs.
     /// </summary>
     public class OffboardVcuService : IOffboardVcuService
     {
         private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
         public OffboardVcuService(IMessagingService<MessagingParameters> messagingService)
@@ -29,7 +29,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         }
 
         /// <summary>
-        /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
+        ///     Please see <seealso cref="IMessagingService{T}.Send" /> for documentation.
         /// </summary>
         /// <param name="offboardVcuParameters">-</param>
         /// <returns>-</returns>
@@ -41,7 +41,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="offboardVcuParameters"></param>
         /// <returns>-</returns>
@@ -61,10 +61,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
             };
 
             var offboardingRequest = new OffboardingRequest();
-            foreach (var endpoint in offboardVcuParameters.Endpoints)
-            {
-                offboardingRequest.Endpoints.Add(endpoint);
-            }
+            foreach (var endpoint in offboardVcuParameters.Endpoints) offboardingRequest.Endpoints.Add(endpoint);
 
             messagePayloadParameters.Value = offboardingRequest.ToByteString();
 

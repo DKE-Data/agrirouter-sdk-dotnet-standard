@@ -5,19 +5,11 @@ using Serilog;
 namespace Agrirouter.Api.Test.Service
 {
     /// <summary>
-    /// Abstract integration test class.
+    ///     Abstract integration test class.
     /// </summary>
     public class AbstractIntegrationTest
     {
         private int _testStep = 1;
-
-        private static string AccountId => "5d47a537-9455-410d-aa6d-fbd69a5cf990";
-
-        protected static string ApplicationId => "39d18ae2-04e3-42de-8a42-935565a6b261";
-
-        protected static string CertificationVersionId => "719afec8-d2ff-4cf8-8194-e688ae56b3b5";
-
-        protected static Environment Environment => new QualityAssuranceEnvironment();
 
         protected AbstractIntegrationTest()
         {
@@ -27,6 +19,14 @@ namespace Agrirouter.Api.Test.Service
                 .WriteTo.Debug()
                 .CreateLogger();
         }
+
+        private static string AccountId => "5d47a537-9455-410d-aa6d-fbd69a5cf990";
+
+        protected static string ApplicationId => "39d18ae2-04e3-42de-8a42-935565a6b261";
+
+        protected static string CertificationVersionId => "719afec8-d2ff-4cf8-8194-e688ae56b3b5";
+
+        protected static Environment Environment => new QualityAssuranceEnvironment();
 
         protected void LogTestStep(string message)
         {

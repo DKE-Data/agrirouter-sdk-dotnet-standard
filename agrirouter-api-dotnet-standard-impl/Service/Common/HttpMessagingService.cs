@@ -13,14 +13,14 @@ using Serilog;
 namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
-    /// Service to send messages to the AR.
+    ///     Service to send messages to the AR.
     /// </summary>
     public class HttpMessagingService : IMessagingService<MessagingParameters>
     {
         private readonly HttpClient _httpClient;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="httpClient">-</param>
         public HttpMessagingService(HttpClient httpClient)
@@ -29,7 +29,7 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
-        /// Send message to the AR using the given message parameters.
+        ///     Send message to the AR using the given message parameters.
         /// </summary>
         /// <param name="messagingParameters">Messaging parameters.</param>
         /// <returns>-</returns>
@@ -46,9 +46,7 @@ namespace Agrirouter.Impl.Service.Common
             foreach (var message in messagingParameters.EncodedMessages.Select(encodedMessage =>
                 new Api.Dto.Messaging.Inner.Message
                     {Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp()}))
-            {
                 messageRequest.Messages.Add(message);
-            }
 
             HttpContent requestBody = new StringContent(JsonConvert.SerializeObject(messageRequest), Encoding.UTF8,
                 "application/json");
@@ -56,10 +54,8 @@ namespace Agrirouter.Impl.Service.Common
                 .PostAsync(messagingParameters.OnboardResponse.ConnectionCriteria.Measures, requestBody).Result;
 
             if (httpResponseMessage.IsSuccessStatusCode)
-            {
                 return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
                     .Build();
-            }
 
             Log.Error("Sending the message was not successful. HTTP response was " +
                       httpResponseMessage.StatusCode + ". Please check exception for more details.");

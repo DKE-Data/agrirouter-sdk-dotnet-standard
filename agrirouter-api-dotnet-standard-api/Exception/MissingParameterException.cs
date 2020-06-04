@@ -3,20 +3,20 @@ using System;
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    /// Will be thrown if there are any missing parameters.
+    ///     Will be thrown if there are any missing parameters.
     /// </summary>
     [Serializable]
     public class MissingParameterException : System.Exception
     {
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         public MissingParameterException()
         {
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         public MissingParameterException(string message) : base(message)
@@ -24,7 +24,7 @@ namespace Agrirouter.Api.Exception
         }
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="message">-</param>
         /// <param name="inner">-</param>

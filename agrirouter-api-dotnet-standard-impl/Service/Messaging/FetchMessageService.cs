@@ -12,14 +12,14 @@ using Serilog;
 namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
-    /// Service to fetch messages from the agrirouter.
+    ///     Service to fetch messages from the agrirouter.
     /// </summary>
     public class FetchMessageService
     {
         private readonly HttpClient _httpClient;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="httpClient">-</param>
         public FetchMessageService(HttpClient httpClient)
@@ -28,7 +28,7 @@ namespace Agrirouter.Impl.Service.Messaging
         }
 
         /// <summary>
-        /// Fetch messages from the inbox using the given onboarding response.
+        ///     Fetch messages from the inbox using the given onboarding response.
         /// </summary>
         /// <param name="onboardResponse">All the messages that are in the inbox.</param>
         /// <returns>-</returns>
@@ -46,10 +46,8 @@ namespace Agrirouter.Impl.Service.Messaging
                 .SendAsync(httpRequestMessage).Result;
 
             if (!httpResponseMessage.IsSuccessStatusCode)
-            {
                 throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode,
                     httpResponseMessage.Content.ReadAsStringAsync().Result);
-            }
 
             var messageResponses =
                 JsonConvert.DeserializeObject<List<MessageResponse>>(httpResponseMessage.Content.ReadAsStringAsync()

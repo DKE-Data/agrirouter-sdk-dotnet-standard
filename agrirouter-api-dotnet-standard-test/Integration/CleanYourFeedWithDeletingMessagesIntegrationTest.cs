@@ -27,14 +27,6 @@ namespace Agrirouter.Api.Test.Integration
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
 
-        [Fact(DisplayName = "Clean your feed integration test scenario.")]
-        public void Run()
-        {
-            PrepareTestEnvironment();
-            ActionsForSender();
-            ActionsForRecipient();
-        }
-
         private static void PrepareTestEnvironment()
         {
             PrepareTestEnvironmentForSender();
@@ -102,12 +94,11 @@ namespace Agrirouter.Api.Test.Integration
         }
 
         /// <summary>
-        /// The actions for the sender are the following:
-        ///
-        /// 1. Send the message containing the image file.
-        /// 2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 3. Fetch the message response and validate it.
-        /// 
+        ///     The actions for the sender are the following:
+        ///     1. Send the message containing the image file.
+        ///     2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example
+        ///     time limit)
+        ///     3. Fetch the message response and validate it.
         /// </summary>
         private static void ActionsForSender()
         {
@@ -134,16 +125,15 @@ namespace Agrirouter.Api.Test.Integration
         }
 
         /// <summary>
-        ///  The actions for the recipient are the following:
-        ///
-        /// 1. Query the message headers.
-        /// 2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 3. Fetch the response from the AR and check.
-        ///
-        /// 4. Delete the messages using the message IDs to clean the feed.
-        /// 5. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example time limit)
-        /// 6. Fetch the response from the AR and check.
-        /// 
+        ///     The actions for the recipient are the following:
+        ///     1. Query the message headers.
+        ///     2. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example
+        ///     time limit)
+        ///     3. Fetch the response from the AR and check.
+        ///     4. Delete the messages using the message IDs to clean the feed.
+        ///     5. Let the AR process the message for some seconds to be sure (this depends on the use case and is just an example
+        ///     time limit)
+        ///     6. Fetch the response from the AR and check.
         /// </summary>
         private static void ActionsForRecipient()
         {
@@ -216,6 +206,14 @@ namespace Agrirouter.Api.Test.Integration
                     JsonConvert.DeserializeObject(onboardingResponseAsJson, typeof(OnboardResponse));
                 return onboardingResponse as OnboardResponse;
             }
+        }
+
+        [Fact(DisplayName = "Clean your feed with deleting messages integration test scenario.")]
+        public void Run()
+        {
+            PrepareTestEnvironment();
+            ActionsForSender();
+            ActionsForRecipient();
         }
     }
 }

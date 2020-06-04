@@ -10,23 +10,21 @@ using Serilog;
 namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
-    /// Service to decoode messages and message contents.
+    ///     Service to decoode messages and message contents.
     /// </summary>
     public class DecodeMessageService
     {
         /// <summary>
-        /// Decoding a Base64-encoded message which is containing a response envelope and a response payload wrapper.
-        /// <param name="rawMessage">The raw messages (Base64 encoded9).</param>
-        /// <returns>-</returns>
-        /// <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
-        /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message can not be decoded.</exception>
+        ///     Decoding a Base64-encoded message which is containing a response envelope and a response payload wrapper.
+        ///     <param name="rawMessage">The raw messages (Base64 encoded9).</param>
+        ///     <returns>-</returns>
+        ///     <exception cref="ArgumentException">Will be thrown if the input is not valid.</exception>
+        ///     <exception cref="CouldNotDecodeMessageException">Will be thrown if the message can not be decoded.</exception>
         /// </summary>
         public static DecodedMessage Decode(string rawMessage)
         {
             if (string.IsNullOrWhiteSpace(rawMessage))
-            {
                 throw new ArgumentException("Raw message data could not be null.");
-            }
 
             try
             {
@@ -54,7 +52,7 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
-        /// Parsing the inner message of the payload wrapper using the any object containing the content.
+        ///     Parsing the inner message of the payload wrapper using the any object containing the content.
         /// </summary>
         /// <param name="any">The message content from the decoded message.</param>
         /// <returns></returns>

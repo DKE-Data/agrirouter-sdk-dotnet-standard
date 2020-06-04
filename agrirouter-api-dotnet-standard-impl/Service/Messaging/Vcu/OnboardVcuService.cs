@@ -13,14 +13,14 @@ using Google.Protobuf;
 namespace Agrirouter.Impl.Service.Messaging.Vcu
 {
     /// <summary>
-    /// Service to onboard VCUs.
+    ///     Service to onboard VCUs.
     /// </summary>
     public class OnboardVcuService : IOnboardVcuService
     {
         private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="messagingService">-</param>
         public OnboardVcuService(IMessagingService<MessagingParameters> messagingService)
@@ -29,7 +29,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         }
 
         /// <summary>
-        /// Please see <seealso cref="IMessagingService{T}.Send"/> for documentation.
+        ///     Please see <seealso cref="IMessagingService{T}.Send" /> for documentation.
         /// </summary>
         /// <param name="onboardVcuParameters">-</param>
         /// <returns>-</returns>
@@ -41,7 +41,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         }
 
         /// <summary>
-        /// Please see <seealso cref="IEncodeMessageService{T}.Encode"/> for documentation.
+        ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="onboardVcuParameters"></param>
         /// <returns>-</returns>
@@ -62,9 +62,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
 
             var onboardingRequest = new OnboardingRequest();
             foreach (var onboardingRequestEntry in onboardVcuParameters.OnboardingRequests)
-            {
                 onboardingRequest.OnboardingRequests.Add(onboardingRequestEntry);
-            }
 
             messagePayloadParameters.Value = onboardingRequest.ToByteString();
 

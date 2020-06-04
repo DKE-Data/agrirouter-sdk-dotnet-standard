@@ -10,12 +10,13 @@ using Serilog;
 namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
-    /// Service for message encoding.
+    ///     Service for message encoding.
     /// </summary>
     public class EncodeMessageService
     {
         /// <summary>
-        /// Encode a message using the given header parameters and payload parameters. The encoded Base64 message can be sent to the AR directly.
+        ///     Encode a message using the given header parameters and payload parameters. The encoded Base64 message can be sent
+        ///     to the AR directly.
         /// </summary>
         /// <param name="messageHeaderParameters">Parameters for the message header.</param>
         /// <param name="messagePayloadParameters">Parameters for the message payload.</param>
@@ -27,9 +28,7 @@ namespace Agrirouter.Impl.Service.Common
             Log.Debug("Start encoding of the message.");
 
             if (null == messageHeaderParameters || null == messagePayloadParameters)
-            {
                 throw new MissingParameterException();
-            }
 
             using var memoryStream = new MemoryStream();
             Header(messageHeaderParameters).WriteDelimitedTo(memoryStream);
@@ -55,22 +54,14 @@ namespace Agrirouter.Impl.Service.Common
             };
 
             if (!string.IsNullOrEmpty(messageHeaderParameters.TeamSetContextId))
-            {
                 requestEnvelope.TeamSetContextId = messageHeaderParameters.TeamSetContextId;
-            }
 
             if (messageHeaderParameters.Recipients != null)
-            {
                 foreach (var recipient in messageHeaderParameters.Recipients)
-                {
                     requestEnvelope.Recipients.Add(recipient);
-                }
-            }
 
             if (messageHeaderParameters.ChunkInfo != null)
-            {
                 requestEnvelope.ChunkInfo = messageHeaderParameters.ChunkInfo;
-            }
 
             Log.Debug("Finished creating the header of the message.");
 
