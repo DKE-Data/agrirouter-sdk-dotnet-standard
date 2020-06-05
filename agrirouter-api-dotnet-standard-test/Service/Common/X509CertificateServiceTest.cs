@@ -7,16 +7,35 @@ namespace Agrirouter.Api.Test.Service.Common
 {
     public class X509CertificateServiceTest : AbstractIntegrationTest
     {
-
         [Fact]
         public void
-            GivenValidOnboardingResponseWhenCreatingCertificateThenTheCertificateCreationShouldNotThrowAnyError()
+            GivenValidOnboardingResponseWithP12CertificateWhenCreatingCertificateThenTheCertificateCreationShouldNotThrowAnyError()
         {
-            var certificate = X509CertificateService.GetCertificate(OnboardResponse);
+            var certificate = X509CertificateService.GetCertificate(OnboardResponseWithP12Certificate);
             Assert.NotNull(certificate);
         }
         
-        private static OnboardResponse OnboardResponse
+        [Fact]
+        public void
+            GivenValidOnboardingResponseWithPemCertificateWhenCreatingCertificateThenTheCertificateCreationShouldNotThrowAnyError()
+        {
+            var certificate = X509CertificateService.GetCertificate(OnboardResponseWithPemCertificate);
+            Assert.NotNull(certificate);
+        }
+
+        private static OnboardResponse OnboardResponseWithP12Certificate
+        {
+            get
+            {
+                const string onboardingResponseAsJson =
+                    "{\"deviceAlternateId\":\"b2806337-0ad0-4df2-9b69-d85b5302a5f8\",\"capabilityAlternateId\":\"c2467f6d-0a7e-48ca-9b57-1862186aef12\",\"sensorAlternateId\":\"798fae43-defa-4ef1-930a-b3bfe50eb5a5\",\"connectionCriteria\":{\"gatewayId\":\"3\",\"measures\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/measures/b2806337-0ad0-4df2-9b69-d85b5302a5f8\",\"commands\":\"https://dke-qa.eu10.cp.iot.sap/iot/gateway/rest/commands/b2806337-0ad0-4df2-9b69-d85b5302a5f8\"},\"authentication\":{\"type\":\"P12\",\"secret\":\"cyva4MsqSpJCNOFBsYmEpiZAvJlVa639PLEt\",\"certificate\":\"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\"}}\n";
+                var onboardingResponse =
+                    JsonConvert.DeserializeObject(onboardingResponseAsJson, typeof(OnboardResponse));
+                return onboardingResponse as OnboardResponse;
+            }
+        }
+
+        private static OnboardResponse OnboardResponseWithPemCertificate
         {
             get
             {
