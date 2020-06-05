@@ -34,16 +34,39 @@ namespace Agrirouter.Impl.Service.Common
 
             if (onboardResponse.Authentication.Type.Equals("PEM"))
             {
-                var certificateWithoutPrivateKey = new X509Certificate2(
-                    Encoding.UTF8.GetBytes(onboardResponse.Authentication.Certificate),
-                    onboardResponse.Authentication.Secret);
-                var rsa = ExtractRsaFromPem(onboardResponse.Authentication.Certificate,
-                    onboardResponse.Authentication.Secret);
-                return CombineCertificateAndRsaKey(certificateWithoutPrivateKey, rsa);
+                byte[] certBuffer = ExtractBytesFromPem(onboardResponse.Authentication.Certificate, "CERTIFICATE");
+                X509Certificate2 certificate = new X509Certificate2(certBuffer, onboardResponse.Authentication.Secret, X509KeyStorageFlags.DefaultKeySet);
+
+                using (RSA rsa = RSA.Create())
+                {
+                    ReadOnlySpan<byte> privateKey =
+                        ExtractBytesFromPem(onboardResponse.Authentication.Certificate, "ENCRYPTED PRIVATE KEY");
+                    var secret = onboardResponse.Authentication.Secret.AsSpan();
+                    rsa.ImportEncryptedPkcs8PrivateKey(secret, privateKey, out var i);
+                    return certificate.CopyWithPrivateKey(rsa);
+                }
             }
 
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
+        }
+
+        private static byte[] ExtractBytesFromPem(string pemString, string section)
+        {
+            var header = String.Format("-----BEGIN {0}-----", section);
+            var footer = String.Format("-----END {0}-----", section);
+
+            var start = pemString.IndexOf(header, StringComparison.Ordinal);
+            if (start < 0)
+                return null;
+
+            start += header.Length;
+            var end = pemString.IndexOf(footer, start, StringComparison.Ordinal) - start;
+
+            if (end < 0)
+                return null;
+
+            return Convert.FromBase64String(pemString.Substring(start, end));
         }
 
         /// <summary>
