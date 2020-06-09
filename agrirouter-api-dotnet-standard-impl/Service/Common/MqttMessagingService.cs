@@ -18,13 +18,13 @@ namespace Agrirouter.Impl.Service.Common
     /// </summary>
     public class MqttMessagingService : IMessagingService<MessagingParameters>
     {
-        private readonly MqttClient _mqttClient;
+        private readonly IMqttClient _mqttClient;
 
         /// <summary>
         ///     Constructor.
         /// </summary>
         /// <param name="mqttClient">-</param>
-        public MqttMessagingService(MqttClient mqttClient)
+        public MqttMessagingService(IMqttClient mqttClient)
         {
             _mqttClient = mqttClient;
         }
