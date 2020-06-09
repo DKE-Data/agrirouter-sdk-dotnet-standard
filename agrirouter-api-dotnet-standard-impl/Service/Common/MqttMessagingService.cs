@@ -58,17 +58,10 @@ namespace Agrirouter.Impl.Service.Common
                 .WithRetainFlag()
                 .Build();
 
-            var mqttClientPublishResult = _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
+            _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
 
-            if (mqttClientPublishResult.IsCompletedSuccessfully)
-                return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
-                    .Build();
-
-            Log.Error("Sending the message was not successful. MQTT publish result response was " +
-                      mqttClientPublishResult.Result.ReasonCode + " with message '" +
-                      mqttClientPublishResult.Result.ReasonString + "'. Please check exception for more details.");
-            throw new CouldNotSendMqttMessageException(mqttClientPublishResult.Result.ReasonCode,
-                mqttClientPublishResult.Result.ReasonString);
+            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
+                .Build();
         }
     }
 }
