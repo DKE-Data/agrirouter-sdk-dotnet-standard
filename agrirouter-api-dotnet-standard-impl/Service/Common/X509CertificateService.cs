@@ -1,11 +1,15 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Utilities.IO.Pem;
+using PemReader = Org.BouncyCastle.OpenSsl.PemReader;
 
 namespace Agrirouter.Impl.Service.Common
 {
@@ -33,11 +37,28 @@ namespace Agrirouter.Impl.Service.Common
                     var pemReader = new PemReader(
                         new StringReader(onboardResponse.Authentication.Certificate),
                         new PasswordFinder(onboardResponse.Authentication.Secret));
-                    // Note the two subsequent read operations here...
-                    // The first one will fail if the cast throws an exception, so
-                    // there is no need to read a PemObject and check the type.
-                    using var privateKey = DotNetUtilities.ToRSA(
-                        (RsaPrivateCrtKeyParameters) pemReader.ReadObject());
+
+                    RSA privateKey;
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    {
+                        privateKey = ToRSA(
+                            (RsaPrivateCrtKeyParameters) pemReader.ReadObject());
+                    }
+                    else
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            privateKey = DotNetUtilities.ToRSA(
+                                (RsaPrivateCrtKeyParameters) pemReader.ReadObject());
+                        }
+                        else
+                        {
+                            throw new CouldNotCreateCertificateForOsException(
+                                $"Could not create a certificate for '${RuntimeInformation.OSDescription}'");
+                        }
+                        
+                    }
+
                     var certificate = pemReader.ReadPemObject();
                     if (certificate.Type == "CERTIFICATE")
                     {
@@ -51,6 +72,12 @@ namespace Agrirouter.Impl.Service.Common
 
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
+        }
+        
+        private static RSA ToRSA(RsaPrivateCrtKeyParameters parameters)
+        {
+            var rp = DotNetUtilities.ToRSAParameters(parameters);
+            return RSA.Create(rp);
         }
 
         /// <summary>
