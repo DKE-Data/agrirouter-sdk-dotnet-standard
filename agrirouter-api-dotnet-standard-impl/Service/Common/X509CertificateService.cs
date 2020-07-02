@@ -1,11 +1,8 @@
 using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
-using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
@@ -25,89 +22,35 @@ namespace Agrirouter.Impl.Service.Common
         /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception>
         public static X509Certificate GetCertificate(OnboardResponse onboardResponse)
         {
-            if (onboardResponse.Authentication.Type.Equals("P12"))
+            switch (onboardResponse.Authentication.Type)
             {
-                return new X509Certificate2(
-                    Convert.FromBase64String(onboardResponse.Authentication.Certificate),
-                    onboardResponse.Authentication.Secret);
-            }
-
-            if (onboardResponse.Authentication.Type.Equals("PEM"))
-            {
-                byte[] certBuffer = ExtractBytesFromPem(onboardResponse.Authentication.Certificate, "CERTIFICATE");
-                X509Certificate2 certificate = new X509Certificate2(certBuffer, onboardResponse.Authentication.Secret, X509KeyStorageFlags.DefaultKeySet);
-
-                using (RSA rsa = RSA.Create())
+                case "P12":
+                    return new X509Certificate2(
+                        Convert.FromBase64String(onboardResponse.Authentication.Certificate),
+                        onboardResponse.Authentication.Secret);
+                case "PEM":
                 {
-                    ReadOnlySpan<byte> privateKey =
-                        ExtractBytesFromPem(onboardResponse.Authentication.Certificate, "ENCRYPTED PRIVATE KEY");
-                    var secret = onboardResponse.Authentication.Secret.AsSpan();
-                    rsa.ImportEncryptedPkcs8PrivateKey(secret, privateKey, out var i);
-                    return certificate.CopyWithPrivateKey(rsa);
+                    var pemReader = new PemReader(
+                        new StringReader(onboardResponse.Authentication.Certificate),
+                        new PasswordFinder(onboardResponse.Authentication.Secret));
+                    // Note the two subsequent read operations here...
+                    // The first one will fail if the cast throws an exception, so
+                    // there is no need to read a PemObject and check the type.
+                    using var privateKey = DotNetUtilities.ToRSA(
+                        (RsaPrivateCrtKeyParameters) pemReader.ReadObject());
+                    var certificate = pemReader.ReadPemObject();
+                    if (certificate.Type == "CERTIFICATE")
+                    {
+                        return new X509Certificate2(certificate.Content)
+                            .CopyWithPrivateKey(privateKey);
+                    }
+
+                    break;
                 }
             }
 
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
-        }
-
-        private static byte[] ExtractBytesFromPem(string pemString, string section)
-        {
-            var header = String.Format("-----BEGIN {0}-----", section);
-            var footer = String.Format("-----END {0}-----", section);
-
-            var start = pemString.IndexOf(header, StringComparison.Ordinal);
-            if (start < 0)
-                return null;
-
-            start += header.Length;
-            var end = pemString.IndexOf(footer, start, StringComparison.Ordinal) - start;
-
-            if (end < 0)
-                return null;
-
-            return Convert.FromBase64String(pemString.Substring(start, end));
-        }
-
-        /// <summary>
-        /// Extract RSA from PEM to enhance the certificate.
-        /// </summary>
-        /// <param name="pem">-</param>
-        /// <param name="secret">-</param>
-        /// <returns>RSA information extracted from the plain input.</returns>
-        private static RSA ExtractRsaFromPem(string pem, string secret)
-        {
-            var rsa = RSA.Create();
-
-            RSA MakePublicRcsp(RSA rcsp, RsaKeyParameters rkp)
-            {
-                var rsaParameters = DotNetUtilities.ToRSAParameters(rkp);
-                rcsp.ImportParameters(rsaParameters);
-                return rsa;
-            }
-
-            RSA MakePrivateRcsp(RSA rcsp, RsaPrivateCrtKeyParameters rkp)
-            {
-                var rsaParameters = DotNetUtilities.ToRSAParameters(rkp);
-                rcsp.ImportParameters(rsaParameters);
-                return rsa;
-            }
-
-            var pemReader = new PemReader(new StringReader(pem), new PasswordFinder(secret));
-            var kp = pemReader.ReadObject();
-
-            var hasPrivate = kp.GetType().GetProperty("Private") != null;
-            var isPrivate = kp is RsaPrivateCrtKeyParameters;
-            return isPrivate
-                ? MakePrivateRcsp(rsa, (RsaPrivateCrtKeyParameters) kp)
-                : hasPrivate
-                    ? MakePrivateRcsp(rsa, (RsaPrivateCrtKeyParameters) (((AsymmetricCipherKeyPair) kp).Private))
-                    : MakePublicRcsp(rsa, (RsaKeyParameters) kp);
-        }
-
-        private static X509Certificate2 CombineCertificateAndRsaKey(X509Certificate2 certificate, RSA rsa)
-        {
-            return certificate.CopyWithPrivateKey(rsa);
         }
 
         /// <summary>
