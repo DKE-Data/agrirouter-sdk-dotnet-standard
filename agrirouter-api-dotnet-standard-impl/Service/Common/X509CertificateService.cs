@@ -39,31 +39,28 @@ namespace Agrirouter.Impl.Service.Common
                         new PasswordFinder(onboardResponse.Authentication.Secret));
 
                     RSA privateKey;
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+                        RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        privateKey = ToRSA(
-                            (RsaPrivateCrtKeyParameters) pemReader.ReadObject());
+                        privateKey = ToRSA((RsaPrivateCrtKeyParameters) pemReader.ReadObject());
                     }
                     else
                     {
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                         {
-                            privateKey = DotNetUtilities.ToRSA(
-                                (RsaPrivateCrtKeyParameters) pemReader.ReadObject());
+                            privateKey = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters) pemReader.ReadObject());
                         }
                         else
                         {
                             throw new CouldNotCreateCertificateForOsException(
                                 $"Could not create a certificate for '${RuntimeInformation.OSDescription}'");
                         }
-                        
                     }
 
                     var certificate = pemReader.ReadPemObject();
                     if (certificate.Type == "CERTIFICATE")
                     {
-                        return new X509Certificate2(certificate.Content)
-                            .CopyWithPrivateKey(privateKey);
+                        return new X509Certificate2(certificate.Content).CopyWithPrivateKey(privateKey);
                     }
 
                     break;
@@ -73,7 +70,12 @@ namespace Agrirouter.Impl.Service.Common
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
         }
-        
+
+        /// <summary>
+        /// Internal implementation for Linux and OSX to support PEM certificate creation.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         private static RSA ToRSA(RsaPrivateCrtKeyParameters parameters)
         {
             var rp = DotNetUtilities.ToRSAParameters(parameters);
