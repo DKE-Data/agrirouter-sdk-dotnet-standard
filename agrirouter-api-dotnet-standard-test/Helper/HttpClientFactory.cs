@@ -1,8 +1,7 @@
-using System;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Logging;
+using Agrirouter.Impl.Service.Common;
 
 namespace Agrirouter.Api.Test.Helper
 {
@@ -29,9 +28,7 @@ namespace Agrirouter.Api.Test.Helper
         public static HttpClient AuthenticatedHttpClient(OnboardResponse onboardResponse)
         {
             var httpClientHandler = new HttpClientHandler();
-            httpClientHandler.ClientCertificates.Add(new X509Certificate2(
-                Convert.FromBase64String(onboardResponse.Authentication.Certificate),
-                onboardResponse.Authentication.Secret));
+            httpClientHandler.ClientCertificates.Add(X509CertificateService.GetCertificate(onboardResponse));
             var httpClient = new HttpClient(new LoggingHandler(httpClientHandler));
             return httpClient;
         }
@@ -44,9 +41,7 @@ namespace Agrirouter.Api.Test.Helper
         public static HttpClient AuthenticatedNonLoggingHttpClient(OnboardResponse onboardResponse)
         {
             var httpClientHandler = new HttpClientHandler();
-            httpClientHandler.ClientCertificates.Add(new X509Certificate2(
-                Convert.FromBase64String(onboardResponse.Authentication.Certificate),
-                onboardResponse.Authentication.Secret));
+            httpClientHandler.ClientCertificates.Add(X509CertificateService.GetCertificate(onboardResponse));
             var httpClient = new HttpClient(httpClientHandler);
             return httpClient;
         }
