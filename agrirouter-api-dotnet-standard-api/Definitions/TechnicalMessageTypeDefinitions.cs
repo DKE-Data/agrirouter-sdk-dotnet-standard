@@ -110,6 +110,11 @@ namespace Agrirouter.Api.Definitions
         /// </summary>
         public static string VidWmv => "vid:wmv";
 
+        /// <summary>
+        ///     Type 'gps:info'.
+        /// </summary>
+        public static string GpsInfo => "gps:info";
+
         public static bool IsChunkable(string technicalMessageType)
         {
             return Iso11783TaskdataZip.Equals(technicalMessageType) || ImgBmp.Equals(technicalMessageType) ||
