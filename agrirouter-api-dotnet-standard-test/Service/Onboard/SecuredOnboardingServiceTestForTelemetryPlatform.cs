@@ -12,7 +12,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
     /// <summary>
     ///     Functional tests.
     /// </summary>
-    public class SecuredOnboardingServiceTestForTelemtryPlatform : AbstractSecuredIntegrationTestForTelemetryPlatform
+    public class SecuredOnboardingServiceTestForTelemetryPlatform : AbstractSecuredIntegrationTestForTelemetryPlatform
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
 
