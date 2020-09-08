@@ -56,5 +56,28 @@ namespace Agrirouter.Api.Test.Service.Common
         {
             Assert.Throws<ArgumentException>(() => DecodeMessageService.Decode("   "));
         }
+        
+        [Fact]
+        public void GivenErrorMessageWhenDecodingTheMessageThenTheMessageShouldBeParsedCorrectly()
+        {
+            const string responseMessage =
+               "XgiQAxADGiQ0MDkyNzU3Yi1iNjIxLTRjMzktODMyMi03ODIzOGY3Mjc3NDciJDhiODA3M2Y0LThhOGItNDU5NC1iMTYwLWZmYWRmMDJm" +
+               "NTFiNioLCMHNs/oFEMDDkweYAQqVAQowdHlwZXMuYWdyaXJvdXRlci5jb20vYWdyaXJvdXRlci5jb21tb25zLk1lc3NhZ2VzEmEKXwpR" +
+               "Tm8gcmVjaXBpZW50cyBoYXZlIGJlZW4gaWRlbnRpZmllZCBmb3IgaXNvOjExNzgzOi0xMDpkZXZpY2VfZGVzY3JpcHRpb246cHJvdG9" +
+               "idWYuEgpWQUxfMDAwMDA0";
+
+            var decodedMessage = DecodeMessageService.Decode(responseMessage);
+            Assert.NotNull(decodedMessage.ResponseEnvelope);
+            Assert.NotNull(decodedMessage.ResponsePayloadWrapper);
+            Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
+
+            var messages = DecodeMessageService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
+            Assert.NotNull(messages);
+            Assert.NotEmpty(messages.Messages_);
+            Assert.Single(messages.Messages_);
+            Assert.Equal("VAL_000004", messages.Messages_[0].MessageCode);
+            Assert.Equal("No recipients have been identified for iso:11783:-10:device_description:protobuf.", messages.Messages_[0].Message_);
+        }
+        
     }
 }

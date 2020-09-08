@@ -61,5 +61,17 @@ namespace Agrirouter.Api.Test.Service.Onboard
             Assert.NotNull(authorizationToken.RegistrationCode);
             Assert.NotNull(authorizationToken.Expires);
         }
+
+        [Fact]
+        public void
+            GivenDeclineConnectionResponseWhenParsingTheTokenThenTheAuthorizationServiceShouldThrowSpecificException()
+        {
+            const string input = "state=5e0492fb-1550-49b9-add7-e480e79f323e&error=request_declined";
+            var authorizationResult = new AuthorizationService(new QualityAssuranceEnvironment()).Parse(input);
+            Assert.NotNull(authorizationResult.State);
+            Assert.NotNull(authorizationResult.Error);
+            Assert.Null(authorizationResult.Signature);
+            Assert.Null(authorizationResult.Token);
+        }
     }
 }

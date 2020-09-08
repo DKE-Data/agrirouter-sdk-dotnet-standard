@@ -69,7 +69,7 @@ namespace Agrirouter.Impl.Service.onboard
             var split = authorizationResult.Split('&');
             var parameters = new Dictionary<string, string>();
 
-            if (split.Length != 3 && split.Length != 4)
+            if (split.Length != 2 && split.Length != 3 && split.Length != 4)
                 throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
 
             foreach (var parameter in split)
