@@ -20,7 +20,7 @@ using Xunit;
 namespace Agrirouter.Api.Test.Integration
 {
     [Collection("Integrationtest")]
-    public class CleanYourFeedWithDeletingMessagesIntegrationTest : AbstractIntegrationTest
+    public class CleanYourFeedWithDeletingMessagesIntegrationTest : AbstractIntegrationTestForCommunicationUnits
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 

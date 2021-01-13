@@ -21,7 +21,7 @@ using Xunit;
 namespace Agrirouter.Api.Test.Integration
 {
     [Collection("Integrationtest")]
-    public class CleanYourFeedWithConfirmingMessagesIntegrationTest : AbstractIntegrationTest
+    public class CleanYourFeedWithConfirmingMessagesIntegrationTest : AbstractIntegrationTestForCommunicationUnits
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
         private const string FilePrefix = "message-content-";

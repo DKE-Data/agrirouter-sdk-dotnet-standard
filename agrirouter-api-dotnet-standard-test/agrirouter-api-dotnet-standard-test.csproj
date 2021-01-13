@@ -47,6 +47,9 @@
         <None Update="Data\Assets\Certificates\qa-root.pem">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Data\OnboardingResponses\HttpMessagingEndpointForIntegrationTests.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     
 </Project>

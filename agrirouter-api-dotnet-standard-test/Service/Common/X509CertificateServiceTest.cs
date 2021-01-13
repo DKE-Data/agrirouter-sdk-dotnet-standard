@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Common
 {
-    public class X509CertificateServiceTest : AbstractIntegrationTest
+    public class X509CertificateServiceTest : AbstractIntegrationTestForCommunicationUnits
     {
         [Fact]
         public void
