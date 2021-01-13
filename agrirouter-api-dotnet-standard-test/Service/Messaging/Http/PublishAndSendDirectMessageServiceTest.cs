@@ -20,7 +20,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
     ///     Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class PublishAndSendDirectMessageServiceTest : AbstractIntegrationTest
+    public class PublishAndSendDirectMessageServiceTest : AbstractIntegrationTestForCommunicationUnits
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 

@@ -18,7 +18,7 @@ using Xunit;
 namespace Agrirouter.Api.Test.Service.Messaging
 {
     [Collection("Integrationtest")]
-    public class CapabilitiesServiceTest : AbstractIntegrationTest
+    public class CapabilitiesServiceTest : AbstractIntegrationTestForCommunicationUnits
     {
         [Fact]
         public async void

@@ -18,7 +18,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
     /// Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class PemAndP12MessagingTest : AbstractIntegrationTest
+    public class PemAndP12MessagingTest : AbstractIntegrationTestForCommunicationUnits
     {
         [Fact]
         public void
