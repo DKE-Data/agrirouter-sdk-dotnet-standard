@@ -11,7 +11,6 @@ using Agrirouter.Feed.Request;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Response;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Messaging.Http

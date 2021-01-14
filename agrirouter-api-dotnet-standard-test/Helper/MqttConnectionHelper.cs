@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Onboard;
 using MQTTnet.Client;
 using MQTTnet.Client.Options;
-using MQTTnet.Client.Subscribing;
 using Xunit;
 
 namespace Agrirouter.Api.Test.Helper

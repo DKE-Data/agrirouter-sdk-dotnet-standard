@@ -9,7 +9,6 @@ using Agrirouter.Api.Service.Parameters;
 using MQTTnet;
 using MQTTnet.Client;
 using Newtonsoft.Json;
-using Serilog;
 
 namespace Agrirouter.Impl.Service.Common
 {

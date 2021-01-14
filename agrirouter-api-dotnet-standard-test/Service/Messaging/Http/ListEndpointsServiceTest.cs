@@ -10,7 +10,6 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Account;
 using Agrirouter.Response;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Messaging.Http

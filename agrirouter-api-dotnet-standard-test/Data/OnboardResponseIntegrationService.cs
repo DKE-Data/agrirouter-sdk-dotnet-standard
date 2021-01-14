@@ -4,8 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Agrirouter.Api.Dto.Onboard;
-using Agrirouter.Cloud.Registration;
-using Agrirouter.Impl.Service.Convenience;
 using Newtonsoft.Json;
 
 namespace Agrirouter.Api.Test.Data
@@ -43,8 +41,8 @@ namespace Agrirouter.Api.Test.Data
 
         private static string PathToRead(string identifier)
         {
-            var path = System.IO.Path.Combine(
-                System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
+            var path = Path.Combine(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
                 throw new InvalidOperationException(),
                 @"Data/OnboardingResponses/" + identifier + ".json");
             return path;
