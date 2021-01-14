@@ -8,7 +8,6 @@ namespace Agrirouter.Api.Test.Service
     /// </summary>
     public class AbstractIntegrationTestForCommunicationUnits
     {
-
         protected AbstractIntegrationTestForCommunicationUnits()
         {
             Log.Logger = new LoggerConfiguration()
@@ -17,8 +16,7 @@ namespace Agrirouter.Api.Test.Service
                 .WriteTo.Debug()
                 .CreateLogger();
         }
-        
-        protected static Environment Environment => new QualityAssuranceEnvironment();
 
+        protected static Environment Environment => new QualityAssuranceEnvironment();
     }
 }

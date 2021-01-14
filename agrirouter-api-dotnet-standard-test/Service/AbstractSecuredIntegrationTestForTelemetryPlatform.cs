@@ -18,7 +18,6 @@ namespace Agrirouter.Api.Test.Service
         }
 
 
-
         protected static Environment Environment => new QualityAssuranceEnvironment();
     }
 }

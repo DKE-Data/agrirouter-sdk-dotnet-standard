@@ -14,7 +14,7 @@ namespace Agrirouter.Api.Test.Service.Common
             var certificate = X509CertificateService.GetCertificate(OnboardResponseWithP12Certificate);
             Assert.NotNull(certificate);
         }
-        
+
         [Fact]
         public void
             GivenValidOnboardingResponseWithPemCertificateWhenCreatingCertificateThenTheCertificateCreationShouldNotThrowAnyError()

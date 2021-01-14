@@ -71,7 +71,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit
                 .SingleEndpointWithP12Certificate);
 
-        private static OnboardResponse OnboardResponseWithPemCertificate=>
+        private static OnboardResponse OnboardResponseWithPemCertificate =>
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit
                 .SingleEndpointWithPemCertificate);
     }

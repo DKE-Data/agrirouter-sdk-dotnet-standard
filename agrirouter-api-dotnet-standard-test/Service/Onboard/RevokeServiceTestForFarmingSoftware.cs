@@ -45,7 +45,8 @@ namespace Agrirouter.Api.Test.Service.Onboard
             };
 
             var revokeService = new RevokeService(Environment, HttpClient);
-            Assert.Throws<RevokeException>(() => revokeService.Revoke(revokeParameters, Applications.FarmingSoftware.PrivateKey));
+            Assert.Throws<RevokeException>(() =>
+                revokeService.Revoke(revokeParameters, Applications.FarmingSoftware.PrivateKey));
         }
     }
 }

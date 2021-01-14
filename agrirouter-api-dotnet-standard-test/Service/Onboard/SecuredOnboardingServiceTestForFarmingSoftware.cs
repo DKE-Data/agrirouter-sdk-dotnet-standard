@@ -36,14 +36,16 @@ namespace Agrirouter.Api.Test.Service.Onboard
             };
 
 
-            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters, Applications.FarmingSoftware.PrivateKey));
+            Assert.Throws<OnboardException>(() =>
+                onboardingService.Onboard(parameters, Applications.FarmingSoftware.PrivateKey));
         }
 
         [Fact(Skip = "Can be run to generate the authorization URL.")]
         public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
         {
             var authorizationService = new AuthorizationService(Environment);
-            var authorizationUrlResult = authorizationService.AuthorizationUrl(Applications.FarmingSoftware.ApplicationId);
+            var authorizationUrlResult =
+                authorizationService.AuthorizationUrl(Applications.FarmingSoftware.ApplicationId);
             Assert.NotEmpty(authorizationUrlResult.State);
             Assert.NotEmpty(authorizationUrlResult.AuthorizationUrl);
         }

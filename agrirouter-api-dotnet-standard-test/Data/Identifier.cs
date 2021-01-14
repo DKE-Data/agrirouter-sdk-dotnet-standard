@@ -34,8 +34,13 @@ namespace Agrirouter.Api.Test.Data
             public static class CommunicationUnit
             {
                 public static string SingleEndpointWithoutRoute => "Http/CommunicationUnit/SingleEndpointWithoutRoute";
-                public static string SingleEndpointWithPemCertificate => "Http/CommunicationUnit/SingleEndpointWithPemCertificate";
-                public static string SingleEndpointWithP12Certificate => "Http/CommunicationUnit/SingleEndpointWithP12Certificate";
+
+                public static string SingleEndpointWithPemCertificate =>
+                    "Http/CommunicationUnit/SingleEndpointWithPemCertificate";
+
+                public static string SingleEndpointWithP12Certificate =>
+                    "Http/CommunicationUnit/SingleEndpointWithP12Certificate";
+
                 public static string Recipient => "Http/CommunicationUnit/Recipient";
                 public static string Sender => "Http/CommunicationUnit/Sender";
             }

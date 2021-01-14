@@ -19,9 +19,10 @@ namespace Agrirouter.Api.test.Service.Common
         [Fact]
         public void GivenExistingOnboardingResponseForTheIdentifierTheServiceShouldReadTheOnboardingResponseFromFile()
         {
-            var onboardingResponse = OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute);
+            var onboardingResponse =
+                OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute);
             Assert.NotNull(onboardingResponse);
-            
+
             Assert.NotEmpty(onboardingResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardingResponse.SensorAlternateId);
             Assert.NotEmpty(onboardingResponse.CapabilityAlternateId);

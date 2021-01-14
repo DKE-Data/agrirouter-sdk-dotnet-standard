@@ -23,7 +23,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
-        private static OnboardResponse OnboardResponse => OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute);
+        private static OnboardResponse OnboardResponse =>
+            OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute);
 
         [Fact]
         public void GivenEmptySubscriptionWhenSendingSubscriptionMessageThenTheMessageShouldBeAccepted()
