@@ -34,8 +34,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Sender,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
                 CapabilityParameters = new List<CapabilityParameter>()
             };
@@ -66,8 +66,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Recipient,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
                 CapabilityParameters = new List<CapabilityParameter>()
             };

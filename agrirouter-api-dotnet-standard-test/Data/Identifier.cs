@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Agrirouter.Api.Test.Data
 {
     /// <summary>
@@ -6,8 +8,33 @@ namespace Agrirouter.Api.Test.Data
     public class Identifier
     {
         /// <summary>
-        /// Identifier for the onboarding response used for integration tests regarding HTTP messaging.
+        /// Get all identifier.
         /// </summary>
-        public static string HttpMessagingEndpointForIntegrationTests => "HttpMessagingEndpointForIntegrationTests";
+        public static List<string> AllCommunicationUnits
+        {
+            get
+            {
+                var all = new List<string>
+                {
+                    Http.CommunicationUnit.SingleEndpointWithoutRoute,
+                    Http.CommunicationUnit.Recipient,
+                    Http.CommunicationUnit.Sender
+                };
+                return all;
+            }
+        }
+
+        public static class Http
+        {
+            /// <summary>
+            /// Identifier for the onboarding responses used for integration tests regarding HTTP messaging with CUs.
+            /// </summary>
+            public static class CommunicationUnit
+            {
+                public static string SingleEndpointWithoutRoute => "Http/CommunicationUnit/SingleEndpointWithoutRoute";
+                public static string Recipient => "Http/CommunicationUnit/Recipient";
+                public static string Sender => "Http/CommunicationUnit/Sender";
+            }
+        }
     }
 }

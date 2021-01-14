@@ -1,15 +1,11 @@
-using System;
 using System.Net.Http;
-using Agrirouter.Api.Definitions;
-using Agrirouter.Api.Exception;
-using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
+using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.onboard;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Onboard
+namespace Agrirouter.Api.test.Service.Common
 {
     /// <summary>
     ///     Functional tests.
@@ -23,7 +19,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
         [Fact]
         public void GivenExistingOnboardingResponseForTheIdentifierTheServiceShouldReadTheOnboardingResponseFromFile()
         {
-            var onboardingResponse = OnboardResponseIntegrationService.Read(Identifier.HttpMessagingEndpointForIntegrationTests);
+            var onboardingResponse = OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute);
             Assert.NotNull(onboardingResponse);
             
             Assert.NotEmpty(onboardingResponse.DeviceAlternateId);

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Agrirouter.Api.Definitions
 {
     /// <summary>
@@ -115,12 +117,40 @@ namespace Agrirouter.Api.Definitions
         /// </summary>
         public static string GpsInfo => "gps:info";
 
+        /// <summary>
+        /// Check whether the given technical message type is chunkable.
+        /// </summary>
+        /// <param name="technicalMessageType">Technical message type</param>
+        /// <returns>True if chunkable, false otherwise.</returns>
         public static bool IsChunkable(string technicalMessageType)
         {
             return Iso11783TaskdataZip.Equals(technicalMessageType) || ImgBmp.Equals(technicalMessageType) ||
                    ImgJpeg.Equals(technicalMessageType) || ShpShapeZip.Equals(technicalMessageType) ||
                    DocPdf.Equals(technicalMessageType) || VidAvi.Equals(technicalMessageType) ||
                    VidMp4.Equals(technicalMessageType) || VidWmv.Equals(technicalMessageType);
+        }
+
+        /// <summary>
+        /// Returns all technical message types for which the endpoint can set capabilities.
+        /// </summary>
+        /// <returns>Technical message types.</returns>
+        public static List<string> AllForCapabilitySetting()
+        {
+            return new List<string>
+            {
+                Iso11783TaskdataZip,
+                ShpShapeZip,
+                Iso11783DeviceDescriptionProtobuf,
+                Iso11783TimeLogProtobuf,
+                ImgBmp,
+                ImgPng,
+                ImgJpeg,
+                DocPdf,
+                VidAvi,
+                VidMp4,
+                VidWmv,
+                GpsInfo
+            };
         }
     }
 }

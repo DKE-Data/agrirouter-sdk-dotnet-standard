@@ -1,5 +1,6 @@
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Env;
+using Agrirouter.Api.Test.Data;
 using Serilog;
 
 namespace Agrirouter.Api.Test.Service
@@ -18,11 +19,7 @@ namespace Agrirouter.Api.Test.Service
                 .WriteTo.Debug()
                 .CreateLogger();
         }
-
-        protected static string ApplicationId => "434989e2-b4be-4cfd-8e40-f5b89d83458d";
-
-        protected static string CertificationVersionId => "f491d487-f913-4732-8be4-c2eacff21816";
-
+        
         protected static Environment Environment => new QualityAssuranceEnvironment();
 
     }

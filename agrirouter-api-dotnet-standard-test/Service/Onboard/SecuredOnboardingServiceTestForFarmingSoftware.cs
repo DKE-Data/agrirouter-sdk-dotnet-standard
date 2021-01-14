@@ -3,6 +3,7 @@ using System.Net.Http;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
 using Agrirouter.Impl.Service.onboard;
 using Xunit;
@@ -26,23 +27,23 @@ namespace Agrirouter.Api.Test.Service.Onboard
             var parameters = new OnboardParameters
             {
                 Uuid = GetType().FullName,
-                ApplicationId = ApplicationId,
+                ApplicationId = Applications.FarmingSoftware.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
                 RegistrationCode = "XXXXXXXX",
-                CertificationVersionId = CertificationVersionId
+                CertificationVersionId = Applications.FarmingSoftware.CertificationVersionId
             };
 
 
-            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters, PrivateKey));
+            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters, Applications.FarmingSoftware.PrivateKey));
         }
 
         [Fact(Skip = "Can be run to generate the authorization URL.")]
         public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
         {
             var authorizationService = new AuthorizationService(Environment);
-            var authorizationUrlResult = authorizationService.AuthorizationUrl(ApplicationId);
+            var authorizationUrlResult = authorizationService.AuthorizationUrl(Applications.FarmingSoftware.ApplicationId);
             Assert.NotEmpty(authorizationUrlResult.State);
             Assert.NotEmpty(authorizationUrlResult.AuthorizationUrl);
         }
@@ -56,16 +57,16 @@ namespace Agrirouter.Api.Test.Service.Onboard
             var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
-                ApplicationId = ApplicationId,
+                ApplicationId = Applications.FarmingSoftware.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
                 RegistrationCode = "65220a7655",
-                CertificationVersionId = CertificationVersionId
+                CertificationVersionId = Applications.FarmingSoftware.CertificationVersionId
             };
 
 
-            var onboardingResponse = onboardingService.Onboard(parameters, PrivateKey);
+            var onboardingResponse = onboardingService.Onboard(parameters, Applications.FarmingSoftware.PrivateKey);
 
             Assert.NotEmpty(onboardingResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardingResponse.SensorAlternateId);

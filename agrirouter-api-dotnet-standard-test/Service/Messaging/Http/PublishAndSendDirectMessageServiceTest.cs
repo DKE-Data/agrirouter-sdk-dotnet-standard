@@ -34,8 +34,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Sender,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
                 CapabilityParameters = new List<CapabilityParameter>()
             };
@@ -67,8 +67,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = Recipient,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
                 CapabilityParameters = new List<CapabilityParameter>()
             };
@@ -88,7 +88,6 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             var fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
 
-            var decodeMessageService = new DecodeMessageService();
             var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }

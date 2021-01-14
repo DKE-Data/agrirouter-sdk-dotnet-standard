@@ -5,6 +5,7 @@ using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
@@ -42,8 +43,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = onboardResponse,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
                 CapabilityParameters = new List<CapabilityParameter>()
             };

@@ -46,14 +46,16 @@
         </None>
         <None Update="Data\Assets\Certificates\qa-root.pem">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>        
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Recipient.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>        
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Sender.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>        
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithoutRoute.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Data\OnboardingResponses\HttpMessagingEndpointForIntegrationTests.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Data\OnboardingResponses" />
     </ItemGroup>
     
 </Project>

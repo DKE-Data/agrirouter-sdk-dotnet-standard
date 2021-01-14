@@ -11,7 +11,6 @@ using Agrirouter.Api.Test.Helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Messaging.Http
@@ -24,7 +23,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
     {
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
-        private static OnboardResponse OnboardResponse => OnboardResponseIntegrationService.Read(Identifier.HttpMessagingEndpointForIntegrationTests);
+        private static OnboardResponse OnboardResponse => OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute);
 
         [Fact]
         public void GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
@@ -34,8 +33,8 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = OnboardResponse,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
                 CapabilityParameters = new List<CapabilityParameter>()
             };

@@ -6,7 +6,9 @@ using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
+using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
@@ -15,7 +17,7 @@ using MQTTnet.Client;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Service.Messaging
+namespace Agrirouter.Api.test.Service.Messaging.Mqtt
 {
     [Collection("Integrationtest")]
     public class CapabilitiesServiceTest : AbstractIntegrationTestForCommunicationUnits
@@ -33,8 +35,8 @@ namespace Agrirouter.Api.Test.Service.Messaging
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = OnboardResponse,
-                ApplicationId = ApplicationId,
-                CertificationVersionId = CertificationVersionId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
                 CapabilityParameters = new List<CapabilityParameter>()
             };
