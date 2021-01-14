@@ -24,16 +24,10 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
         private static readonly HttpClient HttpClientForSender =
             HttpClientFactory.AuthenticatedNonLoggingHttpClient(Sender);
 
-        private static readonly HttpClient HttpClientForRecipient =
-            HttpClientFactory.AuthenticatedNonLoggingHttpClient(Recipient);
-
         [Fact(Skip =
             "Does currently fail because of the new Release 1.2 in QA and needs to be fixed when the implementation is clear.")]
         public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
         {
-            PrepareTestEnvironment(Sender, HttpClientForSender);
-            PrepareTestEnvironment(Recipient, HttpClientForRecipient);
-
             var sendMessageService =
                 new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
             var sendMessageParameters = new SendMessageParameters
@@ -57,38 +51,6 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
                 var decodedMessage = DecodeMessageService.Decode(messageResponse.Command.Message);
                 Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
             }
-        }
-
-        private void PrepareTestEnvironment(OnboardResponse onboardResponse, HttpClient httpClient)
-        {
-            var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(httpClient));
-            var capabilitiesParameters = new CapabilitiesParameters
-            {
-                OnboardResponse = onboardResponse,
-                ApplicationId = Applications.CommunicationUnit.ApplicationId,
-                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
-            };
-
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.ImgBmp
-            };
-
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(httpClient);
-            var fetch = fetchMessageService.Fetch(onboardResponse);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
         private static OnboardResponse Sender =>

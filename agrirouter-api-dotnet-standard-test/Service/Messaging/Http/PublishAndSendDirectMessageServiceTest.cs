@@ -27,71 +27,6 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
 
-        private void SetCapabilitiesForSender()
-        {
-            var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
-            var capabilitiesParameters = new CapabilitiesParameters
-            {
-                OnboardResponse = Sender,
-                ApplicationId = Applications.CommunicationUnit.ApplicationId,
-                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
-            };
-
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng
-            };
-
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClientForSender);
-            var fetch = fetchMessageService.Fetch(Sender);
-            Assert.Single(fetch);
-
-            var decodeMessageService = new DecodeMessageService();
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-        }
-
-        private void SetCapabilitiesForRecipient()
-        {
-            var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
-            var capabilitiesParameters = new CapabilitiesParameters
-            {
-                OnboardResponse = Recipient,
-                ApplicationId = Applications.CommunicationUnit.ApplicationId,
-                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
-                EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
-            };
-
-            var capabilitiesParameter = new CapabilityParameter
-            {
-                Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng
-            };
-
-            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
-            capabilitiesServices.Send(capabilitiesParameters);
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
-            var fetch = fetchMessageService.Fetch(Recipient);
-            Assert.Single(fetch);
-
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-        }
-
         private static OnboardResponse Sender =>
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.Sender);
 
@@ -105,8 +40,6 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             // Description of the messaging process.
 
             // 1. Set all capabilities for each endpoint - this is done once, not each time.
-            SetCapabilitiesForSender();
-            SetCapabilitiesForRecipient();
 
             // 2. Recipient has to create his subscriptions in order to get the messages. If they are not set correctly the AR will return a HTTP 400.
             // Done once before the test.

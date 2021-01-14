@@ -69,7 +69,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
 
             var technicalMessageTypeForProtobuf = new Subscription.Types.MessageTypeSubscriptionItem
             {
-                TechnicalMessageType = TechnicalMessageTypes.Iso11783DeviceDescriptionProtobuf
+                TechnicalMessageType = "non:existent"
             };
             subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageTypeForProtobuf);
             subscriptionService.Send(subscriptionParameters);
@@ -91,7 +91,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             Assert.Single(messages.Messages_);
             Assert.Equal("VAL_000006", messages.Messages_[0].MessageCode);
             Assert.Equal(
-                "Subscription to \"iso:11783:-10:device_description:protobuf\" is not valid per reported capabilities.",
+                "Subscription to \"non:existent\" is not valid per reported capabilities.",
                 messages.Messages_[0].Message_);
         }
 
