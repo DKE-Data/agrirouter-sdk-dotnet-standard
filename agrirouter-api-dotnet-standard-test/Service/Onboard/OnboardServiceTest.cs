@@ -40,8 +40,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
             Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters));
         }
 
-        //[Fact(Skip = "Will not run successfully without changing the registration code.")]
-       [Fact]
+        [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingForP12ThenThereShouldBeAValidResponse()
         {
             var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
@@ -51,9 +50,9 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 Uuid = Guid.NewGuid().ToString(),
                 ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.Pem,
+                CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
-                RegistrationCode = "d3c7f86308",
+                RegistrationCode = "7bf3aa13ee",
                 CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId
             };
 

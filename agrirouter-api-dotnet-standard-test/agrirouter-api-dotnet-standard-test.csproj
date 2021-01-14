@@ -16,16 +16,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\agrirouter-api-dotnet-standard-api\agrirouter-api-dotnet-standard-api.csproj" />
-        <ProjectReference Include="..\agrirouter-api-dotnet-standard-impl\agrirouter-api-dotnet-standard-impl.csproj" />
+        <ProjectReference Include="..\agrirouter-api-dotnet-standard-api\agrirouter-api-dotnet-standard-api.csproj"/>
+        <ProjectReference Include="..\agrirouter-api-dotnet-standard-impl\agrirouter-api-dotnet-standard-impl.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
-        <PackageReference Include="MQTTnet" Version="3.0.9" />
-        <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
-        <PackageReference Include="xunit" Version="2.4.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0"/>
+        <PackageReference Include="MQTTnet" Version="3.0.9"/>
+        <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -46,16 +46,22 @@
         </None>
         <None Update="Data\Assets\Certificates\qa-root.pem">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>        
+        </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Recipient.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>        
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Sender.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>        
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithoutRoute.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithPemCertificate.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithP12Certificate.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-    
+
 </Project>
