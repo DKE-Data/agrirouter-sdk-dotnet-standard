@@ -1,7 +1,6 @@
 using System.Net.Http;
 using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
-using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Xunit;
 

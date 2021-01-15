@@ -6,16 +6,13 @@ using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
 using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Convenience;
 using Agrirouter.Impl.Service.Messaging;
-using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Response;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Agrirouter.Api.Test.Integration
