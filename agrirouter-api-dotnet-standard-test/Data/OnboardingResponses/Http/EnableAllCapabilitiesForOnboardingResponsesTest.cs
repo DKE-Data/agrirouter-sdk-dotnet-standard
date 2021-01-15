@@ -4,13 +4,14 @@ using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Request.Payload.Endpoint;
 using Xunit;
 
-namespace Agrirouter.Api.Test.Data.OnboardingResponses
+namespace Agrirouter.Api.Test.Data.OnboardingResponses.Http
 {
     public class EnableAllCapabilitiesForOnboardingResponsesTest
     {

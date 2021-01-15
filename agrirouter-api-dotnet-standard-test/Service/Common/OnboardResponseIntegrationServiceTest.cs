@@ -5,7 +5,7 @@ using Agrirouter.Api.Test.Service;
 using Agrirouter.Impl.Service.Common;
 using Xunit;
 
-namespace Agrirouter.Api.test.Service.Common
+namespace Agrirouter.Api.Test.Service.Common
 {
     /// <summary>
     ///     Functional tests.

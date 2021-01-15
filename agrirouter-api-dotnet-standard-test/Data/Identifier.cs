@@ -26,6 +26,9 @@ namespace Agrirouter.Api.Test.Data
             }
         }
 
+        /// <summary>
+        /// HTTP based endpoints.
+        /// </summary>
         public static class Http
         {
             /// <summary>
@@ -43,6 +46,26 @@ namespace Agrirouter.Api.Test.Data
 
                 public static string Recipient => "Http/CommunicationUnit/Recipient";
                 public static string Sender => "Http/CommunicationUnit/Sender";
+            }
+        }
+        
+        /// <summary>
+        /// Mqtt based endpoints.
+        /// </summary>
+        public static class Mqtt
+        {
+            /// <summary>
+            /// Identifier for the onboarding responses used for integration tests regarding HTTP messaging with CUs.
+            /// </summary>
+            public static class CommunicationUnit
+            {
+                public static string SingleEndpointWithoutRoute => "Mqtt/CommunicationUnit/SingleEndpointWithoutRoute";
+                public static string SingleEndpointWithPemCertificate =>
+                    "Mqtt/CommunicationUnit/SingleEndpointWithPemCertificate";
+
+                public static string SingleEndpointWithP12Certificate =>
+                    "Mqtt/CommunicationUnit/SingleEndpointWithP12Certificate";
+
             }
         }
     }

@@ -30,7 +30,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationId = Applications.FarmingSoftware.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
-                GatewayId = "3",
+                GatewayId = GatewayTypeDefinition.Http,
                 RegistrationCode = "XXXXXXXX",
                 CertificationVersionId = Applications.FarmingSoftware.CertificationVersionId
             };
@@ -62,7 +62,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationId = Applications.FarmingSoftware.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
-                GatewayId = "3",
+                GatewayId = GatewayTypeDefinition.Http,
                 RegistrationCode = "65220a7655",
                 CertificationVersionId = Applications.FarmingSoftware.CertificationVersionId
             };

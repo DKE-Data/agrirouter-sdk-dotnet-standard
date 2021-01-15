@@ -51,7 +51,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
-                GatewayId = "3",
+                GatewayId = GatewayTypeDefinition.Mqtt,
                 RegistrationCode = "7bf3aa13ee",
                 CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId
             };
@@ -82,7 +82,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
                 ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.Pem,
-                GatewayId = "3",
+                GatewayId = GatewayTypeDefinition.Mqtt,
                 RegistrationCode = "f70470a755",
                 CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId
             };
