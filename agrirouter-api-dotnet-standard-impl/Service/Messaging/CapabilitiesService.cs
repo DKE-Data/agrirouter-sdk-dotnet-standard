@@ -62,7 +62,8 @@ namespace Agrirouter.Impl.Service.Messaging
             var capabilitySpecification = new CapabilitySpecification
             {
                 AppCertificationId = capabilitiesParameters.ApplicationId,
-                AppCertificationVersionId = capabilitiesParameters.CertificationVersionId
+                AppCertificationVersionId = capabilitiesParameters.CertificationVersionId,
+                EnablePushNotifications = capabilitiesParameters.EnablePushNotifications,
             };
             capabilitiesParameters.CapabilityParameters.ForEach(capabilityParameter =>
             {

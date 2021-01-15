@@ -5,7 +5,7 @@ namespace Agrirouter.Api.Test.Data
     /// <summary>
     /// Identifier to save onboarding responses.
     /// </summary>
-    public class Identifier
+    public static class Identifier
     {
         /// <summary>
         /// Get all identifier.
@@ -20,6 +20,7 @@ namespace Agrirouter.Api.Test.Data
                     Http.CommunicationUnit.SingleEndpointWithPemCertificate,
                     Http.CommunicationUnit.SingleEndpointWithP12Certificate,
                     Http.CommunicationUnit.Recipient,
+                    Http.CommunicationUnit.RecipientWithEnabledPushMessages,
                     Http.CommunicationUnit.Sender
                 };
                 return all;
@@ -45,6 +46,7 @@ namespace Agrirouter.Api.Test.Data
                     "Http/CommunicationUnit/SingleEndpointWithP12Certificate";
 
                 public static string Recipient => "Http/CommunicationUnit/Recipient";
+                public static string RecipientWithEnabledPushMessages => "Http/CommunicationUnit/RecipientWithEnabledPushMessages";
                 public static string Sender => "Http/CommunicationUnit/Sender";
             }
         }
