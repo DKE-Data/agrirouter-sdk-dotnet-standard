@@ -29,6 +29,3 @@ jobs:
 
     - name: Build Solution
       run: dotnet build --configuration Release
-
-    - name: Run Unit Tests
-      run: dotnet test --configuration Release
