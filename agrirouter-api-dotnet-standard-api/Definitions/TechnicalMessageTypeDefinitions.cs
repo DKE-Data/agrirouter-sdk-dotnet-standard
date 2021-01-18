@@ -125,9 +125,10 @@ namespace Agrirouter.Api.Definitions
         public static bool IsChunkable(string technicalMessageType)
         {
             return Iso11783TaskdataZip.Equals(technicalMessageType) || ImgBmp.Equals(technicalMessageType) ||
-                   ImgJpeg.Equals(technicalMessageType) || ShpShapeZip.Equals(technicalMessageType) ||
-                   DocPdf.Equals(technicalMessageType) || VidAvi.Equals(technicalMessageType) ||
-                   VidMp4.Equals(technicalMessageType) || VidWmv.Equals(technicalMessageType);
+                   ImgJpeg.Equals(technicalMessageType) || ImgPng.Equals(technicalMessageType) ||
+                   ShpShapeZip.Equals(technicalMessageType) || DocPdf.Equals(technicalMessageType) ||
+                   VidAvi.Equals(technicalMessageType) || VidMp4.Equals(technicalMessageType) ||
+                   VidWmv.Equals(technicalMessageType);
         }
 
         /// <summary>
@@ -152,5 +153,6 @@ namespace Agrirouter.Api.Definitions
                 GpsInfo
             };
         }
+
     }
 }

@@ -5,7 +5,7 @@ namespace Agrirouter.Api.Test.Data
     /// <summary>
     /// Identifier to save onboarding responses.
     /// </summary>
-    public static class Identifier
+    public class Identifier
     {
         /// <summary>
         /// Get all identifier.

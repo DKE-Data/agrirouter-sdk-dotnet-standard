@@ -21,9 +21,6 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
     {
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
-        private static readonly HttpClient
-            HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
-
         private static OnboardResponse Sender =>
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.Sender);
 
@@ -37,6 +34,7 @@ namespace Agrirouter.Api.Test.Service.Messaging.Http
             // Description of the messaging process.
 
             // 1. Set all capabilities for each endpoint - this is done once, not each time.
+            // Done once before the test.
 
             // 2. Recipient has to create his subscriptions in order to get the messages. If they are not set correctly the AR will return a HTTP 400.
             // Done once before the test.
