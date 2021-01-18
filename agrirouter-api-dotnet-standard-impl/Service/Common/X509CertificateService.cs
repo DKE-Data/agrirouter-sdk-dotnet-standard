@@ -8,8 +8,6 @@ using Agrirouter.Api.Exception;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Utilities.IO.Pem;
-using PemReader = Org.BouncyCastle.OpenSsl.PemReader;
 
 namespace Agrirouter.Impl.Service.Common
 {

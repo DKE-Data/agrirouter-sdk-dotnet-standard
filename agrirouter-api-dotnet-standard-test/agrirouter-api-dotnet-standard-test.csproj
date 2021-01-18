@@ -47,6 +47,33 @@
         <None Update="Data\Assets\Certificates\qa-root.pem">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Recipient.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Sender.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithoutRoute.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithPemCertificate.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithP12Certificate.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithoutRoute.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithoutRoute.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithP12Certificate.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithPemCertificate.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
-    
+
 </Project>

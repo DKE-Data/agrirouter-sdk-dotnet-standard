@@ -3,6 +3,7 @@ using System.Net.Http;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Test.Data;
 using Agrirouter.Api.Test.Helper;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.onboard;
@@ -14,7 +15,7 @@ namespace Agrirouter.Api.Test.Service.Onboard
     ///     Functional tests.
     /// </summary>
     [Collection("Integrationtest")]
-    public class OnboardServiceTest : AbstractIntegrationTest
+    public class OnboardServiceTest : AbstractIntegrationTestForCommunicationUnits
     {
         private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
@@ -27,12 +28,12 @@ namespace Agrirouter.Api.Test.Service.Onboard
             var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
-                ApplicationId = ApplicationId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = "3",
                 RegistrationCode = "XXXXXXXX",
-                CertificationVersionId = CertificationVersionId
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId
             };
 
 
@@ -47,12 +48,12 @@ namespace Agrirouter.Api.Test.Service.Onboard
             var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
-                ApplicationId = ApplicationId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
-                CertificationType = CertificationTypeDefinition.Pem,
-                GatewayId = "3",
-                RegistrationCode = "414fa598a3",
-                CertificationVersionId = CertificationVersionId
+                CertificationType = CertificationTypeDefinition.P12,
+                GatewayId = GatewayTypeDefinition.Mqtt,
+                RegistrationCode = "7bf3aa13ee",
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId
             };
 
 
@@ -78,12 +79,12 @@ namespace Agrirouter.Api.Test.Service.Onboard
             var parameters = new OnboardParameters
             {
                 Uuid = Guid.NewGuid().ToString(),
-                ApplicationId = ApplicationId,
+                ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.Pem,
-                GatewayId = "3",
+                GatewayId = GatewayTypeDefinition.Mqtt,
                 RegistrationCode = "f70470a755",
-                CertificationVersionId = CertificationVersionId
+                CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId
             };
 
 

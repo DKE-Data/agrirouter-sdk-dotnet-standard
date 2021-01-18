@@ -6,9 +6,9 @@ namespace Agrirouter.Api.Test.Service
     /// <summary>
     ///     Abstract integration test class.
     /// </summary>
-    public class AbstractSecuredIntegrationTestForFarmingSoftware
+    public class AbstractIntegrationTestForCommunicationUnits
     {
-        protected AbstractSecuredIntegrationTestForFarmingSoftware()
+        protected AbstractIntegrationTestForCommunicationUnits()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()

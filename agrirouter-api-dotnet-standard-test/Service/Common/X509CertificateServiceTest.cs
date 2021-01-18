@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Agrirouter.Api.Test.Service.Common
 {
-    public class X509CertificateServiceTest : AbstractIntegrationTest
+    public class X509CertificateServiceTest : AbstractIntegrationTestForCommunicationUnits
     {
         [Fact]
         public void
@@ -14,7 +14,7 @@ namespace Agrirouter.Api.Test.Service.Common
             var certificate = X509CertificateService.GetCertificate(OnboardResponseWithP12Certificate);
             Assert.NotNull(certificate);
         }
-        
+
         [Fact]
         public void
             GivenValidOnboardingResponseWithPemCertificateWhenCreatingCertificateThenTheCertificateCreationShouldNotThrowAnyError()
