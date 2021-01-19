@@ -32,7 +32,7 @@ namespace Agrirouter.Api.Test.Data.OnboardingResponses.Http
                     CapabilityParameters = new List<CapabilityParameter>()
                 };
 
-                capabilitiesParameters.CapabilityParameters.AddRange(Capabilities);
+                capabilitiesParameters.CapabilityParameters.AddRange(CapabilitiesHelper.AllCapabilities);
                 capabilitiesServices.Send(capabilitiesParameters);
 
                 Thread.Sleep(TimeSpan.FromSeconds(5));
@@ -44,24 +44,6 @@ namespace Agrirouter.Api.Test.Data.OnboardingResponses.Http
                 var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
                 Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
             });
-        }
-
-        private static IEnumerable<CapabilityParameter> Capabilities
-        {
-            get
-            {
-                var all = new List<CapabilityParameter>();
-                TechnicalMessageTypes.AllForCapabilitySetting().ForEach(technicalMessageType =>
-                {
-                    var capabilitiesParameter = new CapabilityParameter
-                    {
-                        Direction = CapabilitySpecification.Types.Direction.SendReceive,
-                        TechnicalMessageType = technicalMessageType
-                    };
-                    all.Add(capabilitiesParameter);
-                });
-                return all;
-            }
         }
     }
 }

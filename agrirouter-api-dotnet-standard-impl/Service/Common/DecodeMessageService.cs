@@ -3,6 +3,7 @@ using System.IO;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Exception;
 using Agrirouter.Commons;
+using Agrirouter.Feed.Push.Notification;
 using Agrirouter.Response;
 using Google.Protobuf.WellKnownTypes;
 using Serilog;
@@ -10,7 +11,7 @@ using Serilog;
 namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
-    ///     Service to decoode messages and message contents.
+    ///     Service to decode messages and message contents.
     /// </summary>
     public class DecodeMessageService
     {
@@ -48,6 +49,24 @@ namespace Agrirouter.Impl.Service.Common
             catch (Exception e)
             {
                 throw new CouldNotDecodeMessageException("There was an error during decoding of the message.", e);
+            }
+        }
+
+        /// <summary>
+        ///     Parsing the push notification using the any object containing the content.
+        /// </summary>
+        /// <param name="any">The push message content from the decoded message.</param>
+        /// <returns></returns>
+        /// <exception cref="CouldNotDecodeMessageException">Will be thrown if the message content can not be decoded.</exception>
+        public static PushNotification DecodePushNotification(Any any)
+        {
+            try
+            {
+                return PushNotification.Parser.ParseFrom(any.Value);
+            }
+            catch (Exception e)
+            {
+                throw new CouldNotDecodeMessageException("There was an error during decoding of the ANY value for the given push notification.", e);
             }
         }
 

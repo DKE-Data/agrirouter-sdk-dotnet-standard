@@ -74,6 +74,9 @@
         <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithPemCertificate.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\RecipientWithEnabledPushMessages.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
