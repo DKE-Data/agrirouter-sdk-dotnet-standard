@@ -1,5 +1,5 @@
 
-= agrirouter-api-dotnet-standard
+= agrirouter-sdk-dotnet-standard
 :imagesdir: assets/images
 :toc:
 :toc-title:
@@ -21,14 +21,14 @@ of IT solutions. We also provide professional IT consulting services and trainin
 the whole project during the development in the field of test management and are currently responsible for the development
 support of the platform.
 
-We are active maintainers of the API and are using the API for internal testing purposes as well. Therefore we have a
+We are active maintainers of the SDK and are using the SDK for internal testing purposes as well. Therefore we have a
 high interest in a stable and usable interface to connect to the agrirouter.
 
 Feel free to get in touch by visiting our https://www.lmis.de[website] or contacting us via GitHub.
 
 == The current project you're looking at
 
-This project contains the API for the communication with the agrirouter. Everything you need for the onboarding process, secure communication and much more.
+This project contains the SDK for the communication with the agrirouter. Everything you need for the onboarding process, secure communication and much more.
 
 == Modules
 
@@ -38,11 +38,11 @@ The `api` module contains interfaces, common helper classes and DTOs as well as 
 
 === `impl` Module
 
-The `impl` module contains the implementation of the given API defined by the `api` module.
+The `impl` module contains the implementation of the given SDK defined by the `api` module.
 
 === `test` Module
 
-The `test` module contains the integrations tests for the given API as example implementation.
+The `test` module contains the integrations tests for the given SDK as example implementation.
 
 === Integration
 
