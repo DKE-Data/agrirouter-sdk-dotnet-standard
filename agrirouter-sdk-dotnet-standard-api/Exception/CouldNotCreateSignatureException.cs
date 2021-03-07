@@ -1,6 +1,6 @@
 using System;
 
-namespace Agrirouter.Sdk.Api.Exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     ///     Will be thrown if the signature can not be created.

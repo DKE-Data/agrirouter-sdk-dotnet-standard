@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
-using Agrirouter.Sdk.Api.Dto.Messaging;
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Api.Exception;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Exception;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace Agrirouter.Sdk.Impl.Service.Messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     ///     Service to fetch messages from the agrirouter.

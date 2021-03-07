@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Agrirouter.Sdk.Test.Data
+namespace Agrirouter.Test.Data
 {
     /// <summary>
     /// Identifier to save onboarding responses.
@@ -21,7 +21,8 @@ namespace Agrirouter.Sdk.Test.Data
                     Http.CommunicationUnit.SingleEndpointWithP12Certificate,
                     Http.CommunicationUnit.Recipient,
                     Http.CommunicationUnit.RecipientWithEnabledPushMessages,
-                    Http.CommunicationUnit.Sender
+                    Http.CommunicationUnit.Sender,
+                    Http.CommunicationUnit.SenderWithMultipleRecipients
                 };
                 return all;
             }
@@ -48,6 +49,7 @@ namespace Agrirouter.Sdk.Test.Data
                 public static string Recipient => "Http/CommunicationUnit/Recipient";
                 public static string RecipientWithEnabledPushMessages => "Http/CommunicationUnit/RecipientWithEnabledPushMessages";
                 public static string Sender => "Http/CommunicationUnit/Sender";
+                public static string SenderWithMultipleRecipients => "Http/CommunicationUnit/SenderWithMultipleRecipients";
             }
         }
         

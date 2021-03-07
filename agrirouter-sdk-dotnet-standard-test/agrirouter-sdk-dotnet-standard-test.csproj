@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>Agrirouter.Sdk.Test</RootNamespace>
+        <RootNamespace>Agrirouter.Test</RootNamespace>
         <OutputType>Library</OutputType>
         <LangVersion>default</LangVersion>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <Title>Agrirouter API .SDK Standard | TEST</Title>
+        <Title>Agrirouter SDK .NET Standard | TEST</Title>
         <Authors>Sascha Dömer</Authors>
         <Description>TEST module for the .NET SDK.</Description>
         <Copyright>DKE-Data GmbH &amp; Co. KG</Copyright>
@@ -51,6 +51,9 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Sender.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>        
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SenderWithMultipleRecipients.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithoutRoute.json">

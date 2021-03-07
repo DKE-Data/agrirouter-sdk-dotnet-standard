@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     /// Will be thrown if the OS of the certificate is not supported.

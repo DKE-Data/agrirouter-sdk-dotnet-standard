@@ -1,9 +1,9 @@
 using System.Net.Http;
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Api.Logging;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Logging;
+using Agrirouter.Impl.Service.Common;
 
-namespace Agrirouter.Sdk.Test.Helper
+namespace Agrirouter.Test.Helper
 {
     /// <summary>
     ///     Factory to create HTTP client objects.

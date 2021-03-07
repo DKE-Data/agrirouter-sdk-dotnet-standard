@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Test.Data
+namespace Agrirouter.Test.Data
 {
     /// <summary>
     /// Contains the definitions of all applications for integration testing.

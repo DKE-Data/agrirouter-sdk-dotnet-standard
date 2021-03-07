@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Definitions
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     ///     Defining the offset for different timestamp actions.

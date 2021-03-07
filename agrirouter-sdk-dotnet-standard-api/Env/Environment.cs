@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Env
+namespace Agrirouter.Api.Env
 {
     /// <summary>
     ///     Abstract environment holding environment data.

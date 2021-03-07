@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Dto.Onboard.Inner
+namespace Agrirouter.Api.Dto.Onboard.Inner
 {
     /// <summary>
     ///     Data transfer object for the communication.

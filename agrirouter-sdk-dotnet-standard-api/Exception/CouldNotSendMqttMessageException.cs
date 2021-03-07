@@ -1,7 +1,7 @@
 using System;
 using MQTTnet.Client.Publishing;
 
-namespace Agrirouter.Sdk.Api.Exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     ///     Will be thrown if the message could not be sent to the AR.

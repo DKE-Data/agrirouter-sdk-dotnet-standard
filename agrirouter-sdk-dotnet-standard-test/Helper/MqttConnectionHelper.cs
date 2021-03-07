@@ -3,12 +3,12 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using Agrirouter.Sdk.Api.Dto.Onboard;
+using Agrirouter.Api.Dto.Onboard;
 using MQTTnet.Client;
 using MQTTnet.Client.Options;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Helper
+namespace Agrirouter.Test.Helper
 {
     /// <summary>
     /// Simple helper class to manage the connections and subscriptions for the example client in the test environment.

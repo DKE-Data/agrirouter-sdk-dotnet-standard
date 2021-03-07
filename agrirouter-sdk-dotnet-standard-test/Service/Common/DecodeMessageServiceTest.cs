@@ -1,9 +1,9 @@
 using System;
-using Agrirouter.Sdk.Api.Exception;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Exception;
+using Agrirouter.Impl.Service.Common;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Common
+namespace Agrirouter.Test.Service.Common
 {
     /// <summary>
     ///     Functional tests.

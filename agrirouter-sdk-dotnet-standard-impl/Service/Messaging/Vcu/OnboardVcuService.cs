@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using Agrirouter.Cloud.Registration;
 using Agrirouter.Request;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Dto.Messaging;
-using Agrirouter.Sdk.Api.Service.Messaging;
-using Agrirouter.Sdk.Api.Service.Messaging.Vcu;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Messaging.Vcu;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
 using Google.Protobuf;
 
-namespace Agrirouter.Sdk.Impl.Service.Messaging.Vcu
+namespace Agrirouter.Impl.Service.Messaging.Vcu
 {
     /// <summary>
     ///     Service to onboard VCUs.

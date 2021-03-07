@@ -3,12 +3,12 @@ using System.IO;
 using Agrirouter.Commons;
 using Agrirouter.Feed.Push.Notification;
 using Agrirouter.Response;
-using Agrirouter.Sdk.Api.Dto.Messaging;
-using Agrirouter.Sdk.Api.Exception;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
 using Google.Protobuf.WellKnownTypes;
 using Serilog;
 
-namespace Agrirouter.Sdk.Impl.Service.Common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     ///     Service to decode messages and message contents.

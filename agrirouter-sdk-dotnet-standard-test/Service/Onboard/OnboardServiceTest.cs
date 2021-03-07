@@ -1,15 +1,15 @@
 using System;
 using System.Net.Http;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Exception;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
-using Agrirouter.Sdk.Impl.Service.Onboard;
-using Agrirouter.Sdk.Test.Data;
-using Agrirouter.Sdk.Test.Helper;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.Onboard;
+using Agrirouter.Test.Data;
+using Agrirouter.Test.Helper;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Onboard
+namespace Agrirouter.Test.Service.Onboard
 {
     /// <summary>
     ///     Functional tests.
@@ -43,7 +43,7 @@ namespace Agrirouter.Sdk.Test.Service.Onboard
         [Fact(Skip = "Will not run successfully without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingForP12ThenThereShouldBeAValidResponse()
         {
-            var onboardingService = new OnboardService(Environment, UtcDataService, HttpClient);
+            var onboardService = new OnboardService(Environment, UtcDataService, HttpClient);
 
             var parameters = new OnboardParameters
             {
@@ -57,7 +57,7 @@ namespace Agrirouter.Sdk.Test.Service.Onboard
             };
 
 
-            var onboardResponse = onboardingService.Onboard(parameters);
+            var onboardResponse = onboardService.Onboard(parameters);
 
             Assert.NotEmpty(onboardResponse.DeviceAlternateId);
             Assert.NotEmpty(onboardResponse.SensorAlternateId);

@@ -1,10 +1,10 @@
 using System.Net.Http;
-using Agrirouter.Sdk.Impl.Service.Common;
-using Agrirouter.Sdk.Test.Data;
-using Agrirouter.Sdk.Test.Helper;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Test.Data;
+using Agrirouter.Test.Helper;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Common
+namespace Agrirouter.Test.Service.Common
 {
     /// <summary>
     ///     Functional tests.

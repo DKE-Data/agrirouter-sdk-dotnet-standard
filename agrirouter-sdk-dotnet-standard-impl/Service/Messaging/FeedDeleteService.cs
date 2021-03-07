@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using Agrirouter.Feed.Request;
 using Agrirouter.Request;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Dto.Messaging;
-using Agrirouter.Sdk.Api.Service.Messaging;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
 using Google.Protobuf;
 
-namespace Agrirouter.Sdk.Impl.Service.Messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     ///     Please see <seealso cref="IFeedDeleteService" /> for documentation.

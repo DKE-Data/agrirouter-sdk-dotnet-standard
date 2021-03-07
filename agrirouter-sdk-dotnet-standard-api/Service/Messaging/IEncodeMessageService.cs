@@ -1,6 +1,6 @@
-using Agrirouter.Sdk.Api.Dto.Messaging;
+using Agrirouter.Api.Dto.Messaging;
 
-namespace Agrirouter.Sdk.Api.Service.Messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     ///     Interface for all services encoding their own messages.

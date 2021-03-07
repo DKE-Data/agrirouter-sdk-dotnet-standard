@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 using System.Text;
-using Agrirouter.Sdk.Api.Exception;
+using Agrirouter.Api.Exception;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities.Encoders;
 
-namespace Agrirouter.Sdk.Impl.Service.Common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     ///     Service to create the signatures for the authorization process.

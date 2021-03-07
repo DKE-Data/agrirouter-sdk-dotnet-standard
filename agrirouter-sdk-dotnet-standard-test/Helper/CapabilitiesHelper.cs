@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Service.Parameters.Inner;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Service.Parameters.Inner;
 
-namespace Agrirouter.Sdk.Test.Helper
+namespace Agrirouter.Test.Helper
 {
     /// <summary>
     /// Helper to generate capabilities for capabilities messages.

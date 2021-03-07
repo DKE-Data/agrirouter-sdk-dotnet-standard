@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using Google.Protobuf.WellKnownTypes;
 
-namespace Agrirouter.Sdk.Impl.Service.Convenience
+namespace Agrirouter.Impl.Service.Convenience
 {
     /// <summary>
     ///     Encode and decode message contents from the AR.

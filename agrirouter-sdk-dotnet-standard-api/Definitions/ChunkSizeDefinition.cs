@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Definitions
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     ///     Chunk size definition for chunking messages.

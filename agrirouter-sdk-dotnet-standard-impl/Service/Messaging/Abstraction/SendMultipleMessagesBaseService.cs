@@ -2,16 +2,16 @@ using System;
 using System.Linq;
 using System.Text;
 using Agrirouter.Request;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Dto.Messaging;
-using Agrirouter.Sdk.Api.Exception;
-using Agrirouter.Sdk.Api.Service.Messaging;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Api.Service.Parameters.Inner;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Impl.Service.Common;
 using Google.Protobuf;
 
-namespace Agrirouter.Sdk.Impl.Service.Messaging.Abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     public abstract class SendMultipleMessagesBaseService : ISendMultipleMessagesService
     {

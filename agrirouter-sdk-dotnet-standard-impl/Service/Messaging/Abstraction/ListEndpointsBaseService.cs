@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using Agrirouter.Request;
 using Agrirouter.Request.Payload.Account;
 using Agrirouter.Response.Payload.Account;
-using Agrirouter.Sdk.Api.Dto.Messaging;
-using Agrirouter.Sdk.Api.Exception;
-using Agrirouter.Sdk.Api.Service.Messaging;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
-namespace Agrirouter.Sdk.Impl.Service.Messaging.Abstraction
+namespace Agrirouter.Impl.Service.Messaging.Abstraction
 {
     /// <summary>
     ///     Abstraction of the service to list endpoints to avoid multiple implementations.

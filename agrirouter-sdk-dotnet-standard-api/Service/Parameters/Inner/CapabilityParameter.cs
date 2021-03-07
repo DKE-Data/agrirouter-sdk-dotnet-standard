@@ -1,6 +1,6 @@
 using Agrirouter.Request.Payload.Endpoint;
 
-namespace Agrirouter.Sdk.Api.Service.Parameters.Inner
+namespace Agrirouter.Api.Service.Parameters.Inner
 {
     /// <summary>
     ///     Parameter container definition.

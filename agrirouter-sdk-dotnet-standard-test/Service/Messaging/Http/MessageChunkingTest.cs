@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
-using Agrirouter.Sdk.Impl.Service.Messaging;
-using Agrirouter.Sdk.Test.Data;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Test.Data;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Messaging.Http
+namespace Agrirouter.Test.Service.Messaging.Http
 {
     /// <summary>
     ///     Functional tests.

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Agrirouter.Sdk.Api.Definitions
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     ///     Technical messages types for the messages.

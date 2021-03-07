@@ -1,7 +1,7 @@
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Api.Service.Parameters.Inner;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters.Inner;
 
-namespace Agrirouter.Sdk.Api.Service.Messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     ///     Service to send multiple messages. The messages will not be chunked automatically.

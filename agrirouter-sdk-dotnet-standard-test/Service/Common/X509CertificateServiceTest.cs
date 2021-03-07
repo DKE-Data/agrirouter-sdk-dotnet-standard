@@ -1,9 +1,9 @@
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Impl.Service.Common;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Common
+namespace Agrirouter.Test.Service.Common
 {
     public class X509CertificateServiceTest : AbstractIntegrationTestForCommunicationUnits
     {

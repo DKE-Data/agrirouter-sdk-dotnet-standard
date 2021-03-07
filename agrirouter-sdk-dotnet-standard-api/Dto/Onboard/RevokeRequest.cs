@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Agrirouter.Sdk.Api.Dto.Onboard
+namespace Agrirouter.Api.Dto.Onboard
 {
     /// <summary>
     ///     Data transfer object for the communication.

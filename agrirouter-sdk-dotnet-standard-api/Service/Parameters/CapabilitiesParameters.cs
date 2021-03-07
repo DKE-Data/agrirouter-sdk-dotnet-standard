@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Sdk.Api.Service.Parameters.Inner;
+using Agrirouter.Api.Service.Parameters.Inner;
 
-namespace Agrirouter.Sdk.Api.Service.Parameters
+namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
     ///     Parameter container definition.

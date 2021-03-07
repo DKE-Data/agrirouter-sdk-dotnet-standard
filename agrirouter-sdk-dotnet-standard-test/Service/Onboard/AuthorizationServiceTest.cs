@@ -1,8 +1,8 @@
-using Agrirouter.Sdk.Api.Env;
-using Agrirouter.Sdk.Impl.Service.Onboard;
+using Agrirouter.Api.Env;
+using Agrirouter.Impl.Service.Onboard;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Onboard
+namespace Agrirouter.Test.Service.Onboard
 {
     /// <summary>
     ///     Functional tests.

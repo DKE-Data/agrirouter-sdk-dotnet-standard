@@ -3,13 +3,13 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Api.Exception;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Exception;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
-namespace Agrirouter.Sdk.Impl.Service.Common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     /// Service to create X509 certificates for the communication with the AR.

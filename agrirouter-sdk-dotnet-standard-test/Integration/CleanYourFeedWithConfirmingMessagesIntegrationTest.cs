@@ -4,18 +4,18 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using Agrirouter.Response;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
-using Agrirouter.Sdk.Impl.Service.Convenience;
-using Agrirouter.Sdk.Impl.Service.Messaging;
-using Agrirouter.Sdk.Test.Data;
-using Agrirouter.Sdk.Test.Helper;
-using Agrirouter.Sdk.Test.Service;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.Convenience;
+using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Test.Data;
+using Agrirouter.Test.Helper;
+using Agrirouter.Test.Service;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Integration
+namespace Agrirouter.Test.Integration
 {
     [Collection("Integrationtest")]
     public class CleanYourFeedWithConfirmingMessagesIntegrationTest : AbstractIntegrationTestForCommunicationUnits

@@ -1,6 +1,6 @@
-using Agrirouter.Sdk.Api.Dto.Messaging.Inner;
+using Agrirouter.Api.Dto.Messaging.Inner;
 
-namespace Agrirouter.Sdk.Api.Dto.Messaging
+namespace Agrirouter.Api.Dto.Messaging
 {
     /// <summary>
     ///     Data transfer object for the communication.

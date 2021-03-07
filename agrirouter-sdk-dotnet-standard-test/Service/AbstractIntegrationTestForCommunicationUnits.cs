@@ -1,7 +1,7 @@
-using Agrirouter.Sdk.Api.Env;
+using Agrirouter.Api.Env;
 using Serilog;
 
-namespace Agrirouter.Sdk.Test.Service
+namespace Agrirouter.Test.Service
 {
     /// <summary>
     ///     Abstract integration test class.

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Agrirouter.Sdk.Api.Dto.Onboard;
+using Agrirouter.Api.Dto.Onboard;
 using Newtonsoft.Json;
 
-namespace Agrirouter.Sdk.Test.Data
+namespace Agrirouter.Test.Data
 {
     /// <summary>
     ///     Service to read onboarding responses from a dedicated file system.

@@ -1,5 +1,5 @@
 // ReSharper disable InconsistentNaming
-namespace Agrirouter.Sdk.Api.Env
+namespace Agrirouter.Api.Env
 {
     /// <summary>
     ///     Specific QA environment.

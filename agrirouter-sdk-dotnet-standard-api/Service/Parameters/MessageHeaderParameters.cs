@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Agrirouter.Commons;
 using Agrirouter.Request;
 
-namespace Agrirouter.Sdk.Api.Service.Parameters
+namespace Agrirouter.Api.Service.Parameters
 {
     /// <summary>
     ///     Parameter container definition.

@@ -1,14 +1,14 @@
 using System;
 using System.Net.Http;
 using System.Text;
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Api.Exception;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
 using Newtonsoft.Json;
-using Environment = Agrirouter.Sdk.Api.Env.Environment;
+using Environment = Agrirouter.Api.Env.Environment;
 
-namespace Agrirouter.Sdk.Impl.Service.Onboard
+namespace Agrirouter.Impl.Service.Onboard
 {
     /// <summary>
     ///     Service for revoking endpoints.

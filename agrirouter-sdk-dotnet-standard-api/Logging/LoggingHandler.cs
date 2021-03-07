@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace Agrirouter.Sdk.Api.Logging
+namespace Agrirouter.Api.Logging
 {
     /// <summary>
     ///     Internal logging handler to log request and response.

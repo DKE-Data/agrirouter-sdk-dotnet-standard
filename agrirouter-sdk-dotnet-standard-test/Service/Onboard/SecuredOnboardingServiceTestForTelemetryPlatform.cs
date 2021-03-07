@@ -1,14 +1,14 @@
 using System;
 using System.Net.Http;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Exception;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Onboard;
-using Agrirouter.Sdk.Test.Data;
-using Agrirouter.Sdk.Test.Helper;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Onboard;
+using Agrirouter.Test.Data;
+using Agrirouter.Test.Helper;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Onboard
+namespace Agrirouter.Test.Service.Onboard
 {
     /// <summary>
     ///     Functional tests.

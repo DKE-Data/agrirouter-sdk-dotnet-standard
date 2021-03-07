@@ -1,6 +1,6 @@
-using Agrirouter.Sdk.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters;
 
-namespace Agrirouter.Sdk.Api.Service.Messaging
+namespace Agrirouter.Api.Service.Messaging
 {
     /// <summary>
     ///     Sending a message to list all the connected endpoints within the AR.

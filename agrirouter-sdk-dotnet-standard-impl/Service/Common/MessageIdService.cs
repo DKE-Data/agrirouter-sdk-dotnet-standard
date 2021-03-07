@@ -1,6 +1,6 @@
 using System;
 
-namespace Agrirouter.Sdk.Impl.Service.Common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     ///     Service to create messages IDs.

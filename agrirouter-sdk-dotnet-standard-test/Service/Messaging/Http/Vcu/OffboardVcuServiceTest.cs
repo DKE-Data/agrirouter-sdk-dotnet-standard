@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using Agrirouter.Cloud.Registration;
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Common;
-using Agrirouter.Sdk.Impl.Service.Messaging;
-using Agrirouter.Sdk.Impl.Service.Messaging.Vcu;
-using Agrirouter.Sdk.Test.Helper;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Impl.Service.Messaging.Vcu;
+using Agrirouter.Test.Helper;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Messaging.Http.Vcu
+namespace Agrirouter.Test.Service.Messaging.Http.Vcu
 {
     public class OffboardVcuServiceTest : AbstractSecuredIntegrationTestForFarmingSoftware
     {

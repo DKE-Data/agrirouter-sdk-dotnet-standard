@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Agrirouter.Sdk.Api.Dto.Messaging
+namespace Agrirouter.Api.Dto.Messaging
 {
     /// <summary>
     ///     Data transfer object for the communication.

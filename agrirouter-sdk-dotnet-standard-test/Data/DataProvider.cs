@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Agrirouter.Sdk.Impl.Service.Convenience;
+using Agrirouter.Impl.Service.Convenience;
 
-namespace Agrirouter.Sdk.Test.Data
+namespace Agrirouter.Test.Data
 {
     public class DataProvider
     {

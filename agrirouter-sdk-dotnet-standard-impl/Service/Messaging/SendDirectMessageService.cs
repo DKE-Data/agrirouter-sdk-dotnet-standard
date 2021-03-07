@@ -1,9 +1,9 @@
 using Agrirouter.Request;
-using Agrirouter.Sdk.Api.Service.Messaging;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Impl.Service.Messaging.Abstraction;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Impl.Service.Messaging.Abstraction;
 
-namespace Agrirouter.Sdk.Impl.Service.Messaging
+namespace Agrirouter.Impl.Service.Messaging
 {
     /// <summary>
     ///     Service to send messages directly.

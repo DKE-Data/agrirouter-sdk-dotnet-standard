@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using Agrirouter.Sdk.Api.Builder;
-using Agrirouter.Sdk.Api.Dto.Messaging;
-using Agrirouter.Sdk.Api.Exception;
-using Agrirouter.Sdk.Api.Service.Messaging;
-using Agrirouter.Sdk.Api.Service.Parameters;
+using Agrirouter.Api.Builder;
+using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Messaging;
+using Agrirouter.Api.Service.Parameters;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace Agrirouter.Sdk.Impl.Service.Common
+namespace Agrirouter.Impl.Service.Common
 {
     /// <summary>
     ///     Service to send messages to the AR.

@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Definitions
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     ///     Several types of application used during the onboarding process.

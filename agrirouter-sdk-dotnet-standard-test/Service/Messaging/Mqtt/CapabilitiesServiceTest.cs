@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Sdk.Api.Definitions;
-using Agrirouter.Sdk.Api.Dto.Onboard;
-using Agrirouter.Sdk.Api.Service.Parameters;
-using Agrirouter.Sdk.Api.Service.Parameters.Inner;
-using Agrirouter.Sdk.Impl.Service.Common;
-using Agrirouter.Sdk.Impl.Service.Messaging;
-using Agrirouter.Sdk.Test.Data;
-using Agrirouter.Sdk.Test.Helper;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Impl.Service.Common;
+using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Test.Data;
+using Agrirouter.Test.Helper;
 using MQTTnet;
 using MQTTnet.Client;
 using Xunit;
 
-namespace Agrirouter.Sdk.Test.Service.Messaging.Mqtt
+namespace Agrirouter.Test.Service.Messaging.Mqtt
 {
     [Collection("Integrationtest")]
     public class CapabilitiesServiceTest : AbstractIntegrationTestForCommunicationUnits

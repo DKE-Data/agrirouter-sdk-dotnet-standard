@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Definitions
+namespace Agrirouter.Api.Definitions
 {
     /// <summary>
     ///     Several types of certificates used during the onboarding process.

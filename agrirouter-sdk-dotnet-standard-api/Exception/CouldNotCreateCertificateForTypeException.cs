@@ -1,4 +1,4 @@
-namespace Agrirouter.Sdk.Api.Exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     /// Will be thrown if the type of the certificate is unknown.

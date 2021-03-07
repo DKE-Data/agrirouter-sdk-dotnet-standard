@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>Agrirouter.Sdk.Impl</RootNamespace>
+        <RootNamespace>Agrirouter.Impl</RootNamespace>
         <LangVersion>default</LangVersion>
         <TargetFramework>netstandard2.1</TargetFramework>
         <Title>Agrirouter SDK .NET Standard | IMPL</Title>

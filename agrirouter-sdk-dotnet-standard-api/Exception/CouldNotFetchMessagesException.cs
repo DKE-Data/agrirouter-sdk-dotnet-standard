@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace Agrirouter.Sdk.Api.Exception
+namespace Agrirouter.Api.Exception
 {
     /// <summary>
     ///     Will be thrown if the messages can not be fetched from the AR.
