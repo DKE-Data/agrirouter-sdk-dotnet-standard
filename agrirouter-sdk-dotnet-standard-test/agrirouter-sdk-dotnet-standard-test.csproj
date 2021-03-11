@@ -1,0 +1,85 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Agrirouter.Test</RootNamespace>
+        <OutputType>Library</OutputType>
+        <LangVersion>default</LangVersion>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Title>Agrirouter SDK .NET Standard | TEST</Title>
+        <Authors>Sascha Dömer</Authors>
+        <Description>TEST module for the .NET SDK.</Description>
+        <Copyright>DKE-Data GmbH &amp; Co. KG</Copyright>
+        <PackageProjectUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard/blob/develop/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</RepositoryUrl>
+        <PackageVersion>1.2.0</PackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\agrirouter-sdk-dotnet-standard-api\agrirouter-sdk-dotnet-standard-api.csproj" />
+        <ProjectReference Include="..\agrirouter-sdk-dotnet-standard-impl\agrirouter-sdk-dotnet-standard-impl.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+        <PackageReference Include="MQTTnet" Version="3.0.9" />
+        <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Data\Content\example.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\Content\small_shape.zip">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\Content\large_shape.zip">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\Content\small_bmp.bmp">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\Content\large_bmp.bmp">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\Assets\Certificates\qa-root.pem">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Recipient.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Sender.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>        
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SenderWithMultipleRecipients.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithoutRoute.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithPemCertificate.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SingleEndpointWithP12Certificate.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithoutRoute.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithoutRoute.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithP12Certificate.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithPemCertificate.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\OnboardingResponses\Http\CommunicationUnit\RecipientWithEnabledPushMessages.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>
