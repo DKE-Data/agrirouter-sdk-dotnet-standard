@@ -40,7 +40,7 @@ namespace Agrirouter.Impl.Service.Messaging
             {
                 RequestUri = new Uri(onboardResponse.ConnectionCriteria.Commands)
             };
-            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"/* TODO: Beautify this; used to be: MediaTypeNames.Application.Json*/));
 
             var httpResponseMessage = _httpClient
                 .SendAsync(httpRequestMessage).Result;

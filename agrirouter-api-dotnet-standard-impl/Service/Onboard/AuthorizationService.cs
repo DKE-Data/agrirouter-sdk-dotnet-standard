@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Impl.Service.Onboard;
 using Newtonsoft.Json;
 using Environment = Agrirouter.Api.Env.Environment;
 
@@ -67,14 +68,14 @@ namespace Agrirouter.Impl.Service.onboard
         public AuthorizationResult Parse(string authorizationResult)
         {
             var split = authorizationResult.Split('&');
-            var parameters = new Dictionary<string, string>();
+            var parameters = new ParameterDictionary<string, string>();
 
             if (split.Length != 2 && split.Length != 3 && split.Length != 4)
                 throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
 
             foreach (var parameter in split)
             {
-                var parameterSplit = parameter.Split("=");
+                var parameterSplit = parameter.Split('=');
                 if (parameterSplit.Length != 2)
                     throw new ArgumentException($"Parameter '{parameter}' could not be parsed.");
 

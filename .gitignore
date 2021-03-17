@@ -331,3 +331,5 @@ ASALocalRun/
 
 # IntelliJ Rider
 .idea
+/agrirouter-api-dotnet-standard-api/nuget.config
+/agrirouter-api-dotnet-standard-impl/nuget.config

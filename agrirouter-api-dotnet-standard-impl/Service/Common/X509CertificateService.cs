@@ -30,6 +30,7 @@ namespace Agrirouter.Impl.Service.Common
                     return new X509Certificate2(
                         Convert.FromBase64String(onboardResponse.Authentication.Certificate),
                         onboardResponse.Authentication.Secret);
+                /*TODO Fix this
                 case "PEM":
                 {
                     var pemReader = new PemReader(
@@ -62,14 +63,15 @@ namespace Agrirouter.Impl.Service.Common
                     }
 
                     break;
-                }
+                }*/
             }
 
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
         }
 
-        /// <summary>
+        /* TODO Fix this; currently required in case PEM above
+         // <summary>
         /// Internal implementation for Linux and OSX to support PEM certificate creation.
         /// </summary>
         /// <param name="parameters"></param>
@@ -78,7 +80,7 @@ namespace Agrirouter.Impl.Service.Common
         {
             var rp = DotNetUtilities.ToRSAParameters(parameters);
             return RSA.Create(rp);
-        }
+        }*/
 
         /// <summary>
         /// Internal implementation of the password finder to pass the secret to the PEM reader.
