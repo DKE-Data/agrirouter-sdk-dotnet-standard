@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Agrirouter.Cloud.Registration;
 using Agrirouter.Request;
 using Agrirouter.Api.Definitions;
@@ -38,6 +39,18 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
             var encodedMessages = new List<string> {Encode(onboardVcuParameters).Content};
             var messagingParameters = onboardVcuParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see <seealso cref="IMessagingService{T}.Send" /> for documentation.
+        /// </summary>
+        /// <param name="onboardVcuParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(OnboardVcuParameters onboardVcuParameters)
+        {
+            var encodedMessages = new List<string> {Encode(onboardVcuParameters).Content};
+            var messagingParameters = onboardVcuParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
         }
 
         /// <summary>

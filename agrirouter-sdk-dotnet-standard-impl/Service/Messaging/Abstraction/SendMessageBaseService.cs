@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Agrirouter.Commons;
 using Agrirouter.Request;
 using Agrirouter.Api.Definitions;
@@ -87,6 +88,68 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         }
 
         /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="sendMessageParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(SendMessageParameters sendMessageParameters)
+        {
+            var encodedMessages = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(sendMessageParameters.Base64MessageContent))
+            {
+                throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
+            }
+
+            if (MessageCanBeChunked(sendMessageParameters.TechnicalMessageType))
+            {
+                if (MessageHasToBeChunked(sendMessageParameters.Base64MessageContent))
+                {
+                    var chunkContextId = Guid.NewGuid().ToString();
+                    var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
+
+                    var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
+                        sendMessageParameters.ChunkSize > 0
+                            ? sendMessageParameters.ChunkSize
+                            : ChunkSizeDefinition.MaximumSupported);
+
+                    var current = 0;
+                    foreach (var chunkedMessage in chunkedMessages)
+                    {
+                        var sendMessageParametersDuplicate = new SendChunkedMessageParameters
+                        {
+                            Recipients = sendMessageParameters.Recipients,
+                            TypeUrl = sendMessageParameters.TypeUrl,
+                            TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
+                            ApplicationMessageId = MessageIdService.ApplicationMessageId()
+                        };
+                        var chunkComponent = new ChunkComponent
+                        {
+                            Current = current++,
+                            Total = chunkedMessage.Length,
+                            ContextId = chunkContextId,
+                            TotalSize = totalSize
+                        };
+                        sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
+                        sendMessageParametersDuplicate.Base64MessageContent = chunkedMessage;
+                        encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
+                    }
+                }
+                else
+                {
+                    encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+                }
+            }
+            else
+            {
+                encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+            }
+
+            var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
+        }
+
+        /// <summary>
         ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
         /// <param name="sendMessageParameters">-</param>
@@ -102,12 +165,16 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 Recipients = sendMessageParameters.Recipients
             };
 
+            var value = sendMessageParameters.TechnicalMessageType == TechnicalMessageTypes.GpsInfo
+                ? ByteString.CopyFrom((Convert.FromBase64String(sendMessageParameters.Base64MessageContent)))
+                : ByteString.FromBase64(sendMessageParameters.Base64MessageContent);
+            
             var messagePayloadParameters = new MessagePayloadParameters
             {
                 TypeUrl = sendMessageParameters.TypeUrl ?? TechnicalMessageTypes.Empty,
-                Value = ByteString.FromBase64(sendMessageParameters.Base64MessageContent)
+                Value = value
             };
-
+            
             var encodedMessage = new EncodedMessage
             {
                 Id = Guid.NewGuid().ToString(),

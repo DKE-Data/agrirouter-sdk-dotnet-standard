@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Agrirouter.Feed.Request;
 using Agrirouter.Request;
 using Agrirouter.Api.Definitions;
@@ -37,6 +38,18 @@ namespace Agrirouter.Impl.Service.Messaging
             var encodedMessages = new List<string> {Encode(feedConfirmParameters).Content};
             var messagingParameters = feedConfirmParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see <seealso cref="IMessagingService{T}.Send" /> for documentation.
+        /// </summary>
+        /// <param name="feedConfirmParameters">-</param>
+        /// <returns>-</returns>
+        public async Task<MessagingResult> SendAsync(FeedConfirmParameters feedConfirmParameters)
+        {
+            var encodedMessages = new List<string> {Encode(feedConfirmParameters).Content};
+            var messagingParameters = feedConfirmParameters.BuildMessagingParameter(encodedMessages);
+            return await _messagingService.SendAsync(messagingParameters);
         }
 
         /// <summary>
