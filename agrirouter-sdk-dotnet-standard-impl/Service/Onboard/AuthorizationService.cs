@@ -1,9 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Web;
 using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Exception;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math.EC.Rfc8032;
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Utilities.Encoders;
 using Environment = Agrirouter.Api.Env.Environment;
 
 namespace Agrirouter.Impl.Service.Onboard
@@ -13,6 +21,8 @@ namespace Agrirouter.Impl.Service.Onboard
     /// </summary>
     public class AuthorizationService
     {
+        private static string Algorithm => "SHA-256withRSA";
+
         private readonly Environment _environment;
 
         /// <summary>
@@ -101,6 +111,29 @@ namespace Agrirouter.Impl.Service.Onboard
                 (AuthorizationToken) JsonConvert.DeserializeObject(
                     Encoding.UTF8.GetString(Convert.FromBase64String(authorizationResult.Token)),
                     typeof(AuthorizationToken));
+        }
+
+        /// <summary>
+        /// Verify the result from the AR during the onboard process.
+        /// </summary>
+        /// <param name="state">State, returned from the AR.</param>
+        /// <param name="token">Token, returned from the AR.</param>
+        /// <param name="signature">Signature, returned from the AR.</param>
+        public bool Verify(string state, string token, string signature)
+        {
+            var concatenatedValues = $"{state}{token}";
+            try
+            {
+                var signer = SignerUtilities.GetSigner(Algorithm);
+                signer.Init(false,
+                    (RsaKeyParameters) new PemReader(new StringReader(_environment.PublicKey())).ReadObject());
+                signer.BlockUpdate(Encoding.UTF8.GetBytes(concatenatedValues), 0, concatenatedValues.Length);
+                return signer.VerifySignature(Base64.Decode(signature));
+            }
+            catch (Exception e)
+            {
+                throw new CouldNotVerifySignatureException("Could not verify signature.", e);
+            }
         }
     }
 }

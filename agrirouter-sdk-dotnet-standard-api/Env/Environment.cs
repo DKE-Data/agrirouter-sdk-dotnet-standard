@@ -64,5 +64,11 @@ namespace Agrirouter.Api.Env
         ///     URL for the authorization process.
         /// </summary>
         protected abstract string AuthorizationServiceUrl();
+
+        /// <summary>
+        /// The public key for the environment.
+        /// </summary>
+        /// <returns>The public key.</returns>
+        public abstract string PublicKey();
     }
 }
