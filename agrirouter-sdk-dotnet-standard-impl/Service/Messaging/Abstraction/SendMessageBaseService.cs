@@ -149,6 +149,21 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             return _messagingService.SendAsync(messagingParameters);
         }
 
+        public Task<MessagingResult> SendAsync(SendProtobufMessageParameters sendMessageParameters)
+        {
+            List<string> encodedMessages;
+
+            if (sendMessageParameters.ProtobufMessageContent == null)
+            {
+                throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
+            }
+            
+            encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+
+            var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
+        }
+
         /// <summary>
         ///     Please see <seealso cref="IEncodeMessageService{T}.Encode" /> for documentation.
         /// </summary>
@@ -165,16 +180,12 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 Recipients = sendMessageParameters.Recipients
             };
 
-            var value = sendMessageParameters.TechnicalMessageType == TechnicalMessageTypes.GpsInfo
-                ? ByteString.CopyFrom((Convert.FromBase64String(sendMessageParameters.Base64MessageContent)))
-                : ByteString.FromBase64(sendMessageParameters.Base64MessageContent);
-            
             var messagePayloadParameters = new MessagePayloadParameters
             {
                 TypeUrl = sendMessageParameters.TypeUrl ?? TechnicalMessageTypes.Empty,
-                Value = value
+                Value = ByteString.FromBase64(sendMessageParameters.Base64MessageContent)
             };
-            
+
             var encodedMessage = new EncodedMessage
             {
                 Id = Guid.NewGuid().ToString(),
