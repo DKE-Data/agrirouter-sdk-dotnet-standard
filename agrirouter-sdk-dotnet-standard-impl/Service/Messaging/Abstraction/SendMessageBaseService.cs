@@ -32,59 +32,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         /// <returns>-</returns>
         public MessagingResult Send(SendMessageParameters sendMessageParameters)
         {
-            var encodedMessages = new List<string>();
-
-            if (string.IsNullOrWhiteSpace(sendMessageParameters.Base64MessageContent))
-            {
-                throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
-            }
-
-            if (MessageCanBeChunked(sendMessageParameters.TechnicalMessageType))
-            {
-                if (MessageHasToBeChunked(sendMessageParameters.Base64MessageContent))
-                {
-                    var chunkContextId = Guid.NewGuid().ToString();
-                    var totalSize = Encoding.Unicode.GetByteCount(sendMessageParameters.Base64MessageContent);
-
-                    var chunkedMessages = ChunkMessageContent(sendMessageParameters.Base64MessageContent,
-                        sendMessageParameters.ChunkSize > 0
-                            ? sendMessageParameters.ChunkSize
-                            : ChunkSizeDefinition.MaximumSupported);
-
-                    var current = 0;
-                    foreach (var chunkedMessage in chunkedMessages)
-                    {
-                        var sendMessageParametersDuplicate = new SendChunkedMessageParameters
-                        {
-                            Recipients = sendMessageParameters.Recipients,
-                            TypeUrl = sendMessageParameters.TypeUrl,
-                            TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
-                            ApplicationMessageId = MessageIdService.ApplicationMessageId()
-                        };
-                        var chunkComponent = new ChunkComponent
-                        {
-                            Current = current++,
-                            Total = chunkedMessage.Length,
-                            ContextId = chunkContextId,
-                            TotalSize = totalSize
-                        };
-                        sendMessageParametersDuplicate.ChunkInfo = chunkComponent;
-                        sendMessageParametersDuplicate.Base64MessageContent = chunkedMessage;
-                        encodedMessages.Add(Encode(sendMessageParametersDuplicate).Content);
-                    }
-                }
-                else
-                {
-                    encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
-                }
-            }
-            else
-            {
-                encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
-            }
-
-            var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
-            return _messagingService.Send(messagingParameters);
+            return _messagingService.Send(BuildMessagingParameters(sendMessageParameters));
         }
 
         /// <summary>
@@ -93,6 +41,11 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
         public Task<MessagingResult> SendAsync(SendMessageParameters sendMessageParameters)
+        {
+            return _messagingService.SendAsync(BuildMessagingParameters(sendMessageParameters));
+        }
+
+        private MessagingParameters BuildMessagingParameters(SendMessageParameters sendMessageParameters)
         {
             var encodedMessages = new List<string>();
 
@@ -146,9 +99,14 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             }
 
             var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
-            return _messagingService.SendAsync(messagingParameters);
+            return messagingParameters;
         }
 
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="sendMessageParameters">-</param>
+        /// <returns>-</returns>
         public Task<MessagingResult> SendAsync(SendProtobufMessageParameters sendMessageParameters)
         {
             List<string> encodedMessages;

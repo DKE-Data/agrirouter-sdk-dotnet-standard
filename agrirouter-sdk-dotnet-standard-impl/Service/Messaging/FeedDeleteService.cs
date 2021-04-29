@@ -41,7 +41,7 @@ namespace Agrirouter.Impl.Service.Messaging
         }
 
         /// <summary>
-        ///     Please see <seealso cref="IMessagingService{T}.Send" /> for documentation.
+        ///     Please see <seealso cref="IMessagingService{T}.SendAsync" /> for documentation.
         /// </summary>
         /// <param name="feedDeleteParameters">-</param>
         /// <returns>-</returns>

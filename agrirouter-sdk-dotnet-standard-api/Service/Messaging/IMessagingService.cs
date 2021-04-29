@@ -17,7 +17,7 @@ namespace Agrirouter.Api.Service.Messaging
         MessagingResult Send(T parameters);
 
         /// <summary>
-        ///     Sending a message using the given message parameters.
+        ///     Asynchronously sending a message using the given message parameters.
         /// </summary>
         /// <param name="parameters">Parameters for message sending.</param>
         /// <returns>-</returns>

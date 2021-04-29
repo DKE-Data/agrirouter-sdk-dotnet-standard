@@ -37,27 +37,7 @@ namespace Agrirouter.Impl.Service.Common
         /// <exception cref="CouldNotSendMqttMessageException">Will be thrown if the message could not be send.</exception>
         public MessagingResult Send(MessagingParameters messagingParameters)
         {
-            var messageRequest = new MessageRequest
-            {
-                SensorAlternateId = messagingParameters.OnboardResponse.SensorAlternateId,
-                CapabilityAlternateId = messagingParameters.OnboardResponse.CapabilityAlternateId,
-                Messages = new List<Api.Dto.Messaging.Inner.Message>()
-            };
-
-            foreach (var message in messagingParameters.EncodedMessages.Select(encodedMessage =>
-                new Api.Dto.Messaging.Inner.Message
-                    {Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp()}))
-                messageRequest.Messages.Add(message);
-
-            var messagePayload = JsonConvert.SerializeObject(messageRequest);
-
-            var mqttMessage = new MqttApplicationMessageBuilder()
-                .WithTopic(messagingParameters.OnboardResponse.ConnectionCriteria.Measures)
-                .WithPayload(messagePayload)
-                .WithExactlyOnceQoS()
-                .WithRetainFlag()
-                .Build();
-
+            var mqttMessage = BuildMqttApplicationMessage(messagingParameters);
             _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
 
             return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
@@ -71,6 +51,14 @@ namespace Agrirouter.Impl.Service.Common
         /// <returns>-</returns>
         /// <exception cref="CouldNotSendMqttMessageException">Will be thrown if the message could not be send.</exception>
         public async Task<MessagingResult> SendAsync(MessagingParameters messagingParameters)
+        {
+            var mqttMessage = BuildMqttApplicationMessage(messagingParameters);
+            await _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
+
+            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId).Build();
+        }
+
+        private static MqttApplicationMessage BuildMqttApplicationMessage(MessagingParameters messagingParameters)
         {
             var messageRequest = new MessageRequest
             {
@@ -92,10 +80,7 @@ namespace Agrirouter.Impl.Service.Common
                 .WithExactlyOnceQoS()
                 .WithRetainFlag()
                 .Build();
-
-            await _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
-
-            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId).Build();
+            return mqttMessage;
         }
     }
 }
