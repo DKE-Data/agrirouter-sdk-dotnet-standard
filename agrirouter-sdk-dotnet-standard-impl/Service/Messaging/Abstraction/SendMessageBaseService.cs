@@ -109,14 +109,12 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         /// <returns>-</returns>
         public Task<MessagingResult> SendAsync(SendProtobufMessageParameters sendMessageParameters)
         {
-            List<string> encodedMessages;
-
             if (sendMessageParameters.ProtobufMessageContent == null)
             {
                 throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
             }
             
-            encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+            var encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
 
             var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.SendAsync(messagingParameters);
