@@ -20,8 +20,8 @@ namespace Agrirouter.Api.Exception
             ErrorMessage = errorMessage;
         }
 
-        private HttpStatusCode StatusCode { get; }
+        public HttpStatusCode StatusCode { get; }
 
-        private string ErrorMessage { get; }
+        public string ErrorMessage { get; }
     }
 }
