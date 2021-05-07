@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Agrirouter.Commons;
 using Agrirouter.Request;
 using Agrirouter.Api.Definitions;
@@ -30,6 +31,21 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
         public MessagingResult Send(SendMessageParameters sendMessageParameters)
+        {
+            return _messagingService.Send(BuildMessagingParameters(sendMessageParameters));
+        }
+
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="sendMessageParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(SendMessageParameters sendMessageParameters)
+        {
+            return _messagingService.SendAsync(BuildMessagingParameters(sendMessageParameters));
+        }
+
+        private MessagingParameters BuildMessagingParameters(SendMessageParameters sendMessageParameters)
         {
             var encodedMessages = new List<string>();
 
@@ -83,7 +99,25 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             }
 
             var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
-            return _messagingService.Send(messagingParameters);
+            return messagingParameters;
+        }
+
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="sendMessageParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(SendProtobufMessageParameters sendMessageParameters)
+        {
+            if (sendMessageParameters.ProtobufMessageContent == null)
+            {
+                throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
+            }
+            
+            var encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+
+            var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
         }
 
         /// <summary>

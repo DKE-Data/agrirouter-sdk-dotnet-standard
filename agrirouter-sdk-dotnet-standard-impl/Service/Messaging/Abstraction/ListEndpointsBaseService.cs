@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Agrirouter.Request;
 using Agrirouter.Request.Payload.Account;
 using Agrirouter.Response.Payload.Account;
@@ -41,6 +42,18 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             var encodedMessages = new List<string> {Encode(listEndpointsParameters).Content};
             var messagingParameters = listEndpointsParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="listEndpointsParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(ListEndpointsParameters listEndpointsParameters)
+        {
+            var encodedMessages = new List<string> {Encode(listEndpointsParameters).Content};
+            var messagingParameters = listEndpointsParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
         }
 
         /// <summary>
