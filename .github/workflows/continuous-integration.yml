@@ -3,10 +3,12 @@ name: Continuous Integration Build
 on:
   push:
     branches:
-      - develop
+      - main
+      - 'releases/**'
   pull_request:
     branches:
-      - develop
+      - main
+      - 'releases/**'
 
 jobs:
   build:
