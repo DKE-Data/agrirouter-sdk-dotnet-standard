@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Agrirouter.Api.Builder;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Exception;
@@ -36,6 +37,29 @@ namespace Agrirouter.Impl.Service.Common
         /// <exception cref="CouldNotSendMqttMessageException">Will be thrown if the message could not be send.</exception>
         public MessagingResult Send(MessagingParameters messagingParameters)
         {
+            var mqttMessage = BuildMqttApplicationMessage(messagingParameters);
+            _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
+
+            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
+                .Build();
+        }
+
+        /// <summary>
+        ///     Send message to the AR using the given message parameters.
+        /// </summary>
+        /// <param name="messagingParameters">Messaging parameters.</param>
+        /// <returns>-</returns>
+        /// <exception cref="CouldNotSendMqttMessageException">Will be thrown if the message could not be send.</exception>
+        public async Task<MessagingResult> SendAsync(MessagingParameters messagingParameters)
+        {
+            var mqttMessage = BuildMqttApplicationMessage(messagingParameters);
+            await _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
+
+            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId).Build();
+        }
+
+        private static MqttApplicationMessage BuildMqttApplicationMessage(MessagingParameters messagingParameters)
+        {
             var messageRequest = new MessageRequest
             {
                 SensorAlternateId = messagingParameters.OnboardResponse.SensorAlternateId,
@@ -56,11 +80,7 @@ namespace Agrirouter.Impl.Service.Common
                 .WithExactlyOnceQoS()
                 .WithRetainFlag()
                 .Build();
-
-            _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
-
-            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
-                .Build();
+            return mqttMessage;
         }
     }
 }

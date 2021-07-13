@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Agrirouter.Feed.Request;
 using Agrirouter.Request;
 using Agrirouter.Api.Dto.Messaging;
@@ -31,6 +32,18 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             var encodedMessages = new List<string> {Encode(queryMessagesParameters).Content};
             var messagingParameters = queryMessagesParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="queryMessagesParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(QueryMessagesParameters queryMessagesParameters)
+        {
+            var encodedMessages = new List<string> {Encode(queryMessagesParameters).Content};
+            var messagingParameters = queryMessagesParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Agrirouter.Request;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
@@ -35,6 +36,19 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 .Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
             var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="sendMultipleMessagesParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(SendMultipleMessagesParameters sendMultipleMessagesParameters)
+        {
+            var encodedMessages = sendMultipleMessagesParameters.MultipleMessageEntries
+                .Select(sendMessageParameters => Encode(sendMessageParameters).Content).ToList();
+            var messagingParameters = sendMultipleMessagesParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
         }
 
         /// <summary>

@@ -3,11 +3,13 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - 'releases/**'
 
 jobs:  
   deploy_nuget_packages:
     runs-on: windows-latest
+    env:
+     ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@master

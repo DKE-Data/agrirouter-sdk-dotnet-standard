@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Api.Definitions;
@@ -38,6 +39,18 @@ namespace Agrirouter.Impl.Service.Messaging
             var encodedMessages = new List<string> {Encode(subscriptionParameters).Content};
             var messagingParameters = subscriptionParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see <seealso cref="IMessagingService{T}.SendAsync" /> for documentation.
+        /// </summary>
+        /// <param name="subscriptionParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(SubscriptionParameters subscriptionParameters)
+        {
+            var encodedMessages = new List<string> {Encode(subscriptionParameters).Content};
+            var messagingParameters = subscriptionParameters.BuildMessagingParameter(encodedMessages);
+            return _messagingService.SendAsync(messagingParameters);
         }
 
         /// <summary>
