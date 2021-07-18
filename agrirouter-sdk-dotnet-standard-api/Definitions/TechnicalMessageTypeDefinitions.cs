@@ -36,6 +36,11 @@ namespace Agrirouter.Api.Definitions
         ///     Type 'dke:feed_header_query'.
         /// </summary>
         public static string DkeFeedMessageQuery => "dke:feed_message_query";
+        
+        /// <summary>
+        ///     Type 'dke:feed_delete'.
+        /// </summary>
+        public static string DkeFeedDelete => "dke:feed_delete";
 
         /// <summary>
         ///     Type 'dke:feed_confirm'.

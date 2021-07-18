@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
@@ -52,6 +53,31 @@ namespace Agrirouter.Impl.Service.Messaging
             var messageResponses =
                 JsonConvert.DeserializeObject<List<MessageResponse>>(httpResponseMessage.Content.ReadAsStringAsync()
                     .Result);
+            Log.Debug("Finished fetching messages.");
+            return messageResponses;
+        }
+
+        public async Task<List<MessageResponse>> FetchAsync(OnboardResponse onboardResponse)
+        {
+            Log.Debug("Begin fetching messages.");
+            
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                RequestUri = new Uri(onboardResponse.ConnectionCriteria.Commands)
+            };
+            
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+
+            var messageContent = await httpResponseMessage.Content.ReadAsStringAsync();
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                throw new CouldNotFetchMessagesException(httpResponseMessage.StatusCode, messageContent);
+            }
+
+            var messageResponses = JsonConvert.DeserializeObject<List<MessageResponse>>(messageContent);
             Log.Debug("Finished fetching messages.");
             return messageResponses;
         }
