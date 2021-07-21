@@ -63,7 +63,7 @@ namespace Agrirouter.Impl.Service.Messaging
             {
                 ApplicationMessageId = feedDeleteParameters.ApplicationMessageId,
                 TeamSetContextId = feedDeleteParameters.TeamsetContextId ?? "",
-                TechnicalMessageType = TechnicalMessageTypes.DkeFeedConfirm,
+                TechnicalMessageType = TechnicalMessageTypes.DkeFeedDelete,
                 Mode = RequestEnvelope.Types.Mode.Direct
             };
 
@@ -75,7 +75,7 @@ namespace Agrirouter.Impl.Service.Messaging
             var messageDelete = new MessageDelete();
             feedDeleteParameters.Senders?.ForEach(sender => messageDelete.Senders.Add(sender));
             feedDeleteParameters.MessageIds?.ForEach(messageId => messageDelete.MessageIds.Add(messageId));
-            feedDeleteParameters.ValidityPeriod = feedDeleteParameters.ValidityPeriod;
+            messageDelete.ValidityPeriod = feedDeleteParameters.ValidityPeriod;
 
             messagePayloadParameters.Value = messageDelete.ToByteString();
 
