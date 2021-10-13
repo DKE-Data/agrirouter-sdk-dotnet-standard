@@ -14,14 +14,15 @@ using Agrirouter.Test.Helper;
 using MQTTnet;
 using MQTTnet.Client;
 using Xunit;
+using Agrirouter.Api.Dto.Messaging;
+using Newtonsoft.Json;
 
 namespace Agrirouter.Test.Service.Messaging.Mqtt
 {
     [Collection("Integrationtest")]
     public class CapabilitiesServiceTest : AbstractIntegrationTestForCommunicationUnits
     {
-        [Fact(Skip =
-            "Currently throws an exception with 'Server Unavailable', even after updating the onboarding responses.")]
+        [Fact]
         public async void
             GivenValidCapabilitiesWhenSendingCapabilitiesMessageThenTheAgrirouterShouldSetTheCapabilities()
         {
@@ -54,8 +55,10 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
             mqttClient.UseApplicationMessageReceivedHandler(e =>
             {
                 messageReceived = true;
-                var messagePayload = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-                var decodedMessage = DecodeMessageService.Decode(messagePayload);
+
+                MessageResponse msg = JsonConvert.DeserializeObject<MessageResponse>(Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
+                var decodedMessage = DecodeMessageService.Decode(msg.Command.Message);
+
                 Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
             });
 
