@@ -66,7 +66,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                             ? sendMessageParameters.ChunkSize
                             : ChunkSizeDefinition.MaximumSupported);
 
-                    var current = 0;
+                    var current = 1;
                     foreach (var chunkedMessage in chunkedMessages)
                     {
                         var sendMessageParametersDuplicate = new SendChunkedMessageParameters
