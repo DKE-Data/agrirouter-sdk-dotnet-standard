@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
@@ -64,6 +65,41 @@ namespace Agrirouter.Impl.Service.Onboard
             if (!httpResponseMessage.IsSuccessStatusCode)
                 throw new RevokeException(httpResponseMessage.StatusCode,
                     httpResponseMessage.Content.ReadAsStringAsync().Result);
+        }
+
+        /// <summary>
+        ///     Revoke an existing endpoint.
+        /// </summary>
+        /// <param name="revokeParameters">The parameters for the revoke process.</param>
+        /// <param name="privateKey">The private key.</param>
+        /// <exception cref="RevokeException">Will be thrown if the revoking was not successful.</exception>
+        public async Task RevokeAsync(RevokeParameters revokeParameters, string privateKey)
+        {
+            var revokeRequest = new RevokeRequest
+            {
+                AccountId = revokeParameters.AccountId,
+                EndpointIds = revokeParameters.EndpointIds,
+                TimeZone = UtcDataService.TimeZone,
+                UtcTimestamp = UtcDataService.Now
+            };
+
+            var requestBody = JsonConvert.SerializeObject(revokeRequest);
+
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri(_environment.RevokeUrl()),
+                Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
+            };
+            httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", revokeParameters.ApplicationId);
+            httpRequestMessage.Headers.Add("X-Agrirouter-Signature",
+                SignatureService.XAgrirouterSignature(requestBody, privateKey));
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
+                throw new RevokeException(httpResponseMessage.StatusCode,
+                    await httpResponseMessage.Content.ReadAsStringAsync());
         }
     }
 }

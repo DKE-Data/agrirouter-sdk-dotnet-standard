@@ -1,7 +1,9 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
@@ -72,6 +74,48 @@ namespace Agrirouter.Impl.Service.Onboard
             var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
             var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
             return onboardingResponse as OnboardResponse;
+        }
+
+        /// <summary>
+        ///     Onboard an endpoint using the simple onboarding procedure and the given parameters.
+        /// </summary>
+        /// <param name="onboardParameters">The onboarding parameters.</param>
+        /// <returns>-</returns>
+        /// <exception cref="OnboardException">Will be thrown if the onboarding was not successful.</exception>
+        public async Task<OnboardResponse> OnboardAsync(OnboardParameters onboardParameters)
+        {
+            var onboardingRequest = new OnboardRequest
+            {
+                ExternalId = onboardParameters.Uuid,
+                ApplicationId = onboardParameters.ApplicationId,
+                CertificationVersionId = onboardParameters.CertificationVersionId,
+                GatewayId = onboardParameters.GatewayId,
+                CertificateType = onboardParameters.CertificationType,
+                TimeZone = UtcDataService.TimeZone,
+                UtcTimestamp = UtcDataService.Now
+            };
+
+            var requestBody = JsonConvert.SerializeObject(onboardingRequest);
+
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(_environment.OnboardingUrl()),
+                Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
+            };
+            httpRequestMessage.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", onboardParameters.RegistrationCode);
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
+                throw new OnboardException(httpResponseMessage.StatusCode,
+                    await httpResponseMessage.Content.ReadAsStringAsync());
+
+            var result = await httpResponseMessage.Content.ReadAsStringAsync();
+            var onboardingResponse = JsonConvert.DeserializeObject<OnboardResponse>(result);
+
+            return onboardingResponse;
         }
     }
 }
