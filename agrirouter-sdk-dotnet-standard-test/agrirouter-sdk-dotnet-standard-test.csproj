@@ -12,8 +12,8 @@
         <PackageProjectUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard/blob/develop/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</RepositoryUrl>
-        <PackageVersion>2.2.0</PackageVersion>
-        <AssemblyVersion>2.2.0</AssemblyVersion>
+        <PackageVersion>2.3.0</PackageVersion>
+        <AssemblyVersion>2.3.0</AssemblyVersion>
     </PropertyGroup>
 
     <ItemGroup>
