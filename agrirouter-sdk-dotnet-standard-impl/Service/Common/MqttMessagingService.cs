@@ -9,6 +9,7 @@ using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using MQTTnet;
 using MQTTnet.Client;
+using MQTTnet.Client.Publishing;
 using Newtonsoft.Json;
 
 namespace Agrirouter.Impl.Service.Common
@@ -53,7 +54,11 @@ namespace Agrirouter.Impl.Service.Common
         public async Task<MessagingResult> SendAsync(MessagingParameters messagingParameters)
         {
             var mqttMessage = BuildMqttApplicationMessage(messagingParameters);
-            await _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
+            var response = await _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
+
+            if (response.ReasonCode != MqttClientPublishReasonCode.Success) {
+                throw new CouldNotSendMqttMessageException(response.ReasonCode, response.ReasonString);
+            }
 
             return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId).Build();
         }
