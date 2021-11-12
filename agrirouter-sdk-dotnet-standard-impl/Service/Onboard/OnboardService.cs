@@ -66,12 +66,13 @@ namespace Agrirouter.Impl.Service.Onboard
                 new AuthenticationHeaderValue("Bearer", onboardParameters.RegistrationCode);
 
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
-
-            if (!httpResponseMessage.IsSuccessStatusCode)
-                throw new OnboardException(httpResponseMessage.StatusCode,
-                    httpResponseMessage.Content.ReadAsStringAsync().Result);
-
             var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            if (!httpResponseMessage.IsSuccessStatusCode) {
+                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
+                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.onboardError);
+            }
+
             var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
             return onboardingResponse as OnboardResponse;
         }
@@ -108,11 +109,13 @@ namespace Agrirouter.Impl.Service.Onboard
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
 
-            if (!httpResponseMessage.IsSuccessStatusCode)
-                throw new OnboardException(httpResponseMessage.StatusCode,
-                    await httpResponseMessage.Content.ReadAsStringAsync());
-
             var result = await httpResponseMessage.Content.ReadAsStringAsync();
+
+            if (!httpResponseMessage.IsSuccessStatusCode) {
+                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
+                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.onboardError);
+            }
+
             var onboardingResponse = JsonConvert.DeserializeObject<OnboardResponse>(result);
 
             return onboardingResponse;
