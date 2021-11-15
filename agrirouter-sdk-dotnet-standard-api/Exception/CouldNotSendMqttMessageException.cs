@@ -19,6 +19,6 @@ namespace Agrirouter.Api.Exception
             ReasonCode = reasonCode;
         }
 
-        private MqttClientPublishReasonCode ReasonCode { get; }
+        public MqttClientPublishReasonCode ReasonCode { get; }
     }
 }
