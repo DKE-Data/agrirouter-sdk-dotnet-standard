@@ -13,15 +13,12 @@ namespace Agrirouter.Api.Exception
         ///     Constructor.
         /// </summary>
         /// <param name="statusCode">-</param>
-        /// <param name="errorMessage">-</param>
-        public CouldNotSendHttpMessageException(HttpStatusCode statusCode, string errorMessage)
+        /// <param name="messagessage">-</param>
+        public CouldNotSendHttpMessageException(HttpStatusCode statusCode, string message) : base(message)
         {
             StatusCode = statusCode;
-            ErrorMessage = errorMessage;
         }
 
         public HttpStatusCode StatusCode { get; }
-
-        public string ErrorMessage { get; }
     }
 }

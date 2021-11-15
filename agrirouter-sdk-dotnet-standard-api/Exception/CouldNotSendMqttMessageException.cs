@@ -13,15 +13,12 @@ namespace Agrirouter.Api.Exception
         ///     Constructor.
         /// </summary>
         /// <param name="reasonCode">-</param>
-        /// <param name="errorMessage">-</param>
-        public CouldNotSendMqttMessageException(MqttClientPublishReasonCode reasonCode, string errorMessage)
+        /// <param name="message">-</param>
+        public CouldNotSendMqttMessageException(MqttClientPublishReasonCode reasonCode, string message) : base(message)
         {
             ReasonCode = reasonCode;
-            ErrorMessage = errorMessage;
         }
 
         private MqttClientPublishReasonCode ReasonCode { get; }
-
-        private string ErrorMessage { get; }
     }
 }
