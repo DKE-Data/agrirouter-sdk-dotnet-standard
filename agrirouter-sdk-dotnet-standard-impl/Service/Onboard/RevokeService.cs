@@ -37,7 +37,7 @@ namespace Agrirouter.Impl.Service.Onboard
         /// </summary>
         /// <param name="revokeParameters">The parameters for the revoke process.</param>
         /// <param name="privateKey">The private key.</param>
-        /// <exception cref="OnboardException">Will be thrown if the revoking was not successful.</exception>
+        /// <exception cref="RevokeException">Will be thrown if the revoking was not successful.</exception>
         public void Revoke(RevokeParameters revokeParameters, string privateKey)
         {
             var revokeRequest = new RevokeRequest
@@ -64,7 +64,7 @@ namespace Agrirouter.Impl.Service.Onboard
 
             if (!httpResponseMessage.IsSuccessStatusCode) {
                 var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
-                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.onboardError);
+                throw new RevokeException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Agrirouter.Impl.Service.Onboard
         /// </summary>
         /// <param name="revokeParameters">The parameters for the revoke process.</param>
         /// <param name="privateKey">The private key.</param>
-        /// <exception cref="OnboardException">Will be thrown if the revoking was not successful.</exception>
+        /// <exception cref="RevokeException">Will be thrown if the revoking was not successful.</exception>
         public async Task RevokeAsync(RevokeParameters revokeParameters, string privateKey)
         {
             var revokeRequest = new RevokeRequest
@@ -100,7 +100,7 @@ namespace Agrirouter.Impl.Service.Onboard
 
             if (!httpResponseMessage.IsSuccessStatusCode) {
                 var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(await httpResponseMessage.Content.ReadAsStringAsync());
-                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.onboardError);
+                throw new RevokeException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
         }
     }

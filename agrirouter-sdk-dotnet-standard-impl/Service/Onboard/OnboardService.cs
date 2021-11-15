@@ -70,7 +70,7 @@ namespace Agrirouter.Impl.Service.Onboard
 
             if (!httpResponseMessage.IsSuccessStatusCode) {
                 var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
-                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.onboardError);
+                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
 
             var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
@@ -113,7 +113,7 @@ namespace Agrirouter.Impl.Service.Onboard
 
             if (!httpResponseMessage.IsSuccessStatusCode) {
                 var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
-                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.onboardError);
+                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
 
             var onboardingResponse = JsonConvert.DeserializeObject<OnboardResponse>(result);

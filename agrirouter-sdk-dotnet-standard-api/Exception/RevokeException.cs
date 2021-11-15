@@ -1,25 +1,21 @@
+using System;
 using System.Net;
+using Agrirouter.Api.Dto.Onboard;
 
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    ///     Will be thrown if the revoke is not successful.
+    ///     Will be thrown if the revoking process is not successful.
     /// </summary>
-    public class RevokeException : System.Exception
-    {
+    [Serializable]
+    public class RevokeException : OnboardRevokeExceptionBase {
         /// <summary>
         ///     Constructor.
         /// </summary>
         /// <param name="statusCode">-</param>
-        /// <param name="errorMessage">-</param>
-        public RevokeException(HttpStatusCode statusCode, string errorMessage)
+        /// <param name="onboardError">-</param>
+        public RevokeException(HttpStatusCode statusCode, OnboardError onboardError): base(statusCode, onboardError)
         {
-            StatusCode = statusCode;
-            ErrorMessage = errorMessage;
         }
-
-        private HttpStatusCode StatusCode { get; }
-
-        private string ErrorMessage { get; }
     }
 }

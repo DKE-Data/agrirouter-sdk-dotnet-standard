@@ -11,7 +11,7 @@ namespace Agrirouter.Api.Dto.Onboard
         ///     The error.
         /// </summary>
         [JsonProperty(PropertyName = "error")]
-        public OnboardError onboardError { get; set; }
+        public OnboardError OnboardError { get; set; }
     }
     /// <summary>
     ///     Data transfer object for the onboard and revoke error.
