@@ -21,6 +21,19 @@ namespace Agrirouter.Api.Exception
             Error = onboardError;
         }
 
+        /// <summary>
+        ///     Constructor with error message only.
+        /// </summary>
+        /// <param name="statusCode">-</param>
+        /// <param name="message">-</param>
+        public OnboardRevokeExceptionBase(HttpStatusCode statusCode, string message): base(message)
+        {
+            StatusCode = statusCode;
+            Error = new OnboardError {
+                Message = message
+            };
+        }
+
         public HttpStatusCode StatusCode { get; }
 
         public OnboardError Error { get; }
