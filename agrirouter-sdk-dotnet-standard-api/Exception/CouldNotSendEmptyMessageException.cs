@@ -8,12 +8,9 @@ namespace Agrirouter.Api.Exception
         /// <summary>
         ///     Constructor.
         /// </summary>
-        /// <param name="errorMessage">-</param>
-        public CouldNotSendEmptyMessageException(string errorMessage)
+        /// <param name="message">-</param>
+        public CouldNotSendEmptyMessageException(string message) : base(message)
         {
-            ErrorMessage = errorMessage;
         }
-
-        private string ErrorMessage { get; }
     }
 }
