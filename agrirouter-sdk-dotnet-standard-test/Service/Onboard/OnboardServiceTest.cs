@@ -37,7 +37,8 @@ namespace Agrirouter.Test.Service.Onboard
             };
 
 
-            Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters));
+            var exception = Assert.Throws<OnboardException>(() => onboardingService.Onboard(parameters));
+            Assert.Equal("0401", exception.Error.Code);
         }
 
         [Fact(Skip = "Will not run successfully without changing the registration code.")]

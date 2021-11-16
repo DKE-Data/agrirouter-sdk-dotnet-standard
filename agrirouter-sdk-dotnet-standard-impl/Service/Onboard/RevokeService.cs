@@ -62,9 +62,10 @@ namespace Agrirouter.Impl.Service.Onboard
 
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
-            if (!httpResponseMessage.IsSuccessStatusCode)
-                throw new RevokeException(httpResponseMessage.StatusCode,
-                    httpResponseMessage.Content.ReadAsStringAsync().Result);
+            if (!httpResponseMessage.IsSuccessStatusCode) {
+                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
+                throw new RevokeException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
+            }
         }
 
         /// <summary>
@@ -97,9 +98,10 @@ namespace Agrirouter.Impl.Service.Onboard
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
 
-            if (!httpResponseMessage.IsSuccessStatusCode)
-                throw new RevokeException(httpResponseMessage.StatusCode,
-                    await httpResponseMessage.Content.ReadAsStringAsync());
+            if (!httpResponseMessage.IsSuccessStatusCode) {
+                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(await httpResponseMessage.Content.ReadAsStringAsync());
+                throw new RevokeException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Onboard;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
+using Serilog;
 using Xunit;
 
 namespace Agrirouter.Test.Service.Onboard
@@ -45,8 +46,12 @@ namespace Agrirouter.Test.Service.Onboard
             };
 
             var revokeService = new RevokeService(Environment, HttpClient);
-            Assert.Throws<RevokeException>(() =>
-                revokeService.Revoke(revokeParameters, Applications.FarmingSoftware.PrivateKey));
+            Action act = () => revokeService.Revoke(revokeParameters, Applications.FarmingSoftware.PrivateKey);
+
+            RevokeException exception = Assert.Throws<RevokeException>(act);
+
+            Assert.Equal("0107", exception.Error.Code);
+            Assert.Equal("Invalid signature", exception.Error.Message);
         }
     }
 }

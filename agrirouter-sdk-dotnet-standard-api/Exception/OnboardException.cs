@@ -1,24 +1,30 @@
 using System;
 using System.Net;
+using Agrirouter.Api.Dto.Onboard;
 
 namespace Agrirouter.Api.Exception
 {
     /// <summary>
-    ///     Will be thrown if the onboarding process was not successful.
+    ///     Will be thrown if the onboarding process is not successful.
     /// </summary>
     [Serializable]
-    public class OnboardException : System.Exception
-    {
+    public class OnboardException : OnboardRevokeExceptionBase {
         /// <summary>
         ///     Constructor.
         /// </summary>
         /// <param name="statusCode">-</param>
-        /// <param name="message">-</param>
-        public OnboardException(HttpStatusCode statusCode, string message) : base(message)
+        /// <param name="onboardError">-</param>
+        public OnboardException(HttpStatusCode statusCode, OnboardError onboardError): base(statusCode, onboardError)
         {
-            StatusCode = statusCode;
         }
 
-        public HttpStatusCode StatusCode { get; }
+        /// <summary> 
+        ///     Constructor with error message only. 
+        /// </summary> 
+        /// <param name="statusCode">-</param> 
+        /// <param name="message">-</param> 
+        public OnboardException(HttpStatusCode statusCode, string message) : base(statusCode, message)
+        {
+        }
     }
 }
