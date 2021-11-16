@@ -14,7 +14,7 @@ namespace Agrirouter.Api.Exception
         /// </summary>
         /// <param name="statusCode">-</param>
         /// <param name="errorMessage">-</param>
-        public CouldNotFetchMessagesException(HttpStatusCode statusCode, string errorMessage): base(errorMessage)
+        public CouldNotFetchMessagesException(HttpStatusCode statusCode, string message): base(message)
         {
             StatusCode = statusCode;
         }
