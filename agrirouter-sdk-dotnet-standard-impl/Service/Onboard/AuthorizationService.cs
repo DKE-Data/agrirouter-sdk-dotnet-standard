@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Web;
 using Agrirouter.Api.Dto.Onboard;
@@ -71,33 +72,34 @@ namespace Agrirouter.Impl.Service.Onboard
         /// <summary>
         ///     Parsing the result which was attached as parameters to the URL.
         /// </summary>
-        /// <param name="authorizationResult">The result of the parsing.</param>
-        /// <returns>-</returns>
+        /// <param name="authorizationResult">The parameter string which has been returned from the redirect (everything after the initial '?')</param>
+        /// <returns>The result of the parsing.</returns>
         /// <exception cref="System.ArgumentException">Will be thrown if the input is not valid.</exception>
         public AuthorizationResult Parse(string authorizationResult)
         {
-            var split = authorizationResult.Split('&');
-            var parameters = new Dictionary<string, string>();
-
-            if (split.Length != 2 && split.Length != 3 && split.Length != 4)
-                throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
-
-            foreach (var parameter in split)
+            var parameters = HttpUtility.ParseQueryString(authorizationResult);
+            if (parameters.Count is < 2 or > 4)
             {
-                var parameterSplit = parameter.Split("=");
-                if (parameterSplit.Length != 2)
-                    throw new ArgumentException($"Parameter '{parameter}' could not be parsed.");
-
-                parameters.Add(parameterSplit[0], HttpUtility.UrlDecode(parameterSplit[1]));
+                throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");   
             }
-
             return new AuthorizationResult
             {
-                State = parameters.GetValueOrDefault("state"),
-                Signature = parameters.GetValueOrDefault("signature"),
-                Token = parameters.GetValueOrDefault("token"),
-                Error = parameters.GetValueOrDefault("error")
+                State = parameters.Get("state"),
+                Signature = parameters.Get("signature"),
+                Token = parameters.Get("token"),
+                Error = parameters.Get("error")
             };
+        }
+
+        /// <summary>
+        ///     Parsing a callback URI for parameters
+        /// </summary>
+        /// <param name="callbackUri">The complete URI of the callback request.</param>
+        /// <returns>The result of the parsing.</returns>
+        /// <exception cref="System.ArgumentException">Will be thrown if the input is not valid.</exception>
+        public AuthorizationResult Parse(Uri callbackUri)
+        {
+            return Parse(callbackUri.Query); 
         }
 
         /// <summary>
