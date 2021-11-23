@@ -79,8 +79,8 @@ namespace Agrirouter.Test.Service.Onboard
             Assert.NotNull(authorizationToken.Account);
             Assert.NotNull(authorizationToken.RegistrationCode);
             Assert.NotNull(authorizationToken.Expires);
-        }        
-        
+        }
+
         [Fact]
         public void
             GivenDeclineConnectionResponseWhenParsingTheTokenThenTheAuthorizationServiceShouldReturnError()

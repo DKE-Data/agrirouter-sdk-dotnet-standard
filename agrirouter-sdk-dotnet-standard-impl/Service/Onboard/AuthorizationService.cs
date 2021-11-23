@@ -78,9 +78,9 @@ namespace Agrirouter.Impl.Service.Onboard
         public AuthorizationResult Parse(string authorizationResult)
         {
             var parameters = HttpUtility.ParseQueryString(authorizationResult);
-            if (parameters.Count is < 2 or > 4)
+            if (parameters.Count < 2 || parameters.Count > 4)
             {
-                throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");   
+                throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
             }
             return new AuthorizationResult
             {
