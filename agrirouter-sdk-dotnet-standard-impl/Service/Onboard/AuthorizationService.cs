@@ -95,7 +95,7 @@ namespace Agrirouter.Impl.Service.Onboard
         ///     Parsing a callback URI for parameters
         /// </summary>
         /// <param name="callbackUri">The complete URI of the callback request.</param>
-        /// <returns>The result of the parsing.</returns>
+        /// <returns>The authorization result, containing state, signature, token and error.</returns>
         /// <exception cref="System.ArgumentException">Will be thrown if the input is not valid.</exception>
         public AuthorizationResult Parse(Uri callbackUri)
         {
