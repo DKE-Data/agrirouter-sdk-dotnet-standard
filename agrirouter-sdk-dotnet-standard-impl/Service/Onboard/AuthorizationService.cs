@@ -73,7 +73,7 @@ namespace Agrirouter.Impl.Service.Onboard
         ///     Parsing the result which was attached as parameters to the URL.
         /// </summary>
         /// <param name="authorizationResult">The parameter string which has been returned from the redirect (everything after the initial '?')</param>
-        /// <returns>The result of the parsing.</returns>
+        /// <returns>The authorization result, containing state, signature, token and error.</returns>
         /// <exception cref="System.ArgumentException">Will be thrown if the input is not valid.</exception>
         public AuthorizationResult Parse(string authorizationResult)
         {
