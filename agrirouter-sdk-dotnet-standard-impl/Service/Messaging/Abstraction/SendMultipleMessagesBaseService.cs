@@ -64,7 +64,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TeamSetContextId = multipleMessageEntry.TeamsetContextId ?? "",
                 TechnicalMessageType = multipleMessageEntry.TechnicalMessageType,
                 Mode = Mode,
-                Recipients = multipleMessageEntry.Recipients
+                Recipients = multipleMessageEntry.Recipients,
+                Metadata = multipleMessageEntry.Metadata
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
