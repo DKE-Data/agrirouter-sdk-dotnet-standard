@@ -133,7 +133,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TeamSetContextId = sendMessageParameters.TeamsetContextId ?? "",
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
-                Recipients = sendMessageParameters.Recipients
+                Recipients = sendMessageParameters.Recipients,
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
@@ -164,7 +165,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TeamSetContextId = sendMessageParameters.TeamsetContextId ?? "",
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
-                Recipients = sendMessageParameters.Recipients
+                Recipients = sendMessageParameters.Recipients,
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
