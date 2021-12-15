@@ -50,7 +50,8 @@ namespace Agrirouter.Impl.Service.Common
                 ApplicationMessageSeqNo = Parameters.ApplicationMessageSeqNo,
                 TechnicalMessageType = messageHeaderParameters.TechnicalMessageType,
                 Mode = messageHeaderParameters.Mode,
-                Timestamp = UtcDataService.NowAsTimestamp()
+                Timestamp = UtcDataService.NowAsTimestamp(),
+                Metadata = messageHeaderParameters.Metadata
             };
 
             if (!string.IsNullOrEmpty(messageHeaderParameters.TeamSetContextId))
