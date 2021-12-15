@@ -38,5 +38,10 @@ namespace Agrirouter.Api.Service.Parameters
         ///     Define the size of the chunks.
         /// </summary>
         public int ChunkSize { get; set; }
+
+        /// <summary>
+        ///     Define the file metadata.
+        /// </summary>
+        public Metadata Metadata { get; set; }
     }
 }

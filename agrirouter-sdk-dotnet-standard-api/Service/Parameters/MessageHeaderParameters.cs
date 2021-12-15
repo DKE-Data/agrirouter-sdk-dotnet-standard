@@ -33,5 +33,10 @@ namespace Agrirouter.Api.Service.Parameters
         ///     Chunk information.
         /// </summary>
         public ChunkComponent ChunkInfo { get; set; }
+
+        /// <summary>
+        ///     Metadata.
+        /// </summary>
+        public Metadata Metadata { get; set; }
     }
 }

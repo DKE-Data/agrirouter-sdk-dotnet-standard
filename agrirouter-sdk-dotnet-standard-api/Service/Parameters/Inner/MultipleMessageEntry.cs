@@ -42,5 +42,11 @@ namespace Agrirouter.Api.Service.Parameters.Inner
         ///     Teamset context ID.
         /// </summary>
         public string TeamsetContextId { get; set; }
+        
+        /// <summary>
+        ///     Metadata.
+        /// </summary>
+        public Metadata Metadata { get; set; }
+        
     }
 }
