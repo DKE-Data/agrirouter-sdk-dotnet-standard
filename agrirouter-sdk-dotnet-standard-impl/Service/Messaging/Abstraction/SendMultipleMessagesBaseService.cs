@@ -83,16 +83,5 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             return encodedMessage;
         }
 
-        /// <summary>
-        ///     Checks whether a message has to be chunked or not.
-        /// </summary>
-        /// <param name="sendMessageParameters"></param>
-        /// <returns></returns>
-        public void CheckWetherMessageShouldHaveBeenChunked(SendMessageParameters sendMessageParameters)
-        {
-            var base64MessageContent = sendMessageParameters.Base64MessageContent;
-            var byteCount = Encoding.Unicode.GetByteCount(base64MessageContent);
-            if (byteCount / ChunkSizeDefinition.MaximumSupported > 1) throw new MessageShouldHaveBeenChunkedException();
-        }
     }
 }

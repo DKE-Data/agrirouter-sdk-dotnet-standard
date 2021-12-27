@@ -48,7 +48,7 @@ namespace Agrirouter.Test.Service.Onboard
             var revokeService = new RevokeService(Environment, HttpClient);
             Action act = () => revokeService.Revoke(revokeParameters, Applications.FarmingSoftware.PrivateKey);
 
-            RevokeException exception = Assert.Throws<RevokeException>(act);
+            var exception = Assert.Throws<RevokeException>(act);
 
             Assert.Equal("0107", exception.Error.Code);
             Assert.Equal("Invalid signature", exception.Error.Message);
