@@ -16,5 +16,13 @@ namespace Agrirouter.Api.Service.Parameters
         ///     Value.
         /// </summary>
         public ByteString Value { get; set; }
+
+        /**
+         * Checks whether the payload should be chunked or not.
+         */
+        public bool ShouldBeChunked()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

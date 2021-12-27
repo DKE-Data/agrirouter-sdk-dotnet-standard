@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Request;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Cloud.Registration;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Serilog;
@@ -39,6 +43,63 @@ namespace Agrirouter.Impl.Service.Common
             return encodedMessage;
         }
 
+        /// <summary>
+        /// Chunk and add the Base64 encoding for a message if necessary.
+        /// If there is only one chunk, the single chunk will be returned as Base64 encoded value.
+        /// The chunk information and all IDs will be set by the SDK and are no longer in control of the application.
+        /// </summary>
+        /// <returns></returns>
+        public static List<MessageParameterTuple> EncodeAndChunk(MessageHeaderParameters messageHeaderParameters,
+            MessagePayloadParameters messagePayloadParameters, OnboardResponse onboardResponse)
+        {
+            if (null == messageHeaderParameters || null == messagePayloadParameters || null == onboardResponse)
+            {
+                throw new MissingParameterException(
+                    "Header and payload parameters are required, as well as the onboard response.");
+            }
+
+            if (TechnicalMessageTypes.NeedsBase64Encoding(messageHeaderParameters.TechnicalMessageType))
+            {
+                if (messagePayloadParameters.ShouldBeChunked())
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    Log.Debug("The message type needs to be base64 encoded, therefore we are encoding the raw value.");
+                    var messagePayloadParametersWithEncodedValue = new MessagePayloadParameters()
+                    {
+                        TypeUrl = messagePayloadParameters.TypeUrl,
+                        ApplicationMessageId = messagePayloadParameters.ApplicationMessageId,
+                        TeamsetContextId = messagePayloadParameters.TeamsetContextId,
+                        Value = ByteString.CopyFromUtf8(
+                            Convert.ToBase64String(messagePayloadParameters.Value.ToByteArray()))
+                    };
+                    return new List<MessageParameterTuple>()
+                    {
+                        new()
+                        {
+                            MessageHeaderParameters = messageHeaderParameters,
+                            MessagePayloadParameters = messagePayloadParametersWithEncodedValue
+                        }
+                    };
+                }
+            }
+            else
+            {
+                Log.Debug(
+                    "The message type does not need base 64 encoding, we are returning the tuple 'as it is'.");
+                return new List<MessageParameterTuple>()
+                {
+                    new()
+                    {
+                        MessageHeaderParameters = messageHeaderParameters,
+                        MessagePayloadParameters = messagePayloadParameters
+                    }
+                };
+            }
+        }
+
         private static RequestEnvelope Header(MessageHeaderParameters messageHeaderParameters)
         {
             Log.Debug("Begin creating the header of the message.");
@@ -72,9 +133,9 @@ namespace Agrirouter.Impl.Service.Common
         private static RequestPayloadWrapper PayloadWrapper(MessagePayloadParameters messagePayloadParameters)
         {
             Log.Debug("Begin creating the payload of the message.");
-            var any = new Any {TypeUrl = messagePayloadParameters.TypeUrl, Value = messagePayloadParameters.Value};
+            var any = new Any { TypeUrl = messagePayloadParameters.TypeUrl, Value = messagePayloadParameters.Value };
 
-            var requestPayloadWrapper = new RequestPayloadWrapper {Details = any};
+            var requestPayloadWrapper = new RequestPayloadWrapper { Details = any };
 
             Log.Debug("Finished creating the payload of the message.");
             return requestPayloadWrapper;

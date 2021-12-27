@@ -36,7 +36,7 @@ namespace Agrirouter.Api.Definitions
         ///     Type 'dke:feed_header_query'.
         /// </summary>
         public static string DkeFeedMessageQuery => "dke:feed_message_query";
-        
+
         /// <summary>
         ///     Type 'dke:feed_delete'.
         /// </summary>
@@ -123,11 +123,11 @@ namespace Agrirouter.Api.Definitions
         public static string GpsInfo => "gps:info";
 
         /// <summary>
-        /// Check whether the given technical message type is chunkable.
+        /// Check whether the given technical message type needs base64 encoding.
         /// </summary>
         /// <param name="technicalMessageType">Technical message type</param>
-        /// <returns>True if chunkable, false otherwise.</returns>
-        public static bool IsChunkable(string technicalMessageType)
+        /// <returns>True if it needs base64 encoding, false otherwise.</returns>
+        public static bool NeedsBase64Encoding(string technicalMessageType)
         {
             return Iso11783TaskdataZip.Equals(technicalMessageType) || ImgBmp.Equals(technicalMessageType) ||
                    ImgJpeg.Equals(technicalMessageType) || ImgPng.Equals(technicalMessageType) ||
@@ -158,6 +158,5 @@ namespace Agrirouter.Api.Definitions
                 GpsInfo
             };
         }
-
     }
 }
