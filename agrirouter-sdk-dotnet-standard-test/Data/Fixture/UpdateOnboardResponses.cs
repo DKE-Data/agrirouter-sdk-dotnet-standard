@@ -27,68 +27,68 @@ namespace Agrirouter.Test.Data.Fixture
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
         private static readonly Environment Environment = new QualityAssuranceEnvironment();
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void Recipient()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee961", "4bb8753248");
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee961", "CHANGE_ME");
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.Recipient, onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void RecipientWithEnabledPushMessages()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee962", "5c51344686");
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee962", "CHANGE_ME");
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.RecipientWithEnabledPushMessages,
                 onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void Sender()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee963", "647b976569");
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee963", "CHANGE_ME");
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.Sender, onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void SenderWithMultipleRecipients()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee964", "998e66acb9");
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee964", "CHANGE_ME");
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.SenderWithMultipleRecipients,
                 onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void SingleEndpointWithoutRoute()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee965", "1525e3fbe1");
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee965", "CHANGE_ME");
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute,
                 onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void SingleEndpointWithP12Certificate()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee966", "b0dbe9bd37");
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee966", "CHANGE_ME");
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.SingleEndpointWithP12Certificate,
                 onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void SingleEndpointWithPemCertificate()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee967", "b221c182af",
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee967", "CHANGE_ME",
                 CertificationTypeDefinition.Pem);
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
@@ -96,28 +96,28 @@ namespace Agrirouter.Test.Data.Fixture
                 onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void SingleMqttEndpointWithoutRoute()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee968", "f6803cbad2",
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee968", "CHANGE_ME",
                 gatewayId: GatewayTypeDefinition.Mqtt);
             OnboardResponseIntegrationService.Save(Identifier.Mqtt.CommunicationUnit.SingleEndpointWithoutRoute,
                 onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void SingleMqttEndpointWithP12Certificate()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee969", "d90998c89e",
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee969", "CHANGE_ME",
                 gatewayId: GatewayTypeDefinition.Mqtt);
             OnboardResponseIntegrationService.Save(Identifier.Mqtt.CommunicationUnit.SingleEndpointWithP12Certificate,
                 onboardResponse);
         }
 
-        [Fact]
+        [Fact(Skip = "Will fail unless the token is changed.")]
         public void SingleMqttEndpointWithPemCertificate()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee970", "b4f100f53d",
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee970", "CHANGE_ME",
                 gatewayId: GatewayTypeDefinition.Mqtt);
             OnboardResponseIntegrationService.Save(Identifier.Mqtt.CommunicationUnit.SingleEndpointWithPemCertificate,
                 onboardResponse);
