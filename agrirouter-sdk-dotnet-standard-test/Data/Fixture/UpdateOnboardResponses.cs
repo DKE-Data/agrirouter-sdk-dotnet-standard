@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Env;
@@ -13,7 +11,6 @@ using Agrirouter.Impl.Service.Onboard;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Test.Helper;
 using Xunit;
-using Environment = Agrirouter.Api.Env.Environment;
 
 namespace Agrirouter.Test.Data.Fixture
 {
@@ -179,7 +176,7 @@ namespace Agrirouter.Test.Data.Fixture
             capabilitiesParameters.CapabilityParameters.AddRange(CapabilitiesHelper.AllCapabilities);
             capabilitiesServices.Send(capabilitiesParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(onboardResponse);

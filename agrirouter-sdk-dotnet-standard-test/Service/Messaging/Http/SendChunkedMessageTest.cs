@@ -1,14 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Xunit;
@@ -48,7 +46,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
             capabilitiesServices.Send(capabilitiesParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
@@ -80,7 +78,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
             capabilitiesServices.Send(capabilitiesParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
             var fetch = fetchMessageService.Fetch(Recipient);
@@ -122,7 +120,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             sendMessageService.Send(sendMessageParameters);
 
             // 4. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             // 5. Fetch and analyze the ACK from the AR.
             var fetchMessageService = new FetchMessageService(HttpClientForSender);

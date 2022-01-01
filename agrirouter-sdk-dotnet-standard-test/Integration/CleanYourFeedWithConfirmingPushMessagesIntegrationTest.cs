@@ -4,18 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Response;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Convenience;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request.Payload.Endpoint;
+using Agrirouter.Response;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Agrirouter.Test.Service;
 using Xunit;
+using Timer = Agrirouter.Test.Helper.Timer;
 
 namespace Agrirouter.Test.Integration
 {
@@ -207,7 +208,7 @@ namespace Agrirouter.Test.Integration
 
             capabilitiesServices.Send(capabilitiesParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
             var fetch = fetchMessageService.Fetch(Recipient);

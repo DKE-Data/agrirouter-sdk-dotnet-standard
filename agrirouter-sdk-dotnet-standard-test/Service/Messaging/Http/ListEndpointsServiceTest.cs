@@ -1,13 +1,11 @@
-using System;
 using System.Net.Http;
-using System.Threading;
-using Agrirouter.Request.Payload.Account;
-using Agrirouter.Response;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request.Payload.Account;
+using Agrirouter.Response;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Xunit;
@@ -39,7 +37,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             listEndpointsService.Send(listEndpointsParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);
@@ -64,7 +62,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             listEndpointsService.Send(listEndpointsParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);
@@ -89,7 +87,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             listEndpointsService.Send(listEndpointsParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);
@@ -114,7 +112,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             listEndpointsService.Send(listEndpointsParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);
@@ -139,7 +137,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             listEndpointsService.Send(listEndpointsParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);
@@ -163,7 +161,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             listEndpointsService.Send(listEndpointsParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);

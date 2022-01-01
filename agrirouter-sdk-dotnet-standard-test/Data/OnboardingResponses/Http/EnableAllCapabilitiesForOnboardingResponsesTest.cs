@@ -8,6 +8,7 @@ using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Test.Helper;
 using Xunit;
+using Timer = Agrirouter.Test.Helper.Timer;
 
 namespace Agrirouter.Test.Data.OnboardingResponses.Http
 {
@@ -34,7 +35,7 @@ namespace Agrirouter.Test.Data.OnboardingResponses.Http
                 capabilitiesParameters.CapabilityParameters.AddRange(CapabilitiesHelper.AllCapabilities);
                 capabilitiesServices.Send(capabilitiesParameters);
 
-                Thread.Sleep(TimeSpan.FromSeconds(5));
+                Timer.WaitForTheAgrirouterToProcessTheMessage();
 
                 var fetchMessageService = new FetchMessageService(httpClient);
                 var fetch = fetchMessageService.Fetch(onboardResponse);
