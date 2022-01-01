@@ -27,11 +27,12 @@ namespace Agrirouter.Test.Data.Fixture
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
         private static readonly Environment Environment = new QualityAssuranceEnvironment();
 
-
         [Fact]
         public void Recipient()
         {
             var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee961", "4bb8753248");
+            ValidateConnection(onboardResponse);
+            EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.Recipient, onboardResponse);
         }
 
@@ -39,6 +40,8 @@ namespace Agrirouter.Test.Data.Fixture
         public void RecipientWithEnabledPushMessages()
         {
             var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee962", "5c51344686");
+            ValidateConnection(onboardResponse);
+            EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.RecipientWithEnabledPushMessages,
                 onboardResponse);
         }
@@ -47,6 +50,8 @@ namespace Agrirouter.Test.Data.Fixture
         public void Sender()
         {
             var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee963", "647b976569");
+            ValidateConnection(onboardResponse);
+            EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.Sender, onboardResponse);
         }
 
@@ -54,6 +59,8 @@ namespace Agrirouter.Test.Data.Fixture
         public void SenderWithMultipleRecipients()
         {
             var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee964", "998e66acb9");
+            ValidateConnection(onboardResponse);
+            EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.SenderWithMultipleRecipients,
                 onboardResponse);
         }
@@ -62,6 +69,8 @@ namespace Agrirouter.Test.Data.Fixture
         public void SingleEndpointWithoutRoute()
         {
             var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee965", "1525e3fbe1");
+            ValidateConnection(onboardResponse);
+            EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.SingleEndpointWithoutRoute,
                 onboardResponse);
         }
@@ -70,6 +79,8 @@ namespace Agrirouter.Test.Data.Fixture
         public void SingleEndpointWithP12Certificate()
         {
             var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee966", "b0dbe9bd37");
+            ValidateConnection(onboardResponse);
+            EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.SingleEndpointWithP12Certificate,
                 onboardResponse);
         }
@@ -79,6 +90,8 @@ namespace Agrirouter.Test.Data.Fixture
         {
             var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee967", "b221c182af",
                 CertificationTypeDefinition.Pem);
+            ValidateConnection(onboardResponse);
+            EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.SingleEndpointWithPemCertificate,
                 onboardResponse);
         }
@@ -143,16 +156,17 @@ namespace Agrirouter.Test.Data.Fixture
 
         private void ValidateConnection(OnboardResponse onboardResponse)
         {
-            Thread.Sleep(5000);
-            var fetchMessageService = new FetchMessageService(HttpClient);
+            var authenticatedHttpClient = HttpClientFactory.AuthenticatedHttpClient(onboardResponse);
+            var fetchMessageService = new FetchMessageService(authenticatedHttpClient);
             var fetch = fetchMessageService.Fetch(onboardResponse);
             Assert.Empty(fetch);
         }
 
         private void EnableAllCapabilitiesViaHttp(OnboardResponse onboardResponse)
         {
+            var authenticatedHttpClient = HttpClientFactory.AuthenticatedHttpClient(onboardResponse);
             var capabilitiesServices =
-                new CapabilitiesService(new HttpMessagingService(HttpClient));
+                new CapabilitiesService(new HttpMessagingService(authenticatedHttpClient));
             var capabilitiesParameters = new CapabilitiesParameters
             {
                 OnboardResponse = onboardResponse,
