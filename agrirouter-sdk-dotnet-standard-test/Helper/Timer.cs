@@ -13,7 +13,7 @@ namespace Agrirouter.Test.Helper
         /// </summary>
         public static void WaitForTheAgrirouterToProcessTheMessage()
         {
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(15));
         }
     }
 }
