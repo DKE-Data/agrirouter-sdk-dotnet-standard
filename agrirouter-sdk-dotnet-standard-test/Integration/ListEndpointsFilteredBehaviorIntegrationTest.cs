@@ -11,6 +11,7 @@ using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Agrirouter.Test.Service;
 using Xunit;
+using static Agrirouter.Test.Data.OnboardResponseIntegrationService;
 
 namespace Agrirouter.Test.Integration
 {
@@ -19,7 +20,7 @@ namespace Agrirouter.Test.Integration
         private static readonly HttpClient HttpClient = HttpClientFactory.AuthenticatedHttpClient(OnboardResponse);
 
         private static OnboardResponse OnboardResponse =>
-            OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.SenderWithMultipleRecipients);
+            Read(Identifier.Http.CommunicationUnit.SenderWithMultipleRecipients);
 
         /**
          * Searching for all endpoints that are connected via route and are able to SEND OR RECEIVE.
@@ -54,19 +55,16 @@ namespace Agrirouter.Test.Integration
             // Asserting only that the number of endpoints is at least those three that are expected when searching for SEND OR RECEIVE.
             Assert.True(listEndpointsResponse.Endpoints.Count >= 3);
 
-            const string endpointThatCanSend = "949f33a0-b758-4018-8cfd-057e7d3030b2";
-            const string endpointThatCanReceive = "206b5e98-9ac8-4569-8332-742cf93f58c2";
-            const string endpointThatCanSendAndReceive = "39db0f54-052e-4bf1-b5aa-654d3adf91a7";
-
             var endpoints = listEndpointsResponse.Endpoints
-                .Where(endpoint => endpoint.EndpointId.Equals(endpointThatCanSend) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanReceive) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanSendAndReceive))
+                .Where(endpoint =>
+                    endpoint.EndpointId.Equals(Read(Identifier.Http.CommunicationUnit.RecipientWithEnabledPushMessages)
+                        .SensorAlternateId) ||
+                    endpoint.EndpointId.Equals(Read(Identifier.Http.CommunicationUnit.Recipient).SensorAlternateId))
                 .ToList();
 
-            Assert.Equal(3, endpoints.Count);
+            Assert.Equal(2, endpoints.Count);
         }
-        
+
         /**
          * Searching for all endpoints that are connected via route and are able to SEND.
          */
@@ -100,19 +98,16 @@ namespace Agrirouter.Test.Integration
             // Asserting only that the number of endpoints is at least those three that are expected when searching for SEND OR RECEIVE.
             Assert.True(listEndpointsResponse.Endpoints.Count >= 2);
 
-            const string endpointThatCanSend = "949f33a0-b758-4018-8cfd-057e7d3030b2";
-            const string endpointThatCanReceive = "206b5e98-9ac8-4569-8332-742cf93f58c2";
-            const string endpointThatCanSendAndReceive = "39db0f54-052e-4bf1-b5aa-654d3adf91a7";
-
             var endpoints = listEndpointsResponse.Endpoints
-                .Where(endpoint => endpoint.EndpointId.Equals(endpointThatCanSend) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanReceive) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanSendAndReceive))
+                .Where(endpoint =>
+                    endpoint.EndpointId.Equals(Read(Identifier.Http.CommunicationUnit.RecipientWithEnabledPushMessages)
+                        .SensorAlternateId) ||
+                    endpoint.EndpointId.Equals(Read(Identifier.Http.CommunicationUnit.Recipient).SensorAlternateId))
                 .ToList();
 
             Assert.Equal(2, endpoints.Count);
-        } 
-        
+        }
+
         /**
          * Searching for all endpoints that are connected via route and are able to RECEIVE.
          */
@@ -143,17 +138,14 @@ namespace Agrirouter.Test.Integration
 
             var listEndpointsResponse = listEndpointsService.Decode(decodedMessage.ResponsePayloadWrapper.Details);
 
-            // Asserting only that the number of endpoints is at least those three that are expected when searching for SEND OR RECEIVE.
+            // Asserting only that the number of endpoints is at least those two that are expected when searching for SEND OR RECEIVE.
             Assert.True(listEndpointsResponse.Endpoints.Count >= 2);
 
-            const string endpointThatCanSend = "949f33a0-b758-4018-8cfd-057e7d3030b2";
-            const string endpointThatCanReceive = "206b5e98-9ac8-4569-8332-742cf93f58c2";
-            const string endpointThatCanSendAndReceive = "39db0f54-052e-4bf1-b5aa-654d3adf91a7";
-
             var endpoints = listEndpointsResponse.Endpoints
-                .Where(endpoint => endpoint.EndpointId.Equals(endpointThatCanSend) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanReceive) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanSendAndReceive))
+                .Where(endpoint =>
+                    endpoint.EndpointId.Equals(Read(Identifier.Http.CommunicationUnit.RecipientWithEnabledPushMessages)
+                        .SensorAlternateId) ||
+                    endpoint.EndpointId.Equals(Read(Identifier.Http.CommunicationUnit.Recipient).SensorAlternateId))
                 .ToList();
 
             Assert.Equal(2, endpoints.Count);
