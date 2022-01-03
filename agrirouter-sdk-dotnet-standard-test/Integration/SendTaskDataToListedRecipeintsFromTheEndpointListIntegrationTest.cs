@@ -56,14 +56,13 @@ namespace Agrirouter.Test.Integration
             // Asserting only that the number of endpoints is at least those three that are expected when searching for receivers.
             Assert.True(listEndpointsResponse.Endpoints.Count >= 2);
 
-            const string endpointThatCanSend = "949f33a0-b758-4018-8cfd-057e7d3030b2";
-            const string endpointThatCanReceive = "206b5e98-9ac8-4569-8332-742cf93f58c2";
-            const string endpointThatCanSendAndReceive = "39db0f54-052e-4bf1-b5aa-654d3adf91a7";
-
             var endpoints = listEndpointsResponse.Endpoints
-                .Where(endpoint => endpoint.EndpointId.Equals(endpointThatCanSend) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanReceive) ||
-                                   endpoint.EndpointId.Equals(endpointThatCanSendAndReceive))
+                .Where(endpoint =>
+                    endpoint.EndpointId.Equals(OnboardResponseIntegrationService
+                        .Read(Identifier.Http.CommunicationUnit.RecipientWithEnabledPushMessages)
+                        .SensorAlternateId) ||
+                    endpoint.EndpointId.Equals(OnboardResponseIntegrationService
+                        .Read(Identifier.Http.CommunicationUnit.Recipient).SensorAlternateId))
                 .ToList();
 
             Assert.Equal(2, endpoints.Count);
@@ -79,7 +78,7 @@ namespace Agrirouter.Test.Integration
             publishAndSendMessageService.Send(sendMessageParameters);
 
             Timer.WaitForTheAgrirouterToProcessTheMessage();
-            
+
             fetch = fetchMessageService.Fetch(OnboardResponse);
             Assert.Single(fetch);
 
