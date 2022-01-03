@@ -112,7 +112,7 @@ namespace Agrirouter.Test.Integration
             Assert.Single(fetch);
 
             decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
+            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
         private static OnboardResponse Sender =>
