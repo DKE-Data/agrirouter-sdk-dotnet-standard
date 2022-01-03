@@ -247,6 +247,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
                 Recipients = sendMessageParameters.Recipients,
+                Metadata = sendMessageParameters.Metadata,
                 ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
