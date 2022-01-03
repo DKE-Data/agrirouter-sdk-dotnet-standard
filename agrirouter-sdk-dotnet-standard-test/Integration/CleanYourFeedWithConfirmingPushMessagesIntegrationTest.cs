@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
@@ -16,7 +14,6 @@ using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Agrirouter.Test.Service;
 using Xunit;
-using Timer = Agrirouter.Test.Helper.Timer;
 
 namespace Agrirouter.Test.Integration
 {
@@ -45,12 +42,12 @@ namespace Agrirouter.Test.Integration
                 OnboardResponse = Sender,
                 ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                 TechnicalMessageType = TechnicalMessageTypes.ImgPng,
-                Recipients = new List<string> {Recipient.SensorAlternateId},
+                Recipients = new List<string> { Recipient.SensorAlternateId },
                 Base64MessageContent = DataProvider.ReadBase64EncodedImage()
             };
             sendMessageService.Send(sendMessageParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
@@ -93,11 +90,11 @@ namespace Agrirouter.Test.Integration
             var feedConfirmParameters = new FeedConfirmParameters
             {
                 OnboardResponse = Recipient,
-                MessageIds = new List<string> {messageId}
+                MessageIds = new List<string> { messageId }
             };
             feedConfirmService.Send(feedConfirmParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
@@ -126,11 +123,11 @@ namespace Agrirouter.Test.Integration
             var queryMessageHeadersParameters = new QueryMessagesParameters
             {
                 OnboardResponse = Recipient,
-                Senders = new List<string> {Sender.SensorAlternateId}
+                Senders = new List<string> { Sender.SensorAlternateId }
             };
             queryMessageHeadersService.Send(queryMessageHeadersParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
             var fetch = fetchMessageService.Fetch(Recipient);
@@ -163,13 +160,13 @@ namespace Agrirouter.Test.Integration
                 };
                 feedDeleteService.Send(feedDeleteParameters);
 
-                Thread.Sleep(TimeSpan.FromSeconds(2));
+                Timer.WaitForTheAgrirouterToProcessTheMessage();
 
                 fetch = fetchMessageService.Fetch(Recipient);
                 Assert.Single(fetch);
 
                 decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-                Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
+                Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
             }
         }
 
@@ -179,12 +176,14 @@ namespace Agrirouter.Test.Integration
         private static OnboardResponse Recipient =>
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.RecipientWithEnabledPushMessages);
 
-        [Fact(DisplayName = "Clean your feed with confirming push messages integration test scenario.")]
+        [Fact(Skip = "Due to problems with the endpoint, the testcase is currently skipped.",
+            DisplayName = "Clean your feed with confirming push messages integration test scenario.")]
         public void Run()
         {
             EnablePushNotificationsForRecipient();
             RemoveUnconfirmedMessagesFromTheFeed();
             ActionsForSender();
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
             ActionsForRecipient();
         }
 
