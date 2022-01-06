@@ -90,12 +90,12 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 }
                 else
                 {
-                    encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+                    encodedMessages = new List<string> { Encode(sendMessageParameters).Content };
                 }
             }
             else
             {
-                encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+                encodedMessages = new List<string> { Encode(sendMessageParameters).Content };
             }
 
             var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
@@ -113,8 +113,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
             {
                 throw new CouldNotSendEmptyMessageException("Sending empty messages does not make any sense.");
             }
-            
-            var encodedMessages = new List<string> {Encode(sendMessageParameters).Content};
+
+            var encodedMessages = new List<string> { Encode(sendMessageParameters).Content };
 
             var messagingParameters = sendMessageParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.SendAsync(messagingParameters);
@@ -134,7 +134,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
                 Recipients = sendMessageParameters.Recipients,
-                Metadata = sendMessageParameters.Metadata
+                Metadata = sendMessageParameters.Metadata,
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
@@ -166,7 +167,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
                 Recipients = sendMessageParameters.Recipients,
-                Metadata = sendMessageParameters.Metadata
+                Metadata = sendMessageParameters.Metadata,
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
@@ -245,8 +247,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
                 Recipients = sendMessageParameters.Recipients,
-                ChunkInfo = sendMessageParameters.ChunkInfo,
                 Metadata = sendMessageParameters.Metadata,
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
