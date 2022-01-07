@@ -124,7 +124,7 @@ namespace Agrirouter.Impl.Service.Common
                     };
                     return new List<MessageParameterTuple>()
                     {
-                        new()
+                        new MessageParameterTuple()
                         {
                             MessageHeaderParameters = messageHeaderParameters,
                             MessagePayloadParameters = messagePayloadParametersWithEncodedValue
@@ -138,7 +138,7 @@ namespace Agrirouter.Impl.Service.Common
                     "The message type does not need base 64 encoding, we are returning the tuple 'as it is'.");
                 return new List<MessageParameterTuple>()
                 {
-                    new()
+                    new MessageParameterTuple()
                     {
                         MessageHeaderParameters = messageHeaderParameters,
                         MessagePayloadParameters = messagePayloadParameters
