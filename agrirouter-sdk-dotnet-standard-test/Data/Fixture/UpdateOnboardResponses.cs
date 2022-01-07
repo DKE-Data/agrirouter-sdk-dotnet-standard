@@ -20,7 +20,7 @@ namespace Agrirouter.Test.Data.Fixture
     [Collection("fixture")]
     public class UpdateOnboardResponses
     {
-        private static readonly UtcDataService UtcDataService = new();
+        private static readonly UtcDataService UtcDataService = new UtcDataService();
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
         private static readonly Environment Environment = new QualityAssuranceEnvironment();
 
