@@ -119,7 +119,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
                 Recipients = sendMessageParameters.Recipients,
-                Metadata = sendMessageParameters.Metadata
+                Metadata = sendMessageParameters.Metadata,
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
@@ -151,8 +152,8 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 TechnicalMessageType = sendMessageParameters.TechnicalMessageType,
                 Mode = Mode,
                 Recipients = sendMessageParameters.Recipients,
-                ChunkInfo = sendMessageParameters.ChunkInfo,
                 Metadata = sendMessageParameters.Metadata,
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters
