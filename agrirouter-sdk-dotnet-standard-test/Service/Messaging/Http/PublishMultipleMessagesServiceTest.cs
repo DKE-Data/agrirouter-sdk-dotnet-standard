@@ -1,14 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Xunit;
@@ -49,7 +47,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             subscriptionParameters.TechnicalMessageTypes.Add(technicalMessageType);
             subscriptionService.Send(subscriptionParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
             var fetch = fetchMessageService.Fetch(Recipient);
@@ -82,7 +80,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             publishMultipleMessagesService.Send(sendMessageParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             fetchMessageService = new FetchMessageService(HttpClientForSender);
             fetch = fetchMessageService.Fetch(Sender);

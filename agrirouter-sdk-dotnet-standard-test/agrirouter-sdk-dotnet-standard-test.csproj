@@ -48,6 +48,9 @@
         <None Update="Data\Content\large_bmp.bmp">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Data\Content\Bugfixing/large_content_that_needs_to_be_chunked.zip">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Data\Assets\Certificates\qa-root.pem">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

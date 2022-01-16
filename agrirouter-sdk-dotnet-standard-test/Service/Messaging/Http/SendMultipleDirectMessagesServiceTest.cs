@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
@@ -57,7 +55,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             };
             sendMessageService.Send(sendMessageParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);

@@ -5,33 +5,49 @@ using System.Reflection;
 using System.Text;
 using Agrirouter.Api.Dto.Onboard;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Agrirouter.Test.Data
 {
     /// <summary>
-    ///     Service to read onboarding responses from a dedicated file system.
+    ///     Service to read onboard responses from a dedicated file system.
     /// </summary>
     public class OnboardResponseIntegrationService
     {
         /// <summary>
-        /// Read an onboarding response using the given identifier.
+        /// Read an onboard response using the given identifier.
         /// </summary>
         /// <param name="identifier">Identifier.</param>
-        /// <returns>Onboarding response if present, otherwise the service will throw an error.</returns>
+        /// <returns>Onboard response if present, otherwise the service will throw an error.</returns>
         public static OnboardResponse Read(string identifier)
         {
-            var path = PathToRead(identifier);
+            var path = Path(identifier);
             var allBytes = File.ReadAllBytes(path);
             var json = Encoding.UTF8.GetString(allBytes);
-            var onboardingResponse =
+            var onboardResponse =
                 JsonConvert.DeserializeObject(json, typeof(OnboardResponse));
-            return onboardingResponse as OnboardResponse;
+            return onboardResponse as OnboardResponse;
         }
 
         /// <summary>
-        /// Read all onboarding responses.
+        /// Save and update an onboard response using the given identifier.
         /// </summary>
-        /// <returns>All onboarding responses.</returns>
+        /// <param name="identifier">Identifier.</param>
+        public static void Save(string identifier, OnboardResponse onboardResponse)
+        {
+            var path = Path(identifier);
+            var json = JsonConvert.SerializeObject(onboardResponse);
+            var fullFilePath = AppContext.BaseDirectory + @"../../../Data/OnboardingResponses/" + identifier + ".json";
+            Console.WriteLine(fullFilePath);
+            File.WriteAllText(
+                fullFilePath,
+                json);
+        }
+
+        /// <summary>
+        /// Read all onboard responses.
+        /// </summary>
+        /// <returns>All onboard responses.</returns>
         public static List<OnboardResponse> AllCommunicationUnits()
         {
             var all = new List<OnboardResponse>();
@@ -39,10 +55,10 @@ namespace Agrirouter.Test.Data
             return all;
         }
 
-        private static string PathToRead(string identifier)
+        private static string Path(string identifier)
         {
-            var path = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
+            var path = System.IO.Path.Combine(
+                System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
                 throw new InvalidOperationException(),
                 @"Data/OnboardingResponses/" + identifier + ".json");
             return path;

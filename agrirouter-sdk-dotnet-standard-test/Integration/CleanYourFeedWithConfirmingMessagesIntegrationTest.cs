@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
-using Agrirouter.Response;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Convenience;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Response;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Agrirouter.Test.Service;
@@ -47,7 +45,7 @@ namespace Agrirouter.Test.Integration
             };
             sendMessageService.Send(sendMessageParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
@@ -84,7 +82,7 @@ namespace Agrirouter.Test.Integration
             };
             queryMessageHeadersService.Send(queryMessageHeadersParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
             var fetch = fetchMessageService.Fetch(Recipient);
@@ -111,7 +109,7 @@ namespace Agrirouter.Test.Integration
             };
             queryMessagesService.Send(queryMessagesParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);
@@ -137,7 +135,7 @@ namespace Agrirouter.Test.Integration
             };
             feedConfirmService.Send(feedConfirmParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             fetch = fetchMessageService.Fetch(Recipient);
             Assert.Single(fetch);

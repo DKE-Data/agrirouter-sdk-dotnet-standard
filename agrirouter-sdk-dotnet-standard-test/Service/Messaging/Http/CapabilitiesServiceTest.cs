@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Xunit;
@@ -42,7 +40,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             capabilitiesParameters.CapabilityParameters.AddRange(CapabilitiesHelper.AllCapabilities);
             capabilitiesServices.Send(capabilitiesParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);

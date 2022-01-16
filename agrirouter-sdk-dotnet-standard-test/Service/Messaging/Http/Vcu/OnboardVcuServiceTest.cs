@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading;
-using Agrirouter.Cloud.Registration;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
+using Agrirouter.Cloud.Registration;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Impl.Service.Messaging.Vcu;
@@ -53,7 +52,7 @@ namespace Agrirouter.Test.Service.Messaging.Http.Vcu
             };
             onboardVcuService.Send(onboardVcuParameters);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Timer.WaitForTheAgrirouterToProcessTheMessage();
 
             var fetchMessageService = new FetchMessageService(HttpClient);
             var fetch = fetchMessageService.Fetch(OnboardResponse);
