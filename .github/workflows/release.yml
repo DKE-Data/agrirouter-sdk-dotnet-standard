@@ -4,7 +4,8 @@ on:
   push:
     tags:
       - 'v1.*'
-      - 'v2.*'
+      - 'v2.*'      
+      - 'v3.*'
 
 jobs:  
   deploy_nuget_packages:
