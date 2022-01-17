@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
+using Agrirouter.Api.Service.Messaging;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -29,10 +30,33 @@ namespace Agrirouter.Impl.Service.Messaging
         }
 
         /// <summary>
-        ///     Fetch messages from the inbox using the given onboarding response.
+        /// Fetch messages from the inbox using the given onboard response and an implementation of a cancellation token to perform polling over a certain amount of time / tries.
         /// </summary>
-        /// <param name="onboardResponse">All the messages that are in the inbox.</param>
-        /// <returns>-</returns>
+        /// <param name="onboardResponse">Onboard response to connect to the agrirouter.</param>
+        /// <param name="cancellationToken">A cancellation token to cancel the polling process.</param>
+        /// <returns>All the messages that are in the inbox.</returns>
+        /// <exception cref="CouldNotFetchMessagesException">Will be thrown if the messages can not be fetched.</exception>
+        public List<MessageResponse> Fetch(OnboardResponse onboardResponse, ICancellationToken cancellationToken)
+        {
+            var totalMessageResponses = new List<MessageResponse>();
+            while (cancellationToken.IsNotCancelled())
+            {
+                cancellationToken.WaitBeforeNextStep();
+
+                var messageResponses = Fetch(onboardResponse);
+                totalMessageResponses.AddRange(messageResponses);
+
+                cancellationToken.NextStep();
+            }
+
+            return totalMessageResponses;
+        }
+
+        /// <summary>
+        ///     Fetch messages from the inbox using the given onboard response.
+        /// </summary>
+        /// <param name="onboardResponse">Onboard response to connect to the agrirouter.</param>
+        /// <returns>All the messages that are in the inbox.</returns>
         /// <exception cref="CouldNotFetchMessagesException">Will be thrown if the messages can not be fetched.</exception>
         public List<MessageResponse> Fetch(OnboardResponse onboardResponse)
         {
@@ -60,12 +84,12 @@ namespace Agrirouter.Impl.Service.Messaging
         public async Task<List<MessageResponse>> FetchAsync(OnboardResponse onboardResponse)
         {
             Log.Debug("Begin fetching messages.");
-            
+
             var httpRequestMessage = new HttpRequestMessage
             {
                 RequestUri = new Uri(onboardResponse.ConnectionCriteria.Commands)
             };
-            
+
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
