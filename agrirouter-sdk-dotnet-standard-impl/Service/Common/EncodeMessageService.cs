@@ -71,22 +71,13 @@ namespace Agrirouter.Impl.Service.Common
                     var wholeMessage = messagePayloadParameters.Value.ToStringUtf8();
                     var messageChunks = SplitByLength(wholeMessage,
                         MessagePayloadParameters.MaxLengthForRawMessageContent).ToList();
-                    var messageParameterTuples = new List<MessageParameterTuple>();
                     var chunkNr = 1;
                     var chunkContextId = ChunkContextIdService.ChunkContextId();
-                    foreach (var messageChunk in messageChunks)
-                    {
-                        var messageId = MessageIdService.ApplicationMessageId();
 
-                        var chunkInfo = new ChunkComponent()
-                        {
-                            Current = chunkNr++,
-                            Total = messageChunks.Count(),
-                            ContextId = chunkContextId,
-                            TotalSize = wholeMessage.Length
-                        };
-
-                        var messageHeaderParametersForChunk = new MessageHeaderParameters()
+                    return (from messageChunk in messageChunks
+                        let messageId = MessageIdService.ApplicationMessageId()
+                        let chunkInfo = new ChunkComponent() { Current = chunkNr++, Total = messageChunks.Count(), ContextId = chunkContextId, TotalSize = wholeMessage.Length }
+                        let messageHeaderParametersForChunk = new MessageHeaderParameters()
                         {
                             Metadata = messageHeaderParameters.Metadata,
                             Mode = messageHeaderParameters.Mode,
@@ -95,56 +86,36 @@ namespace Agrirouter.Impl.Service.Common
                             TechnicalMessageType = messageHeaderParameters.TechnicalMessageType,
                             TeamSetContextId = messageHeaderParameters.TeamSetContextId,
                             ChunkInfo = chunkInfo
-                        };
-
-                        var messagePayloadParametersForChunk = new MessagePayloadParameters()
-                        {
-                            Value = ByteString.CopyFromUtf8(
-                                Convert.ToBase64String(Encoding.UTF8.GetBytes(messageChunk))),
-                            TypeUrl = messagePayloadParameters.TypeUrl,
-                        };
-
-                        messageParameterTuples.Add(new MessageParameterTuple
-                        {
-                            MessageHeaderParameters = messageHeaderParametersForChunk,
-                            MessagePayloadParameters = messagePayloadParametersForChunk
-                        });
-                    }
-
-                    return messageParameterTuples;
-                }
-                else
-                {
-                    Log.Debug("The message type needs to be base64 encoded, therefore we are encoding the raw value.");
-                    var messagePayloadParametersWithEncodedValue = new MessagePayloadParameters()
-                    {
-                        TypeUrl = messagePayloadParameters.TypeUrl,
-                        Value = ByteString.CopyFromUtf8(
-                            Convert.ToBase64String(messagePayloadParameters.Value.ToByteArray()))
-                    };
-                    return new List<MessageParameterTuple>()
-                    {
-                        new MessageParameterTuple()
-                        {
-                            MessageHeaderParameters = messageHeaderParameters,
-                            MessagePayloadParameters = messagePayloadParametersWithEncodedValue
                         }
-                    };
+                        let messagePayloadParametersForChunk = new MessagePayloadParameters() { Value = ByteString.CopyFromUtf8(Convert.ToBase64String(Encoding.UTF8.GetBytes(messageChunk))), TypeUrl = messagePayloadParameters.TypeUrl, }
+                        select new MessageParameterTuple { MessageHeaderParameters = messageHeaderParametersForChunk, MessagePayloadParameters = messagePayloadParametersForChunk }).ToList();
                 }
-            }
-            else
-            {
-                Log.Debug(
-                    "The message type does not need base 64 encoding, we are returning the tuple 'as it is'.");
+                Log.Debug("The message type needs to be base64 encoded, therefore we are encoding the raw value.");
+                var messagePayloadParametersWithEncodedValue = new MessagePayloadParameters()
+                {
+                    TypeUrl = messagePayloadParameters.TypeUrl,
+                    Value = ByteString.CopyFromUtf8(
+                        Convert.ToBase64String(messagePayloadParameters.Value.ToByteArray()))
+                };
                 return new List<MessageParameterTuple>()
                 {
                     new MessageParameterTuple()
                     {
                         MessageHeaderParameters = messageHeaderParameters,
-                        MessagePayloadParameters = messagePayloadParameters
+                        MessagePayloadParameters = messagePayloadParametersWithEncodedValue
                     }
                 };
             }
+            Log.Debug(
+                "The message type does not need base 64 encoding, we are returning the tuple 'as it is'.");
+            return new List<MessageParameterTuple>()
+            {
+                new MessageParameterTuple()
+                {
+                    MessageHeaderParameters = messageHeaderParameters,
+                    MessagePayloadParameters = messagePayloadParameters
+                }
+            };
         }
 
         private static IEnumerable<string> SplitByLength(string str, int maxLength)
