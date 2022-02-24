@@ -30,6 +30,26 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
         /// <summary>
         ///     Please see base class declaration for documentation.
         /// </summary>
+        /// <param name="messagingParameters">-</param>
+        /// <returns>-</returns>
+        public MessagingResult Send(MessagingParameters messagingParameters)
+        {
+            return _messagingService.Send(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
+        /// <param name="messagingParameters">-</param>
+        /// <returns>-</returns>
+        public Task<MessagingResult> SendAsync(MessagingParameters messagingParameters)
+        {
+            return _messagingService.SendAsync(messagingParameters);
+        }
+
+        /// <summary>
+        ///     Please see base class declaration for documentation.
+        /// </summary>
         /// <param name="sendMessageParameters">-</param>
         /// <returns>-</returns>
         public MessagingResult Send(SendMessageParameters sendMessageParameters)
@@ -87,7 +107,7 @@ namespace Agrirouter.Impl.Service.Messaging.Abstraction
                 Mode = Mode,
                 Recipients = sendMessageParameters.Recipients,
                 Metadata = sendMessageParameters.Metadata,
-                ChunkInfo =sendMessageParameters.ChunkInfo
+                ChunkInfo = sendMessageParameters.ChunkInfo
             };
 
             var messagePayloadParameters = new MessagePayloadParameters

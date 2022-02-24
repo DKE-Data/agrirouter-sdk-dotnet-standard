@@ -1,14 +1,19 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
+using Agrirouter.Commons;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
+using Google.Protobuf;
 using Xunit;
 
 namespace Agrirouter.Test.Service.Messaging.Http
@@ -106,29 +111,54 @@ namespace Agrirouter.Test.Service.Messaging.Http
             // 2. Set routes within the UI - this is done once, not each time.
             // Done manually, not API interaction necessary.
 
-            // 3. Send message from sender to recipient.
+            // 3. Add message header and message payloads.
+            var headerParameters = new MessageHeaderParameters
+            {
+                Metadata = new Metadata
+                {
+                    FileName = "my_personal_filename.png"
+                },
+                Recipients = new List<string> { Recipient.SensorAlternateId },
+                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+            };
+            var payloadParameters = new MessagePayloadParameters
+            {
+                Value = ByteString.CopyFromUtf8(DataProvider.ReadRawLargeContentThatNeedsToBeChunked()),
+                TypeUrl = TechnicalMessageTypes.Empty
+            };
+
+            // 4. Chunk message content before sending it.
+            var messageParameterTuples =
+                EncodeMessageService.EncodeAndChunk(headerParameters, payloadParameters, Sender);
+            var encodedMessages = (from messageParameterTuple in messageParameterTuples
+                let messageHeaderParameters = messageParameterTuple.MessageHeaderParameters
+                let messagePayloadParameters = messageParameterTuple.MessagePayloadParameters
+                select EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)).ToList();
+
+            // 5. Send messages from sender to recipient.
             var sendMessageService =
                 new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
-            var sendMessageParameters = new SendMessageParameters
+            var messagingParameters = new MessagingParameters()
             {
                 OnboardResponse = Sender,
                 ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng,
-                Recipients = new List<string> {Recipient.SensorAlternateId},
-                Base64MessageContent = DataProvider.ReadBase64EncodedImage()
+                EncodedMessages = encodedMessages
             };
-            sendMessageService.Send(sendMessageParameters);
+            sendMessageService.Send(messagingParameters);
 
-            // 4. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
+            // 6. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
             Timer.WaitForTheAgrirouterToProcessTheMessage();
 
-            // 5. Fetch and analyze the ACK from the AR.
+            // 7. Fetch and analyze the ACK from the AR.
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
-            Assert.Single(fetch);
+            Assert.Equal(3, fetch.Count);
 
-            var decodedMessage = DecodeMessageService.Decode(fetch[0].Command.Message);
-            Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            fetch.ForEach(response =>
+            {
+                var decodedMessage = DecodeMessageService.Decode(response.Command.Message);
+                Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
+            });
         }
     }
 }
