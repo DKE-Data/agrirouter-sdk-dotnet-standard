@@ -57,14 +57,14 @@ namespace Agrirouter.Test.Data
             return Encode.ToMessageContent(allBytes);
         }
 
-        public static string ReadBase64EncodedLargeContentThatNeedsToBeChunked()
+        public static string ReadRawLargeContentThatNeedsToBeChunked()
         {
             var path = Path.Combine(
                 Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
                 throw new InvalidOperationException(),
                 @"Data/Content/Bugfixing/large_content_that_needs_to_be_chunked.zip");
-            var allBytes = File.ReadAllBytes(path);
-            return Encode.ToMessageContent(allBytes);
+            var raw = File.ReadAllBytes(path);
+            return Convert.ToBase64String(raw);
         }
     }
 }
