@@ -52,7 +52,7 @@ namespace Agrirouter.Impl.Service.Common
         /// The chunk information and all IDs will be set by the SDK and are no longer in control of the application.
         /// </summary>
         /// <returns></returns>
-        public static List<MessageParameterTuple> EncodeAndChunk(MessageHeaderParameters messageHeaderParameters,
+        public static List<MessageParameterTuple> ChunkAndBase64EncodeEachChunk(MessageHeaderParameters messageHeaderParameters,
             MessagePayloadParameters messagePayloadParameters, OnboardResponse onboardResponse)
         {
             if (null == messageHeaderParameters || null == messagePayloadParameters || null == onboardResponse)

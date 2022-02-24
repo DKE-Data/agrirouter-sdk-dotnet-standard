@@ -129,7 +129,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
 
             // 4. Chunk message content before sending it.
             var messageParameterTuples =
-                EncodeMessageService.EncodeAndChunk(headerParameters, payloadParameters, Sender);
+                EncodeMessageService.ChunkAndBase64EncodeEachChunk(headerParameters, payloadParameters, Sender);
             var encodedMessages = (from messageParameterTuple in messageParameterTuples
                 let messageHeaderParameters = messageParameterTuple.MessageHeaderParameters
                 let messagePayloadParameters = messageParameterTuple.MessagePayloadParameters
