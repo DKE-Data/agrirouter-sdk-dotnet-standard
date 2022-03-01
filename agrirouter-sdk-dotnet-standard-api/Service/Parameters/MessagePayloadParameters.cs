@@ -5,7 +5,7 @@ namespace Agrirouter.Api.Service.Parameters
     /// <summary>
     ///     Parameter container definition.
     /// </summary>
-    public class MessagePayloadParameters : Parameters
+    public class MessagePayloadParameters
     {
         /// <summary>
         /// Every endpoint can send messages based on its capabilities. The size of a message is however limited. A message contains 2 parts: Header and Body. The limitation of a message is defined as follows:
@@ -16,7 +16,7 @@ namespace Agrirouter.Api.Service.Parameters
         /// The AR will return an error indicating that the message size is above the limit.
         /// If the message size is above 5 MB the AR will not return any error. In order to send messages with sizes above threshold, these messages must be split into chunks with the above limit.
         /// </summary>
-        public static int MaxLengthForRawMessageContent { get; } = 767997;
+        public static int MaxLengthForRawMessageContent => 767997;
 
         /// <summary>
         ///     Type URL.
