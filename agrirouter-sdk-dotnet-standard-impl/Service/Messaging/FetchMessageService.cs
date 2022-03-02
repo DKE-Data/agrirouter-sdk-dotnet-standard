@@ -44,7 +44,7 @@ namespace Agrirouter.Impl.Service.Messaging
                 var messageResponses = Fetch(onboardResponse);
                 totalMessageResponses.AddRange(messageResponses);
                 cancellationToken.NextStep();
-                cancellationToken.WaitBeforeNextStep();
+                cancellationToken.WaitIfNotCancelled();
             }
 
             return totalMessageResponses;

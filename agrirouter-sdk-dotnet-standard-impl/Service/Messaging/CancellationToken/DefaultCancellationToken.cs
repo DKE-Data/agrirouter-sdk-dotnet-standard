@@ -24,9 +24,12 @@ namespace Agrirouter.Impl.Service.Messaging.CancellationToken
             return _nrOfRetries < _maxTries;
         }
 
-        public void WaitBeforeNextStep()
+        public void WaitIfNotCancelled()
         {
-            Thread.Sleep(_waitTimeInMilliseconds);
+            if (IsNotCancelled())
+            {
+                Thread.Sleep(_waitTimeInMilliseconds);
+            }
         }
 
         public void NextStep()
