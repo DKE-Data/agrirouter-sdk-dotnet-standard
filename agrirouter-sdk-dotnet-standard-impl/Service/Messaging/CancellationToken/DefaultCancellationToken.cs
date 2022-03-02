@@ -8,25 +8,28 @@ namespace Agrirouter.Impl.Service.Messaging.CancellationToken
     /// </summary>
     public class DefaultCancellationToken : ICancellationToken
     {
-        private readonly int _maxRetries;
+        private readonly int _maxTries;
         private readonly int _waitTimeInMilliseconds;
 
         private int _nrOfRetries = 0;
 
-        public DefaultCancellationToken(int maxRetries, int waitTimeInMilliseconds)
+        public DefaultCancellationToken(int maxTries, int waitTimeInMilliseconds)
         {
-            _maxRetries = maxRetries;
+            _maxTries = maxTries;
             _waitTimeInMilliseconds = waitTimeInMilliseconds;
         }
 
         public bool IsNotCancelled()
         {
-            return _nrOfRetries < _maxRetries;
+            return _nrOfRetries < _maxTries;
         }
 
-        public void WaitBeforeNextStep()
+        public void WaitIfNotCancelled()
         {
-            Thread.Sleep(_waitTimeInMilliseconds);
+            if (IsNotCancelled())
+            {
+                Thread.Sleep(_waitTimeInMilliseconds);
+            }
         }
 
         public void NextStep()

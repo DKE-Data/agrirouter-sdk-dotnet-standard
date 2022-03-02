@@ -12,9 +12,9 @@
         bool IsNotCancelled();
 
         /// <summary>
-        /// Will wait a dedicated amount of time before starting the next step.
+        /// Will wait a dedicated amount of time before starting the next step if the token is not cancelled.
         /// </summary>
-        void WaitBeforeNextStep();
+        void WaitIfNotCancelled();
 
         /// <summary>
         /// Will be called after one step of the polling is completed and the next step is about to start.
