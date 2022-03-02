@@ -11,7 +11,7 @@ namespace Agrirouter.Test.Service
         protected AbstractIntegrationTestForCommunicationUnits()
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
+                .MinimumLevel.Error()
                 .WriteTo.Console()
                 .WriteTo.Debug()
                 .CreateLogger();

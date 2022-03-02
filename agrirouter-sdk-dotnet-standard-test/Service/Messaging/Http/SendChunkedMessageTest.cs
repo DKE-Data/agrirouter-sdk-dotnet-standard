@@ -15,6 +15,7 @@ using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Google.Protobuf;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Agrirouter.Test.Service.Messaging.Http
 {
@@ -24,10 +25,16 @@ namespace Agrirouter.Test.Service.Messaging.Http
     [Collection("Integrationtest")]
     public class SendChunkedMessageTest : AbstractIntegrationTestForCommunicationUnits
     {
+        private readonly ITestOutputHelper _testOutputHelper;
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
+
+        public SendChunkedMessageTest(ITestOutputHelper testOutputHelper)
+        {
+            _testOutputHelper = testOutputHelper;
+        }
 
         private void SetCapabilitiesForSender()
         {
@@ -47,8 +54,22 @@ namespace Agrirouter.Test.Service.Messaging.Http
                 Direction = CapabilitySpecification.Types.Direction.SendReceive,
                 TechnicalMessageType = TechnicalMessageTypes.ImgPng
             };
-
             capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+
+            capabilitiesParameter = new CapabilityParameter
+            {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
+                TechnicalMessageType = TechnicalMessageTypes.ImgBmp
+            };
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+
+            capabilitiesParameter = new CapabilityParameter
+            {
+                Direction = CapabilitySpecification.Types.Direction.SendReceive,
+                TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip
+            };
+            capabilitiesParameters.CapabilityParameters.Add(capabilitiesParameter);
+
             capabilitiesServices.Send(capabilitiesParameters);
 
             Timer.WaitForTheAgrirouterToProcessTheMessage();
@@ -99,6 +120,9 @@ namespace Agrirouter.Test.Service.Messaging.Http
         private static OnboardResponse Recipient =>
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.Recipient);
 
+        private static string SensorAlternateIdForIOTool => "37cd61d1-76eb-4145-a735-c938d05a32d8";
+
+
         [Fact]
         public void GivenValidMessageContentWhenSendingMessageToSingleRecipientThenTheMessageShouldBeDelivered()
         {
@@ -116,20 +140,21 @@ namespace Agrirouter.Test.Service.Messaging.Http
             {
                 Metadata = new Metadata
                 {
-                    FileName = "my_personal_filename.png"
+                    FileName = "my_personal_filename.bmp"
                 },
-                Recipients = new List<string> { Recipient.SensorAlternateId },
-                TechnicalMessageType = TechnicalMessageTypes.ImgPng
+                Mode = RequestEnvelope.Types.Mode.Direct,
+                Recipients = new List<string> { SensorAlternateIdForIOTool },
+                TechnicalMessageType = TechnicalMessageTypes.ImgBmp
             };
             var payloadParameters = new MessagePayloadParameters
             {
-                Value = ByteString.CopyFromUtf8(DataProvider.ReadRawLargeContentThatNeedsToBeChunked()),
+                Value = ByteString.CopyFrom(DataProvider.ReadLargeBmp()),
                 TypeUrl = TechnicalMessageTypes.Empty
             };
 
             // 4. Chunk message content before sending it.
             var messageParameterTuples =
-                EncodeMessageService.ChunkAndBase64EncodeEachChunk(headerParameters, payloadParameters, Sender);
+                EncodeMessageService.ChunkAndBase64EncodeEachChunk(headerParameters, payloadParameters);
             var encodedMessages = (from messageParameterTuple in messageParameterTuples
                 let messageHeaderParameters = messageParameterTuple.MessageHeaderParameters
                 let messagePayloadParameters = messageParameterTuple.MessagePayloadParameters
@@ -152,7 +177,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             // 7. Fetch and analyze the ACK from the AR.
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetch = fetchMessageService.Fetch(Sender);
-            Assert.Equal(3, fetch.Count);
+            Assert.Equal(4, fetch.Count);
 
             fetch.ForEach(response =>
             {

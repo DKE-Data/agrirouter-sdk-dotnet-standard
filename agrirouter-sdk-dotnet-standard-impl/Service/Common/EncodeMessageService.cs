@@ -52,10 +52,11 @@ namespace Agrirouter.Impl.Service.Common
         /// The chunk information and all IDs will be set by the SDK and are no longer in control of the application.
         /// </summary>
         /// <returns></returns>
-        public static List<MessageParameterTuple> ChunkAndBase64EncodeEachChunk(MessageHeaderParameters messageHeaderParameters,
-            MessagePayloadParameters messagePayloadParameters, OnboardResponse onboardResponse)
+        public static List<MessageParameterTuple> ChunkAndBase64EncodeEachChunk(
+            MessageHeaderParameters messageHeaderParameters,
+            MessagePayloadParameters messagePayloadParameters)
         {
-            if (null == messageHeaderParameters || null == messagePayloadParameters || null == onboardResponse)
+            if (null == messageHeaderParameters || null == messagePayloadParameters)
             {
                 throw new MissingParameterException(
                     "Header and payload parameters are required, as well as the onboard response.");
@@ -68,7 +69,7 @@ namespace Agrirouter.Impl.Service.Common
                     Log.Debug(
                         "The message should be chunked, current size of the payload ({}) is above the limitation.",
                         messagePayloadParameters.Value.ToStringUtf8().Length);
-                    var wholeMessage = messagePayloadParameters.Value.ToStringUtf8();
+                    var wholeMessage = messagePayloadParameters.Value.ToByteArray();
                     var messageChunks = SplitByLength(wholeMessage,
                         MessagePayloadParameters.MaxLengthForRawMessageContent).ToList();
                     var chunkNr = 1;
@@ -76,7 +77,11 @@ namespace Agrirouter.Impl.Service.Common
 
                     return (from messageChunk in messageChunks
                         let messageId = MessageIdService.ApplicationMessageId()
-                        let chunkInfo = new ChunkComponent() { Current = chunkNr++, Total = messageChunks.Count(), ContextId = chunkContextId, TotalSize = wholeMessage.Length }
+                        let chunkInfo = new ChunkComponent()
+                        {
+                            Current = chunkNr++, Total = messageChunks.Count(), ContextId = chunkContextId,
+                            TotalSize = wholeMessage.Length
+                        }
                         let messageHeaderParametersForChunk = new MessageHeaderParameters()
                         {
                             Metadata = messageHeaderParameters.Metadata,
@@ -87,9 +92,19 @@ namespace Agrirouter.Impl.Service.Common
                             TeamSetContextId = messageHeaderParameters.TeamSetContextId,
                             ChunkInfo = chunkInfo
                         }
-                        let messagePayloadParametersForChunk = new MessagePayloadParameters() { Value = ByteString.CopyFromUtf8(Convert.ToBase64String(Encoding.UTF8.GetBytes(messageChunk))), TypeUrl = messagePayloadParameters.TypeUrl, }
-                        select new MessageParameterTuple { MessageHeaderParameters = messageHeaderParametersForChunk, MessagePayloadParameters = messagePayloadParametersForChunk }).ToList();
+                        let messagePayloadParametersForChunk = new MessagePayloadParameters()
+                        {
+                            Value = ByteString.CopyFromUtf8(
+                                Convert.ToBase64String(messageChunk)),
+                            TypeUrl = messagePayloadParameters.TypeUrl,
+                        }
+                        select new MessageParameterTuple
+                        {
+                            MessageHeaderParameters = messageHeaderParametersForChunk,
+                            MessagePayloadParameters = messagePayloadParametersForChunk
+                        }).ToList();
                 }
+
                 Log.Debug("The message type needs to be base64 encoded, therefore we are encoding the raw value.");
                 var messagePayloadParametersWithEncodedValue = new MessagePayloadParameters()
                 {
@@ -106,6 +121,7 @@ namespace Agrirouter.Impl.Service.Common
                     }
                 };
             }
+
             Log.Debug(
                 "The message type does not need base 64 encoding, we are returning the tuple 'as it is'.");
             return new List<MessageParameterTuple>()
@@ -118,12 +134,22 @@ namespace Agrirouter.Impl.Service.Common
             };
         }
 
-        private static IEnumerable<string> SplitByLength(string str, int maxLength)
+        private static IEnumerable<byte[]> SplitByLength(byte[] bytes, int maxLength)
         {
-            for (int index = 0; index < str.Length; index += maxLength)
+            var byteArrays = new List<byte[]>();
+            do
             {
-                yield return str.Substring(index, Math.Min(maxLength, str.Length - index));
+                var chunk = bytes.Take(maxLength).ToArray();
+                bytes = bytes.TakeLast(bytes.Length - maxLength).ToArray();
+                byteArrays.Add(chunk);
+            } while (bytes.Length > maxLength);
+
+            if (bytes.Length > 0)
+            {
+                byteArrays.Add(bytes);
             }
+
+            return byteArrays;
         }
 
         private static RequestEnvelope Header(MessageHeaderParameters messageHeaderParameters)
