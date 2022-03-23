@@ -40,7 +40,7 @@ namespace Agrirouter.Impl.Service.Common
             using var memoryStream = new MemoryStream();
             Header(messageHeaderParameters).WriteDelimitedTo(memoryStream);
             PayloadWrapper(messagePayloadParameters).WriteDelimitedTo(memoryStream);
-            var encodedMessage = Convert.ToBase64String(memoryStream.GetBuffer());
+            var encodedMessage = Convert.ToBase64String(memoryStream.ToArray());
 
             Log.Debug("Finished encoding of the message.");
             return encodedMessage;
