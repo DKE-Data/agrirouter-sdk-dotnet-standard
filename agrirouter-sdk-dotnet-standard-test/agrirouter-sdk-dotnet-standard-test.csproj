@@ -12,8 +12,8 @@
         <PackageProjectUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard/blob/develop/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</RepositoryUrl>
-        <PackageVersion>3.1.0</PackageVersion>
-        <AssemblyVersion>3.1.0</AssemblyVersion>
+        <PackageVersion>3.2.1</PackageVersion>
+        <AssemblyVersion>3.2.1</AssemblyVersion>
         <Company>DKE-Data GmbH &amp; Co. KG</Company>
     </PropertyGroup>
 
@@ -86,6 +86,9 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\RecipientWithEnabledPushMessages.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\Content\Agricolus-generic-PrescriptionMap-2022-03-16.zip">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
