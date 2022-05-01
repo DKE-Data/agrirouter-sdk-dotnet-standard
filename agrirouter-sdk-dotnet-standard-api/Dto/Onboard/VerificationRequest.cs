@@ -5,13 +5,13 @@ namespace Agrirouter.Api.Dto.Onboard
     /// <summary>
     ///     Data transfer object for the communication.
     /// </summary>
-    public class OnboardRequest
+    public class VerificationRequest
     {
         /// <summary>
         ///     External ID.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public string Uuid { get; set; }
+        public string ExternalId { get; set; }
 
         /// <summary>
         ///     Application ID.

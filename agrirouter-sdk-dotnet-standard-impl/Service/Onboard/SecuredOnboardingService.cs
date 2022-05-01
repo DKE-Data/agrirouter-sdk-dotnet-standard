@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Onboard;
@@ -44,7 +46,7 @@ namespace Agrirouter.Impl.Service.Onboard
         {
             var onboardingRequest = new OnboardRequest
             {
-                ExternalId = onboardParameters.Uuid,
+                Uuid = onboardParameters.Uuid,
                 ApplicationId = onboardParameters.ApplicationId,
                 CertificationVersionId = onboardParameters.CertificationVersionId,
                 GatewayId = onboardParameters.GatewayId,
@@ -70,7 +72,8 @@ namespace Agrirouter.Impl.Service.Onboard
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
             var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
-            if (!httpResponseMessage.IsSuccessStatusCode) {
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
                 var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
                 throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
@@ -90,7 +93,7 @@ namespace Agrirouter.Impl.Service.Onboard
         {
             var onboardingRequest = new OnboardRequest
             {
-                ExternalId = onboardParameters.Uuid,
+                Uuid = onboardParameters.Uuid,
                 ApplicationId = onboardParameters.ApplicationId,
                 CertificationVersionId = onboardParameters.CertificationVersionId,
                 GatewayId = onboardParameters.GatewayId,
@@ -116,14 +119,128 @@ namespace Agrirouter.Impl.Service.Onboard
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
             var result = await httpResponseMessage.Content.ReadAsStringAsync();
 
-            if (!httpResponseMessage.IsSuccessStatusCode) {
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
                 var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
                 throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
 
-            var onboardingResponse = JsonConvert.DeserializeObject< OnboardResponse>(result);
+            var onboardingResponse = JsonConvert.DeserializeObject<OnboardResponse>(result);
 
             return onboardingResponse;
+        }
+
+        /// <summary>
+        /// Verify the onboard process of an endpoint.
+        /// </summary>
+        /// <param name="verificationParameters">Parameters</param>
+        /// <param name="privateKey">The private key</param>
+        /// <returns>The account ID for the onboard process.</returns>
+        /// <exception cref="VerificationException">In case the verification process failed.</exception>
+        public VerificationResponse Verify(VerificationParameters verificationParameters, string privateKey)
+        {
+            var verificationRequest = new VerificationRequest
+            {
+                ExternalId = verificationParameters.Uuid,
+                ApplicationId = verificationParameters.ApplicationId,
+                CertificationVersionId = verificationParameters.CertificationVersionId,
+                GatewayId = verificationParameters.GatewayId,
+                CertificateType = verificationParameters.CertificationType,
+                TimeZone = UtcDataService.TimeZone,
+                UtcTimestamp = UtcDataService.Now
+            };
+
+            var requestBody = JsonConvert.SerializeObject(verificationRequest);
+
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(_environment.VerificationUrl()),
+                Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
+            };
+            httpRequestMessage.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", verificationParameters.RegistrationCode);
+            httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", verificationParameters.ApplicationId);
+            httpRequestMessage.Headers.Add("X-Agrirouter-Signature",
+                SignatureService.XAgrirouterSignature(requestBody, privateKey));
+
+            var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
+            var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                switch (httpResponseMessage.StatusCode)
+                {
+                    case HttpStatusCode.BadRequest:
+                        throw new VerificationException(
+                            "There was an error within the request. Please check the request parameters.");
+                    case HttpStatusCode.Unauthorized:
+                        throw new VerificationException("The registration code is invalid.");
+                    default:
+                        throw new VerificationException("The request failed, the error is unknown. The error code is " +
+                                                        httpResponseMessage.StatusCode + ".");
+                }
+            }
+
+            var response = JsonConvert.DeserializeObject(result, typeof(VerificationResponse));
+            return response as VerificationResponse;
+        }
+
+        /// <summary>
+        /// Verify the onboard process of an endpoint.
+        /// </summary>
+        /// <param name="verificationParameters">Parameters</param>
+        /// <param name="privateKey">The private key</param>
+        /// <returns>The account ID for the onboard process.</returns>
+        /// <exception cref="VerificationException">In case the verification process failed.</exception>
+        public async Task<VerificationResponse> VerifyAsync(VerificationParameters verificationParameters,
+            string privateKey)
+        {
+            var verificationRequest = new VerificationRequest
+            {
+                ExternalId = verificationParameters.Uuid,
+                ApplicationId = verificationParameters.ApplicationId,
+                CertificationVersionId = verificationParameters.CertificationVersionId,
+                GatewayId = verificationParameters.GatewayId,
+                CertificateType = verificationParameters.CertificationType,
+                TimeZone = UtcDataService.TimeZone,
+                UtcTimestamp = UtcDataService.Now
+            };
+
+            var requestBody = JsonConvert.SerializeObject(verificationRequest);
+
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(_environment.VerificationUrl()),
+                Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
+            };
+            httpRequestMessage.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", verificationParameters.RegistrationCode);
+            httpRequestMessage.Headers.Add("X-Agrirouter-ApplicationId", verificationParameters.ApplicationId);
+            httpRequestMessage.Headers.Add("X-Agrirouter-Signature",
+                SignatureService.XAgrirouterSignature(requestBody, privateKey));
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            var result = await httpResponseMessage.Content.ReadAsStringAsync();
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                switch (httpResponseMessage.StatusCode)
+                {
+                    case HttpStatusCode.BadRequest:
+                        throw new VerificationException(
+                            "There was an error within the request. Please check the request parameters.");
+                    case HttpStatusCode.Unauthorized:
+                        throw new VerificationException("The registration code is invalid.");
+                    default:
+                        throw new VerificationException("The request failed, the error is unknown. The error code is " +
+                                                        httpResponseMessage.StatusCode + ".");
+                }
+            }
+
+            var response = JsonConvert.DeserializeObject<VerificationResponse>(result);
+            return response;
         }
     }
 }
