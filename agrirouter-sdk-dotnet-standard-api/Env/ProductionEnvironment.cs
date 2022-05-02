@@ -3,7 +3,7 @@
 namespace Agrirouter.Api.Env
 {
     /// <summary>
-    ///     Specific QA environment.
+    ///     Specific production environment.
     /// </summary>
     public class ProductionEnvironment : Environment
     {
