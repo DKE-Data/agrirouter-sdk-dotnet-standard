@@ -59,7 +59,7 @@ namespace Agrirouter.Test.Service.Onboard
 
             var parameters = new VerificationParameters()
             {
-                Uuid = Guid.NewGuid().ToString(),
+                ExternalId = Guid.NewGuid().ToString(),
                 ApplicationId = Applications.FarmingSoftware.ApplicationId,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = GatewayTypeDefinition.Http,

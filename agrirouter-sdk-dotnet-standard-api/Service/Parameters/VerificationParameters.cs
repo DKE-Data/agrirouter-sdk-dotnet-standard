@@ -6,9 +6,9 @@ namespace Agrirouter.Api.Service.Parameters
     public class VerificationParameters : Parameters
     {
         /// <summary>
-        ///     UUID for the endpoint.
+        ///     External ID for the endpoint.
         /// </summary>
-        public string Uuid { get; set; }
+        public string ExternalId { get; set; }
 
         /// <summary>
         ///     Application ID.

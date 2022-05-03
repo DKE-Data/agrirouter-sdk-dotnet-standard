@@ -45,7 +45,7 @@ namespace Agrirouter.Impl.Service.Onboard
         {
             var onboardingRequest = new OnboardRequest
             {
-                Uuid = onboardParameters.Uuid,
+                ExternalId = onboardParameters.Uuid,
                 ApplicationId = onboardParameters.ApplicationId,
                 CertificationVersionId = onboardParameters.CertificationVersionId,
                 GatewayId = onboardParameters.GatewayId,
@@ -87,7 +87,7 @@ namespace Agrirouter.Impl.Service.Onboard
         {
             var onboardingRequest = new OnboardRequest
             {
-                Uuid = onboardParameters.Uuid,
+                ExternalId = onboardParameters.Uuid,
                 ApplicationId = onboardParameters.ApplicationId,
                 CertificationVersionId = onboardParameters.CertificationVersionId,
                 GatewayId = onboardParameters.GatewayId,
