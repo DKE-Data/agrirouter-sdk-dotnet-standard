@@ -40,7 +40,7 @@ namespace Agrirouter.Test.Service.Onboard
                 onboardingService.Onboard(parameters, Applications.FarmingSoftware.PrivateKey));
         }
 
-        [Fact(Skip = "Can be run to generate the authorization URL.")]
+        [Fact]
         public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
         {
             var authorizationService = new AuthorizationService(Environment);
@@ -50,7 +50,28 @@ namespace Agrirouter.Test.Service.Onboard
             Assert.NotEmpty(authorizationUrlResult.AuthorizationUrl);
         }
 
-        [Fact(Skip = "Will not run successfully without changing the registration code.")]
+
+        [Fact(Skip = "Will not work without changing the registration code.")]
+        public void GivenValidRequestTokenWhenVerifyingTheAccountThenThereShouldBeAValidResponse()
+        {
+            var onboardingService =
+                new SecuredOnboardingService(Environment, HttpClient);
+
+            var parameters = new VerificationParameters()
+            {
+                ExternalId = Guid.NewGuid().ToString(),
+                ApplicationId = Applications.FarmingSoftware.ApplicationId,
+                CertificationType = CertificationTypeDefinition.P12,
+                GatewayId = GatewayTypeDefinition.Http,
+                RegistrationCode = "09e0e95c7b",
+                CertificationVersionId = Applications.FarmingSoftware.CertificationVersionId
+            };
+
+            var verificationResponse = onboardingService.Verify(parameters, Applications.FarmingSoftware.PrivateKey);
+            Assert.NotEmpty(verificationResponse.AccountId);
+        }
+
+        [Fact(Skip = "Will not work without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
@@ -63,7 +84,7 @@ namespace Agrirouter.Test.Service.Onboard
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = GatewayTypeDefinition.Http,
-                RegistrationCode = "65220a7655",
+                RegistrationCode = "8e266f7b8c",
                 CertificationVersionId = Applications.FarmingSoftware.CertificationVersionId
             };
 

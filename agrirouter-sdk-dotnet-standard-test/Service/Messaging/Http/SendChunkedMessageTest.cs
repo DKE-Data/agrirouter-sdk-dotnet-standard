@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
@@ -120,7 +121,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
         private static OnboardResponse Recipient =>
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.Recipient);
 
-        private static string SensorAlternateIdForIOTool => "37cd61d1-76eb-4145-a735-c938d05a32d8";
+        private static string SensorAlternateIdForIOTool => "797b7f4b-79ec-4247-9fba-e726a55c4c7f";
 
 
         [Fact]
@@ -182,8 +183,18 @@ namespace Agrirouter.Test.Service.Messaging.Http
             fetch.ForEach(response =>
             {
                 var decodedMessage = DecodeMessageService.Decode(response.Command.Message);
+                AssertThatTheMessageIsPartOfTheChunks(decodedMessage, messageParameterTuples);
                 Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
             });
+        }
+
+        private static void AssertThatTheMessageIsPartOfTheChunks(DecodedMessage decodedMessage,
+            List<MessageParameterTuple> messageParameterTuples)
+        {
+            var formerApplicationMessageId = decodedMessage.ResponseEnvelope.ApplicationMessageId;
+            var belongingMessageParameterTuple = messageParameterTuples.Find(tuple =>
+                tuple.MessageHeaderParameters.ApplicationMessageId.Equals(formerApplicationMessageId));
+            Assert.NotNull(belongingMessageParameterTuple);
         }
     }
 }
