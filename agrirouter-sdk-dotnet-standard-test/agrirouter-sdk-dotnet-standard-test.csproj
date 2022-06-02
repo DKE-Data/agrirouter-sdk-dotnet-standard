@@ -53,15 +53,12 @@
         <None Update="Data\Content\Bugfixing/large_content_that_needs_to_be_chunked.zip">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Data\Assets\Certificates\qa-root.pem">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Recipient.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\Sender.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>        
+        </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\SenderWithMultipleRecipients.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -75,19 +72,19 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithoutRoute.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithoutRoute.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithP12Certificate.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Mqtt\CommunicationUnit\SingleEndpointWithPemCertificate.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\RecipientWithEnabledPushMessages.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
