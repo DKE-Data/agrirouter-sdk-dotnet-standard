@@ -29,7 +29,8 @@ namespace Agrirouter.Impl.Service.Common
                 case "P12":
                     return new X509Certificate2(
                         Convert.FromBase64String(onboardResponse.Authentication.Certificate),
-                        onboardResponse.Authentication.Secret);
+                        onboardResponse.Authentication.Secret,
+                        X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet);
                 case "PEM":
                 {
                     var pemReader = new PemReader(
@@ -58,7 +59,9 @@ namespace Agrirouter.Impl.Service.Common
                     var certificate = pemReader.ReadPemObject();
                     if (certificate.Type == "CERTIFICATE")
                     {
-                        return new X509Certificate2(certificate.Content).CopyWithPrivateKey(privateKey);
+                        return new X509Certificate2(certificate.Content, (String) null,
+                                X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet)
+                            .CopyWithPrivateKey(privateKey);
                     }
 
                     break;
