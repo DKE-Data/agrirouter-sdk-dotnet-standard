@@ -60,7 +60,7 @@ namespace Agrirouter.Impl.Service.Common
                     if (certificate.Type == "CERTIFICATE")
                     {
                         return new X509Certificate2(certificate.Content, (String) null,
-                                X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet)
+                                X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable)
                             .CopyWithPrivateKey(privateKey);
                     }
 
