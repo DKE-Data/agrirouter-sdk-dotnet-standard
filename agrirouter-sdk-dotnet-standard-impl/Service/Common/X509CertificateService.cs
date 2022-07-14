@@ -30,7 +30,7 @@ namespace Agrirouter.Impl.Service.Common
                     return new X509Certificate2(
                         Convert.FromBase64String(onboardResponse.Authentication.Certificate),
                         onboardResponse.Authentication.Secret,
-                        X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet);
+                        X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
                 case "PEM":
                 {
                     var pemReader = new PemReader(
