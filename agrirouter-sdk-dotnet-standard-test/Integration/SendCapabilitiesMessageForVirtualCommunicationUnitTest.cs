@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
@@ -9,13 +8,10 @@ using Agrirouter.Cloud.Registration;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Impl.Service.Messaging.Vcu;
-using Agrirouter.Request;
 using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Agrirouter.Test.Service;
-using Efdi;
-using Google.Protobuf;
 using Xunit;
 
 namespace Agrirouter.Test.Integration
