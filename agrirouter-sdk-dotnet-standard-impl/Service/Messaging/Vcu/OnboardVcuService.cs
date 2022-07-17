@@ -6,6 +6,7 @@ using Agrirouter.Request;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Dto.Onboard.Inner;
 using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Messaging.Vcu;
@@ -114,15 +115,27 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         public OnboardResponse EnhanceVirtualCommunicationToFullyUsableOnboardResponse(OnboardResponse parent,
             OnboardingResponse.Types.EndpointRegistrationDetails virtualCommunicationUnit)
         {
-            var capabilityAlternateId = virtualCommunicationUnit.CapabilityAlternateId;
-            var deviceAlternateId = virtualCommunicationUnit.DeviceAlternateId;
-            var sensorAlternateId = virtualCommunicationUnit.SensorAlternateId;
-
-            parent.CapabilityAlternateId = capabilityAlternateId;
-            parent.DeviceAlternateId = deviceAlternateId;
-            parent.SensorAlternateId = sensorAlternateId;
-
-            return parent;
+            return new OnboardResponse()
+            {
+                Authentication = new Authentication()
+                {
+                    Certificate = parent.Authentication.Certificate,
+                    Secret = parent.Authentication.Secret,
+                    Type = parent.Authentication.Type
+                },
+                CapabilityAlternateId = virtualCommunicationUnit.CapabilityAlternateId,
+                ConnectionCriteria = new ConnectionCriteria()
+                {
+                    ClientId = parent.ConnectionCriteria.ClientId,
+                    Commands = parent.ConnectionCriteria.Commands,
+                    GatewayId = parent.ConnectionCriteria.GatewayId,
+                    Host = parent.ConnectionCriteria.Host,
+                    Measures = parent.ConnectionCriteria.Measures,
+                    Port = parent.ConnectionCriteria.Port,
+                },
+                DeviceAlternateId = virtualCommunicationUnit.DeviceAlternateId,
+                SensorAlternateId = virtualCommunicationUnit.SensorAlternateId,
+            };
         }
     }
 }
