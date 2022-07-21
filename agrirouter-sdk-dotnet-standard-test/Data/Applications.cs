@@ -59,38 +59,38 @@ namespace Agrirouter.Test.Data
         /// </summary>
         public static class TelemetryPlatform
         {
-            public static string PrivateKey => "-----BEGIN PRIVATE KEY-----\n" +
-                                               "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC8WSEtHYyiiFDM\n" +
-                                               "cAp2/uLRhNK7GLBEfBdzBA1kRh39+LejS4ojoDv/kJMTQ3IMsAGZhRnFFswgRuRU\n" +
-                                               "fK8j7ZCke/iX4vR020H/QiiC3cx91v39hwPGtbBY8KeIKms3LJt6zXq6nqX3Adhz\n" +
-                                               "jaK+Uf3j63zjz4cMHA4oc5RxzBgdZi+KiujZFH7njc1obrmNAGH7FI8BG9j8V00R\n" +
-                                               "Xyhkcz/igoEjQPnUDAipvdaGKVclQdFosy+if5wbanh0jPfYdqv2nO9sJ+iUQs9+\n" +
-                                               "WpvfGdwunRwDSiyPBL2YtbDUEM+jbCtbVxxt0mZZfipb4gXXpJfUIKH+5AiTQvtD\n" +
-                                               "Kkbggjs/AgMBAAECggEAFnrU2NukA2odqqjctuMpEzS1KhuCPkpJSjL7njI4Ni3P\n" +
-                                               "TTAg5qujPZd11mDAZf9D0ZzvPHTCHEAZ1HOlO7aJAvjA7O/rmV7p+5tb1nK+i25z\n" +
-                                               "liTdMIRS7eqbNEdL0KQEUp3fvhJdYKPZv8Dx4aFLmj5rA42rYqiej/lriEGBx1BM\n" +
-                                               "Uq2ATRiuaW0Nh2Pz2F83nwZ8TRYqEcY41AycNKiOGNe2sPEKC0DmnRh4t4f2+MZw\n" +
-                                               "iapURj54BlXcpYlz0sAvMedLNgP94buUnUgDaGRXyqFtkouzQWMOFsCciNm7HVyz\n" +
-                                               "07wgrYX4AHV1GZibVQOz2V6J/3SRouIdNcIvdTCZ8QKBgQDvlEeigu+Oxbnir5/4\n" +
-                                               "ci3ONvR3GwrplQ+/UIBjQ+fYz3Iyll7ni/zoOdAt63UR5OgwJYdq2WwNpc7Osb09\n" +
-                                               "VnbDGQjFCrKunLFaHvXnvfwNBPxbJakrEadMZBVXN9S/UxGBggeaW0xQZasIJ7C4\n" +
-                                               "9OpTX3yN7RJMZRwPSfOOBjHyRQKBgQDJQe+npo7c0alGBOKMExBeR8E0H9lTKTeg\n" +
-                                               "ytaDoRN2NvCkJVcCfzU6B+Hys2ylDioQy/JMyPySjoz4AEWSLhWT1bVAAQBTHIDS\n" +
-                                               "OiDNg1/qCIhU3RBJyJBzLPHum08+XALpuFJwrCD4nS2b2lSdzVregULldv8PhjL2\n" +
-                                               "c2AM/BZRswKBgQDc9glLnS+Molha9le4MLaGZrD52Psri8tGS9zdsJd4o3tTpNRL\n" +
-                                               "AhVzqT6T24HRyylKnpJSvcymmbIveEZs9/342nH4KXG7EdGQqNVrsxFwgJSvDAEG\n" +
-                                               "M/X0wqncEyYof1i59U9F0caEsAAaOWEIdPpZgsvBqlEiHG7QuwfiiVwvcQKBgCA1\n" +
-                                               "7l5duPW8lKQBOiUDFBaS02g9RLIboayZajXM/Olpp6AN3dwnceRkyJPohZXxK2he\n" +
-                                               "y9vgOxRVvlge6wOXXpq3lHe28U9b+34qEX/y69HwJam3a9jzQbM9WUdAEjG/1jOD\n" +
-                                               "7aXc1rYTqe4MxogvCsEb3RIOtonMh7GMC65oVkYjAoGAK7wjt5s/vHf+fGnnAsRp\n" +
-                                               "tZTaNR/JnAuI8Uv2+V4dyXFBoQWDja2j5cD5wtJCHpDm4oud3Jkvm9/Pw1ZyQTCU\n" +
-                                               "tvpK8kR8MPQcct0LSYyHOTf1wjNcqtuhlCWMVzNklSIhkKn3xkGSOLeVswP81g1h\n" +
-                                               "e5E53fgi7iWqO0AEDUY8XcY=\n" +
-                                               "-----END PRIVATE KEY-----";
+            public static string PrivateKey => "-----BEGIN PRIVATE KEY-----\n"
+                                               + "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCkAWrcN0FmbWZ+\n"
+                                               + "24qE6maNlf46EjH/BOI5f79wFRJAeG6RXrl8KwWdlfeZOlEYRyq+o4AVuP7Mce6R\n"
+                                               + "x5PR/AEtn1K4Twr5h1+uG+O5/D2jJ0O/+nFnNcX/WgJfEbriDK9ewV8mEnFgG3n5\n"
+                                               + "y6P9RCcu0zMFV9PrKTop419krg2Ij0/to5LLU0DaQXmgvSC7Crx0k9dIhDeZ4jc3\n"
+                                               + "rv4SWzOcZT5vPFtA/5G66ZeeTVX+3iJbasWOdatMc7/cGYxUlnzeNSoCAqmyuHzO\n"
+                                               + "PKHWcjyVwPXWG64TSzkb+QypynUIZaAy+P8uawD0BivsmFSf0k4pGl8wSHhE2pN8\n"
+                                               + "OIIyud/lAgMBAAECgf93UZCtJoYuPumS4aaljOOPntCW7yXwo1zy+D4PDUV6IiRP\n"
+                                               + "HttTuvka7UB1+jeFskEm8Uz+gNjfZQRsiwbAftdcmc1Uyizx3ct+oEvNw/YT/T0N\n"
+                                               + "LufSbwzd+l4/TGbqjtAH4CeZS1Gw2kyjr8RfPnZDWuSDvqIvNI9cak+8r+SotHEL\n"
+                                               + "i1yAZTDvZAqLhbDLbW9Ephxd5QkKfwegybSwxJJcOw+KLPsq0Ibb2YGbkPTL1P6o\n"
+                                               + "Ul3/tiyzEMRc2ufyDJgYCAUmvVBjkbHT7hQNkTL8EPAEXfL+vhte8A98aFPnWMhS\n"
+                                               + "yiJo3T643fjZ8fzPcv8GWmT+z6IxtlXguC/OmQECgYEAzUbQF5YqJ61n6sQiJ0VQ\n"
+                                               + "ZMDDVHzf/oNUCPee4tCVS0ShQ2JURUIbss+lUWbKDfFTXW9mte4VRk+WUh2gQqm6\n"
+                                               + "49IdIpRGx6m6/ye2g6EmXRzeSN9GJu/wltS2uQ+8fmOkWiBUFg8bkLWTTxAY1w0n\n"
+                                               + "31AYcE8wwLb2FXt6Q2u4OQECgYEAzIfrUejd7GS/eaUx2GFKsXaI3B3CmLQ8TQFu\n"
+                                               + "JOh3i2NgcDK5Uwhy5TWozEn4BpwX8UOMciZIGjMr0i5TzpSVca1sv1wyIyWr7+AU\n"
+                                               + "2dmxPTXbkQQpEy7GDE1iCMvsi1lC6F+EUwdCKw6H5oa0oU1XMr/JWJSGh8iFRH5v\n"
+                                               + "H3ic4uUCgYEAycZYV0boqtWddrtRou5UBqUfmxWgC4nFeYcE64gBp9mO9jBaCzXf\n"
+                                               + "ChVnN6tk4u2adxZAjIW47cLfTFoIpF438SYgM1QyeqIQyCueEKa/kfkFWfX1++IP\n"
+                                               + "yALQlPmt20JQU7LBVGmHO+fvI2D8Oa6ZybzuOL7ueg+dtiIIXOsuSwECgYEAjqaZ\n"
+                                               + "1PYymmamOWSjQESTQPTofYVwLOtAR4Eg3jMY9anpIDfwk94HrJ/hTCKnD40dEdPI\n"
+                                               + "B/F1Rni8LorLPwDYvoFzoH/gJC1pHxPN1yeC+6stqZYaQ9vSm8/4+SOppoMqLEI6\n"
+                                               + "W2JrnvYyiPEY2IvFroqfFt34eom7kUsRnASWf5UCgYEAxEMOQ0/+hz1APqCGVo3t\n"
+                                               + "uePUIdsokCusRpWsxUdwHBGqfDjULqVmDXIJuJekV4YUxzyzktRzVms0pgFbr47L\n"
+                                               + "f8IeyJnYFhPn1hgthGlgV7JvFq2TU+EgZYVpVGL6jrw8t78Y4IresceIkz4q/bGV\n"
+                                               + "j35jwp22eLOc0FdPo0KgO4s=\n"
+                                               + "-----END PRIVATE KEY-----\n";
 
-            public static string ApplicationId => "8ce2641e-407d-4ba0-9735-bf81b7ba07a9";
+            public static string ApplicationId => "3c3559c9-7062-4628-a4f7-c9f5aa07265f";
 
-            public static string CertificationVersionId => "95e8eb40-dc4b-4e0a-b6b2-647b2e8c3a37";
+            public static string CertificationVersionId => "5e488554-d6bb-400c-9632-b3b4b35b07ca";
         }
     }
 }
