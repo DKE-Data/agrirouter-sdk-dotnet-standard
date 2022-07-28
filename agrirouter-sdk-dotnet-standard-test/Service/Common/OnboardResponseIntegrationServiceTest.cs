@@ -1,4 +1,6 @@
+using System;
 using System.Net.Http;
+using System.Threading;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
@@ -32,6 +34,17 @@ namespace Agrirouter.Test.Service.Common
 
             Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Commands);
             Assert.NotEmpty(onboardingResponse.ConnectionCriteria.Measures);
+        }
+
+
+        [Fact]
+        public void OffsetTimeDiffersFromActualTime()
+        {
+            int testOffset = 23;
+            string firstTime = UtcDataService.Now;
+            string comparison = UtcDataService.SecondsInThePastFromNow(testOffset);
+            double difference = (DateTime.Parse(firstTime) - DateTime.Parse(comparison)).TotalSeconds - testOffset;
+            Assert.True(difference>-0.2 && difference < 0.2); //We need a small time difference to respect the processing time.
         }
     }
 }
