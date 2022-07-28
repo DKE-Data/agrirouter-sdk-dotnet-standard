@@ -20,6 +20,14 @@ namespace Agrirouter.Impl.Service.Common
         /// </summary>
         public static string Now => DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
 
+
+        /// <summary>
+        ///     Delivering the current date using a valid AR format.
+        /// </summary>
+        public static string SecondsInThePastFromNow(int offset)
+        {
+            return DateTime.UtcNow.AddSeconds(offset*-1).ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+        } 
         /// <summary>
         ///     Delivering the current date using a timestamp format.
         /// </summary>
