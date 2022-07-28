@@ -22,7 +22,7 @@ namespace Agrirouter.Impl.Service.Common
 
 
         /// <summary>
-        ///     Delivering the current date using a valid AR format.
+        ///     Delivering the current date with an offset in seconds using a valid AR format.
         /// </summary>
         public static string SecondsInThePastFromNow(int offset)
         {
