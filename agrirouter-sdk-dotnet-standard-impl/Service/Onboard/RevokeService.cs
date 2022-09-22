@@ -45,7 +45,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 AccountId = revokeParameters.AccountId,
                 EndpointIds = revokeParameters.EndpointIds,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.SecondsInThePastFromNow(10)
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(revokeRequest);
@@ -81,7 +81,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 AccountId = revokeParameters.AccountId,
                 EndpointIds = revokeParameters.EndpointIds,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.SecondsInThePastFromNow(10)
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(revokeRequest);

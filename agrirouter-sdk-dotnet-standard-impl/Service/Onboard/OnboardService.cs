@@ -51,7 +51,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 GatewayId = onboardParameters.GatewayId,
                 CertificateType = onboardParameters.CertificationType,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.SecondsInThePastFromNow(10)
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(onboardingRequest);
@@ -93,7 +93,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 GatewayId = onboardParameters.GatewayId,
                 CertificateType = onboardParameters.CertificationType,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.SecondsInThePastFromNow(10)
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(onboardingRequest);
