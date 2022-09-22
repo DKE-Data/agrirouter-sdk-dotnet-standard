@@ -74,10 +74,10 @@ namespace Agrirouter.Impl.Service.Common
 
 
         /// <summary>
-        /// Create a certificate for the given routerDevice from the AR.
+        /// Create a certificate for the given router device from the AR.
         /// </summary>
         /// <param name="routerDevice">-</param>
-        /// <returns>A X509 certificate to use for the communication between application and AR via RouterDevice.</returns>
+        /// <returns>A X509 certificate to use for the communication between application and AR via router device.</returns>
         /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception>
         public static X509Certificate GetCertificate(RouterDevice routerDevice)
         {
