@@ -71,63 +71,7 @@ namespace Agrirouter.Impl.Service.Common
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
         }
-
-
-        /// <summary>
-        /// Create a certificate for the given router device from the AR.
-        /// </summary>
-        /// <param name="routerDevice">-</param>
-        /// <returns>A X509 certificate to use for the communication between application and AR via router device.</returns>
-        /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception>
-        public static X509Certificate GetCertificate(RouterDevice routerDevice)
-        {
-            switch (routerDevice.Authentication.Type)
-            {
-                case "P12":
-                    return new X509Certificate2(
-                        Convert.FromBase64String(routerDevice.Authentication.Certificate),
-                        routerDevice.Authentication.Secret,
-                        X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
-                case "PEM":
-                    {
-                        var pemReader = new PemReader(
-                            new StringReader(routerDevice.Authentication.Certificate),
-                            new PasswordFinder(routerDevice.Authentication.Secret));
-
-                        RSA privateKey;
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-                            RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                        {
-                            privateKey = GivenToRsa((RsaPrivateCrtKeyParameters)pemReader.ReadObject());
-                        }
-                        else
-                        {
-                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                            {
-                                privateKey = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)pemReader.ReadObject());
-                            }
-                            else
-                            {
-                                throw new CouldNotCreateCertificateForOsException(
-                                    $"Could not create a certificate for '${RuntimeInformation.OSDescription}'");
-                            }
-                        }
-
-                        var certificate = pemReader.ReadPemObject();
-                        if (certificate.Type == "CERTIFICATE")
-                        {
-                            return new X509Certificate2(certificate.Content, (String)null,
-                                    X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable)
-                                .CopyWithPrivateKey(privateKey);
-                        }
-
-                        break;
-                    }
-            }
-
-            throw new CouldNotCreateCertificateForTypeException(
-                $"Could not create a certificate for the type '${routerDevice.Authentication.Type}'");
-        }
+        
         /// <summary>
         /// Internal implementation for Linux and OSX to support PEM certificate creation.
         /// </summary>

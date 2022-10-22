@@ -28,7 +28,7 @@ public class ParseRouterDeviceTest
         Assert.Equal("dke-qa.eu10.cp.iot.sap", routerDevice.ConnectionCriteria.Host);
         Assert.Equal("7ea2a9f9-d6fd-40cd-8515-886a2c7864c8", routerDevice.ConnectionCriteria.ClientId);
         Assert.Equal("2", routerDevice.ConnectionCriteria.GatewayId);
-        Assert.Equal(8883, routerDevice.ConnectionCriteria.Port);
+        Assert.Equal("8883", routerDevice.ConnectionCriteria.Port);
     }
 
     [Fact]
