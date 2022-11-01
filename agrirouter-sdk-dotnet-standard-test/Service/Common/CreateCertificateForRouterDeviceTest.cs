@@ -27,5 +27,21 @@ namespace Agrirouter.Test.Service.Common
                 "CN=deviceAlternateId:dd5abe2d-06aa-40a3-9368-ab094305c539|gatewayId:2|tenantId:1902001785|instanceId:dke-qa, O=DKE-Data GmbH & Co. KG, C=DE",
                 certificate.Subject);
         }
+
+        [Fact]
+        public void GenerateValidRouterDeviceCertificate()
+        {
+            var routerDevice = RouterDevice.FromJson(Json);
+
+            var certificate = X509CertificateService.GetCertificate(routerDevice);
+            Assert.NotNull(certificate);
+            Assert.Equal(
+                "CN=agrirouter SAP IoT Issuing CA, L=Osnabrueck, O=DKE-Data GmbH & Co. KG, S=Lower Saxony, C=DE",
+                certificate.Issuer);
+            Assert.Equal(
+                "CN=deviceAlternateId:dd5abe2d-06aa-40a3-9368-ab094305c539|gatewayId:2|tenantId:1902001785|instanceId:dke-qa, O=DKE-Data GmbH & Co. KG, C=DE",
+                certificate.Subject);
+        }
+
     }
 }

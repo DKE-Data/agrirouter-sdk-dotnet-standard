@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Exception;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -71,7 +72,20 @@ namespace Agrirouter.Impl.Service.Common
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
         }
-        
+
+        /// <summary>
+        /// Create a certificate for the given RouterDevice
+        /// </summary>
+        /// <param name="routerDevice">-</param>
+        /// <returns>A X509 certificate to use for the communication between endpoint and AR.</returns>
+        /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception        
+        public static X509Certificate GetCertificate(RouterDevice routerDevice)
+        {
+            var onboardResponse = new OnboardResponse();
+            onboardResponse.ConnectionCriteria.GatewayId = GatewayTypeDefinition.Mqtt;//RouterDevices only work with MQTT
+            return GetCertificate(onboardResponse.MergeWithRouterDevice(routerDevice));
+        }
+
         /// <summary>
         /// Internal implementation for Linux and OSX to support PEM certificate creation.
         /// </summary>
