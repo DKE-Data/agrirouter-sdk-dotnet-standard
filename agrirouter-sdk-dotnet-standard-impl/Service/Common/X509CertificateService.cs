@@ -81,7 +81,11 @@ namespace Agrirouter.Impl.Service.Common
         /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception        
         public static X509Certificate GetCertificate(RouterDevice routerDevice)
         {
-            var onboardResponse = new OnboardResponse();
+            var onboardResponse = new OnboardResponse()
+            {
+                ConnectionCriteria = new Api.Dto.Onboard.Inner.ConnectionCriteria(),
+                Authentication = new Api.Dto.Onboard.Inner.Authentication()
+            };
             onboardResponse.ConnectionCriteria.GatewayId = GatewayTypeDefinition.Mqtt;//RouterDevices only work with MQTT
             return GetCertificate(onboardResponse.MergeWithRouterDevice(routerDevice));
         }
