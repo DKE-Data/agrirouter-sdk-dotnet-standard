@@ -86,7 +86,8 @@ namespace Agrirouter.Impl.Service.Common
                 ConnectionCriteria = new Api.Dto.Onboard.Inner.ConnectionCriteria(),
                 Authentication = new Api.Dto.Onboard.Inner.Authentication()
             };
-            onboardResponse.ConnectionCriteria.GatewayId = GatewayTypeDefinition.Mqtt;//RouterDevices only work with MQTT
+            //Since router devices only work with MQTT, we are setting a fixed value at this point.
+            onboardResponse.ConnectionCriteria.GatewayId = GatewayTypeDefinition.Mqtt;
             return GetCertificate(onboardResponse.MergeWithRouterDevice(routerDevice));
         }
 
