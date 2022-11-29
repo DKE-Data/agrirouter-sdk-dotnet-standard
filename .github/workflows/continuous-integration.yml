@@ -31,3 +31,6 @@ jobs:
 
     - name: Build Solution
       run: dotnet build --configuration Release
+
+    - name: Test Solution
+      run: dotnet test --configuration Release
