@@ -33,4 +33,4 @@ jobs:
       run: dotnet test
       
     - name: Build Solution
-      run: dotnet build --configuration Releas
+      run: dotnet build --configuration Release
