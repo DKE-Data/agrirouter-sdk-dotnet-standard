@@ -86,6 +86,9 @@
         <None Update="Data\OnboardingResponses\Http\CommunicationUnit\RecipientWithEnabledPushMessages.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Data\Content\big_taskdata.zip">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

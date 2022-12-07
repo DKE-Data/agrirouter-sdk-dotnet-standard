@@ -47,7 +47,7 @@ namespace Agrirouter.Test.Integration
 
         /**
          * Cleanup before each test case. These actions are necessary because it could be the
-         * case, that there are dangling messages from former tests.
+         * case that there are dangling messages from former tests.
          */
         public SendAndReceiveChunkedMessagesTest()
         {
@@ -101,7 +101,7 @@ namespace Agrirouter.Test.Integration
         void givenRealMessageContentWhenSendingMessagesTheContentShouldMatchAfterReceivingAndMergingIt()
         {
             var messageContent = ByteString.FromBase64(DataProvider.ReadBase64EncodedBigTaskData());
-            var expectedNrOfChunks = 3;
+            var expectedNrOfChunks = 4;
 
             this.actionsForSender(messageContent, expectedNrOfChunks);
             this.actionsForTheRecipient(messageContent, expectedNrOfChunks);
@@ -126,7 +126,7 @@ namespace Agrirouter.Test.Integration
             //  this has to be the same number of messages as it is chunks.
             var fetchMessageService = new FetchMessageService(HttpClientForRecipient);
             var fetchMessageResponses = fetchMessageService.Fetch(Recipient, new DefaultCancellationToken(3, 500));
-            Assert.Single(fetchMessageResponses);
+            Assert.NotNull(fetchMessageResponses);
             Assert.Equal(expectedNrOfChunks, fetchMessageResponses.Count);
 
             //  [4] Check if the response from the AR only contains valid results.
@@ -212,7 +212,7 @@ namespace Agrirouter.Test.Integration
             var fetchMessageService = new FetchMessageService(HttpClientForSender);
             var fetchMessageResponses = fetchMessageService.Fetch(Sender, new DefaultCancellationToken(3, 500));
 
-            Assert.Single(fetchMessageResponses);
+            Assert.NotEmpty(fetchMessageResponses);
             Assert.Equal(expectedNrOfChunks, fetchMessageResponses.Count);
 
             var feedMessages = fetchMessageResponses
