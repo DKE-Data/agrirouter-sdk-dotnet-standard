@@ -178,7 +178,7 @@ namespace Agrirouter.Test.Data.Fixture
 
             Timer.WaitForTheAgrirouterToProcessTheMessage();
 
-            var fetchMessageService = new FetchMessageService(HttpClient);
+            var fetchMessageService = new FetchMessageService(authenticatedHttpClient);
             var fetch = fetchMessageService.Fetch(onboardResponse);
             Assert.Single(fetch);
 
