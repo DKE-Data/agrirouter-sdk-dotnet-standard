@@ -24,10 +24,10 @@ namespace Agrirouter.Test.Data.Fixture
         private static readonly HttpClient HttpClient = HttpClientFactory.HttpClient();
         private static readonly Environment Environment = new QualityAssuranceEnvironment();
 
-        [Fact(Skip = "Will fail unless the token is changed.")]
+        [Fact]
         public void Recipient()
         {
-            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee961", "CHANGE_ME");
+            var onboardResponse = Onboard("97cce58c-7eb0-4284-993b-f0069fdee961", "a1e3a22433");
             ValidateConnection(onboardResponse);
             EnableAllCapabilitiesViaHttp(onboardResponse);
             OnboardResponseIntegrationService.Save(Identifier.Http.CommunicationUnit.Recipient, onboardResponse);
