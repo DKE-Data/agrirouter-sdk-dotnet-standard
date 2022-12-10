@@ -95,7 +95,7 @@ namespace Agrirouter.Test.Integration
             var messageContent = ByteString.FromBase64(DataProvider.ReadBase64EncodedBigTaskData());
             var expectedNrOfChunks = 4;
 
-            this.actionsForSender(messageContent, expectedNrOfChunks);
+            this.ActionsForSender(messageContent, expectedNrOfChunks);
             this.actionsForTheRecipient(messageContent, expectedNrOfChunks);
         }
 
@@ -159,7 +159,7 @@ namespace Agrirouter.Test.Integration
             Assert.Single(fetchMessageResponses);
         }
 
-        private void actionsForSender(ByteString messageContent, int expectedNrOfChunks)
+        private void ActionsForSender(ByteString messageContent, int expectedNrOfChunks)
         {
             var encodeMessageService = new EncodeMessageService();
             var sendMessageService = new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
