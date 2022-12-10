@@ -96,10 +96,10 @@ namespace Agrirouter.Test.Integration
             var expectedNrOfChunks = 4;
 
             this.ActionsForSender(messageContent, expectedNrOfChunks);
-            this.actionsForTheRecipient(messageContent, expectedNrOfChunks);
+            this.ActionsForTheRecipient(messageContent, expectedNrOfChunks);
         }
 
-        private void actionsForTheRecipient(ByteString messageContent, int expectedNrOfChunks)
+        private void ActionsForTheRecipient(ByteString messageContent, int expectedNrOfChunks)
         {
             //  [1] Fetch all the messages within the feed. The number of headers should match the number of
             //  chunks sent.
