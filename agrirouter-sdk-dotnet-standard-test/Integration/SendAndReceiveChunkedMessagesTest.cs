@@ -90,10 +90,10 @@ namespace Agrirouter.Test.Integration
         }
 
         [Fact]
-        void givenRealMessageContentWhenSendingMessagesTheContentShouldMatchAfterReceivingAndMergingIt()
+        void GivenRealMessageContentWhenSendingMessagesTheContentShouldMatchAfterReceivingAndMergingIt()
         {
             var messageContent = ByteString.FromBase64(DataProvider.ReadBase64EncodedBigTaskData());
-            var expectedNrOfChunks = 4;
+            const int expectedNrOfChunks = 4;
 
             ActionsForSender(messageContent, expectedNrOfChunks);
             ActionsForTheRecipient(messageContent, expectedNrOfChunks);
