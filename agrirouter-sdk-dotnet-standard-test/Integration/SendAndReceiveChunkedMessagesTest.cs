@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
-using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Cloud.Registration;
 using Agrirouter.Feed.Request;
 using Agrirouter.Impl.Service.Common;
-using Agrirouter.Impl.Service.Convenience;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Impl.Service.Messaging.CancellationToken;
+using Agrirouter.Request;
 using Agrirouter.Response;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Agrirouter.Test.Service;
-using Xunit;
-using Agrirouter.Impl.Service.Messaging.CancellationToken;
-using Agrirouter.Request;
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using MQTTnet.Adapter;
+using Xunit;
 
 namespace Agrirouter.Test.Integration
 {
@@ -133,7 +125,7 @@ namespace Agrirouter.Test.Integration
             Assert.All(fetchMessageResponses
                     .Select(response => DecodeMessageService.Decode(response.Command.Message)),
                 message =>
-                    Assert.Equal(Response.ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
+                    Assert.Equal(ResponseEnvelope.Types.ResponseBodyType.AckForFeedMessage,
                         message.ResponseEnvelope.Type
                     ));
 
