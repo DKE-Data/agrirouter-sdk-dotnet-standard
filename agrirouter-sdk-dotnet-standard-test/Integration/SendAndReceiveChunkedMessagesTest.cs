@@ -95,11 +95,11 @@ namespace Agrirouter.Test.Integration
             var messageContent = ByteString.FromBase64(DataProvider.ReadBase64EncodedBigTaskData());
             var expectedNrOfChunks = 4;
 
-            this.ActionsForSender(messageContent, expectedNrOfChunks);
-            this.ActionsForTheRecipient(messageContent, expectedNrOfChunks);
+            ActionsForSender(messageContent, expectedNrOfChunks);
+            ActionsForTheRecipient(messageContent, expectedNrOfChunks);
         }
 
-        private void ActionsForTheRecipient(ByteString messageContent, int expectedNrOfChunks)
+        private static void ActionsForTheRecipient(ByteString messageContent, int expectedNrOfChunks)
         {
             //  [1] Fetch all the messages within the feed. The number of headers should match the number of
             //  chunks sent.
@@ -159,7 +159,7 @@ namespace Agrirouter.Test.Integration
             Assert.Single(fetchMessageResponses);
         }
 
-        private void ActionsForSender(ByteString messageContent, int expectedNrOfChunks)
+        private static void ActionsForSender(ByteString messageContent, int expectedNrOfChunks)
         {
             var encodeMessageService = new EncodeMessageService();
             var sendMessageService = new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
