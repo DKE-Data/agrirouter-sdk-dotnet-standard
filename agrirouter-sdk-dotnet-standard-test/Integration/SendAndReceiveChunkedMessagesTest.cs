@@ -24,7 +24,7 @@ namespace Agrirouter.Test.Integration
     public class SendAndReceiveChunkedMessagesTest : AbstractIntegrationTestForCommunicationUnits
     {
 
-        private static int _maxChunkSize = 1024000;
+        private static readonly int _maxChunkSize = 1024000;
 
         private static OnboardResponse Sender =>
             OnboardResponseIntegrationService.Read(Identifier.Http.CommunicationUnit.Sender);
