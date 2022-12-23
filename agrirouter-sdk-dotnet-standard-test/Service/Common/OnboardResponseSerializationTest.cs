@@ -2,10 +2,10 @@ using Agrirouter.Api.Dto.Onboard;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Agrirouter.Test.Service.Common;
-
-public class OnboardResponseSerializationTest
+namespace Agrirouter.Test.Service.Common
 {
+  public class OnboardResponseSerializationTest
+  {
     const string UppercaseOnboardResponseJson = @"{
   ""DeviceAlternateId"": ""deviceAlternateId"",
   ""CapabilityAlternateId"": ""capabilityAlternateId"",
@@ -96,4 +96,5 @@ public class OnboardResponseSerializationTest
       Assert.Equal("certificate", onboardResponse.Authentication.Certificate);
     }
     
+  }
 }
