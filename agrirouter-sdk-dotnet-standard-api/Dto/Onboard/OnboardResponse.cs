@@ -11,16 +11,19 @@ namespace Agrirouter.Api.Dto.Onboard
         /// <summary>
         ///     Device alternate ID.
         /// </summary>
+        [JsonProperty(PropertyName = "deviceAlternateId")]
         public string DeviceAlternateId { get; set; }
 
         /// <summary>
         ///     Capability alternate ID.
         /// </summary>
+        [JsonProperty(PropertyName = "capabilityAlternateId")]
         public string CapabilityAlternateId { get; set; }
 
         /// <summary>
         ///     Sensor alternate ID.
         /// </summary>
+        [JsonProperty(PropertyName = "sensorAlternateId")]
         public string SensorAlternateId { get; set; }
 
         /// <summary>
