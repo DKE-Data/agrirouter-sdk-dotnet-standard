@@ -2,7 +2,6 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Onboard;
@@ -52,7 +51,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 GatewayId = onboardParameters.GatewayId,
                 CertificateType = onboardParameters.CertificationType,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.SecondsInThePastFromNow(10)
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(onboardingRequest);
@@ -99,7 +98,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 GatewayId = onboardParameters.GatewayId,
                 CertificateType = onboardParameters.CertificationType,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.Now
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(onboardingRequest);
@@ -147,7 +146,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 GatewayId = verificationParameters.GatewayId,
                 CertificateType = verificationParameters.CertificationType,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.Now
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(verificationRequest);
@@ -204,7 +203,7 @@ namespace Agrirouter.Impl.Service.Onboard
                 GatewayId = verificationParameters.GatewayId,
                 CertificateType = verificationParameters.CertificationType,
                 TimeZone = UtcDataService.TimeZone,
-                UtcTimestamp = UtcDataService.Now
+                UtcTimestamp = UtcDataService.NowInclOffset()
             };
 
             var requestBody = JsonConvert.SerializeObject(verificationRequest);

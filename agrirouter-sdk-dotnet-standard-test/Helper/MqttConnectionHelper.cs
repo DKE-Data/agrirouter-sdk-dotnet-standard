@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Impl.Service.Common;
 using MQTTnet.Client;
 using MQTTnet.Client.Options;
 using Xunit;
@@ -37,7 +38,7 @@ namespace Agrirouter.Test.Helper
         {
             var tlsParameters = new MqttClientOptionsBuilderTlsParameters
             {
-                Certificates = new[] {ReadRootCertificates(), ReadClientCertificate(onboardResponse)},
+                Certificates = new[] {X509CertificateService.GetCertificate(onboardResponse)},
                 UseTls = true
             };
 
@@ -50,30 +51,6 @@ namespace Agrirouter.Test.Helper
                 .Build();
 
             await mqttClient.ConnectAsync(options);
-        }
-
-        /// <summary>
-        /// Reading the client certificate, currently only possible for P12 certificates.
-        /// </summary>
-        /// <param name="onboardResponse">-</param>
-        /// <returns>Certificate</returns>
-        private static X509Certificate2 ReadClientCertificate(OnboardResponse onboardResponse)
-        {
-            return new X509Certificate2(new X509Certificate2(
-                Convert.FromBase64String(onboardResponse.Authentication.Certificate),
-                onboardResponse.Authentication.Secret));
-        }
-
-        /// <summary>
-        /// Reading the root certificates for the AR.
-        /// </summary>
-        /// <returns>Certificate</returns>
-        private static X509Certificate ReadRootCertificates()
-        {
-            return X509Certificate.CreateFromSignedFile(Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
-                throw new System.Exception("Could not read certificate, please check path."),
-                @"Data/Assets/Certificates/qa-root.pem"));
         }
     }
 }
