@@ -71,7 +71,7 @@ namespace Agrirouter.Impl.Service.Common
             throw new CouldNotCreateCertificateForTypeException(
                 $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
         }
-
+        
         /// <summary>
         /// Internal implementation for Linux and OSX to support PEM certificate creation.
         /// </summary>

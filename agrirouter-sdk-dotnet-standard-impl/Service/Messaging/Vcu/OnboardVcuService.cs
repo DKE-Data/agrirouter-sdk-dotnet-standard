@@ -5,18 +5,22 @@ using Agrirouter.Cloud.Registration;
 using Agrirouter.Request;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
+using Agrirouter.Api.Dto.Onboard;
+using Agrirouter.Api.Dto.Onboard.Inner;
+using Agrirouter.Api.Exception;
 using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Messaging.Vcu;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Impl.Service.Common;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Agrirouter.Impl.Service.Messaging.Vcu
 {
     /// <summary>
     ///     Service to onboard VCUs.
     /// </summary>
-    public class OnboardVcuService : IOnboardVcuService
+    public class OnboardVcuService : IOnboardVcuService, IDecodeMessageResponseService<OnboardingResponse>
     {
         private readonly IMessagingService<MessagingParameters> _messagingService;
 
@@ -36,7 +40,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         /// <returns>-</returns>
         public MessagingResult Send(OnboardVcuParameters onboardVcuParameters)
         {
-            var encodedMessages = new List<string> {Encode(onboardVcuParameters).Content};
+            var encodedMessages = new List<string> { Encode(onboardVcuParameters).Content };
             var messagingParameters = onboardVcuParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.Send(messagingParameters);
         }
@@ -48,7 +52,7 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
         /// <returns>-</returns>
         public Task<MessagingResult> SendAsync(OnboardVcuParameters onboardVcuParameters)
         {
-            var encodedMessages = new List<string> {Encode(onboardVcuParameters).Content};
+            var encodedMessages = new List<string> { Encode(onboardVcuParameters).Content };
             var messagingParameters = onboardVcuParameters.BuildMessagingParameter(encodedMessages);
             return _messagingService.SendAsync(messagingParameters);
         }
@@ -86,6 +90,52 @@ namespace Agrirouter.Impl.Service.Messaging.Vcu
             };
 
             return encodedMessage;
+        }
+
+        public OnboardingResponse Decode(Any messageResponse)
+        {
+            try
+            {
+                return OnboardingResponse.Parser.ParseFrom(messageResponse.Value);
+            }
+            catch (Exception e)
+            {
+                throw new CouldNotDecodeMessageException(
+                    "Could not decode onboard response for virtual communication unit.", e);
+            }
+        }
+
+
+        /// <summary>
+        /// Please see <seealso cref="IOnboardVcuService.EnhanceVirtualCommunicationToFullyUsableOnboardResponse" /> for documentation.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="virtualCommunicationUnit"></param>
+        /// <returns></returns>
+        public OnboardResponse EnhanceVirtualCommunicationToFullyUsableOnboardResponse(OnboardResponse parent,
+            OnboardingResponse.Types.EndpointRegistrationDetails virtualCommunicationUnit)
+        {
+            return new OnboardResponse()
+            {
+                Authentication = new Authentication()
+                {
+                    Certificate = parent.Authentication.Certificate,
+                    Secret = parent.Authentication.Secret,
+                    Type = parent.Authentication.Type
+                },
+                CapabilityAlternateId = virtualCommunicationUnit.CapabilityAlternateId,
+                ConnectionCriteria = new ConnectionCriteria()
+                {
+                    ClientId = parent.ConnectionCriteria.ClientId,
+                    Commands = parent.ConnectionCriteria.Commands,
+                    GatewayId = parent.ConnectionCriteria.GatewayId,
+                    Host = parent.ConnectionCriteria.Host,
+                    Measures = parent.ConnectionCriteria.Measures,
+                    Port = parent.ConnectionCriteria.Port,
+                },
+                DeviceAlternateId = virtualCommunicationUnit.DeviceAlternateId,
+                SensorAlternateId = virtualCommunicationUnit.SensorAlternateId,
+            };
         }
     }
 }
