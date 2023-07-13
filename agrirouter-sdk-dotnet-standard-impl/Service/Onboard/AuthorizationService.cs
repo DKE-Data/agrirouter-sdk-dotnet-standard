@@ -69,6 +69,26 @@ namespace Agrirouter.Impl.Service.Onboard
             };
         }
 
+
+
+        /// <summary>
+        ///     Generates the authorization URL for the application used within the onboarding process and adds the redirect URI
+        ///     parameter.
+        /// </summary>
+        /// <param name="applicationId">The application ID for the authorization.</param>
+        /// <param name="state">A predefined state.</param>
+        /// <param name="redirectUri">The redirect URI.</param>
+        /// <returns>-</returns>
+        public AuthorizationUrlResult AuthorizationUrlForState(string applicationId, Guid state, string redirectUri)
+        {
+            return new AuthorizationUrlResult
+            {
+                AuthorizationUrl =
+                    $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}"+ (String.IsNullOrEmpty(redirectUri)?"":"&redirect_uri={redirectUri}"),
+                State = state.ToString() ,
+            };
+        }
+
         /// <summary>
         ///     Parsing the result which was attached as parameters to the URL.
         /// </summary>
