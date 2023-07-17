@@ -50,7 +50,7 @@ namespace Agrirouter.Test.Data.OnboardingResponses.Http
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
+                    Log.Error(e,"Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
                 }
             });
             
@@ -84,7 +84,7 @@ namespace Agrirouter.Test.Data.OnboardingResponses.Http
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
+                    Log.Error(e,"Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
                 }
             });
         }
