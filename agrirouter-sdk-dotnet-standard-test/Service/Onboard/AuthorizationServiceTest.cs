@@ -28,7 +28,7 @@ namespace Agrirouter.Test.Service.Onboard
 
         [Fact]
         public void
-            GivenValidApplicationIdAndUUIDAndRedirectUriWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
+            GivenValidApplicationIdAndUuidAndRedirectUriWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
         {
             var authorizationService = new AuthorizationService(new QualityAssuranceEnvironment());
             var uuid = Guid.NewGuid();
