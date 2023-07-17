@@ -84,7 +84,7 @@ namespace Agrirouter.Impl.Service.Onboard
             return new AuthorizationUrlResult
             {
                 AuthorizationUrl =
-                    $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}"+ (String.IsNullOrEmpty(redirectUri)?"":"&redirect_uri={redirectUri}"),
+                    $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}"+ (string.IsNullOrEmpty(redirectUri)?"":"&redirect_uri={redirectUri}"),
                 State = state.ToString() ,
             };
         }
