@@ -76,7 +76,7 @@ namespace Agrirouter.Impl.Service.Onboard
         ///     parameter.
         /// </summary>
         /// <param name="applicationId">The application ID for the authorization.</param>
-        /// <param name="state">A predefined state.</param>
+        /// <param name="state">A predefined identifier for the state (used by the external application).</param>
         /// <param name="redirectUri">The redirect URI.</param>
         /// <returns>-</returns>
         public AuthorizationUrlResult AuthorizationUrlForState(string applicationId, Guid state, string redirectUri)
