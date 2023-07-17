@@ -61,14 +61,14 @@ namespace Agrirouter.Impl.Service.Onboard
         public AuthorizationUrlResult AuthorizationUrl(string applicationId, string redirectUri)
         {
             var state = Guid.NewGuid().ToString();
+            var authorizationUrl = GenerateAuthorizationUrlForState(applicationId, state, redirectUri);
+
             return new AuthorizationUrlResult
             {
-                AuthorizationUrl =
-                    $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}&redirect_uri={redirectUri}",
+                AuthorizationUrl = authorizationUrl,
                 State = state
             };
         }
-
 
 
         /// <summary>
@@ -81,12 +81,21 @@ namespace Agrirouter.Impl.Service.Onboard
         /// <returns>-</returns>
         public AuthorizationUrlResult AuthorizationUrlForState(string applicationId, Guid state, string redirectUri)
         {
+            var stateAsString = state.ToString();
+            var authorizationUrl = GenerateAuthorizationUrlForState(applicationId, stateAsString, redirectUri);
+
             return new AuthorizationUrlResult
             {
-                AuthorizationUrl =
-                    $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}"+ (string.IsNullOrEmpty(redirectUri)?"":"&redirect_uri={redirectUri}"),
-                State = state.ToString() ,
+                AuthorizationUrl = authorizationUrl,
+                State = stateAsString
             };
+        }
+
+        private string GenerateAuthorizationUrlForState(string applicationId, string state, string redirectUri)
+        {
+            return string.IsNullOrEmpty(redirectUri)
+                ? $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}"
+                : $"{_environment.AuthorizationUrl(applicationId)}?response_type=onboard&state={state}&redirect_uri={redirectUri}";
         }
 
         /// <summary>
@@ -102,6 +111,7 @@ namespace Agrirouter.Impl.Service.Onboard
             {
                 throw new ArgumentException($"The input '{authorizationResult}' does not meet the specification");
             }
+
             return new AuthorizationResult
             {
                 State = parameters.Get("state"),
@@ -119,7 +129,7 @@ namespace Agrirouter.Impl.Service.Onboard
         /// <exception cref="System.ArgumentException">Will be thrown if the input is not valid.</exception>
         public AuthorizationResult Parse(Uri callbackUri)
         {
-            return Parse(callbackUri.Query); 
+            return Parse(callbackUri.Query);
         }
 
         /// <summary>
@@ -130,7 +140,7 @@ namespace Agrirouter.Impl.Service.Onboard
         public AuthorizationToken Parse(AuthorizationResult authorizationResult)
         {
             return
-                (AuthorizationToken) JsonConvert.DeserializeObject(
+                (AuthorizationToken)JsonConvert.DeserializeObject(
                     Encoding.UTF8.GetString(Convert.FromBase64String(authorizationResult.Token)),
                     typeof(AuthorizationToken));
         }
@@ -148,7 +158,7 @@ namespace Agrirouter.Impl.Service.Onboard
             {
                 var signer = SignerUtilities.GetSigner(Algorithm);
                 signer.Init(false,
-                    (RsaKeyParameters) new PemReader(new StringReader(_environment.PublicKey())).ReadObject());
+                    (RsaKeyParameters)new PemReader(new StringReader(_environment.PublicKey())).ReadObject());
                 signer.BlockUpdate(Encoding.UTF8.GetBytes(concatenatedValues), 0, concatenatedValues.Length);
                 return signer.VerifySignature(Base64.Decode(signature));
             }
