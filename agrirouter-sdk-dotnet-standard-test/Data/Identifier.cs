@@ -27,6 +27,21 @@ namespace Agrirouter.Test.Data
                 return all;
             }
         }
+        
+        /// <summary>
+        /// Get all identifier.
+        /// </summary>
+        public static List<string> AllTelemetryPlatforms
+        {
+            get
+            {
+                var all = new List<string>
+                {
+                    Http.TelemtryPlatform.Sender
+                };
+                return all;
+            }
+        }
 
         /// <summary>
         /// HTTP based endpoints.
@@ -50,6 +65,11 @@ namespace Agrirouter.Test.Data
                 public static string RecipientWithEnabledPushMessages => "Http/CommunicationUnit/RecipientWithEnabledPushMessages";
                 public static string Sender => "Http/CommunicationUnit/Sender";
                 public static string SenderWithMultipleRecipients => "Http/CommunicationUnit/SenderWithMultipleRecipients";
+            }
+
+            public static class TelemtryPlatform
+            {
+                public static string Sender => "Http/TelemetryPlatform/Sender";
             }
         }
         

@@ -38,8 +38,18 @@ namespace Agrirouter.Test.Service.Onboard
             Assert.Throws<OnboardException>(() =>
                 onboardingService.Onboard(parameters, Applications.TelemetryPlatform.PrivateKey));
         }
+        
+        [Fact]
+        public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
+        {
+            var authorizationService = new AuthorizationService(Environment);
+            var authorizationUrlResult =
+                authorizationService.AuthorizationUrl(Applications.TelemetryPlatform.ApplicationId);
+            Assert.NotEmpty(authorizationUrlResult.State);
+            Assert.NotEmpty(authorizationUrlResult.AuthorizationUrl);
+        }
 
-        [Fact(Skip = "Will not run successfully without changing the registration code.")]
+        [Fact(Skip = "Will not work without changing the registration code.")]
         public void GivenValidRequestTokenWhenOnboardingThenThereShouldBeAValidResponse()
         {
             var onboardingService =
@@ -52,7 +62,7 @@ namespace Agrirouter.Test.Service.Onboard
                 ApplicationType = ApplicationTypeDefinitions.Application,
                 CertificationType = CertificationTypeDefinition.P12,
                 GatewayId = GatewayTypeDefinition.Http,
-                RegistrationCode = "920149e366",
+                RegistrationCode = "2733b6c7f2",
                 CertificationVersionId = Applications.TelemetryPlatform.CertificationVersionId
             };
 
