@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Api.Service.Parameters;
 using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
+using Agrirouter.Request.Payload.Endpoint;
 using Agrirouter.Test.Helper;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Serilog;
 using Xunit;
-using Timer = Agrirouter.Test.Helper.Timer;
 
 namespace Agrirouter.Test.Data.OnboardingResponses.Http
 {
@@ -50,7 +47,7 @@ namespace Agrirouter.Test.Data.OnboardingResponses.Http
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
+                    Log.Error(e,"Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
                 }
             });
             
@@ -84,7 +81,7 @@ namespace Agrirouter.Test.Data.OnboardingResponses.Http
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
+                    Log.Error(e,"Exception while sending capabilities message for {}", onboardResponse.SensorAlternateId);
                 }
             });
         }

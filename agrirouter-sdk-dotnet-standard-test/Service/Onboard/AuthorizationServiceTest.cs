@@ -25,6 +25,21 @@ namespace Agrirouter.Test.Service.Onboard
                 authorizationUrlResult.AuthorizationUrl);
         }
 
+
+        [Fact]
+        public void
+            GivenValidApplicationIdAndUuidAndRedirectUriWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
+        {
+            var authorizationService = new AuthorizationService(new QualityAssuranceEnvironment());
+            var uuid = Guid.NewGuid();
+            var authorizationUrlResult =
+                authorizationService.AuthorizationUrlForState(ApplicationId, uuid,"https://www.dev4Agriculture.de");
+            Assert.Equal(
+                $"https://agrirouter-qa.cfapps.eu10.hana.ondemand.com/application/16b1c3ab-55ef-412c-952b-f280424272e1/authorize?response_type=onboard&state={uuid}&redirect_uri=https://www.dev4Agriculture.de",
+                authorizationUrlResult.AuthorizationUrl);
+        }
+
+
         [Fact]
         public void GivenValidApplicationIdWhenCreatingAuthorizationUrlThenTheUrlShouldBeFineDuringManualTesting()
         {
