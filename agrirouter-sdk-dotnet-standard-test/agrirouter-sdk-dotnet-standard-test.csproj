@@ -92,14 +92,14 @@
         <None Update="Data\OnboardingResponses\Http\TelemetryPlatform\Sender.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <PackageVersion>3.6.0</PackageVersion>
-        <AssemblyVersion>3.6.0</AssemblyVersion>
         <None Update="Data\OnboardingResponses\Http\TelemetryPlatform\Sender.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Data\Content\big_taskdata.zip">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <PackageVersion>3.6.0</PackageVersion>
+        <AssemblyVersion>3.6.0</AssemblyVersion>
     </ItemGroup>
 
 </Project>
