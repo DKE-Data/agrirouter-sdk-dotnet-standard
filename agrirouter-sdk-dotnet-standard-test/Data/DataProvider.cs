@@ -65,5 +65,16 @@ namespace Agrirouter.Test.Data
             var allBytes = File.ReadAllBytes(path);
             return Encode.ToMessageContent(allBytes);
         }
+        
+        public static string ReadBase64EncodedBigTaskData()
+        {
+            var path = Path.Combine(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
+                throw new InvalidOperationException(),
+                @"Data/Content/big_taskdata.zip");
+            var allBytes = File.ReadAllBytes(path);
+            return Encode.ToMessageContent(allBytes);
+        }
+
     }
 }

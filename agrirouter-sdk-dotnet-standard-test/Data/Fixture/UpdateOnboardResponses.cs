@@ -151,7 +151,7 @@ namespace Agrirouter.Test.Data.Fixture
             return onboardResponse;
         }
 
-        private void ValidateConnection(OnboardResponse onboardResponse)
+        private static void ValidateConnection(OnboardResponse onboardResponse)
         {
             var authenticatedHttpClient = HttpClientFactory.AuthenticatedHttpClient(onboardResponse);
             var fetchMessageService = new FetchMessageService(authenticatedHttpClient);
@@ -159,7 +159,7 @@ namespace Agrirouter.Test.Data.Fixture
             Assert.Empty(fetch);
         }
 
-        private void EnableAllCapabilitiesViaHttp(OnboardResponse onboardResponse)
+        private static void EnableAllCapabilitiesViaHttp(OnboardResponse onboardResponse)
         {
             var authenticatedHttpClient = HttpClientFactory.AuthenticatedHttpClient(onboardResponse);
             var capabilitiesServices =
@@ -178,7 +178,7 @@ namespace Agrirouter.Test.Data.Fixture
 
             Timer.WaitForTheAgrirouterToProcessTheMessage();
 
-            var fetchMessageService = new FetchMessageService(HttpClient);
+            var fetchMessageService = new FetchMessageService(authenticatedHttpClient);
             var fetch = fetchMessageService.Fetch(onboardResponse);
             Assert.Single(fetch);
 
