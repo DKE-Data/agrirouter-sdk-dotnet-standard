@@ -55,6 +55,17 @@ namespace Agrirouter.Test.Data
             return all;
         }
 
+        /// <summary>
+        /// Read all onboard responses.
+        /// </summary>
+        /// <returns>All onboard responses.</returns>
+        public static List<OnboardResponse> AllTelemetryPlatforms()
+        {
+            var all = new List<OnboardResponse>();
+            Identifier.AllTelemetryPlatforms.ForEach(identifier => { all.Add(Read(identifier)); });
+            return all;
+        }
+
         private static string Path(string identifier)
         {
             var path = System.IO.Path.Combine(

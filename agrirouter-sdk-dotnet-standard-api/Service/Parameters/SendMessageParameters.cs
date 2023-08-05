@@ -32,11 +32,6 @@ namespace Agrirouter.Api.Service.Parameters
         ///     Type URL.
         /// </summary>
         public string TypeUrl { get; set; }
-
-        /// <summary>
-        ///     Define the size of the chunks.
-        /// </summary>
-        public int ChunkSize { get; set; }
         
         /// <summary>
         ///     Define the file metadata.

@@ -3,10 +3,8 @@ name: Release
 on:
   push:
     tags:
-      - 'v1.*'
-      - 'v2.*'      
-      - 'v3.*'
-
+      - 'v*'
+      
 jobs:  
   deploy_nuget_packages:
     runs-on: windows-latest
@@ -27,3 +25,16 @@ jobs:
         
       - name: Push generated package to GitHub registry
         run: nuget push .\out\*.nupkg -Source "GPR" -SkipDuplicate
+        
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create Release
+        run: gh release create ${{ github.ref }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
