@@ -20,6 +20,11 @@ namespace Agrirouter.Impl.Service.Common
     {
         private readonly HttpClient _httpClient;
 
+        public HttpClient HttpClient
+        {
+            get { return _httpClient; }
+        }
+
         /// <summary>
         ///     Constructor.
         /// </summary>
