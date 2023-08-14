@@ -21,6 +21,11 @@ namespace Agrirouter.Impl.Service.Common
     {
         private readonly IMqttClient _mqttClient;
 
+        public IMqttClient MqttClient
+        {
+            get { return _mqttClient; }
+        }
+        
         /// <summary>
         ///     Constructor.
         /// </summary>
