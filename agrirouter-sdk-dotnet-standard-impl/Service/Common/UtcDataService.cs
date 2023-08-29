@@ -35,6 +35,20 @@ namespace Agrirouter.Impl.Service.Common
         }
 
         /// <summary>
+        ///     Delivering the current date using a valid AR format incl. a default offset.
+        /// </summary>
+        /// <returns></returns>
+        public static string NowInclOffset() => SecondsInThePastFromNow(10);
+
+        /// <summary>
+        ///     Delivering the current date with an offset in seconds using a valid AR format.
+        /// </summary>
+        public static string SecondsInThePastFromNow(int offset)
+        {
+            return DateTime.UtcNow.AddSeconds(offset * -1).ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+        }
+
+        /// <summary>
         ///     Delivering the current date using a timestamp format.
         /// </summary>
         /// <returns></returns>
