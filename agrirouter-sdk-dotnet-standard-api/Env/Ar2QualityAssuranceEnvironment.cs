@@ -10,7 +10,7 @@ namespace Agrirouter.Api.Env
         private const string API_PREFIX = "/api/v1.0";
 
         private const string REGISTRATION_SERVICE_URL =
-            "https://endpoint-service.qa.agrirouter.farm/";
+            "https://endpoint-service.qa.agrirouter.farm";
 
         private const string AUTHORIZATION_SERVICE_URL = "https://app.qa.agrirouter.farm";
 
