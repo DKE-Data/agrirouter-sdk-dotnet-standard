@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
@@ -31,3 +31,6 @@ jobs:
 
     - name: Build Solution
       run: dotnet build --configuration Release
+
+    - name: Test Solution
+      run: dotnet test --configuration Release
