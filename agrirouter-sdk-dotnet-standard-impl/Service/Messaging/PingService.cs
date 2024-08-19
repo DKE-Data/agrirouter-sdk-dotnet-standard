@@ -15,9 +15,9 @@ namespace Agrirouter.Impl.Service.Messaging
     /// <summary>
     ///     Service to list the endpoints connected to an endpoint.
     /// </summary>
-    public class PingService
+    public class PingService: IPingService
     {
-        private IMessagingService<MessagingParameters> _messagingService;
+        private readonly IMessagingService<MessagingParameters> _messagingService;
 
         /// <summary>
         ///     Constructor.
