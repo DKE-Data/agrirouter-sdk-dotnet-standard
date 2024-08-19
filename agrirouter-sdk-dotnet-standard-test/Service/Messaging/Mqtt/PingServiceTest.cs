@@ -23,13 +23,6 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
     [Collection("Integrationtest")]
     public class PingServiceTest : AbstractIntegrationTestForCommunicationUnits
     {
-        private readonly ITestOutputHelper _testOutputHelper;
-
-        public PingServiceTest(ITestOutputHelper testOutputHelper)
-        {
-            _testOutputHelper = testOutputHelper;
-        }
-
         [Fact]
         public async void
             GivenExistingEndpointWhenSendingPingThenShouldBeSuccessful()
@@ -75,7 +68,7 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
             OnboardResponseIntegrationService.Read(Identifier.Mqtt.CommunicationUnit.SingleEndpointWithP12Certificate);
 
 
-        [Fact(Skip="Concept only")]
+        [Fact(Skip = "Concept only")]
         public async void
             GivenRecentlyDeletedEndpointWhenSendingPingThenShouldReturn400()
         {
