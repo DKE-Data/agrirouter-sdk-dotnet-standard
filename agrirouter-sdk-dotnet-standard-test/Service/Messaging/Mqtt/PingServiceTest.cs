@@ -67,7 +67,7 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
             OnboardResponseIntegrationService.Read(Identifier.Mqtt.CommunicationUnit.SingleEndpointWithP12Certificate);
 
 
-        [Fact(Skip = "Concept only")]
+        [Fact(Skip = "Concept only: A deleted endpoint can not be tested automatically and requires some manual actions.")]
         public async void
             GivenRecentlyDeletedEndpointWhenSendingPingThenShouldReturn400()
         {
