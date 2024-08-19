@@ -47,9 +47,8 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
             {
                 messageReceived = true;
 
-                MessageResponse msg =
-                    JsonConvert.DeserializeObject<MessageResponse>(
-                        Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
+                var msg = JsonConvert.DeserializeObject<MessageResponse>(
+                    Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
                 var decodedMessage = DecodeMessageService.Decode(msg.Command.Message);
 
                 Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
