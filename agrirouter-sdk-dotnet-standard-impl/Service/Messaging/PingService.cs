@@ -69,7 +69,7 @@ namespace Agrirouter.Impl.Service.Messaging
 
             var messagePayloadParameters = new MessagePayloadParameters
             {
-                TypeUrl = MessageQuery.Descriptor.FullName,
+                TypeUrl = "",
                 Value = ByteString.Empty
             };
 
