@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Agrirouter.Request.Payload.Endpoint;
-using Agrirouter.Api.Definitions;
+using Agrirouter.Api.Dto.Messaging;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Api.Service.Parameters;
-using Agrirouter.Api.Service.Parameters.Inner;
 using Agrirouter.Impl.Service.Common;
 using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using MQTTnet;
 using MQTTnet.Client;
-using Xunit;
-using Agrirouter.Api.Dto.Messaging;
 using Newtonsoft.Json;
-using Xunit.Abstractions;
+using Xunit;
 
 namespace Agrirouter.Test.Service.Messaging.Mqtt
 {
