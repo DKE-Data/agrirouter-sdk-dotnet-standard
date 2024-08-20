@@ -8,7 +8,7 @@ namespace Agrirouter.Api.Exception
     ///     Will be thrown if the revoking process is not successful.
     /// </summary>
     [Serializable]
-    public class RevokeException : OnboardRevokeExceptionBase {
+    public class RevokeException : OnboardRevokeOrVerifyExceptionBase {
         /// <summary>
         ///     Constructor.
         /// </summary>
