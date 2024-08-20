@@ -25,8 +25,6 @@ namespace Agrirouter.Impl.Service.Onboard
         ///     Constructor.
         /// </summary>
         /// <param name="environment">The current environment.</param>
-        /// <param name="utcDataService">The UTC data service.</param>
-        /// <param name="signatureService">The signature service.</param>
         /// <param name="httpClient">The current HTTP client.</param>
         public SecuredOnboardingService(Environment environment, HttpClient httpClient)
         {
