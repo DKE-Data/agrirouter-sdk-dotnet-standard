@@ -53,6 +53,11 @@ namespace Agrirouter.Api.Definitions
         public static string DkeSubscription => "dke:subscription";
 
         /// <summary>
+        ///     Type 'dke:ping'.
+        /// </summary>
+        public static string DkePing => "dke:ping";
+
+        /// <summary>
         ///     Type 'dke:cloud_onboard_endpoints'.
         /// </summary>
         public static string DkeCloudOnboardEndpoints => "dke:cloud_onboard_endpoints";
