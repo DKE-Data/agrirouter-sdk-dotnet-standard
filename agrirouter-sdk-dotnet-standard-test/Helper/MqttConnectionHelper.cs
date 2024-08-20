@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Agrirouter.Api.Dto.Onboard;
 using Agrirouter.Impl.Service.Common;
 using MQTTnet.Client;
-using MQTTnet.Client.Options;
 using Xunit;
 
 namespace Agrirouter.Test.Helper
@@ -47,7 +46,7 @@ namespace Agrirouter.Test.Helper
                 .WithTcpServer(onboardResponse.ConnectionCriteria.Host,
                     int.Parse(onboardResponse.ConnectionCriteria.Port))
                 .WithTls(tlsParameters)
-                .WithCommunicationTimeout(TimeSpan.FromSeconds(20))
+                .WithTimeout(TimeSpan.FromSeconds(20))
                 .Build();
 
             await mqttClient.ConnectAsync(options);

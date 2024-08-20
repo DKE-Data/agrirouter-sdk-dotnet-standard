@@ -9,7 +9,7 @@ using Agrirouter.Api.Service.Messaging;
 using Agrirouter.Api.Service.Parameters;
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Publishing;
+using MQTTnet.Protocol;
 using Newtonsoft.Json;
 
 namespace Agrirouter.Impl.Service.Common
@@ -25,7 +25,7 @@ namespace Agrirouter.Impl.Service.Common
         {
             get { return _mqttClient; }
         }
-        
+
         /// <summary>
         ///     Constructor.
         /// </summary>
@@ -61,11 +61,13 @@ namespace Agrirouter.Impl.Service.Common
             var mqttMessage = BuildMqttApplicationMessage(messagingParameters);
             var response = await _mqttClient.PublishAsync(mqttMessage, CancellationToken.None);
 
-            if (response.ReasonCode != MqttClientPublishReasonCode.Success) {
+            if (response.ReasonCode != MqttClientPublishReasonCode.Success)
+            {
                 throw new CouldNotSendMqttMessageException(response.ReasonCode, response.ReasonString);
             }
 
-            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId).Build();
+            return new MessagingResultBuilder().WithApplicationMessageId(messagingParameters.ApplicationMessageId)
+                .Build();
         }
 
         private static MqttApplicationMessage BuildMqttApplicationMessage(MessagingParameters messagingParameters)
@@ -78,8 +80,8 @@ namespace Agrirouter.Impl.Service.Common
             };
 
             foreach (var message in messagingParameters.EncodedMessages.Select(encodedMessage =>
-                new Api.Dto.Messaging.Inner.Message
-                    {Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp()}))
+                         new Api.Dto.Messaging.Inner.Message
+                             { Content = encodedMessage, Timestamp = UtcDataService.NowAsUnixTimestamp() }))
                 messageRequest.Messages.Add(message);
 
             var messagePayload = JsonConvert.SerializeObject(messageRequest);
@@ -87,7 +89,7 @@ namespace Agrirouter.Impl.Service.Common
             var mqttMessage = new MqttApplicationMessageBuilder()
                 .WithTopic(messagingParameters.OnboardResponse.ConnectionCriteria.Measures)
                 .WithPayload(messagePayload)
-                .WithExactlyOnceQoS()
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.ExactlyOnce)
                 .WithRetainFlag()
                 .Build();
             return mqttMessage;
