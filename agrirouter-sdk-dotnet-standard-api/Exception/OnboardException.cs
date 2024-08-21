@@ -8,7 +8,7 @@ namespace Agrirouter.Api.Exception
     ///     Will be thrown if the onboarding process is not successful.
     /// </summary>
     [Serializable]
-    public class OnboardException : OnboardRevokeExceptionBase {
+    public class OnboardException : OnboardRevokeOrVerifyExceptionBase {
         /// <summary>
         ///     Constructor.
         /// </summary>
