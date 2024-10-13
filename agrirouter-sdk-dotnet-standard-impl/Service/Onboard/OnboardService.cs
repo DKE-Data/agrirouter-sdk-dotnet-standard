@@ -70,7 +70,12 @@ namespace Agrirouter.Impl.Service.Onboard
 
             if (!httpResponseMessage.IsSuccessStatusCode) {
                 var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
-                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
+                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse?.OnboardError ?? new OnboardError()
+                {
+                    Code = "Unstructured",
+                    Message = result
+                }
+                    );
             }
 
             var onboardingResponse = JsonConvert.DeserializeObject(result, typeof(OnboardResponse));
