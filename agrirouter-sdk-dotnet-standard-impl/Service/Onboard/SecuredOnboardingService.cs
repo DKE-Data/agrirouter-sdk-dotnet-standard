@@ -25,8 +25,6 @@ namespace Agrirouter.Impl.Service.Onboard
         ///     Constructor.
         /// </summary>
         /// <param name="environment">The current environment.</param>
-        /// <param name="utcDataService">The UTC data service.</param>
-        /// <param name="signatureService">The signature service.</param>
         /// <param name="httpClient">The current HTTP client.</param>
         public SecuredOnboardingService(Environment environment, HttpClient httpClient)
         {
@@ -168,17 +166,8 @@ namespace Agrirouter.Impl.Service.Onboard
 
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                switch (httpResponseMessage.StatusCode)
-                {
-                    case HttpStatusCode.BadRequest:
-                        throw new VerificationException(
-                            "There was an error within the request. Please check the request parameters.");
-                    case HttpStatusCode.Unauthorized:
-                        throw new VerificationException("The registration code is invalid.");
-                    default:
-                        throw new VerificationException("The request failed, the error is unknown. The error code is " +
-                                                        httpResponseMessage.StatusCode + ".");
-                }
+                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
+                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
 
             var response = JsonConvert.DeserializeObject(result, typeof(VerificationResponse));
@@ -225,17 +214,8 @@ namespace Agrirouter.Impl.Service.Onboard
 
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                switch (httpResponseMessage.StatusCode)
-                {
-                    case HttpStatusCode.BadRequest:
-                        throw new VerificationException(
-                            "There was an error within the request. Please check the request parameters.");
-                    case HttpStatusCode.Unauthorized:
-                        throw new VerificationException("The registration code is invalid.");
-                    default:
-                        throw new VerificationException("The request failed, the error is unknown. The error code is " +
-                                                        httpResponseMessage.StatusCode + ".");
-                }
+                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
+                throw new OnboardException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
 
             var response = JsonConvert.DeserializeObject<VerificationResponse>(result);

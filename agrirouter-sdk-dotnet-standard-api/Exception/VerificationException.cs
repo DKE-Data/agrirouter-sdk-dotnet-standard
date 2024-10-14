@@ -8,13 +8,24 @@ namespace Agrirouter.Api.Exception
     ///     Will be thrown if the verification process is not successful.
     /// </summary>
     [Serializable]
-    public class VerificationException : System.Exception
+    public class VerificationException : OnboardRevokeOrVerifyExceptionBase
     {
+        /// <summary>
+        ///     Constructor.
+        /// </summary>
+        /// <param name="statusCode">-</param>
+        /// <param name="onboardError">-</param>
+        public VerificationException(HttpStatusCode statusCode, OnboardError onboardError) : base(statusCode,
+            onboardError)
+        {
+        }
+
         /// <summary> 
         ///     Constructor with error message only. 
         /// </summary> 
+        /// <param name="statusCode">-</param> 
         /// <param name="message">-</param> 
-        public VerificationException(string message) : base(message)
+        public VerificationException(HttpStatusCode statusCode, string message) : base(statusCode, message)
         {
         }
     }

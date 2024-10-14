@@ -8,14 +8,14 @@ namespace Agrirouter.Api.Exception
     ///     Base exception class for errors during onboarding and revoking processes.
     /// </summary>
     [Serializable]
-    public class OnboardRevokeExceptionBase : System.Exception
+    public class OnboardRevokeOrVerifyExceptionBase : System.Exception
     {
         /// <summary>
         ///     Constructor.
         /// </summary>
         /// <param name="statusCode">-</param>
         /// <param name="onboardError">-</param>
-        public OnboardRevokeExceptionBase(HttpStatusCode statusCode, OnboardError onboardError): base(onboardError.Message)
+        public OnboardRevokeOrVerifyExceptionBase(HttpStatusCode statusCode, OnboardError onboardError): base(onboardError.Message)
         {
             StatusCode = statusCode;
             Error = onboardError;
@@ -26,7 +26,7 @@ namespace Agrirouter.Api.Exception
         /// </summary>
         /// <param name="statusCode">-</param>
         /// <param name="message">-</param>
-        public OnboardRevokeExceptionBase(HttpStatusCode statusCode, string message): base(message)
+        public OnboardRevokeOrVerifyExceptionBase(HttpStatusCode statusCode, string message): base(message)
         {
             StatusCode = statusCode;
             Error = new OnboardError {
