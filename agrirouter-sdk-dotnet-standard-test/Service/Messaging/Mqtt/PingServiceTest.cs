@@ -38,7 +38,7 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
             var messageReceived = false;
             var counter = 0;
 
-            mqttClient.UseApplicationMessageReceivedHandler(e =>
+            mqttClient.ApplicationMessageReceivedAsync += async e =>
             {
                 messageReceived = true;
 
@@ -47,7 +47,7 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
                 var decodedMessage = DecodeMessageService.Decode(msg.Command.Message);
 
                 Assert.Equal(200, decodedMessage.ResponseEnvelope.ResponseCode);
-            });
+            };
 
             while (!messageReceived && counter < 5)
             {
@@ -90,7 +90,7 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
             var messageReceived = false;
             var counter = 0;
 
-            mqttClient.UseApplicationMessageReceivedHandler(e =>
+            mqttClient.ApplicationMessageReceivedAsync += async e =>
             {
                 messageReceived = true;
 
@@ -100,7 +100,7 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
 
                 // your own application should remove the endpoint from your endpoint list/registry now!
                 Assert.Equal(400, decodedMessage.ResponseEnvelope.ResponseCode);
-            });
+            };
 
             while (!messageReceived && counter < 5)
             {

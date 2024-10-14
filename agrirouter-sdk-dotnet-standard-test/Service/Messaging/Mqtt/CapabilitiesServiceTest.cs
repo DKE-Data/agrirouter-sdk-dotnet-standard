@@ -12,7 +12,6 @@ using Agrirouter.Impl.Service.Messaging;
 using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using MQTTnet;
-using MQTTnet.Client;
 using Xunit;
 using Agrirouter.Api.Dto.Messaging;
 using Newtonsoft.Json;
@@ -52,15 +51,17 @@ namespace Agrirouter.Test.Service.Messaging.Mqtt
             var messageReceived = false;
             var counter = 0;
 
-            mqttClient.UseApplicationMessageReceivedHandler(e =>
+            mqttClient.ApplicationMessageReceivedAsync += async e =>
             {
                 messageReceived = true;
 
-                MessageResponse msg = JsonConvert.DeserializeObject<MessageResponse>(Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
+                MessageResponse msg =
+                    JsonConvert.DeserializeObject<MessageResponse>(
+                        Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
                 var decodedMessage = DecodeMessageService.Decode(msg.Command.Message);
 
                 Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
-            });
+            };
 
             while (!messageReceived && counter < 5)
             {
