@@ -63,7 +63,8 @@ namespace Agrirouter.Impl.Service.Onboard
             var httpResponseMessage = _httpClient.SendAsync(httpRequestMessage).Result;
 
             if (!httpResponseMessage.IsSuccessStatusCode) {
-                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
+                var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                var onboardErrorResponse = JsonConvert.DeserializeObject<OnboardErrorResponse>(result);
                 throw new RevokeException(httpResponseMessage.StatusCode, onboardErrorResponse.OnboardError);
             }
         }

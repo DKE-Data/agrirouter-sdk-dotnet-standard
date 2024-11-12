@@ -11,14 +11,14 @@
         <PackageProjectUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard/blob/develop/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/DKE-Data/agrirouter-sdk-dotnet-standard</RepositoryUrl>
-        <PackageVersion>3.9.0</PackageVersion>
-        <AssemblyVersion>3.9.0</AssemblyVersion>
+        <PackageVersion>3.9.1</PackageVersion>
+        <AssemblyVersion>3.9.1</AssemblyVersion>
         <Company>DKE-Data GmbH &amp; Co. KG</Company>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="agrirouter-api-protobuf-definitions" Version="1.1.0" />
-        <PackageReference Include="MQTTnet" Version="3.0.9" />
+        <PackageReference Include="MQTTnet" Version="4.3.6.1152" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Serilog" Version="2.9.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
