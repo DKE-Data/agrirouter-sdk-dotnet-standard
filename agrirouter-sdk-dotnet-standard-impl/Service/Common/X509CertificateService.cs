@@ -16,26 +16,20 @@ namespace Agrirouter.Impl.Service.Common
     /// </summary>
     public class X509CertificateService
     {
-        /// <summary>
-        /// Create a certificate for the given onboarding response from the AR.
-        /// </summary>
-        /// <param name="onboardResponse">-</param>
-        /// <returns>A X509 certificate to use for the communication between endpoint and AR.</returns>
-        /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception>
-        public static X509Certificate GetCertificate(OnboardResponse onboardResponse)
+        private static X509Certificate GetCertificate(string authenticationType, string certificateString, string secret)
         {
-            switch (onboardResponse.Authentication.Type)
+            switch (authenticationType)
             {
                 case "P12":
                     return new X509Certificate2(
-                        Convert.FromBase64String(onboardResponse.Authentication.Certificate),
-                        onboardResponse.Authentication.Secret,
+                        Convert.FromBase64String(certificateString),
+                        secret,
                         X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
                 case "PEM":
                 {
                     var pemReader = new PemReader(
-                        new StringReader(onboardResponse.Authentication.Certificate),
-                        new PasswordFinder(onboardResponse.Authentication.Secret));
+                        new StringReader(certificateString),
+                        new PasswordFinder(secret));
 
                     RSA privateKey;
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
@@ -69,7 +63,33 @@ namespace Agrirouter.Impl.Service.Common
             }
 
             throw new CouldNotCreateCertificateForTypeException(
-                $"Could not create a certificate for the type '${onboardResponse.Authentication.Type}'");
+                $"Could not create a certificate for the type '${authenticationType}'");
+
+        }
+
+        /// <summary>
+        /// Create a certificate from the given router device from the AR.
+        /// </summary>
+        /// <param name="onboardResponse">-</param>
+        /// <returns>An X509 certificate to use for the communication between endpoint and AR.</returns>
+        /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception>
+
+        public static X509Certificate GetCertificate(RouterDevice routerDevice)
+        {
+            return GetCertificate(routerDevice.Authentication.Type, routerDevice.Authentication.Certificate,
+                routerDevice.Authentication.Secret);
+        }
+
+        /// <summary>
+        /// Create a certificate from the given onboarding response from the AR.
+        /// </summary>
+        /// <param name="onboardResponse">-</param>
+        /// <returns>An X509 certificate to use for the communication between endpoint and AR.</returns>
+        /// <exception cref="CouldNotCreateCertificateForTypeException">-</exception>
+        public static X509Certificate GetCertificate(OnboardResponse onboardResponse)
+        {
+            return GetCertificate(onboardResponse.Authentication.Type, onboardResponse.Authentication.Certificate,
+                onboardResponse.Authentication.Secret);
         }
         
         /// <summary>
