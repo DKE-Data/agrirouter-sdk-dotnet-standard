@@ -75,7 +75,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
-        private void SetCapabilitiesForRecipient()
+        private static void SetCapabilitiesForRecipient()
         {
             var capabilitiesServices =
                 new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
@@ -85,7 +85,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
                 ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
+                CapabilityParameters = []
             };
 
             var capabilitiesParameter = new CapabilityParameter
