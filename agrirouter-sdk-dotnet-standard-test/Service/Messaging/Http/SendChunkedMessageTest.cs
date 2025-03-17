@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
@@ -16,7 +15,6 @@ using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Google.Protobuf;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Agrirouter.Test.Service.Messaging.Http
 {
@@ -26,18 +24,12 @@ namespace Agrirouter.Test.Service.Messaging.Http
     [Collection("Integrationtest")]
     public class SendChunkedMessageTest : AbstractIntegrationTestForCommunicationUnits
     {
-        private readonly ITestOutputHelper _testOutputHelper;
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
 
-        public SendChunkedMessageTest(ITestOutputHelper testOutputHelper)
-        {
-            _testOutputHelper = testOutputHelper;
-        }
-
-        private void SetCapabilitiesForSender()
+        private static void SetCapabilitiesForSender()
         {
             var capabilitiesServices =
                 new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
@@ -47,7 +39,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
                 ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
+                CapabilityParameters = []
             };
 
             var capabilitiesParameter = new CapabilityParameter
@@ -83,7 +75,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
             Assert.Equal(201, decodedMessage.ResponseEnvelope.ResponseCode);
         }
 
-        private void SetCapabilitiesForRecipient()
+        private static void SetCapabilitiesForRecipient()
         {
             var capabilitiesServices =
                 new CapabilitiesService(new HttpMessagingService(HttpClientForRecipient));
@@ -93,7 +85,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
                 ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
+                CapabilityParameters = []
             };
 
             var capabilitiesParameter = new CapabilityParameter
@@ -144,7 +136,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
                     FileName = "my_personal_filename.bmp"
                 },
                 Mode = RequestEnvelope.Types.Mode.Direct,
-                Recipients = new List<string> { SensorAlternateIdForIOTool },
+                Recipients = [SensorAlternateIdForIOTool],
                 TechnicalMessageType = TechnicalMessageTypes.ImgBmp
             };
             var payloadParameters = new MessagePayloadParameters
@@ -164,11 +156,11 @@ namespace Agrirouter.Test.Service.Messaging.Http
             {
                 var encodedMessage =
                     EncodeMessageService.Encode(tuple.MessageHeaderParameters, tuple.MessagePayloadParameters);
-                var messagingParameters = new MessagingParameters()
+                var messagingParameters = new MessagingParameters
                 {
                     OnboardResponse = Sender,
                     ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                    EncodedMessages = new List<string>() { encodedMessage }
+                    EncodedMessages = [encodedMessage]
                 };
                 sendMessageService.Send(messagingParameters);
             }
