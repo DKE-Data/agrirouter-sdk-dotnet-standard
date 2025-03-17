@@ -156,21 +156,22 @@ namespace Agrirouter.Test.Service.Messaging.Http
             // 4. Chunk message content before sending it.
             var messageParameterTuples =
                 EncodeMessageService.ChunkAndBase64EncodeEachChunk(headerParameters, payloadParameters);
-            var encodedMessages = (from messageParameterTuple in messageParameterTuples
-                let messageHeaderParameters = messageParameterTuple.MessageHeaderParameters
-                let messagePayloadParameters = messageParameterTuple.MessagePayloadParameters
-                select EncodeMessageService.Encode(messageHeaderParameters, messagePayloadParameters)).ToList();
-
-            // 5. Send messages from sender to recipient.
+            
+            // 5. Send each message from sender to recipient.
             var sendMessageService =
                 new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
-            var messagingParameters = new MessagingParameters()
+            foreach (var tuple in messageParameterTuples)
             {
-                OnboardResponse = Sender,
-                ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                EncodedMessages = encodedMessages
-            };
-            sendMessageService.Send(messagingParameters);
+                var encodedMessage =
+                    EncodeMessageService.Encode(tuple.MessageHeaderParameters, tuple.MessagePayloadParameters);
+                var messagingParameters = new MessagingParameters()
+                {
+                    OnboardResponse = Sender,
+                    ApplicationMessageId = MessageIdService.ApplicationMessageId(),
+                    EncodedMessages = new List<string>() { encodedMessage }
+                };
+                sendMessageService.Send(messagingParameters);
+            }
 
             // 6. Let the AR handle the message - this can take up to multiple seconds before receiving the ACK.
             Timer.WaitForTheAgrirouterToProcessTheMessage();

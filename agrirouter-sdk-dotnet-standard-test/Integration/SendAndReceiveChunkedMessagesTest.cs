@@ -185,17 +185,19 @@ namespace Agrirouter.Test.Integration
                 EncodeMessageService.ChunkAndBase64EncodeEachChunk(messageHeaderParameters, messagePayloadParameters);
             Assert.All(tuples,
                 tuple => Assert.True(tuple.MessagePayloadParameters.Value.ToStringUtf8().Length <= _maxChunkSize));
-            var encodedMessages = tuples.Select(tuple =>
-                EncodeMessageService.Encode(tuple.MessageHeaderParameters, tuple.MessagePayloadParameters)).ToList();
 
-            //  [3] Send the chunks to the agrirouter.
-            var messagingParameters = new MessagingParameters()
+            //  [3] Send each chunk to the agrirouter.
+            foreach (var tuple in tuples)
             {
-                OnboardResponse = Sender,
-                EncodedMessages = encodedMessages,
-                ApplicationMessageId = MessageIdService.ApplicationMessageId()
-            };
-            sendMessageService.Send(messagingParameters);
+                var encodedMessage = EncodeMessageService.Encode(tuple.MessageHeaderParameters, tuple.MessagePayloadParameters);
+                var messagingParameters = new MessagingParameters()
+                {
+                    OnboardResponse = Sender,
+                    EncodedMessages = new List<string>( ) { encodedMessage },
+                    ApplicationMessageId = MessageIdService.ApplicationMessageId()
+                };
+                sendMessageService.Send(messagingParameters);
+            }
 
             //  [4] Wait for the AR to process the chunks.
             Timer.WaitForTheAgrirouterToProcessTheMessage();
