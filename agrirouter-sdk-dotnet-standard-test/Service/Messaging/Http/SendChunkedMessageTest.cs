@@ -39,7 +39,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
                 ApplicationId = Applications.CommunicationUnit.ApplicationId,
                 CertificationVersionId = Applications.CommunicationUnit.CertificationVersionId,
                 EnablePushNotifications = CapabilitySpecification.Types.PushNotification.Disabled,
-                CapabilityParameters = new List<CapabilityParameter>()
+                CapabilityParameters = []
             };
 
             var capabilitiesParameter = new CapabilityParameter
