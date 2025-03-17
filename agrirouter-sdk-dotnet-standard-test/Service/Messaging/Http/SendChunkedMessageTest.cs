@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using Agrirouter.Api.Definitions;
 using Agrirouter.Api.Dto.Messaging;
@@ -16,7 +15,6 @@ using Agrirouter.Test.Data;
 using Agrirouter.Test.Helper;
 using Google.Protobuf;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Agrirouter.Test.Service.Messaging.Http
 {
@@ -26,16 +24,10 @@ namespace Agrirouter.Test.Service.Messaging.Http
     [Collection("Integrationtest")]
     public class SendChunkedMessageTest : AbstractIntegrationTestForCommunicationUnits
     {
-        private readonly ITestOutputHelper _testOutputHelper;
         private static readonly HttpClient HttpClientForSender = HttpClientFactory.AuthenticatedHttpClient(Sender);
 
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
-
-        public SendChunkedMessageTest(ITestOutputHelper testOutputHelper)
-        {
-            _testOutputHelper = testOutputHelper;
-        }
 
         private void SetCapabilitiesForSender()
         {
