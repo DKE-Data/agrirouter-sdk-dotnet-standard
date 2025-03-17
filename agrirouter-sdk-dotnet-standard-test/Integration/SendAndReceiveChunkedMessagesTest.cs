@@ -161,7 +161,6 @@ namespace Agrirouter.Test.Integration
 
         private static void ActionsForSender(ByteString messageContent, int expectedNrOfChunks)
         {
-            var encodeMessageService = new EncodeMessageService();
             var sendMessageService = new SendDirectMessageService(new HttpMessagingService(HttpClientForSender));
 
             //  [1] Define the raw message, in this case this is the Base64 encoded message content, no
