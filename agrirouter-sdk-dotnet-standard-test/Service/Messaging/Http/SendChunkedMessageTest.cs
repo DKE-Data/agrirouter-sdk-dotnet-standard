@@ -136,7 +136,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
                     FileName = "my_personal_filename.bmp"
                 },
                 Mode = RequestEnvelope.Types.Mode.Direct,
-                Recipients = new List<string> { SensorAlternateIdForIOTool },
+                Recipients = [SensorAlternateIdForIOTool],
                 TechnicalMessageType = TechnicalMessageTypes.ImgBmp
             };
             var payloadParameters = new MessagePayloadParameters
@@ -156,11 +156,11 @@ namespace Agrirouter.Test.Service.Messaging.Http
             {
                 var encodedMessage =
                     EncodeMessageService.Encode(tuple.MessageHeaderParameters, tuple.MessagePayloadParameters);
-                var messagingParameters = new MessagingParameters()
+                var messagingParameters = new MessagingParameters
                 {
                     OnboardResponse = Sender,
                     ApplicationMessageId = MessageIdService.ApplicationMessageId(),
-                    EncodedMessages = new List<string>() { encodedMessage }
+                    EncodedMessages = [encodedMessage]
                 };
                 sendMessageService.Send(messagingParameters);
             }
