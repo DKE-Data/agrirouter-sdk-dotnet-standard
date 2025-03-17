@@ -29,7 +29,7 @@ namespace Agrirouter.Test.Service.Messaging.Http
         private static readonly HttpClient
             HttpClientForRecipient = HttpClientFactory.AuthenticatedHttpClient(Recipient);
 
-        private void SetCapabilitiesForSender()
+        private static void SetCapabilitiesForSender()
         {
             var capabilitiesServices =
                 new CapabilitiesService(new HttpMessagingService(HttpClientForSender));
