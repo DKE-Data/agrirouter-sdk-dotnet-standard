@@ -51,10 +51,10 @@ namespace Agrirouter.Test.Integration
             fetchMessageService.Fetch(Recipient, new DefaultCancellationToken(3, 500));
             //  [2] Fetch all message headers for the last 4 weeks (maximum retention time within the
             //  agrirouter).
-            var queryMessageParameters = new QueryMessagesParameters()
+            var queryMessageParameters = new QueryMessagesParameters
             {
                 OnboardResponse = Recipient,
-                ValidityPeriod = new ValidityPeriod()
+                ValidityPeriod = new ValidityPeriod
                 {
                     SentFrom = UtcDataService.Timestamp(TimestampOffset.FourWeeks),
                     SentTo = UtcDataService.Timestamp(0)
@@ -73,7 +73,7 @@ namespace Agrirouter.Test.Integration
             if (headerQueryResponse.QueryMetrics.TotalMessagesInQuery > 0)
             {
                 var feedDeleteService = new FeedDeleteService(new HttpMessagingService(HttpClientForRecipient));
-                var feedDeleteParameters = new FeedDeleteParameters()
+                var feedDeleteParameters = new FeedDeleteParameters
                 {
                     OnboardResponse = Recipient,
                     MessageIds = headerQueryResponse.Feed
@@ -107,7 +107,7 @@ namespace Agrirouter.Test.Integration
             var queryMessagesParameters = new QueryMessagesParameters()
             {
                 OnboardResponse = Recipient,
-                Senders = new List<string> {Sender.SensorAlternateId}
+                Senders = [Sender.SensorAlternateId]
             };
             queryMessagesService.Send(queryMessagesParameters);
 
@@ -171,10 +171,10 @@ namespace Agrirouter.Test.Integration
                 TechnicalMessageType = TechnicalMessageTypes.Iso11783TaskdataZip,
                 ApplicationMessageId = MessageIdService.ApplicationMessageId(),
                 Mode = RequestEnvelope.Types.Mode.Direct,
-                Recipients = new List<string> {Recipient.SensorAlternateId}
+                Recipients = [Recipient.SensorAlternateId]
             };
 
-            var messagePayloadParameters = new MessagePayloadParameters()
+            var messagePayloadParameters = new MessagePayloadParameters
             {
                 Value = messageContent,
                 TypeUrl = TechnicalMessageTypes.Empty
@@ -190,10 +190,10 @@ namespace Agrirouter.Test.Integration
             foreach (var tuple in tuples)
             {
                 var encodedMessage = EncodeMessageService.Encode(tuple.MessageHeaderParameters, tuple.MessagePayloadParameters);
-                var messagingParameters = new MessagingParameters()
+                var messagingParameters = new MessagingParameters
                 {
                     OnboardResponse = Sender,
-                    EncodedMessages = new List<string>( ) { encodedMessage },
+                    EncodedMessages = [encodedMessage],
                     ApplicationMessageId = MessageIdService.ApplicationMessageId()
                 };
                 sendMessageService.Send(messagingParameters);
