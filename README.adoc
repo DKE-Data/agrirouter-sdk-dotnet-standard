@@ -1,5 +1,14 @@
-
 = agrirouter-sdk-dotnet-standard
+
+[IMPORTANT]
+====
+*Deprecation of old SDKs*
+
+With the launch of the new agrirouter API ("`G4`") in April 2026, this SDK has been deprecated.
+
+Please find information about the new, fully REST based API in our new https://agrirouter.com/docs[developer docs].
+====
+
 :imagesdir: assets/images
 :toc:
 :toc-title:
